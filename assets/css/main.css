@@ -95,7 +95,7 @@ input, select, textarea {
 	}
 
 	body {
-		background: #01013d;
+		background: #1b1f22;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -141,7 +141,11 @@ input, select, textarea {
 
 	body, input, select, textarea {
 		color: #ffffff;
-		font-family: 'Aboreto', cursive;
+
+		/*font-family: 'Cinzel', serif;
+		font-family: 'Major Mono Display', monospace;*/
+		font-family: 'Playfair Display', serif;
+		
 		font-weight: 300;
 		font-size: 1rem;
 		line-height: 1.65;
@@ -604,6 +608,7 @@ input, select, textarea {
 		text-decoration: none;
 		border-bottom: none;
 		position: relative;
+
 	}
 
 		.icon:before {
@@ -1298,7 +1303,8 @@ input, select, textarea {
 			border-radius: 100%;
 			background-image: url("../../images/Profile.png");
 			background-size: 100%;
-			background-position: center;		}
+			background-position: center;
+		}
 
 			#header .logo .icon:before {
 				font-size: 2rem;
@@ -1310,7 +1316,6 @@ input, select, textarea {
 			border-top-width: 1px;
 			border-bottom-width: 1px;
 			max-width: 100%;
-
 		}
 
 			#header .content .inner {
@@ -1447,7 +1452,6 @@ input, select, textarea {
 				width: 4.75rem;
 				height: 4.75rem;
 				line-height: 4.75rem;
-				
 			}
 
 				#header .logo .icon:before {
@@ -1550,7 +1554,7 @@ input, select, textarea {
 			position: relative;
 			width: 40rem;
 			max-width: 100%;
-			background-color: rgba(60, 60, 121, 0.719);
+			background-color: rgba(27, 31, 34, 0.85);
 			border-radius: 4px;
 			opacity: 0;
 		}
@@ -1662,13 +1666,4 @@ input, select, textarea {
 
 		body.is-preload #footer {
 			opacity: 0;
-		}
-
-		.cssimage
-		{
-			background-image: url("../../images/Profile.png");
-			background-size: 100%;
-			background-position: center;
-			width: 5rem;
-			height: 5rem;
 		}
