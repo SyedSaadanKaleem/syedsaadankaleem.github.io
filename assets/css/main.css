@@ -1294,7 +1294,7 @@ input, select, textarea {
 			width: 5.5rem;
 			height: 5.5rem;
 			line-height: 5.5rem;
-			border: solid 3px #ffffff;
+			border: solid 1px #ffffff;
 			border-radius: 100%;
 			background-image: url("../../images/Profile.png");
 			background-size: 100%;
@@ -1307,8 +1307,8 @@ input, select, textarea {
 		#header .content {
 			border-style: solid;
 			border-color: #ffffff;
-			border-top-width: 3px;
-			border-bottom-width: 3px;
+			border-top-width: 1px;
+			border-bottom-width: 1px;
 			max-width: 100%;
 
 		}
