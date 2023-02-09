@@ -142,10 +142,11 @@ input, select, textarea {
 	body, input, select, textarea {
 		color: #ffffff;
 
-		/*font-family: 'Cinzel', serif;
+		/*font-family: 'Cinzel', serif;*/
 		font-family: 'Major Mono Display', monospace;
-		font-family: 'Playfair Display', serif;*/
-		font-family: 'Sora', sans-serif;
+		/*font-family: 'Playfair Display', serif;
+		font-family: 'Sora', sans-serif;*/
+		
 
 		
 		font-weight: 300;
