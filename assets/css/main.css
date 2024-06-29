@@ -3490,5 +3490,9 @@ input, select, textarea {
 	}
   }
   
-
-  
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+	.cursor {
+	  display: none;
+	}
+  }
