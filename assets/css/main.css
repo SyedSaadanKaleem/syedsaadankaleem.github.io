@@ -2976,7 +2976,13 @@ input, select, textarea {
 	@media screen and (max-width: 1280px) {
 
 		/* Nav */
-
+html{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	cursor: none;
+	overflow-x: hidden;
+}
 			#page-wrapper {
 				-moz-backface-visibility: hidden;
 				-webkit-backface-visibility: hidden;
@@ -2987,6 +2993,10 @@ input, select, textarea {
 				-ms-transition: -ms-transform 0.5s ease;
 				transition: transform 0.5s ease;
 				padding-bottom: 1px;
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+				cursor: none;
 			}
 
 			#titleBar {
@@ -3010,6 +3020,7 @@ input, select, textarea {
 
 				#titleBar .title {
 					display: none;
+					
 				}
 
 				#titleBar .toggle {
@@ -3082,6 +3093,7 @@ input, select, textarea {
 				z-index: 10002;
 				background: #242730 url("images/overlay.png");
 				box-shadow: inset -3px 0px 4px 0px rgba(0, 0, 0, 0.1);
+
 			}
 
 				#navPanel .link {
@@ -3391,8 +3403,6 @@ input, select, textarea {
 							margin-top: 0;
 						}
 
-	
-	
 }
 
 
@@ -3483,15 +3493,9 @@ input, select, textarea {
   
 /* Hide custom cursor on touch devices */
 @media (hover: none) and (pointer: coarse) {
-	.element {
-		overflow-x: hidden;
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-	}
+
 *{
 
-	cursor: none;
 }
 
 	.cursor {
