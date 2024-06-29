@@ -1,11 +1,6 @@
 @import url("fontawesome-all.min.css");
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,900");
 
-/*
-	Escape Velocity by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
 
 *{}
 
@@ -3493,6 +3488,21 @@ input, select, textarea {
 /* Hide custom cursor on touch devices */
 @media (hover: none) and (pointer: coarse) {
 	.cursor {
-	  display: none;
-	}
+		display: none;
+			   }
+			   .cursor::after,
+			   .cursor::before {
+				display: none;
+			}
+			   .cursor::before {
+				display: none;
+			}
+			   .cursor.hover::before,
+			   .cursor.click::before {
+				display: none;
+			}
+			   .cursor.ring {
+				display: none;
+			}
+		
   }
