@@ -3484,13 +3484,13 @@ input, select, textarea {
 /* Hide custom cursor on touch devices */
 @media (hover: none) and (pointer: coarse) {
 	.element {
-		overflow-x: auto;
-		
+		overflow-x: hidden;
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;
 	}
 *{
-	padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+
 	cursor: none;
 }
 
