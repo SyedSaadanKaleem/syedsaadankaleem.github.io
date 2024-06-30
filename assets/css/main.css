@@ -3318,6 +3318,25 @@ html{
 	}
   }
   
+  .touch-device .cursor {
+		display: none;
+			   }
+			   .touch-device .cursor::after,
+			   .touch-device .cursor::before {
+				display: none;
+			}
+			.touch-device .cursor::before {
+				display: none;
+			}
+			.touch-device .cursor.hover::before,
+			.touch-device .cursor.click::before {
+				display: none;
+			}
+			.touch-device .cursor.ring {
+				display: none;
+			}
+		
+
 /* Hide custom cursor on touch devices */
 @media (hover: none) and (pointer: coarse) {
 
@@ -3432,4 +3451,5 @@ html{
     visibility: visible;
     opacity: 1;
 }
+
 

@@ -73,7 +73,7 @@ var $a = $('<a>', { href: '#introTittle' });
 
 // Create the span elements with their respective classes
 var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'The Introduction' });
+var $spanText = $('<span>', { class: 'text', text: 'Intro' });
 
 // Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
 var $icon = $('<i>', { class: 'bx bxs-notepad' });
@@ -96,7 +96,7 @@ var $a = $('<a>', { href: '#mainTittle' });
 
 // Create the span elements with their respective classes
 var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'The Details' });
+var $spanText = $('<span>', { class: 'text', text: 'Details' });
 
 // Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
 var $icon = $('<i>', { class: 'bx bxs-briefcase' });
@@ -119,7 +119,7 @@ var $a = $('<a>', { href: '#footerTittle' });
 
 // Create the span elements with their respective classes
 var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'Get in Touch' });
+var $spanText = $('<span>', { class: 'text', text: 'Contact' });
 
 // Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
 var $icon = $('<i>', { class: 'bx bxs-phone-call' });
