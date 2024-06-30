@@ -2801,7 +2801,7 @@ input, select, textarea {
 
 	}
 		.ContactSocial {
-
+			visibility: hidden;
 		background: rgb(101, 76, 133) url("images/overlay.png");
 		padding: 10px;
 		border-radius: 50%;
