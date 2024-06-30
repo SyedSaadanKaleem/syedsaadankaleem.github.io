@@ -13,24 +13,37 @@ document.addEventListener('click', (event) => {
 });
 
 let sections = document.querySelectorAll('section');
-let navLinks = document.querySelectorAll('.leftSidebar .list .list-item a');
+let navLinks = document.querySelectorAll('.leftSidebar .list  a');
+let navBarLinks = document.querySelectorAll('.navigation .list a');
+let FazoolNav = document.querySelectorAll('.navigation .list ');
 
 window.onscroll = () => { 
     sections.forEach (sec => {
         let top = window.scrollY; 
-        let offset = sec.offsetTop -100; 
+        let offset = sec.offsetTop -80; 
         let height = sec.offsetHeight;
         let id = sec.getAttribute('id');
         
 
+        if(top >= offset && top < offset + height) {
+            FazoolNav.forEach(links => {links.classList.remove('active'); 
+                document.querySelector('.navigation .list a[href*=' + id + ']').classList.add('active') });}
+
 if(top >= offset && top < offset + height) {
-     navLinks.forEach(links => { 
-        links.classList.remove('active'); 
-            document.querySelector('.leftSidebar .list .list-item a[href*=' + id + ']').classList.add('active');
-            
+    navBarLinks.forEach(links => { 
+       links.classList.remove('active'); 
+           document.querySelector('.navigation .list a[href*=' + id + ']').classList.add('active');          
 
 });
 }
+if(top >= offset && top < offset + height) {
+     navLinks.forEach(links => { 
+        links.classList.remove('active'); 
+            document.querySelector('.leftSidebar .list .list-item a[href*=' + id + ']').classList.add('active');          
+
+});
+}
+
+
 });
 };
-

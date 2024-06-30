@@ -34,33 +34,126 @@
 
 	// Nav.
 
-		// Title Bar.
-			$(
-				'<div id="titleBar">' +
-					'<a href="#navPanel" class="toggle"></a>' +
-					'<span class="title">' + $('#logo h1').html() + '</span>' +
-				'</div>'
-			)
-				.appendTo($body);
+		// Create the main container div with the class 'navigation'
+var $navigationDivContainer = $('<div id="navigationDivContainer">');
+// Create the main container div with the class 'navigation'
+var $navigationDiv = $('<div class="navigation">');
 
-		// Panel.
-			$(
-				'<div id="navPanel">' +
-					'<nav>' +
-						$('#nav').navList() +
-					'</nav>' +
-				'</div>'
-			)
-				.appendTo($body)
-				.panel({
-					delay: 500,
-					hideOnClick: true,
-					hideOnSwipe: true,
-					resetScroll: true,
-					resetForms: true,
-					side: 'left',
-					target: $body,
-					visibleClass: 'navPanel-visible'
-				});
+// Create the ul element
+var $ul = $('<ul>');
+
+// Create the li element with the class 'list'
+var $li = $('<li>', { class: 'list' });
+
+// Create the a element with the href attribute
+var $a = $('<a>', { href: '#header' });
+
+// Create the span elements with their respective classes
+var $spanIcon = $('<span>', { class: 'icon' });
+var $spanText = $('<span>', { class: 'text', text: 'Home' });
+
+// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+var $icon = $('<i>', { class: 'bx bxs-home' });
+$spanIcon.append($icon);
+
+// Append the span elements to the a element
+$a.append($spanIcon).append($spanText)
+
+// Append the a element to the li element
+$li.append($a);
+
+// Append the li element to the ul element
+$ul.append($li);
+
+// Create the li element with the class 'list'
+var $li = $('<li>', { class: 'list' });
+
+// Create the a element with the href attribute
+var $a = $('<a>', { href: '#introTittle' });
+
+// Create the span elements with their respective classes
+var $spanIcon = $('<span>', { class: 'icon' });
+var $spanText = $('<span>', { class: 'text', text: 'Intro' });
+
+// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+var $icon = $('<i>', { class: 'bx bxs-notepad' });
+$spanIcon.append($icon);
+
+// Append the span elements to the a element
+$a.append($spanIcon).append($spanText)
+
+// Append the a element to the li element
+$li.append($a);
+
+// Append the li element to the ul element
+$ul.append($li);
+
+// Create the li element with the class 'list'
+var $li = $('<li>', { class: 'list' });
+
+// Create the a element with the href attribute
+var $a = $('<a>', { href: '#mainTittle' });
+
+// Create the span elements with their respective classes
+var $spanIcon = $('<span>', { class: 'icon' });
+var $spanText = $('<span>', { class: 'text', text: 'Details' });
+
+// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+var $icon = $('<i>', { class: 'bx bxs-briefcase' });
+$spanIcon.append($icon);
+
+// Append the span elements to the a element
+$a.append($spanIcon).append($spanText)
+
+// Append the a element to the li element
+$li.append($a);
+
+// Append the li element to the ul element
+$ul.append($li);
+
+// Create the li element with the class 'list'
+var $li = $('<li>', { class: 'list' });
+
+// Create the a element with the href attribute
+var $a = $('<a>', { href: '#footerTittle' });
+
+// Create the span elements with their respective classes
+var $spanIcon = $('<span>', { class: 'icon' });
+var $spanText = $('<span>', { class: 'text', text: 'Contact' });
+
+// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+var $icon = $('<i>', { class: 'bx bxs-phone-call' });
+$spanIcon.append($icon);
+
+// Append the span elements to the a element
+$a.append($spanIcon).append($spanText)
+// Append the a element to the li element
+$li.append($a);
+
+// Append the li element to the ul element
+$ul.append($li);
+
+// Append the ul element to the main container div
+$navigationDiv.append($ul);
+
+// Append the entire structure to the body or any other desired parent element
+$navigationDiv.appendTo($navigationDivContainer);
+
+
+// Append the entire structure to the body or any other desired parent element
+$navigationDivContainer.appendTo($('body'));
+
+		
+document.addEventListener('DOMContentLoaded', function() {
+    function isTouchDevice() {
+        return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    }
+
+    if (isTouchDevice()) {
+        document.body.classList.add('touch-device');
+    } else {
+        document.body.classList.add('no-touch-device');
+    }
+});
 
 })(jQuery);
