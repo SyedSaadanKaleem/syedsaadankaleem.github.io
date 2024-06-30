@@ -3246,7 +3246,7 @@ html{
 
 
 
- .cursor {
+.no-touch-device  .cursor {
 	z-index: 1000000000000000000000000000000000000010;
 	position: absolute;
 	top: 0;
@@ -3257,8 +3257,8 @@ html{
 	transform: translate(-50%, -50%);
 	pointer-events: none;
   }
-  .cursor::after,
-  .cursor::before {
+  .no-touch-device .cursor::after,
+  .no-touch-device .cursor::before {
 	content: "";
 	position: absolute;
 	top: 50%;
@@ -3269,11 +3269,11 @@ html{
 	width: 9px;
 	border-radius: 50px;
   }
-  .cursor::before {
+  .no-touch-device .cursor::before {
 	background-color: rgb(255, 255, 255,0.4);
   }
-  .cursor.hover::before,
-  .cursor.click::before {
+  .no-touch-device .cursor.hover::before,
+  .no-touch-device .cursor.click::before {
 	animation: click 1s ease forwards;
 	background-color: rgb(255, 255, 255,0.4);
   }
@@ -3287,7 +3287,7 @@ html{
 	  transform: translate(-50%, -50%) scale(7);
 	}
   }
-  .cursor.ring {
+  .no-touch-device .cursor.ring {
 	width: 40px;
 	height: 40px;
 	top: 50%;
