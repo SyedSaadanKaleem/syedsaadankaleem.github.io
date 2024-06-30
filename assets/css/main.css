@@ -3287,7 +3287,7 @@ html{
 	  transform: translate(-50%, -50%) scale(7);
 	}
   }
-  .no-touch-device .cursor.ring {
+.cursor.ring {
 	width: 40px;
 	height: 40px;
 	top: 50%;
