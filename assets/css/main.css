@@ -2545,11 +2545,10 @@ input, select, textarea {
 	#intro {
 		padding-bottom: 8em;
 		text-align: center;
-		 background: #5f497a url("images/overlay.png"); 
-		
+		background: #5f497a url("images/overlay.png");
 	}
 	#introTittle {
-		background: #5f497a; 
+		background: #5f497a url("images/overlay.png");
 	}
 		#intro p.style1 {
 			font-size: 1.5em;
@@ -2580,13 +2579,10 @@ input, select, textarea {
 		}
 
 /* Features */
-#main{
+#main,
+#mainTittle{
 	background: #9877c0 url("images/overlay.png");
 	color: #eee;
-}
-#mainTittle{
-	background: linear-gradient(0deg, #9877c0 0%, #5f497a 100%);
-		color: #eee;
 }
 
 	#features header.style1 {
@@ -2614,11 +2610,11 @@ input, select, textarea {
 
 /* Highlights */
 #highlights{
-	background: #715792;
+	background: #715792 url("images/overlay.png");
 	color:#eee;
 }
 #highlightsTittle{
-	background: #715792;
+	background: #715792 url("images/overlay.png");
 	color:#eee;
 }
 
@@ -2718,7 +2714,7 @@ input, select, textarea {
 			}
 
 		#footer .title {
-			background: linear-gradient(0deg, #49375E 0%, #9877C0 100%);
+			background: #4b3961 url("images/overlay.png");
 			color: #eee;
 		}
 
