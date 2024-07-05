@@ -1,5 +1,5 @@
 const leftSidebar = document.querySelector('.leftSidebar');
-const toggleBtn = document.querySelector('.toggle-btn');
+const toggleBtn = document.querySelector('.burger-input');
 
 toggleBtn.addEventListener('click', (event) => {
     leftSidebar.classList.toggle('active');
