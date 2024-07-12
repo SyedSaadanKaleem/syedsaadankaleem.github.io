@@ -115,6 +115,60 @@ $ul.append($li);
 var $li = $('<li>', { class: 'list' });
 
 // Create the a element with the href attribute
+var $a = $('<a>', { href: '#CertificationTittle' });
+
+// Create the span elements with their respective classes
+var $spanIcon = $('<span>', { class: 'icon' });
+var $spanText = $('<span>', { class: 'text', text: 'Certification' });
+
+// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+var $icon = $('<i>', { class: 'bx bxs-food-menu' });
+$spanIcon.append($icon);
+
+// Append the span elements to the a element
+$a.append($spanIcon).append($spanText)
+
+// Append the a element to the li element
+$li.append($a);
+
+// Append the li element to the ul element
+$ul.append($li);
+
+
+///Summary/// Need to commit thid part of code before push! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Create the li element with the class 'list'
+var $li = $('<li>', { class: 'list' });
+
+// Create the a element with the href attribute
+var $a = $('<a>', { href: '#highlightsTittle' });
+
+// Create the span elements with their respective classes
+var $spanIcon = $('<span>', { class: 'icon' });
+var $spanText = $('<span>', { class: 'text', text: 'Work' });
+
+// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+var $icon = $('<i>', { class: 'bx bxs-dashboard' });
+$spanIcon.append($icon);
+
+// Append the span elements to the a element
+$a.append($spanIcon).append($spanText)
+
+// Append the a element to the li element
+$li.append($a);
+
+// Append the li element to the ul element
+$ul.append($li);
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Create the li element with the class 'list'
+var $li = $('<li>', { class: 'list' });
+
+// Create the a element with the href attribute
 var $a = $('<a>', { href: '#footerTittle' });
 
 // Create the span elements with their respective classes
