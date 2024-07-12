@@ -3746,10 +3746,6 @@ margin-top: -5%;
 .banner2 a {width: 100%;
 }
 
-.banner-button:hover {
-    background-color: #0056b3;
-}
-
 /* Responsive Design */
 @media (min-width: 981px) {
     .banner {
@@ -3826,19 +3822,6 @@ margin-top: -5%;
     margin: 0.5em 0 2em 0;
 }
 
-.banner2-button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    background-color: #007bff;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.banner2-button:hover {
-    background-color: #0056b3;
-}
-
 /* Responsive Design */
 @media (min-width: 981px) {
     .banner2 {
@@ -3864,38 +3847,11 @@ margin-top: -5%;
 
 /* Certification */
 #Certification{
-	background: #5f497a;
-	color:#eee;
+	background: #56426e;
+	color:#fff;
 }
 #CertificationTittle{
 	font-family: azonix;
-	background: #5f497a;
-	color:#eee;
+	background: #56426e;
+	color:#fff;
 }
-
-	#Certification .highlight {
-		text-align: center;
-
-	}
-
-	#Certification .highlight .image.featured  {
-		border-color: #5f497a;
-		background-color: #5f497a;
-		border-radius: 6px;
-transition: height 1s ease 0s;
-opacity: 1;
-transition: opacity 1s ease 0s;
-	}
-
-	#Certification .highlight .image.featured .image2 {
-				border-radius: 10px;
-
-	}
-
-		#Certification .highlight h3 {
-			color: #eee;
-			margin: 0 0 0.75em 0;
-			font-size: 1.15em;
-			letter-spacing: 0.05em;
-		}
-
