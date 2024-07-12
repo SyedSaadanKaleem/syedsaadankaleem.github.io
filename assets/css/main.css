@@ -3705,64 +3705,6 @@ margin-top: -5%;
 	font-family: azonix;
 }
 
-#Certification {
-    padding-bottom: 8em;
-    text-align: center;
-    background: #5f497a;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#Certification .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#CertificationTittle {
-    font-family: azonix;
-    background: #5f497a;
-    color: #fff;
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-#Certification p.style1 {
-    font-size: 1.5em;
-    letter-spacing: 0.075em;
-}
-
-#Certification p.style2 {
-    font-weight: 700;
-    color: #fff;
-    border-radius: 0.35em;
-    box-shadow: inset 0px 0px 1px 1px rgba(255, 255, 255, 0.25);
-    font-size: 2.75em;
-    letter-spacing: 0.075em;
-    line-height: 1.35em;
-    padding: 1em 0;
-    margin-bottom: 1em;
-}
-
-#Certification p.style2 a {
-    color: inherit;
-    text-decoration: none;
-}
-
-#Certification p.style3 {
-    font-size: 1.1em;
-    width: 48em;
-    max-width: 90%;
-    margin: 0 auto;
-}
-
-#certification .box2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #fff;
-}
 
 .banner {
     display: flex;
@@ -3787,7 +3729,7 @@ margin-top: -5%;
 }
 
 .banner-content h1 {
-    margin: 0;
+    margin: 0 0 0.5em 0;
     line-height: 1em;
     font-size: 2em;
     color: #fff;
@@ -3795,16 +3737,13 @@ margin-top: -5%;
 
 .banner-content p {
     font-size: 1em;
-    margin: 10px 0;
+    margin: 0.5em 0 2em 0;
 }
 
-.banner-button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    background-color: #007bff;
-    text-decoration: none;
-    border-radius: 5px;
+.banner a {width: 100%;
+}
+
+.banner2 a {width: 100%;
 }
 
 .banner-button:hover {
@@ -3850,3 +3789,113 @@ margin-top: -5%;
         order: -1;
     }
 }
+
+
+.banner2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #c7a6fcaf;
+    border-radius: 10px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.banner2-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.banner2-content {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.banner2-content h1 {
+	    margin: 0 0 0.5em 0;
+
+    line-height: 1em;
+    font-size: 2em;
+    color: #fff;
+}
+
+.banner2-content p {
+    font-size: 1em;
+    margin: 0.5em 0 2em 0;
+}
+
+.banner2-button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.banner2-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (min-width: 981px) {
+    .banner2 {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .banner2-content {
+        margin-top: 0;
+        margin-left: 20px;
+        text-align: left;
+        max-width: 60%;
+    }
+    
+    .banner2:nth-child(even) .banner-content {
+        order: 2;
+        margin-left: 0;
+        margin-right: 20px;
+        text-align: right;
+    }
+}
+
+/* Certification */
+#Certification{
+	background: #5f497a;
+	color:#eee;
+}
+#CertificationTittle{
+	font-family: azonix;
+	background: #5f497a;
+	color:#eee;
+}
+
+	#Certification .highlight {
+		text-align: center;
+
+	}
+
+	#Certification .highlight .image.featured  {
+		border-color: #5f497a;
+		background-color: #5f497a;
+		border-radius: 6px;
+transition: height 1s ease 0s;
+opacity: 1;
+transition: opacity 1s ease 0s;
+	}
+
+	#Certification .highlight .image.featured .image2 {
+				border-radius: 10px;
+
+	}
+
+		#Certification .highlight h3 {
+			color: #eee;
+			margin: 0 0 0.75em 0;
+			font-size: 1.15em;
+			letter-spacing: 0.05em;
+		}
+

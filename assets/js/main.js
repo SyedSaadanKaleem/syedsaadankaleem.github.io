@@ -211,3 +211,57 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 })(jQuery);
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    function rearrangeBanner() {
+        const certificationSection = document.getElementById("Certification");
+
+        if (certificationSection) {
+            const containerDiv = certificationSection.querySelector(".container");
+
+            if (containerDiv) {
+                const secondBanner = containerDiv.querySelector(".banner2");
+
+                if (secondBanner) {
+                    const bannerContent = secondBanner.querySelector(".banner-content");
+                    const bannerImage = secondBanner.querySelector(".banner-image");
+
+                    if (window.innerWidth < 980) {
+                        if (bannerContent && bannerImage) {
+                            // Rearrange elements for mobile
+                            secondBanner.removeChild(bannerContent);
+                            secondBanner.removeChild(bannerImage);
+                            secondBanner.appendChild(bannerImage);
+                            secondBanner.appendChild(bannerContent);
+                        }
+                    } else {
+                        if (bannerContent && bannerImage) {
+                            // Ensure default order for larger screens
+                            secondBanner.removeChild(bannerImage);
+                            secondBanner.removeChild(bannerContent);
+                            secondBanner.appendChild(bannerContent);
+                            secondBanner.appendChild(bannerImage);
+                        }
+                    }
+                } else {
+                    console.error("Second banner with class 'banner2' not found.");
+                }
+            } else {
+                console.error("Container with class 'container' not found in the section with id 'Certification'.");
+            }
+        } else {
+            console.error("Section with id 'Certification' not found.");
+        }
+    }
+
+    // Call rearrangeBanner on page load
+    rearrangeBanner();
+
+    // Call rearrangeBanner on window resize
+    window.addEventListener("resize", rearrangeBanner);
+});
