@@ -3718,9 +3718,11 @@ margin-top: -5%;
 }
 
 .banner-image img {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
     border-radius: 10px;
+	display: block;
+    margin: 0 auto;
 }
 
 .banner-content {
@@ -3760,6 +3762,7 @@ margin-top: -5%;
         text-align: left;
         max-width: 60%;
     }
+	
     
     .banner:nth-child(even) .banner-content {
         order: 2;
@@ -3780,7 +3783,15 @@ margin-top: -5%;
         margin-right: 0;
         text-align: center;
     }
-
+	.banner-image img {
+		width: 50%;
+		align-self: center;
+		height: auto;
+		border-radius: 10px;
+		display: block;
+    margin: 0 auto;
+	}
+	
     .banner:nth-child(even) .banner-image {
         order: -1;
     }
@@ -3821,7 +3832,9 @@ margin-top: -5%;
     font-size: 1em;
     margin: 0.5em 0 2em 0;
 }
-
+	.banner-image{
+		size: 50PX;
+	}
 /* Responsive Design */
 @media (min-width: 981px) {
     .banner2 {
