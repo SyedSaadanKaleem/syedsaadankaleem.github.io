@@ -119,7 +119,7 @@ var $a = $('<a>', { href: '#CertificationTittle' });
 
 // Create the span elements with their respective classes
 var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'Certification' });
+var $spanText = $('<span>', { class: 'text', text: 'Cert' });
 
 // Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
 var $icon = $('<i>', { class: 'bx bxs-food-menu' });
