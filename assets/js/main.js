@@ -115,6 +115,60 @@ $ul.append($li);
 var $li = $('<li>', { class: 'list' });
 
 // Create the a element with the href attribute
+var $a = $('<a>', { href: '#CertificationTittle' });
+
+// Create the span elements with their respective classes
+var $spanIcon = $('<span>', { class: 'icon' });
+var $spanText = $('<span>', { class: 'text', text: 'Cert' });
+
+// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+var $icon = $('<i>', { class: 'bx bxs-food-menu' });
+$spanIcon.append($icon);
+
+// Append the span elements to the a element
+$a.append($spanIcon).append($spanText)
+
+// Append the a element to the li element
+$li.append($a);
+
+// Append the li element to the ul element
+$ul.append($li);
+
+
+///Summary/// Need to commit thid part of code before push! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// // Create the li element with the class 'list'
+// var $li = $('<li>', { class: 'list' });
+
+// // Create the a element with the href attribute
+// var $a = $('<a>', { href: '#highlightsTittle' });
+
+// // Create the span elements with their respective classes
+// var $spanIcon = $('<span>', { class: 'icon' });
+// var $spanText = $('<span>', { class: 'text', text: 'Work' });
+
+// // Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
+// var $icon = $('<i>', { class: 'bx bxs-dashboard' });
+// $spanIcon.append($icon);
+
+// // Append the span elements to the a element
+// $a.append($spanIcon).append($spanText)
+
+// // Append the a element to the li element
+// $li.append($a);
+
+// // Append the li element to the ul element
+// $ul.append($li);
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Create the li element with the class 'list'
+var $li = $('<li>', { class: 'list' });
+
+// Create the a element with the href attribute
 var $a = $('<a>', { href: '#footerTittle' });
 
 // Create the span elements with their respective classes
@@ -157,3 +211,57 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 })(jQuery);
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    function rearrangeBanner() {
+        const certificationSection = document.getElementById("Certification");
+
+        if (certificationSection) {
+            const containerDiv = certificationSection.querySelector(".container");
+
+            if (containerDiv) {
+                const secondBanner = containerDiv.querySelector(".banner2");
+
+                if (secondBanner) {
+                    const bannerContent = secondBanner.querySelector(".banner-content");
+                    const bannerImage = secondBanner.querySelector(".banner-image");
+
+                    if (window.innerWidth < 980) {
+                        if (bannerContent && bannerImage) {
+                            // Rearrange elements for mobile
+                            secondBanner.removeChild(bannerContent);
+                            secondBanner.removeChild(bannerImage);
+                            secondBanner.appendChild(bannerImage);
+                            secondBanner.appendChild(bannerContent);
+                        }
+                    } else {
+                        if (bannerContent && bannerImage) {
+                            // Ensure default order for larger screens
+                            secondBanner.removeChild(bannerImage);
+                            secondBanner.removeChild(bannerContent);
+                            secondBanner.appendChild(bannerContent);
+                            secondBanner.appendChild(bannerImage);
+                        }
+                    }
+                } else {
+                    console.error("Second banner with class 'banner2' not found.");
+                }
+            } else {
+                console.error("Container with class 'container' not found in the section with id 'Certification'.");
+            }
+        } else {
+            console.error("Section with id 'Certification' not found.");
+        }
+    }
+
+    // Call rearrangeBanner on page load
+    rearrangeBanner();
+
+    // Call rearrangeBanner on window resize
+    window.addEventListener("resize", rearrangeBanner);
+});
