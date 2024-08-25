@@ -34,6 +34,7 @@
 
 	// Nav.
 
+        if($('body').is('.homepage')){
 		// Create the main container div with the class 'navigation'
 var $navigationDivContainer = $('<div id="navigationDivContainer">');
 // Create the main container div with the class 'navigation'
@@ -196,7 +197,7 @@ $navigationDiv.appendTo($navigationDivContainer);
 
 // Append the entire structure to the body or any other desired parent element
 $navigationDivContainer.appendTo($('body'));
-
+        }
 		
 document.addEventListener('DOMContentLoaded', function() {
     function isTouchDevice() {

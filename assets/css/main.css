@@ -2491,7 +2491,7 @@ input, select, textarea {
 		-ms-justify-content: center;
 		justify-content: center;
 		position: relative;
-		height: 24em;
+		height: 50em;
 		background: url("../../images/banner.jpg") center center;
 		background-size: cover;
 		padding: 0;
@@ -2507,8 +2507,9 @@ input, select, textarea {
 			background: url("images/overlay.png");
 		}
  
+		.project #header,
 		.homepage #header {
-			height: 35em;
+			height: 30em;
 		}
 
 /* Logo */
@@ -2516,8 +2517,8 @@ input, select, textarea {
 	#logo {
 		width: 100%;
 		text-align: center;
-		position: relative;
-		top: 1.5em;
+		top: 10.5em;
+
 	}
 
 		#logo h1 {
@@ -3270,7 +3271,7 @@ html{
 			#header {
 				height: 17em;
 			}
-
+				.project #header,
 				.homepage #header {
 					height: 20em;
 				}
