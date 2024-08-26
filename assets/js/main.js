@@ -32,172 +32,107 @@
 			detach: false
 		});
 
-	// Nav.
-
-        if($('body').is('.homepage')){
-		// Create the main container div with the class 'navigation'
-var $navigationDivContainer = $('<div id="navigationDivContainer">');
-// Create the main container div with the class 'navigation'
-var $navigationDiv = $('<div class="navigation">');
-
-// Create the ul element
-var $ul = $('<ul>');
-
-// Create the li element with the class 'list'
-var $li = $('<li>', { class: 'list' });
-
-// Create the a element with the href attribute
-var $a = $('<a>', { href: '#header' });
-
-// Create the span elements with their respective classes
-var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'Start' });
-
-// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
-var $icon = $('<i>', { class: 'bx bxs-home' });
-$spanIcon.append($icon);
-
-// Append the span elements to the a element
-$a.append($spanIcon).append($spanText)
-
-// Append the a element to the li element
-$li.append($a);
-
-// Append the li element to the ul element
-$ul.append($li);
-
-// Create the li element with the class 'list'
-var $li = $('<li>', { class: 'list' });
-
-// Create the a element with the href attribute
-var $a = $('<a>', { href: '#introTittle' });
-
-// Create the span elements with their respective classes
-var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'Intro' });
-
-// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
-var $icon = $('<i>', { class: 'bx bxs-notepad' });
-$spanIcon.append($icon);
-
-// Append the span elements to the a element
-$a.append($spanIcon).append($spanText)
-
-// Append the a element to the li element
-$li.append($a);
-
-// Append the li element to the ul element
-$ul.append($li);
-
-// Create the li element with the class 'list'
-var $li = $('<li>', { class: 'list' });
-
-// Create the a element with the href attribute
-var $a = $('<a>', { href: '#mainTittle' });
-
-// Create the span elements with their respective classes
-var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'Details' });
-
-// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
-var $icon = $('<i>', { class: 'bx bxs-briefcase' });
-$spanIcon.append($icon);
-
-// Append the span elements to the a element
-$a.append($spanIcon).append($spanText)
-
-// Append the a element to the li element
-$li.append($a);
-
-// Append the li element to the ul element
-$ul.append($li);
-
-// Create the li element with the class 'list'
-var $li = $('<li>', { class: 'list' });
-
-// Create the a element with the href attribute
-var $a = $('<a>', { href: '#CertificationTittle' });
-
-// Create the span elements with their respective classes
-var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'Cert' });
-
-// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
-var $icon = $('<i>', { class: 'bx bxs-food-menu' });
-$spanIcon.append($icon);
-
-// Append the span elements to the a element
-$a.append($spanIcon).append($spanText)
-
-// Append the a element to the li element
-$li.append($a);
-
-// Append the li element to the ul element
-$ul.append($li);
-
-
-///Summary/// Need to commit thid part of code before push! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
- // Create the li element with the class 'list'
- var $li = $('<li>', { class: 'list' });
-
- // Create the a element with the href attribute
- var $a = $('<a>', { href: '#highlightsTittle' });
-
- // Create the span elements with their respective classes
- var $spanIcon = $('<span>', { class: 'icon' });
- var $spanText = $('<span>', { class: 'text', text: 'Work' });
-
- // Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
- var $icon = $('<i>', { class: 'bx bxs-dashboard' });
- $spanIcon.append($icon);
-
- // Append the span elements to the a element
- $a.append($spanIcon).append($spanText)
-
- // Append the a element to the li element
- $li.append($a);
-
- // Append the li element to the ul element
- $ul.append($li);
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-// Create the li element with the class 'list'
-var $li = $('<li>', { class: 'list' });
-
-// Create the a element with the href attribute
-var $a = $('<a>', { href: '#footerTittle' });
-
-// Create the span elements with their respective classes
-var $spanIcon = $('<span>', { class: 'icon' });
-var $spanText = $('<span>', { class: 'text', text: 'Contact' });
-
-// Create the i element with the classes 'bx bxs-home' and append it to the span with class 'icon'
-var $icon = $('<i>', { class: 'bx bxs-phone-call' });
-$spanIcon.append($icon);
-
-// Append the span elements to the a element
-$a.append($spanIcon).append($spanText)
-// Append the a element to the li element
-$li.append($a);
-
-// Append the li element to the ul element
-$ul.append($li);
-
-// Append the ul element to the main container div
-$navigationDiv.append($ul);
-
-// Append the entire structure to the body or any other desired parent element
-$navigationDiv.appendTo($navigationDivContainer);
 
 
-// Append the entire structure to the body or any other desired parent element
-$navigationDivContainer.appendTo($('body'));
-        }
+
+
+
+
+
+
+
+
+
+// Function to create homepage navigation
+function createHomepageNavigation() {
+    var $navigationDivContainer = $('<div id="navigationDivContainer">');
+    var $navigationDiv = $('<div class="navigation">');
+    var $ul = $('<ul>');
+
+    // Define navigation items for homepage
+    var navItems = [
+        { href: '#header', iconClass: 'bx bxs-home', text: 'Start' },
+        { href: '#introTittle', iconClass: 'bx bxs-notepad', text: 'Intro' },
+        { href: '#mainTittle', iconClass: 'bx bxs-briefcase', text: 'Details' },
+        { href: '#CertificationTittle', iconClass: 'bx bxs-food-menu', text: 'Cert' },
+        { href: '#highlightsTittle', iconClass: 'bx bxs-dashboard', text: 'Work' },
+        { href: '#footerTittle', iconClass: 'bx bxs-phone-call', text: 'Contact' }
+    ];
+
+    // Create each nav item
+    $.each(navItems, function(index, item) {
+        var $li = $('<li>', { class: 'list' });
+        var $a = $('<a>', { href: item.href });
+        var $spanIcon = $('<span>', { class: 'icon' });
+        var $spanText = $('<span>', { class: 'text', text: item.text });
+        var $icon = $('<i>', { class: item.iconClass });
+
+        $spanIcon.append($icon);
+        $a.append($spanIcon).append($spanText);
+        $li.append($a);
+        $ul.append($li);
+    });
+
+    // Append the ul element to the main container div
+    $navigationDiv.append($ul);
+    $navigationDivContainer.append($navigationDiv);
+    $navigationDivContainer.appendTo($('body'));
+}
+
+// Function to create project page navigation
+function createProjectNavigation() {
+    var $navigationDivContainer = $('<div id="navigationDivContainer">');
+    var $navigationDiv = $('<div class="navigation">');
+    var $ul = $('<ul>');
+
+    // Define navigation items for project page
+    var navItems = [
+        { href: '#header', iconClass: 'bx bxs-home', text: 'Start' },
+        { href: '#gameOverviewTittle', iconClass: 'bx bxs-notepad', text: 'Overview' },
+        { href: '#ScreenshotGalleryTittle', iconClass: 'bx bxs-camera', text: 'Screenshots' },
+        { href: '#footerTittle', iconClass: 'bx bxs-phone-call', text: 'Contact' }
+    ];
+
+    // Create each nav item
+    $.each(navItems, function(index, item) {
+        var $li = $('<li>', { class: 'list' });
+        var $a = $('<a>', { href: item.href });
+        var $spanIcon = $('<span>', { class: 'icon' });
+        var $spanText = $('<span>', { class: 'text', text: item.text });
+        var $icon = $('<i>', { class: item.iconClass });
+
+        $spanIcon.append($icon);
+        $a.append($spanIcon).append($spanText);
+        $li.append($a);
+        $ul.append($li);
+    });
+
+    // Append the ul element to the main container div
+    $navigationDiv.append($ul);
+    $navigationDivContainer.append($navigationDiv);
+    $navigationDivContainer.appendTo($('body'));
+}
+
+// Create navigation based on the page class
+if ($('body').hasClass('homepage')) {
+    createHomepageNavigation();
+} else if ($('body').hasClass('project')) {
+    createProjectNavigation();
+}
+
+
+
+
+
+
+
+
+
+
+
 		
 document.addEventListener('DOMContentLoaded', function() {
     function isTouchDevice() {
