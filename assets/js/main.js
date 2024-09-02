@@ -1,3 +1,39 @@
+console.clear();
+
+gsap.registerPlugin(ScrollTrigger);
+
+window.addEventListener("load", () => {
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: ".wrapper",
+        start: "top top",
+        end: "+=150%",
+        pin: true,
+        scrub: true,
+        markers: true
+      }
+    })
+    .to("img", {
+      scale: 2,
+      z: 350,
+      transformOrigin: "center center",
+      ease: "power1.inOut"
+    })
+    .to(
+      ".section2.hero",
+      {
+        scale: 1.1,
+        transformOrigin: "center center",
+        ease: "power1.inOut"
+      },
+      "<"
+    );
+});
+
+
+
+
 /*
 	Escape Velocity by HTML5 UP
 	html5up.net | @ajlkn
