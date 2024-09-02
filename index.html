@@ -15,6 +15,7 @@
 		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	</head>
 	<body class="homepage is-preload">
+		<div id="preloader"></div>
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -822,5 +823,14 @@
 			<script src="assets/js/script.js"></script>
 			<script src="assets/js/cursors.js"></script>
 
+
+			<script>
+				var loader = document.getElementById("preloader");
+
+				window.addEventListener("load", function(){
+					loader.style.display = "none";
+				})
+
+			</script>
 	</body>
 </html>
