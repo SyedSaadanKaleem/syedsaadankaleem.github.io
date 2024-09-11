@@ -2611,6 +2611,40 @@ input, select, textarea {
 
 /* Header */
 
+
+#header{
+	background: url("../../images/banner.jpg") center center;
+
+}
+
+#headerCastleInvader
+{
+	background: url("../../images/CastleInvader/BG.jpg") center center;
+}
+
+
+#headerEggiPeggi{
+	background: url("../../images/EggiPeggi/BG.jpg") center center;
+}
+
+#headerPenguinPinnacle{
+	background: url("../../images/Penguin Pinnacle/BG.jpg") center center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#headerPenguinPinnacle,
+#headerEggiPeggi,
+#headerCastleInvader,
 	#header {
 		display: -moz-flex;
 		display: -webkit-flex;
@@ -2626,11 +2660,13 @@ input, select, textarea {
 		justify-content: center;
 		position: relative;
 		height: 50em;
-		background: url("../../images/banner.jpg") center center;
 		background-size: cover;
 		padding: 0;
 	}
 
+	#headerPenguinPinnacle::before,
+	#headerEggiPeggi::before
+	#headerCastleInvader:before,
 		#header:before {
 			content: '';
 			position: absolute;
@@ -2640,7 +2676,9 @@ input, select, textarea {
 			height: 100%;
 			background: url("images/overlay.png");
 		}
- 
+		#headerPenguinPinnacle,
+		#headerEggiPeggi,
+		#headerCastleInvader,
 		.project #header,
 		.homepage #header {
 			height: 30em;
@@ -3737,8 +3775,8 @@ html{
 .overlay {
     height: 0;
     width: 100%;
-    background: rgba(55, 8, 122, 0.233);
-	backdrop-filter: blur(5px);
+    background: rgba(62, 6, 141, 0.562);
+	backdrop-filter: blur(6px);
     border-radius: 10px;
     position: absolute;
     left: 0;
@@ -4055,7 +4093,7 @@ html{
 
 
 .collage-container {
-columns:4;
+columns:2;
 column-gap: 0.5em;
 	break-inside: avoid;
 }
