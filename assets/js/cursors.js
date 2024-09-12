@@ -89,9 +89,14 @@
       cursor.style.display = 'none';
   });
 
+  // document.addEventListener('scroll',()=>{
+  //   stopClickAnimationLoop();
+  // });
+
  document.querySelectorAll('a, button').forEach(element => {
    element.addEventListener('mouseenter', startClickAnimationLoop);
    element.addEventListener('mouseleave', stopClickAnimationLoop);
+   element.addEventListener('scroll', stopClickAnimationLoop);
  });
 
  document.querySelectorAll('.toggle-btn, button').forEach(element => {
@@ -102,7 +107,7 @@
 
 
 
- const cursorTag = document.querySelector("div.cursor") 
+ const cursorTag = document.querySelector("div.cursor")
  const balls = cursorTag.querySelectorAll("div")
 
  let aimX = 0
@@ -116,7 +121,7 @@
  const animate = function () {
  currentX += (aimX - currentX) * speed
  currenty += (aimY - currentY)* speed
- ball.style.left = currentX + "px" 
+ ball.style.left = currentX + "px"
  ball.style.top = currentY + "px"
  requestAnimationFrame (animate)
  }
@@ -127,3 +132,9 @@
  aimX= event.pageX
  aimY= event.pageY
  })
+
+
+
+
+
+ 
