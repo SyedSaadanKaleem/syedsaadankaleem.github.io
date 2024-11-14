@@ -2868,6 +2868,8 @@ color: rgba(0, 0, 0, 0);
 		#intro p.style1 {
 			font-size: 1.5em;
 			letter-spacing: 0.075em;
+			text-align: left;
+			
 		}
 
 		#intro p.style2 {
@@ -2880,6 +2882,7 @@ color: rgba(0, 0, 0, 0);
 			line-height: 1.35em;
 			padding: 1em 0 1em 0;
 			margin-bottom: 1em;
+			
 		}
 
 			#intro p.style2 a {
@@ -2891,6 +2894,8 @@ color: rgba(0, 0, 0, 0);
 			font-size: 1.1em;
 			width: 48em;
 			margin: 0 auto;
+			text-align: left;
+
 		}
 
 /* Features */
@@ -4212,3 +4217,55 @@ margin-top: -2em;}
 		z-index: 100;
 	}
 	
+
+	
+@keyframes slide {
+	from {
+	  transform: translateX(0);
+	}
+	to {
+	  transform: translateX(-100%);
+	}
+  }
+  
+  .logos {
+	overflow: hidden;
+	padding: 60px 0;
+	background: #5F497A;
+	white-space: nowrap;
+	position: relative;
+  }
+  
+  .logos:before,
+  .logos:after {
+	position: absolute;
+	top: 0;
+	width: 250px;
+	height: 100%;
+	content: "";
+	z-index: 2;
+  }
+  
+  .logos:before {
+	left: 0;
+	background: linear-gradient(to left, rgba(255, 255, 255, 0), #5F497A);
+  }
+  
+  .logos:after {
+	right: 0;
+	background: linear-gradient(to right, rgba(255, 255, 255, 0), #5F497A);
+  }
+  
+  .logos:hover .logos-slide {
+	animation-play-state: paused;
+  }
+  
+  .logos-slide {
+	display: inline-block;
+	animation: 35s slide infinite linear;
+  }
+  
+  .logos-slide img {
+	height: 50px;
+	margin: 0 40px;
+  }
