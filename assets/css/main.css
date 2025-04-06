@@ -37,7 +37,7 @@
     margin: 0;
     box-sizing: border-box;
 	cursor: none;
-
+scroll-behavior: smooth;
 }
 * .p{
 	font-family: "Amatic SC", sans-serif;
@@ -2628,7 +2628,10 @@ color: rgba(0, 0, 0, 0);
 	background: url("../../images/CastleInvader/BG.jpg") center center;
 }
 
+#headerSwiftBeat{
+	background: url("../../images/Swift Beat/BG.jpg") center center;
 
+}
 #headerEggiPeggi{
 	background: url("../../images/EggiPeggi/BG.jpg") center center;
 }
@@ -2637,16 +2640,86 @@ color: rgba(0, 0, 0, 0);
 	background: url("../../images/Penguin Pinnacle/BG.jpg") center center;
 }
 
+#headermetorchase{
+	background: url("../../images/Metor Chase/BG.jpg") center center;
+}
+
+#headerslimyadventure{
+	background: url("../../images/Slimy Adventure/BG.jpg") center center;
+}
 
 
 
+#videoModal {
+	display: none;
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	background: rgba(0,0,0,0.8);
+	z-index: 9999;
+	justify-content: center;
+	align-items: center;
+	cursor: none; /* hide system cursor */
+
+  }
 
 
+  
+  #videoModal .modal-content {
+    position: relative;
+    width: 60%;
+    max-width: 1000px;
+    aspect-ratio: 16/9;
+  }
+  #videoModal .modal-content iframe{
+	border-radius: 10px;
+  }
+  #videoModal .modal-close {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background: #5c3c80;
+    color: #a884d4;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: url('cursor.png'), auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: background 0.3s ease;
+	cursor: none; /* hide system cursor */
+  }
 
+  #videoModal .modal-close:hover {
+    background: #4d356d;
+	
+  }
 
+  #videoModal .modal-close:hover ~ #customCursor {
+	transform: scale(1.2);
+  }
+  #videoModal .modal-close:hover {
+	transform: scale(1.5);
+	background-color: rgba(77,53,109,0.8);
+	transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  #videoModal .modal-close {
+	transition: transform 0.2s ease, background-color 0.2s ease;
+  }
 
-
-
+  /* Disable scroll */
+.body .no-scroll {
+	overflow: hidden;
+	position: fixed;
+	left: 0;
+	right: 0;
+	display: none;
+	background: red;
+  }
 
 #headerPenguinPinnacle,
 #headerEggiPeggi,
