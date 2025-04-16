@@ -2667,7 +2667,7 @@ color: rgba(0, 0, 0, 0);
   
   #videoModal .modal-content {
     position: relative;
-    width: 60%;
+    width: 86%;
     max-width: 1000px;
     aspect-ratio: 16/9;
   }
