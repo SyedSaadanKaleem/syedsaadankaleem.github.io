@@ -2937,6 +2937,8 @@ color: rgba(0, 0, 0, 0);
 	#introTittle {
 		font-family: azonix;
 		background: #5f497a;
+		border-top-left-radius: 10em ;
+		border-top-right-radius: 10em ;
 	}
 		#intro p.style1 {
 			font-size: 1.5em;
@@ -2980,6 +2982,9 @@ color: rgba(0, 0, 0, 0);
 }
 #mainTittle{
 	font-family: azonix;
+			border-top-left-radius: 10em ;
+		border-top-right-radius: 10em ;
+	
 }
 	#features header.style1 {
 		padding-bottom: 5em;
@@ -3015,6 +3020,8 @@ color: rgba(0, 0, 0, 0);
 	font-family: azonix;
 	background: #715792;
 	color:#eee;
+			border-top-left-radius: 10em ;
+		border-top-right-radius: 10em ;
 }
 
 	#highlights .highlight {
@@ -3976,6 +3983,8 @@ html{
 
 #footerTittle{
 	font-family: azonix;
+			border-top-left-radius: 10em ;
+		border-top-right-radius: 10em ;
 }
 
 
@@ -4145,6 +4154,8 @@ html{
 	background: #5F497A;
 	font-family: azonix;
 	color:#eee;
+			border-top-left-radius: 10em ;
+		border-top-right-radius: 10em ;
 }
 
 #ScreenshotGallery{
@@ -4156,6 +4167,8 @@ html{
 	background: #715792;
 	font-family: azonix;
 	color:#eee;
+			border-top-left-radius: 10em ;
+		border-top-right-radius: 10em ;
 }
 #ScreenshotGallery .line2{
 	background-color:  rgba(255, 255, 255, 0.12);
@@ -4172,6 +4185,8 @@ html{
 	font-family: azonix;
 	background: #56426e;
 	color:#fff;
+			border-top-left-radius: 10em ;
+		border-top-right-radius: 10em ;
 }
 
 
@@ -4342,3 +4357,4 @@ margin-top: -2em;}
 	height: 50px;
 	margin: 0 40px;
   }
+  
