@@ -7,12 +7,150 @@
 <html>
 	<head>
 		<link rel="shortcut icon" type="image/png" href="images/Profile1.png"/>
-		<title>Syed Saadan Bin Kaleem | Game Developer</title>
+		<title>Saadan's Portfolio</title>
 
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+		<!--
+			===========================================================
+			NEW COMPONENT STYLES — minimal additions to main.css
+			(stats strip, in-development cards, journey timeline)
+			Move this <style> block to the END of main.css if you
+			prefer to keep all styles in one place.
+			===========================================================
+		-->
+		<style>
+			/* === Stats Strip (inside #intro, on #5f497a bg) === */
+			.stats-strip {
+				display: flex;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: 1rem 2rem;
+				margin: 2.5em auto 1em auto;
+				padding: 1.5em 1em;
+				max-width: 56em;
+				border-top: 1px solid rgba(255, 255, 255, 0.15);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+			}
+			.stat-item {
+				text-align: center;
+				min-width: 9em;
+				flex: 1 1 9em;
+			}
+			.stat-number {
+				display: block;
+				font-family: azonix, sans-serif;
+				font-size: 2.6em;
+				line-height: 1;
+				color: #fff;
+				text-shadow: 0 0 14px rgba(255, 255, 255, 0.25);
+			}
+			.stat-label {
+				display: block;
+				font-family: "Black Ops One", system-ui;
+				font-size: 0.7em;
+				letter-spacing: 0.25em;
+				text-transform: uppercase;
+				margin-top: 0.6em;
+				color: rgba(255, 255, 255, 0.7);
+			}
+
+			/* === In-Development Cards (inside #highlights) === */
+			.indev-card {
+				padding: 2em;
+				border-radius: 10px;
+				background: rgba(58, 45, 75, 0.55);
+				box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+				height: 100%;
+				transition: transform 0.3s ease, background 0.3s ease;
+				text-align: center;
+			}
+			.indev-card:hover {
+				transform: translateY(-6px);
+				background: rgba(58, 45, 75, 0.8);
+			}
+			.indev-tag {
+				display: inline-block;
+				font-family: "Black Ops One", system-ui;
+				font-size: 0.65em;
+				letter-spacing: 0.25em;
+				text-transform: uppercase;
+				padding: 0.4em 1.2em;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.12);
+				color: #fff;
+				margin-bottom: 1em;
+			}
+			.indev-card h3 {
+				font-family: azonix, sans-serif;
+				color: #fff !important;
+				font-size: 1.4em;
+				margin: 0.3em 0 0.6em 0;
+				letter-spacing: 0.05em;
+			}
+			.indev-card p {
+				color: rgba(255, 255, 255, 0.8);
+				margin: 0;
+				line-height: 1.6;
+			}
+
+			/* === Journey Timeline (inside #Certification, on #56426e bg) === */
+			.journey-timeline {
+				max-width: 50em;
+				margin: 0 auto;
+				text-align: left;
+			}
+			.journey-item {
+				padding: 1.8em 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			}
+			.journey-item:last-child {
+				border-bottom: none;
+			}
+			.journey-date {
+				display: inline-block;
+				font-family: "Black Ops One", system-ui;
+				font-size: 0.7em;
+				letter-spacing: 0.25em;
+				text-transform: uppercase;
+				color: rgba(255, 255, 255, 0.55);
+				margin-bottom: 0.6em;
+			}
+			.journey-item h3 {
+				font-family: azonix, sans-serif;
+				color: #fff !important;
+				font-size: 1.2em;
+				letter-spacing: 0.05em;
+				margin: 0 0 0.5em 0;
+			}
+			.journey-item p {
+				color: rgba(255, 255, 255, 0.8);
+				margin: 0;
+				line-height: 1.6;
+			}
+
+			/* === Worldscar feature label === */
+			.feature-tag {
+				display: inline-block;
+				font-family: "Black Ops One", system-ui;
+				font-size: 0.7em;
+				letter-spacing: 0.3em;
+				text-transform: uppercase;
+				padding: 0.5em 1.4em;
+				border: 1px solid rgba(255, 255, 255, 0.3);
+				border-radius: 999px;
+				color: #fff;
+				margin-bottom: 1em;
+			}
+
+			@media screen and (max-width: 736px) {
+				.stat-number { font-size: 2em; }
+				.indev-card { padding: 1.5em; }
+			}
+		</style>
 	</head>
 	<body class="homepage is-preload">
 		<div id="preloader"></div>
@@ -24,81 +162,18 @@
 					<!-- Logo -->
 						<div id="logo">
 							<h1>Saadan Kaleem</h1>
-							<p>Game Developer</p>
+							<p>Game Developer · Studio Founder · Storyteller</p>
 						</div>
 						<nav id="nav2">
 							<ul>
-								<!-- <li class="current">Portfolio</li> -->
-					<!-- Nav -->
 						<nav id="nav">
 							<ul>
-								<!-- <li class="current">
-									<a href="#header" >
-										<i class='bx bxs-home'></i>
-										<span class="link-name" style="--i:1">Start</span>
-									</a>
-								</li>
-								<li class="current">
-									<a href="#introTittle">
-										<i class='bx bxs-home'></i>
-										<span class="link-name" style="--i:1">Introduction</span>
-									</a>
-								</li>
-								<li class="current">
-									<a href="#mainTittle">
-										<i class='bx bxs-home'></i>
-										<span class="link-name" style="--i:1">Details</span>
-									</a>
-								</li>
-
-								<li class="current">
-									<a href="#CertificationTittle">
-										<i class='bx bxs-food-menu' ></i>
-										<span class="link-name" style="--i:1">Certification</span>
-									</a>
-								</li>
-
-								<li class="current">
-									<a href="#highlightsTittle">
-										<i class='bx bxs-home'></i>
-										<span class="link-name" style="--i:1">Work</span>
-									</a>
-								</li>
-
-								<li class="current">
-									<a href="#footerTittle">
-										<i class='bx bxs-home'></i>
-										<span class="link-name" style="--i:1">Get in Touch</span>
-									</a>
-								</li> -->
-
-								<!--<li>
-									<a href="#">Dropdown</a>
-									<ul>
-										<li><a href="#">Lorem ipsum</a></li>
-										<li><a href="#">Magna veroeros</a></li>
-										<li><a href="#">Etiam nisl</a></li>
-										<li>
-											<a href="#">Sed consequat</a>
-											<ul>
-												<li><a href="#">Lorem dolor</a></li>
-												<li><a href="#">Amet consequat</a></li>
-												<li><a href="#">Magna phasellus</a></li>
-												<li><a href="#">Etiam nisl</a></li>
-												<li><a href="#">Sed feugiat</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Nisl tempus</a></li>
-									</ul>
-								</li>
-								<li><a href="left-sidebar.html">Left Sidebar</a></li>
-								<li><a href="right-sidebar.html">Right Sidebar</a></li>
-								<li><a href="no-sidebar.html">No Sidebar</a></li>-->
 							</ul>
 						</nav>
 
 				</section>
-<!--SideBars-->
+
+<!--SideBars (UNCHANGED — do not edit) -->
 <nav id="leftSidebar" class="leftSidebar">
 	<div class="logo-menu" >
 		<h2 class="logo">Saadan's Portfolio</h2>
@@ -118,7 +193,6 @@
 			<i class='bx bxs-home'></i>
 			<span class="link-name" style="--i:1">Start</span>
 		</a>
-
 	</li>
 
 	<li class="list-item">
@@ -126,7 +200,13 @@
 			<i class='bx bxs-notepad' ></i>
 			<span class="link-name" style="--i:2">Introduction</span>
 		</a>
+	</li>
 
+	<li class="list-item">
+		<a href="#highlightsTittle" data-section="highlightsTittle">
+			<i class='bx bxs-dashboard'></i>
+			<span class="link-name" style="--i:3">Career Highlights</span>
+		</a>
 	</li>
 
 	<li class="list-item">
@@ -134,28 +214,22 @@
 			<i class='bx bxs-briefcase' ></i>
 			<span class="link-name" style="--i:3">Details</span>
 		</a>
-
 	</li>
+
 	<li class="list-item">
 		<a href="#CertificationTittle" data-section="CertificationTittle">
 			<i class='bx bxs-food-menu' ></i>
 			<span class="link-name" style="--i:3">Certification</span>
 		</a>
-
 	 </li>
-	<li class="list-item">
-		<a href="#highlightsTittle" data-section="highlightsTittle">
-			<i class='bx bxs-dashboard'></i>
-			<span class="link-name" style="--i:3">Career Highlights</span>
-		</a>
 
-	</li> 
+	
+
 	<li class="list-item">
 		<a href="#footerTittle" data-section="footerTittle">
 			<i class='bx bxs-phone-call' ></i>
 			<span class="link-name" style="--i:4">Get in Touch</span>
 		</a>
-
 	</li>
 </ul>
 
@@ -163,14 +237,12 @@
 
 	<nav id="rightSidebar" class="Sidebar">
 
-
 	<ul class="list">
 		<li class="list-item ">
 			<a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share" target="_blank">
 				<i class='bx bxl-upwork'></i>
 				<span class="link-name"></span>
 			</a>
-
 		</li>
 
 		<li class="list-item">
@@ -178,7 +250,6 @@
 				<i class='bx bxl-github' ></i>
 				<span class="link-name"></span>
 			</a>
-
 		</li>
 
 		<li class="list-item">
@@ -186,7 +257,6 @@
 				<i class='bx bxl-linkedin' ></i>
 				<span class="link-name"></span>
 			</a>
-
 		</li>
 
 		<li class="list-item">
@@ -194,597 +264,454 @@
 				<i class='bx bxl-discord-alt' ></i>
 				<span class="link-name"></span>
 			</a>
-
 		</li>
 	</ul>
 
 
 	</nav>
-			<!-- Intro -->
+
+
+			<!-- ================================================== -->
+			<!-- SECTION 1: INTRO + STATS                           -->
+			<!-- ================================================== -->
 				<section id="intro" class="wrapper style1">
 					<div id="introTittle" class="title" data-section="introTittle">Introduction</div>
 					<div class="container">
 						<p class="lead">
-							I'm <strong>Syed Saadan Bin Kaleem</strong>, Co-founder & CTO of <strong>Designfull.net</strong> and Co-founder of <strong>Pixel Dreams Studio</strong>. 
-							I've been working in the <strong>IT</strong>  industry since <strong>2019</strong> and actively shaping the <strong>gaming</strong> industry since <strong>2021</strong>. 
-							Over the years, I've grown from someone curious about <strong>game development</strong> into someone who builds complete 
-							experiences, leads teams, and runs two creative ventures.
-						  </p>
-						  <P class="lead">
-							I spent a year as a <strong>Unity Developer</strong> at <strong>CobWeb Games</strong>, where I worked on more than ten games and successfully launched six of them on the 
-							<strong>Play Store</strong>. After that, I moved into my own projects and studios, where I had the freedom to <strong>experiment</strong>, <strong>create</strong>, and 
-							<strong>bring my ideas to life</strong>. Alongside that, I've built unique gameplay experiences that mix fast-paced movement with strategic decision-making, blending 
-							familiar genres with new ideas. 
-							<!-- These projects, along with my experience in <strong>Unity</strong> and <strong>Unreal Engine</strong>, 
-							have helped me grow into a creator who enjoys experimenting, polishing details, <br/>and bringing fresh concepts to life. -->
-						</P>
-					    <P class="lead">
-						Today, my work combines my technical skills in <strong>Unity</strong> and <strong>Unreal Engine</strong> with my passion for <strong>design</strong>, <strong>visuals</strong>,
-						 and <strong>player experience</strong>. Whether I'm building a <strong>world</strong>, shaping a <strong>game mechanic</strong>, or guiding a project from 
-						 <strong>idea to final</strong> product, I aim to create something <strong>memorable</strong> and <strong>impactful</strong>.
-						</P>
-						<P class="lead">
-							Through my studios, I continue to explore new <strong>ideas</strong>, push my <strong>creativity</strong>, and bring unique <strong>digital experiences</strong> to life.
-						</P>
-						<br>
-						  <hr style=" opacity: 0.28;">
-							<div class="logos">
-								<div class="logos-slide">
-								  <img src="./logos/CanvasDigital.svg" />
-								  <!-- <img src="./logos/CobWebGames.svg" /> -->
-								  <!-- <img src="./logos/PixelDreams.svg" /> -->
-								  <!-- <img src="./logos/designfull.svg" /> -->
-								  <img src="./logos/Khareed-o-Mobile.svg" />
-								  <img src="./logos/LiftOnHai.svg" />
-								  <img src="./logos/ShotSpire.svg" />
-								  <img src="./logos/CanvasDigital.svg" />
-								  <!-- <img src="./logos/CobWebGames.svg" /> -->
-								  <!-- <img src="./logos/PixelDreams.svg" /> -->
-								  <!-- <img src="./logos/designfull.svg" /> -->
-								  <img src="./logos/Khareed-o-Mobile.svg" />
-								  <img src="./logos/LiftOnHai.svg" />
-								  <img src="./logos/ShotSpire.svg" />
-								</div>
-						  
-								<div class="logos-slide">
-								  <img src="./logos/CanvasDigital.svg" />
-								  <!-- <img src="./logos/CobWebGames.svg" /> -->
-								  <!-- <img src="./logos/PixelDreams.svg" /> -->
-								  <!-- <img src="./logos/designfull.svg" /> -->
-								  <img src="./logos/Khareed-o-Mobile.svg" />
-								  <img src="./logos/LiftOnHai.svg" />
-								  <img src="./logos/ShotSpire.svg" />
-								  <img src="./logos/CanvasDigital.svg" />
-								  <!-- <img src="./logos/CobWebGames.svg" /> -->
-								  <!-- <img src="./logos/PixelDreams.svg" /> -->
-								  <!-- <img src="./logos/designfull.svg" /> -->
-								  <img src="./logos/Khareed-o-Mobile.svg" />
-								  <img src="./logos/LiftOnHai.svg" />
-								  <img src="./logos/ShotSpire.svg" />
-								</div> 
+							I’m a Game Developer, Technical Leader, and Creative Entrepreneur specializing in immersive games and interactive digital experiences. As the Co-founder & CTO of Designfull.net
+ and Co-founder of Pixel Dreams Studio, I combine technical expertise with creative vision to build products that blend innovative gameplay, striking visuals, and polished user experiences, with experience in the IT industry since 2019 and game development since 2021, I’ve worked on more than ten games and successfully launched six titles on the Google Play
+. Using Unity and Unreal Engine, I lead projects from concept to release, transforming ideas into memorable digital experiences that push the boundaries of creativity and technology.
+						</p>
+						
+						<!-- Stats strip -->
+						<div class="stats-strip">
+							<div class="stat-item">
+								<span class="stat-number">6</span>
+								<span class="stat-label">Games Live</span>
 							</div>
+							<div class="stat-item">
+								<span class="stat-number">2</span>
+								<span class="stat-label">In Development</span>
+							</div>
+							<div class="stat-item">
+								<span class="stat-number">6+</span>
+								<span class="stat-label">Years Building</span>
+							</div>
+							<div class="stat-item">
+								<span class="stat-number">2</span>
+								<span class="stat-label">Studios Founded</span>
+							</div>
+						</div>
+
+						
+
 						<ul class="actions">
-									<li><a href="#highlightsTittle" class="button style3 large">Career Highlights</a></li>
+							<li><a href="#highlightsTittle" class="button style3 large">See My Games</a></li>
 						</ul>
 					</div>
 				</section>
 
-			<!-- Main -->
+
+			<!-- ================================================== -->
+			<!-- SECTION 2: GAMES (Worldscar + Shipped + In Dev)    -->
+			<!-- ================================================== -->
+				<section id="highlights" class="wrapper style3">
+					<div id="highlightsTittle" class="title" data-section="highlightsTittle">Career Highlights</div>
+					<div class="container">
+
+
+
+<!-- Featured: Chess Run -->
+						<header class="style1">
+							<div id="featuresHP">
+								<span class="feature-tag">Coming Soon</span>
+								<h2 class="S1">Chess Run — A Rougelike Endless Runner</h2>
+								<p class="S2">A strategic endless runner where every move counts and every level is a new challenge. Launching on Steam.</p>
+							</div>
+						</header>
+
+						<div class="row aln-center">
+							<div class="col-9 col-12-medium">
+								<section class="highlight">
+									<div class="box" style="padding: 3%;">
+										<img class="image3" src="images/ChessRun-Banner.jpg" alt="Chess Run Banner">
+							<ul class="actions special" style="margin-top: 2%; display: flex; justify-content: center; gap: 1.5rem;">
+								<li><a href="javascript:void(0)" class="button style6 ChessRunVideo" onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')" style="margin-top: 2.5%;  width: 22vw;">Watch The Trailer</a></li>
+								<li><a href="https://linktr.ee/ChessRun" target="_blank" class="button style6" style="margin-top: 2.5%; width: 22vw;">LinkTree</a></li>
+							</ul>
+									</div>
+								</section>
+							</div>
+
+							<!-- Games at CobWeb -->
+							<div class="col-12 col-12-medium">
+								<header class="style1">
+									<div id="featuresHP">
+										<hr style="opacity: 0.28;">
+										<h2 class="S1">Six Worlds, Built in Unity</h2>
+										<hr style="opacity: 0.28;">
+										<p class="S2">Every project taught me something — about players, mechanics, or the craft itself. Here's what made it to launch.</p>
+									</div>
+								</header>
+							</div>
+
+							<div class="col-4 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="image2" src="images/CastleInvader/Castle-Invader-Thumnail.jpg" alt="">
+										<div class="overlay">
+											<h3>Castle Invader</h3>
+											<p>Lead your team through weather obstacles in a charming Red Light Green Light adventure.</p>
+											<a href="CastleInvader.html" class="button style6S">Explore More</a>
+										</div>
+									</div>
+								</section>
+							</div>
+
+							<div class="col-4 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="image2" src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg" alt="">
+										<div class="overlay">
+											<h3>Penguin Pinnacle</h3>
+											<p>Guide a heroic penguin through vibrant worlds in this classic 2D platformer adventure.</p>
+											<a href="PenguinPinnacle.html" class="button style6S">Explore More</a>
+										</div>
+									</div>
+								</section>
+							</div>
+
+							<div class="col-4 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="image2" src="images/Swift Beat/Swift-Beat-Thumnail.jpg" alt="">
+										<div class="overlay">
+											<h3>Swift Beat</h3>
+											<p>Sync your actions to the rhythmic beats, dodge obstacles, and save the ball in this rhythmic platformer.</p>
+											<a href="SwiftBeat.html"  class="button style6S">Explore More</a>
+										</div>
+									</div>
+								</section>
+							</div>
+
+							<div class="col-4 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="image2" src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="">
+										<div class="overlay">
+											<h3>Slimey adventure</h3>
+											<p>Soar through perilous skies, dodging enemies & collecting power-ups in this action-packed 2D game.</p>
+											<a href="SlimeyAdventure.html"  class="button style6S">Explore More</a>
+										</div>
+									</div>
+								</section>
+							</div>
+
+							<div class="col-4 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="image2" src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg" alt="">
+										<div class="overlay">
+											<h3>Eggi Pegi</h3>
+											<p>Bounce an egg with a chicken's head to keep it airborne in this whimsical arcade challenge.</p>
+											<a href="EggiPeggi.html" class="button style6S">Explore More</a>
+										</div>
+									</div>
+								</section>
+							</div>
+
+							<div class="col-4 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="image2" src="images/Metor Chase/Metor-Chase-Thumnail.jpg" alt="">
+										<div class="overlay">
+											<h3>Meteor  chase</h3>
+											<p>Dodge relentless meteors as an astronaut in this high-speed challenge of reflexes and strategy.</p>
+											<a href="MeteorChase.html"  class="button style6S">Explore More</a>
+										</div>
+									</div>
+								</section>
+							</div>
+							
+						<!-- Line -->
+							<div class="col-12 col-12-medium">
+								<header class="style1">
+									<div id="featuresHP">
+										<hr style="opacity: 0.28;">										
+									</div>
+								</header>
+							</div>
+						</div>
+<!-- Featured: Worldscar -->
+						<header class="style1">
+							<div id="featuresHP">
+								<span class="feature-tag">What's Next</span>
+								<h2 class="S1">Worldscar — A Horror Escape Room</h2>
+								<p class="S2">My first Unreal Engine title. A psychological horror experience where every shadow holds a story and every room is a puzzle. Launching on Steam.</p>
+							</div>
+						</header>
+
+						<div class="row aln-center">
+							<div class="col-9 col-12-medium">
+								<section class="highlight">
+									<div class="box" style="padding: 3%;">
+										<img class="image3" src="images/WorldScar-Banner.jpg" alt="Worldscar Banner">
+										<a href="javascript:void(0)" class="button style6S WorldScarVideo" onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')" style="margin-top: 2.5%; width: 100%;">Watch Environmental Concept</a>
+									</div>
+								</section>
+							</div>
+</div>
+							<!-- <div class="col-6 col-12-medium"> 
+								<div class="indev-card">
+									<span class="indev-tag">In Development · Unity</span>
+									<h3>ChessRun</h3>
+									<p>Chess, but you're running for your life. A fast-paced twist on the world's oldest strategy game — where every move could be your last.</p>
+								</div>
+							</div>
+
+							<div class="col-6 col-12-medium">
+								<div class="indev-card">
+									<span class="indev-tag">In Development · Unreal Engine</span>
+									<h3>Worldscar</h3>
+									<p>A horror escape room where the environment is the antagonist. Solve puzzles, survive the dark, and uncover what happened here. Coming to Steam.</p>
+								</div>
+							</div> -->
+						</br></br><hr style="opacity: 0.28;">
+
+						</div>
+
+						<div class="logos">
+							<div class="logos-slide">
+							  <img src="./logos/CanvasDigital.svg" />
+							  <img src="./logos/Khareed-o-Mobile.svg" />
+							  <img src="./logos/LiftOnHai.svg" />
+							  <img src="./logos/ShotSpire.svg" />
+							  <img src="./logos/CanvasDigital.svg" />
+							  <img src="./logos/Khareed-o-Mobile.svg" />
+							  <img src="./logos/LiftOnHai.svg" />
+							  <img src="./logos/ShotSpire.svg" />
+							</div>
+							<div class="logos-slide">
+							  <img src="./logos/CanvasDigital.svg" />
+							  <img src="./logos/Khareed-o-Mobile.svg" />
+							  <img src="./logos/LiftOnHai.svg" />
+							  <img src="./logos/ShotSpire.svg" />
+							  <img src="./logos/CanvasDigital.svg" />
+							  <img src="./logos/Khareed-o-Mobile.svg" />
+							  <img src="./logos/LiftOnHai.svg" />
+							  <img src="./logos/ShotSpire.svg" />
+							</div>
+						</div>
+
+				</section>
+
+
+			<!-- ================================================== -->
+			<!-- SECTION 3: SKILLS (How I Build)                    -->
+			<!-- ================================================== -->
 				<section id="main" class="wrapper style2">
 					<div id="mainTittle" class="title" data-section="mainTittle">Details</div>
 					<div class="container">
-						
-					
-				
+
 						<!-- Image -->
-								<img class="image featured" src="images/pic1.jpg" alt="" />
+						<img class="image featured" src="images/pic1.jpg" alt="" />
 
 						<!-- Features -->
-							<section id="features">
-								<header class="style1">
-								<Div id="featuresHP">
-									<h2 class="S1">Professional Skills and Expertise</h2>
-									<p class="S2">As a passionate and driven creative technologist, I specialize in crafting immersive digital experiences that blend innovation, storytelling, and interaction. With a foundation built in Unity and extended into Unreal Engine, I bring a sharp eye for design, strong programming fundamentals, and a deep understanding of gameplay systems. I thrive in fast-paced, visionary environments where ideas are transformed into playable, engaging realities. From leading product direction at startups to hands-on development of original games, I’m committed to pushing boundaries in both game design and tech.</p>
-								</Div>
-								</header>
-								<div class="feature-list">
-									<div class="row">
-										<div class="row">
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3 class="img2"><img src="images/bi--unity.png" alt="">  Unity Expertise</h3>
-      <p>Proficient in Unity for developing 2D and 3D games. Skilled in game mechanics, physics, animation, and component-based architecture.</p>
-    </section>
-  </div>
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3><img src="images/simple-icons--unrealengine.png" alt=""> Unreal Engine Proficiency</h3>
-      <p>Experienced in using Unreal Engine for high-fidelity game development. Expertise in Blueprints Visual Scripting to create complex gameplay systems.</p>
-    </section>
-  </div>
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3><i class='fas fa-code'></i> C# Programming</h3>
-      <p>Advanced knowledge of C# for scripting in Unity. Ability to write clean, efficient, and maintainable code for various game functionalities.</p>
-    </section>
-  </div>
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3><i class='fas fa-pencil-ruler'></i> Game Design</h3>
-      <p>Skilled in designing engaging and balanced game mechanics. Focus on player progression, difficulty scaling, and ensuring a rewarding gameplay experience.</p>
-    </section>
-  </div>
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3><i class='fas fa-users'></i> Player Engagement</h3>
-      <p>Experience in designing features that enhance player engagement, including leaderboards, achievements, and in-game rewards.</p>
-    </section>
-  </div>
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3><i class='fas fa-lightbulb'></i> Rapid Prototyping</h3>
-      <p>Ability to rapidly prototype game concepts to test and iterate on ideas quickly, ensuring innovative and well-tested game designs.</p>
-    </section>
-  </div>
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3><i class='fas fa-globe'></i> Spatial.io Environments</h3>
-      <p>Building interactive and visually appealing environments in Spatial.io, enhancing virtual collaborations and presentations.</p>
-    </section>
-  </div>
-  <div class="col-6 col-12-medium">
-    <section>
-      <h3><i class='fas fa-bug'></i> Bug Fixing and Optimization</h3>
-      <p>Proficient in identifying and resolving bugs. Experience in optimizing game performance to ensure smooth gameplay on various devices.</p>
-    </section>
-  </div>
-</div>
-</div>
-</div>
-
-					<br><br>
-					<header class="style1">
-						<Div id="featuresHP">
-							<h2 class="S1">Professional Experience</h2>
-						</Div>
-						</header>
-
-
-						<div class="feature-list">
-							<div class="row">
+						<section id="features">
+							<header class="style1">
+								<div id="featuresHP">
+									<h2 class="S1">How I Build</h2>
+									<p class="S2">I move fast, prototype faster, and obsess over how a game <em>feels</em> in the player's hands. Here's the toolkit behind the work.</p>
+								</div>
+							</header>
+							<div class="feature-list">
 								<div class="row">
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3 class="img2"><img src="images/bi--unity.png" alt=""> Unity Development</h3>
+											<p>My home engine. Six years building 2D and 3D games — mechanics, physics, animation, and clean component-based architecture.</p>
+										</section>
+									</div>
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3><img src="images/simple-icons--unrealengine.png" alt=""> Unreal Engine</h3>
+											<p>My current playground. Building Worldscar with Blueprints — high-fidelity environments, complex gameplay systems, and atmospheric storytelling.</p>
+										</section>
+									</div>
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3><i class='fas fa-code'></i> C# Programming</h3>
+											<p>Clean, efficient, maintainable. The language I write fastest and break least often.</p>
+										</section>
+									</div>
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3><i class='fas fa-pencil-ruler'></i> Game Design</h3>
+											<p>Engaging, balanced mechanics. Player progression, difficulty curves, and that satisfying loop that keeps people playing.</p>
+										</section>
+									</div>
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3><i class='fas fa-users'></i> Player Engagement</h3>
+											<p>Leaderboards, achievements, rewards — the systems that turn a session into a habit.</p>
+										</section>
+									</div>
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3><i class='fas fa-lightbulb'></i> Rapid Prototyping</h3>
+											<p>From idea to playable in days, not weeks. Fail fast, iterate faster, ship what works.</p>
+										</section>
+									</div>
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3><i class='fas fa-globe'></i> Spatial.io Worlds</h3>
+											<p>Interactive virtual environments for collaboration and presentation — where digital meets dimensional.</p>
+										</section>
+									</div>
+									<div class="col-6 col-12-medium">
+										<section>
+											<h3><i class='fas fa-cogs'></i> Performance & Optimization</h3>
+											<p>Identifying bottlenecks, squashing bugs, and making sure games run smooth on every device they touch.</p>
+										</section>
+									</div>
+								</div>
+							</div>
 
-							<div class="col-6 col-12-medium">
-							  <section>
-								<h3><i class='fas fa-briefcase'></i> CobWeb Games Experience</h3>
-								<p>Almost a year of experience working at CobWeb Games, contributing to the development of 15+ mobile games with a small team of 5 people. Gained hands-on experience in project management, team collaboration, and meeting tight deadlines.</p>
-							  </section>
-							</div>
-							<div class="col-6 col-12-medium">
-							  <section>
-								<h3><i class='fas fa-handshake'></i> Freelance Projects</h3>
-								<p>Successfully completed several freelance projects, delivering high-quality games and environments tailored to client specifications. Developed strong client communication and project management skills.</p>
-							  </section>
-							</div>
-						  </div>
-						</div>
+							<br><br>
+							<ul class="actions special">
+								<li><a href="#footerTittle" class="button style5 large">Let's Work Together</a></li>
+								<li><a href="#highlightsTittle" class="button style4 large">View Games</a></li>
+							</ul>
+
+						</section>
 					</div>
-					<br><br>
+				</section>
+			<!-- ================================================== -->
+			<!-- SECTION 4: JOURNEY (Experience + Certs + Studios)  -->
+			<!-- ================================================== -->
+				<section id="Certification" class="wrapper style3">
+					<div id="CertificationTittle" class="title" data-section="CertificationTittle">Certifications</div>
+					<div class="container">
 
 						<header class="style1">
-							<Div id="featuresHP">
-								<h2 class="S1">Achievements</h2>
-							</Div>
-							</header>
+							<div id="featuresHP">
+								<span class="feature-tag">The Path So Far</span>
+								<p class="S2">Six years of building, shipping, and learning. From small mobile titles to founding studios.</p>
+							</div>
+							<hr style="opacity: 0.28;">
+						</header>
 
-<div class="feature-list">
-	<div class="row">
-		<div class="row">
+						<!-- Journey Timeline -->
+						<div class="journey-timeline">
+							<div class="journey-item">
+								<span class="journey-date">May 2019 — July 2023</span>
+								<h3>Freelance Game Developer</h3>
+								<p>Delivered websites, applications, and interactive digital solutions for clients across multiple industries, building a strong foundation in software development, design, and project management.</p>
+							</div>
 
-				<div class="col-6 col-12-medium">
-				  <section>
-					<h3><i class='fas fa-gamepad'></i> Developed 15+ Mobile Games</h3>
-					<p>Created over 15 mobile games within a year, demonstrating exceptional productivity and expertise in game development using Unity and Unreal Engine.</p>
-				  </section>
-				</div>
-				<div class="col-6 col-12-medium">
-				  <section>
-					<h3><i class='fas fa-chart-line'></i> Enhanced Player Engagement</h3>
-					<p>Implemented features such as leaderboards, achievements, and in-game rewards to significantly boost player engagement and retention.</p>
-				  </section>
-				</div>
-				<div class="col-6 col-12-medium">
-				  <section>
-					<h3><i class='fas fa-puzzle-piece'></i> Expertise in Game Mechanics</h3>
-					<p>Developed complex game mechanics that balance player progression and difficulty, ensuring a challenging yet rewarding gameplay experience.</p>
-				  </section>
-				</div>
-				<div class="col-6 col-12-medium">
-				  <section>
-					<h3><i class='fas fa-laptop-code'></i> Successful Freelance Projects</h3>
-					<p>Completed numerous freelance projects, delivering high-quality games and interactive environments tailored to client needs and specifications.</p>
-				  </section>
-				</div>
-				<div class="col-6 col-12-medium">
-				  <section>
-					<h3><i class='fas fa-award'></i> Recognized for Innovative Designs</h3>
-					<p>Received recognition for creating innovative game designs that captivate players and enhance their overall gaming experience.</p>
-				  </section>
-				</div>
-				<div class="col-6 col-12-medium">
-				  <section>
-					<h3><i class='fas fa-cogs'></i> Rapid Prototyping Skills</h3>
-					<p>Proven ability to quickly prototype game concepts, allowing for efficient testing and iteration of new ideas and gameplay features.</p>
-				  </section>
-				</div>
-			  </div>
+						<div class="journey-item">
+								<span class="journey-date">Aug 2023 — Sep 2024</span>
+								<h3>Game Developer · CobWeb Games</h3>
+								<p>Worked as a Unity Developer, contributing to over ten mobile games and successfully launching six titles on the Google Play Store, with a focus on gameplay systems, optimization, and publishing.</p>
+							</div>
 
-			</div>			<br><br>
-			<ul class="actions special">
-				<li><a href="#footerTittle" class="button style5 large">Hire Me</a></li>
-				<li><a href="#highlightsTittle" class="button style4 large">Career Highlights</a></li>
-				<li><br></li>
-			</ul>
+						<div class="journey-item">
+								<span class="journey-date">Feb 2023 — Jan 2026</span>
+								<h3>Co-Founder & CTO · DesignFul</h3>
+								<p>Co-founded and served as CTO, leading the technical development of web, mobile, and digital products while overseeing architecture, development workflows, and product execution.</p>
+							</div>
 
-							</section>
+						<div class="journey-item">
+								<span class="journey-date">Jan 2025 — Present</span>
+								<h3>Co-Founder: Pixel Dreams Studio</h3>
+								<p>Co-founded an independent game studio focused on creating premium games, XR applications, and interactive experiences using Unity and Unreal Engine.</p>
+							</div>
+						</div>
+
+						<br><br>
+
+						<!-- Unity Certifications (using existing .banner pattern) -->
+						<header class="style1">
+							<div id="featuresHP">
+								<hr style="opacity: 0.28;">
+								<h2 class="S1">Unity Certifications</h2>
+								<hr style="opacity: 0.28;">
+							</div>
+						</header>
+
+						<div class="row aln-center">
+
+							<div class="col-12 col-12-medium">
+								<div class="banner">
+									<div class="banner-image">
+										<img src="images/unity-essentials-pathway.png" alt="Banner Image">
+									</div>
+									<div class="banner-content">
+										<h1>Unity Essentials Pathway</h1>
+										<p>Earning the Unity Essentials Pathway badge signifies proficiency in real-time production techniques, mastery of essential Unity Editor features, adept navigation in 3D environments, proficient creation and management of Scenes, GameObjects, and Prefabs, and the ability to successfully publish Unity projects.</p>
+										<a href="https://www.credly.com/go/y61Zpr3x" target="_blank" class="button style6">Verify</a>
+									</div>
+								</div>
+							</div>
+
+							<br><br>
+							<div class="col-12 col-12-medium">
+								<div class="banner2">
+									<div class="banner-content">
+										<h1>Unity Junior Programmer</h1>
+										<p>The Unity Junior Programmer Pathway verifies and enhances skills as a junior programmer proficient in writing scripts using C# within the Unity Editor. This certification confirms the ability to create interactive experiences using Unity's powerful tools.</p>
+										<a href="https://www.credly.com/go/T2ZadnH1" target="_blank" class="button style6">Verify</a>
+									</div>
+									<div class="banner-image">
+										<img src="images/unity-junior-programmer.png" alt="Banner Image">
+									</div>
+								</div>
+							</div>
+
+							<!-- Studios I'm Building -->
+							<div class="col-12 col-12-medium">
+								<header class="style1">
+									<div id="featuresHP">
+										<hr style="opacity: 0.28;">
+										<h2 class="S1">Studios I'm Building</h2>
+										<hr style="opacity: 0.28;">
+										<p class="S2">Two ventures I co-founded — pushing the boundaries of design and gaming.</p>
+									</div>
+								</header>
+							</div>
+
+							<div class="col-6 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="images" src="images/designfull.png" alt="">
+									</div>
+									<a href="https://designfull.net/" status="unactive" target="_blank" class="button style6" style=" margin-top: 3vh; width: 100%; pointer-events: none;"><del>visit Designfull.net</del></a>
+								</section>
+							</div>
+							<div class="col-6 col-12-medium">
+								<section class="highlight">
+									<div class="box">
+										<img class="images" src="images/PDS.png" alt="">
+									</div>
+									<a href="https://pixeldreams.studio/" target="_blank" class="button style6" style=" margin-top: 3vh; width: 100%;">visit pixeldreams.studio</a>
+								</section>
+							</div>
+
+						</div>
 					</div>
 				</section>
 
 
-
-			<!-- Certification -->
-
-
-
-
-			<section id="Certification" class="wrapper style3">
-				<div id="CertificationTittle" class="title" data-section="highlightsTittle">Certifications</div>
-				<div class="container">
-					<div class="row aln-center">
-
-						<div class="col-12 col-12-medium">
-							<div class="banner">
-								<div class="banner-image">
-									<img src="images/unity-essentials-pathway.png" alt="Banner Image">
-								</div>
-								<div class="banner-content">
-									<h1>Unity Essentials Pathway</h1>
-									<p>Earning the Unity Essentials Pathway badge signifies proficiency in real-time production techniques, mastery of essential Unity Editor features, adept navigation in 3D environments, proficient creation and management of Scenes, GameObjects, and Prefabs, and the ability to successfully publish Unity projects. This certification validates your foundational skills in Unity, equipping you to efficiently develop and deploy projects within the Unity ecosystem.</p>
-									<a href="https://www.credly.com/go/y61Zpr3x" target="_blank" class="button style6">Verify</a>
-								</div>
-							</div>
-						</div>
-
-<br><br>
-<div class="col-12 col-12-medium">
-	<div class="banner2">
-		<div class="banner-content">
-			<h1>Unity Junior Programmer</h1>
-			<p>The Unity Junior Programmer Pathway is designed to verify and enhance your skills as a junior programmer proficient in writing scripts using C# within the Unity Editor. This comprehensive certification program ensures that you can effectively create interactive experiences, leveraging your understanding of scripting and Unity's powerful tools to develop engaging applications and games.</p>
-			<a href="https://www.credly.com/go/T2ZadnH1" target="_blank" class="button style6">Verify</a>
-		</div>
-		<div class="banner-image">
-			<img src="images/unity-junior-programmer.png" alt="Banner Image">
-		</div> 
-</div>
-</div>
-</div>
-
-
-
-
-
-
-				</div>
-			</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<!-- Highlights -->
-
-
-<!-- 
-
-
-			<section id="highlights1" class="wrapper style1">
-				<div id="highlightsTittle1" class="title" data-section="highlightsTittle">Career Highlights</div>
-				<div class="collage-container">
-					<img src="images/testImage (1).jpg" alt="Game Screenshot 1">
-					<img src="images/testImage (2).jpg" alt="Game Screenshot 2">
-					<img src="images/testImage (3).jpg" alt="Game Screenshot 3">
-					<img src="images/testImage (4).jpg" alt="Game Screenshot 4">
-					<img src="images/testImage (5).jpg" alt="Game Screenshot 5">
-					<img src="images/testImage (6).jpg" alt="Game Screenshot 1">
-					<img src="images/testImage (7).jpg" alt="Game Screenshot 2">
-					<img src="images/testImage (8).jpg" alt="Game Screenshot 3">
-					<img src="images/testImage (9).jpg" alt="Game Screenshot 4">
-					<img src="images/testImage (10).jpg" alt="Game Screenshot 5">							
-					<img src="images/testImage (1).jpg" alt="Game Screenshot 1">
-					<img src="images/testImage (11).jpg" alt="Game Screenshot 2">
-					<img src="images/testImage (13).jpg" alt="Game Screenshot 3">
-					<img src="images/testImage (12).jpg" alt="Game Screenshot 4">
-					<img src="images/testImage (5).jpg" alt="Game Screenshot 5">
-				</div>
-
-
-
-			</section>
- -->
-
-
-		
-			<section id="highlights" class="wrapper style3">
-				<div id="highlightsTittle" class="title" data-section="highlightsTittle">Career Highlights</div>
-				<div class="container">
-					 <!-- <div class="col-4 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-							<img class="image3" src="images/8007365.jpg" alt="">
-							
-						</div>
-						</section>
-					</div> -->
-<br><br> 
-					<div class="row aln-center">
-						<div class="col-9 col-12-medium">
-							<section class="highlight">
-								<div class="box" style="padding: 3%;">
-								<img class="image3" src="images/WorldScar-Banner.jpg" alt="" >
-									<a  href="javascript:void(0)" class="button style6S WorldScarVideo" onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')" style="margin-top: 2.5%; width: 100%;">Watch The Video</a>
-							</div>
-							</section>
-							
-						</div>
-					
-						<div class="col-12 col-12-medium">
-						<header class="style1">
-							<Div id="featuresHP">
-								<hr style=" opacity: 0.28;">
-								<h2 class="S1">Games Developed at CobWeb Games</h2>			
-								<hr style=" opacity: 0.28;">
-								<p class="S2">During my time at CobWeb Games, I had the opportunity to work on a variety of exciting projects. Below are six games that I developed, showcasing my skills in game design, development, and innovation across multiple genres.</p>
-							</Div>
-							</header>
-						</div>
-						
-						<!-- <div class="col-4 col-12-medium">
-							<section class="highlight">
-								<div class="box">
-								<img class="image2" src="images/pic03.jpg" alt="">
-								<div class="overlay">
-								<h3>Bank Hiest</h3>
-								<p>A bank robbery experience where your choice impacts your fate, navigating a gripping narrative of heist & evasion.</p>
-									<a href="BankHeist.html" target="_blank" class="button style6S">Explore More</a>
-
-							</div>
-							</div>
-							</section>
-						</div>
-
-						 <div class="col-4 col-12-medium">
-							<section class="highlight">
-								<div class="box">
-								<img class="image2" src="images/pic02.jpg" alt="">
-								<div class="overlay">
-								<h3>TwinStickShooter</h3>
-								<p>Eget mattis at, laoreet vel amet sed velit aliquam diam ante, dolor aliquet sit amet vulputate mattis amet laoreet lorem.</p>
-									<a href="#" class="button style6S">Explore More</a>
-							</div>
-							</div>
-							</section>
-						</div>  -->
-
-						<div class="col-4 col-12-medium">
-							<section class="highlight">
-								<div class="box">
-								<img class="image2" src="images/CastleInvader/Castle-Invader-Thumnail.jpg" alt="">
-								<div class="overlay">
-								<h3>Castle Invader</h3>
-								<p>Lead your team through weather obstacles in a charming Red Light Green Light adventure.</p>
-									<a href="CastleInvader.html" class="button style6S">Explore More</a>
-							</div>
-							</div>
-							</section>
-						</div>
-
-<!--
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/pic02.jpg" alt="">
-		<div class="overlay">
-		<h3>Cheese Stack</h3>
-		<p>Test your puzzle skills in an endless tower stacking game with delicious cheese pieces.</p>
-			<a href="CheeseStack.html" target="_blank" class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
--->
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg" alt="">
-		<div class="overlay">
-		<h3>Penguin Pinnacle</h3>
-		<p>Guide a heroic penguin through vibrant worlds in this classic 2D platformer adventure.</p>
-			<a href="PenguinPinnacle.html" class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
-
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/Swift Beat/Swift-Beat-Thumnail.jpg" alt="">
-		<div class="overlay">
-		<h3>Swift Beat</h3>
-		<p>Sync your actions to the rhythmic beats, dodge obstacles, and save the ball in this rhythmic platformer.</p>
-			<a href="SwiftBeat.html"  class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
-
-
-
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="">
-		<div class="overlay">
-		<h3>Slimey adventure</h3>
-		<p>Soar through perilous skies, dodging enemies & collecting power-ups in this action-packed 2D game.</p>
-			<a href="SlimeyAdventure.html"  class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
-<!--
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/pic02.jpg" alt="">
-		<div class="overlay">
-		<h3>Road Rage</h3>
-		<p>Master street racing with cunning maneuvers and power-ups in this adrenaline-pumping chase.</p>
-			<a href="RoadRage.html" target="_blank" class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div> -->
-
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg" alt="">
-		<div class="overlay">
-		<h3>Eggi Pegi</h3>
-		<p>Bounce an egg with a chicken's head to keep it airborne in this whimsical arcade challenge.</p>
-			<a href="EggiPeggi.html" class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
-
-<!-- <div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/pic02.jpg" alt="">
-		<div class="overlay">
-		<h3>Black Jack</h3>
-		<p>Experience sleek graphics and authentic gameplay in this timeless casino favorite.</p>
-			<a href="BlackJack.html" target="_blank" class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
-
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/pic02.jpg" alt="">
-		<div class="overlay">
-		<h3>Summit Drive</h3>
-		<p>Navigate diverse landscapes with precision driving skills in this challenging 2D car game.</p>
-			<a href="SummitDrive.html" target="_blank" class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
--->
-<div class="col-4 col-12-medium">
-	<section class="highlight">
-		<div class="box">
-		<img class="image2" src="images/Metor Chase/Metor-Chase-Thumnail.jpg" alt="">
-		<div class="overlay">
-		<h3>Meteor  chase</h3>
-		<p>Dodge relentless meteors as an astronaut in this high-speed challenge of reflexes and strategy.</p>
-			<a href="MeteorChase.html"  class="button style6S">Explore More</a>
-	</div>
-	</div>
-	</section>
-</div>
-
-
-<div class="col-12 col-12-medium">
-	<header class="style1">
-		<Div id="featuresHP">
-			<hr style=" opacity: 0.28;">
-			<h2 class="S1">Personal Ventures</h2>			
-			<hr style=" opacity: 0.28;">
-			<p class="S2">As an entrepreneur in the tech and game development sectors, I co-founded and contribute to two exciting ventures that push the boundaries of design and gaming.</p>
-		</Div>
-		</header>
-	</div>
-	<div class="col-6 col-12-medium">
-		<section class="highlight">
-			<div class="box">
-			<img class="images" src="images/designfull.png" alt="">
-			<!-- <h3>World Scar</h3>
-			<p>A Horror Escape Room</p> -->		</div>
-				<a href="https://designfull.net/" target="_blank" class="button style6" style=" margin-top: 3vh; width: 100%;">visit Designfull.net</a>
-
-
-		</section>
-		
-	</div>
-	<div class="col-6 col-12-medium">
-		<section class="highlight">
-			<div class="box">
-			<img class="images" src="images/PDS.png" alt="">
-			<!-- <h3>World Scar</h3>
-			<p>A Horror Escape Room</p> -->		</div>
-
-				<a href="https://pixeldreams.studio/" target="_blank" class="button style6" style=" margin-top: 3vh; width: 100%;">visit pixeldreams.studio</a>
-
-		</section>
-		
-	</div>
-
-
-				</div>
-			</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<!-- Footer -->
+			<!-- ================================================== -->
+			<!-- SECTION 5: FOOTER / CONTACT                        -->
+			<!-- ================================================== -->
 				<section id="footer" class="wrapper">
 					<div id="footerTittle" class="title" data-section="footerTittle">Get in Touch</div>
 					<div class="container">
 						<header class="style1">
-							<h2>Let's turn your Fantacy into Reality!</h2>
+							<h2>Let's turn your Fantasy into Reality!</h2>
 							<p>
-								If you're interested in collaborating, have a project in mind, or just want to say hi, feel free to reach out!
+								Got a project, a wild idea, or just want to talk games? My inbox is open.
 							</p>
 						</header>
 						<div class="row">
@@ -822,26 +749,6 @@
 								<!-- Contact -->
 									<section class="feature-list small">
 										<div class="row">
-											<!--<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-home">Mailing Address</h3>
-													<p>
-														Untitled Corp<br />
-														1234 Somewhere Rd<br />
-														Nashville, TN 00000
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-comment">Social</h3>
-													<p>
-														<a href="#">@untitled-corp</a><br />
-														<a href="#">linkedin.com/untitled</a><br />
-														<a href="#">facebook.com/untitled</a>
-													</p>
-												</section>
-											</div>-->
 											<div class="col-12 col-12-small">
 												<section>
 													<h3 class="icon solid fa-envelope">Email</h3>
@@ -943,16 +850,16 @@
 	  <div class="modal-close" onclick="closeModal()">&times;</div>
 	</div>
   </div>
-  
-  
-			  
+
+
+
 			  <script>
 				function openModal(videoUrl) {
 				  document.getElementById("youtubeIframe").src = videoUrl;
 				  document.getElementById("videoModal").style.display = "flex";
 				  document.body.classList.add('.no-scroll');
 				}
-			  
+
 				function closeModal() {
 				  document.getElementById("youtubeIframe").src = "";
 				  document.getElementById("videoModal").style.display = "none";
@@ -964,7 +871,7 @@
 
 			  <script>
 				const customCursor = document.getElementById("customCursor");
-			  
+
 				document.addEventListener("mousemove", (e) => {
 				  customCursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
 				});
@@ -1000,7 +907,7 @@ iframeHover.addEventListener('mouseleave', () => {
 <script>
 	const videoModal = document.getElementById('videoModal');
 	const modalContent = document.querySelector('#videoModal .modal-content');
-  
+
 	videoModal.addEventListener('click', (e) => {
 	  // Close modal only if clicking outside the modal content
 	  if (!modalContent.contains(e.target)) {
@@ -1008,6 +915,6 @@ iframeHover.addEventListener('mouseleave', () => {
 	  }
 	});
   </script>
-  
+
 	</body>
 </html>

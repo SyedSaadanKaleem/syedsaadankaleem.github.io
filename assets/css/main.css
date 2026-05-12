@@ -4319,7 +4319,7 @@ margin-top: -2em;}
   .logos {
 	overflow: hidden;
 	padding: 60px 0;
-	background: #5F497A;
+	background: #715792;
 	white-space: nowrap;
 	position: relative;
   }
@@ -4335,13 +4335,13 @@ margin-top: -2em;}
   }
   
   .logos:before {
-	left: 0;
-	background: linear-gradient(to left, rgba(255, 255, 255, 0), #5F497A);
+	left: 10;
+	background: linear-gradient(to left, rgba(255, 255, 255, 0), #715792);
   }
   
   .logos:after {
-	right: 0;
-	background: linear-gradient(to right, rgba(255, 255, 255, 0), #5F497A);
+	right: 10;
+	background: linear-gradient(to right, rgba(255, 255, 255, 0), #715792);
   }
   
   .logos:hover .logos-slide {
