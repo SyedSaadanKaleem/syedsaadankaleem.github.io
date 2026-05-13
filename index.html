@@ -97,39 +97,96 @@
 				line-height: 1.6;
 			}
 
-			/* === Journey Timeline (inside #Certification, on #56426e bg) === */
-			.journey-timeline {
-				max-width: 50em;
+			/* === Journey Accordion (numbered, expanding rows) === */
+			.journey-list {
+				max-width: 64em;
 				margin: 0 auto;
+				background: rgba(255, 255, 255, 0.04);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 20px;
+				overflow: hidden;
+				box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+			}
+			.journey-row {
+				display: flex;
+				align-items: center;
+				gap: 1.5em;
+				padding: 1.8em 2.5em;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+				cursor: pointer;
+				transition: background 0.4s ease;
+				min-height: 7em;
+			}
+			.journey-row:last-child { border-bottom: none; }
+			.journey-row:hover { background: rgba(255, 255, 255, 0.03); }
+
+			.journey-num {
+				font-family: azonix, sans-serif;
+				font-size: 4.5em;
+				line-height: 0.9;
+				color: rgba(255, 255, 255, 0.12);
+				flex-shrink: 0;
+				width: 2.2em;
 				text-align: left;
+				transition: color 0.5s ease, text-shadow 0.5s ease;
 			}
-			.journey-item {
-				padding: 1.8em 0;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			.journey-body { flex: 1; overflow: hidden; }
+
+			.journey-row h3 {
+				font-family: azonix, sans-serif;
+				font-size: 1.5em;
+				line-height: 1.2;
+				color: rgba(255, 255, 255, 0.55) !important;
+				margin: 0;
+				transition: color 0.4s ease;
+				letter-spacing: 0.03em;
 			}
-			.journey-item:last-child {
-				border-bottom: none;
+			.journey-detail {
+				max-height: 0;
+				opacity: 0;
+				overflow: hidden;
+				margin-top: 0;
+				transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
 			}
-			.journey-date {
+			.journey-detail .journey-date {
 				display: inline-block;
 				font-family: "Black Ops One", system-ui;
 				font-size: 0.7em;
 				letter-spacing: 0.25em;
 				text-transform: uppercase;
 				color: rgba(255, 255, 255, 0.55);
-				margin-bottom: 0.6em;
+				margin-bottom: 0.8em;
+				padding: 0.3em 0.9em;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				border-radius: 999px;
 			}
-			.journey-item h3 {
-				font-family: azonix, sans-serif;
-				color: #fff !important;
-				font-size: 1.2em;
-				letter-spacing: 0.05em;
-				margin: 0 0 0.5em 0;
-			}
-			.journey-item p {
-				color: rgba(255, 255, 255, 0.8);
+			.journey-detail p {
+				color: rgba(255, 255, 255, 0.78);
 				margin: 0;
 				line-height: 1.6;
+				font-size: 0.95em;
+			}
+
+			/* Active row */
+			.journey-row.active .journey-num {
+				color: #c7a6fc;
+				text-shadow: 0 0 35px rgba(199, 166, 252, 0.5);
+			}
+			.journey-row.active h3 { color: #fff !important; }
+			.journey-row.active .journey-detail {
+				max-height: 20em;
+				opacity: 1;
+				margin-top: 0.8em;
+			}
+
+			@media screen and (max-width: 736px) {
+				.journey-row {
+					padding: 1.2em 1.4em;
+					gap: 1em;
+					min-height: 5em;
+				}
+				.journey-num { font-size: 2.8em; width: 1.8em; }
+				.journey-row h3 { font-size: 1.05em; }
 			}
 
 			/* === Worldscar feature label === */
@@ -331,7 +388,7 @@
 						</header>
 
 						<div class="row aln-center">
-    <div class="col-9 col-12-medium">
+  <div class="col-9 col-12-medium">
         <section class="highlight">
             <div class="box" style="padding: 3%;">
                 <img class="image3" src="images/ChessRun-Banner.jpg" alt="Chess Run Banner">
@@ -342,7 +399,6 @@
             </div>
         </section>
     </div>
-
 							<!-- Games at CobWeb -->
 							<div class="col-12 col-12-medium">
 								<header class="style1">
@@ -601,31 +657,53 @@
 							<hr style="opacity: 0.28;">
 						</header>
 
-						<!-- Journey Timeline -->
-						<div class="journey-timeline">
-							<div class="journey-item">
-								<span class="journey-date">May 2019 — July 2023</span>
-								<h3>Freelance Game Developer</h3>
-								<p>Delivered websites, applications, and interactive digital solutions for clients across multiple industries, building a strong foundation in software development, design, and project management.</p>
+						<!-- Journey Accordion -->
+						<div class="journey-list">
+
+							<div class="journey-row active">
+								<div class="journey-num">01</div>
+								<div class="journey-body">
+									<h3>Freelance Game Developer</h3>
+									<div class="journey-detail">
+										<span class="journey-date">May 2019 — July 2023</span>
+										<p>Delivered websites, applications, and interactive digital solutions for clients across multiple industries, building a strong foundation in software development, design, and project management.</p>
+									</div>
+								</div>
 							</div>
 
-						<div class="journey-item">
-								<span class="journey-date">Aug 2023 — Sep 2024</span>
-								<h3>Game Developer · CobWeb Games</h3>
-								<p>Worked as a Unity Developer, contributing to over ten mobile games and successfully launching six titles on the Google Play Store, with a focus on gameplay systems, optimization, and publishing.</p>
+							<div class="journey-row">
+								<div class="journey-num">02</div>
+								<div class="journey-body">
+									<h3>Game Developer · CobWeb Games</h3>
+									<div class="journey-detail">
+										<span class="journey-date">Aug 2023 — Sep 2024</span>
+										<p>Worked as a Unity Developer, contributing to over ten mobile games and successfully launching six titles on the Google Play Store, with a focus on gameplay systems, optimization, and publishing.</p>
+									</div>
+								</div>
 							</div>
 
-						<div class="journey-item">
-								<span class="journey-date">Feb 2023 — Jan 2026</span>
-								<h3>Co-Founder & CTO · DesignFul</h3>
-								<p>Co-founded and served as CTO, leading the technical development of web, mobile, and digital products while overseeing architecture, development workflows, and product execution.</p>
+							<div class="journey-row">
+								<div class="journey-num">03</div>
+								<div class="journey-body">
+									<h3>Co-Founder &amp; CTO · DesignFul</h3>
+									<div class="journey-detail">
+										<span class="journey-date">Feb 2023 — Jan 2026</span>
+										<p>Co-founded and served as CTO, leading the technical development of web, mobile, and digital products while overseeing architecture, development workflows, and product execution.</p>
+									</div>
+								</div>
 							</div>
 
-						<div class="journey-item">
-								<span class="journey-date">Jan 2025 — Present</span>
-								<h3>Co-Founder: Pixel Dreams Studio</h3>
-								<p>Co-founded an independent game studio focused on creating premium games, XR applications, and interactive experiences using Unity and Unreal Engine.</p>
+							<div class="journey-row">
+								<div class="journey-num">04</div>
+								<div class="journey-body">
+									<h3>Co-Founder · Pixel Dreams Studio</h3>
+									<div class="journey-detail">
+										<span class="journey-date">Jan 2025 — Present</span>
+										<p>Co-founded an independent game studio focused on creating premium games, XR applications, and interactive experiences using Unity and Unreal Engine.</p>
+									</div>
+								</div>
 							</div>
+
 						</div>
 
 						<br><br>
@@ -913,6 +991,16 @@ iframeHover.addEventListener('mouseleave', () => {
 	  if (!modalContent.contains(e.target)) {
 		closeModal();
 	  }
+	});
+  </script>
+
+  <script>
+	// Journey accordion — click to expand a row
+	document.querySelectorAll('.journey-row').forEach(row => {
+		row.addEventListener('click', () => {
+			document.querySelectorAll('.journey-row').forEach(r => r.classList.remove('active'));
+			row.classList.add('active');
+		});
 	});
   </script>
 
