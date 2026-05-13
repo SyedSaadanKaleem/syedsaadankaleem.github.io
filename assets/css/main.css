@@ -4357,4 +4357,26 @@ margin-top: -2em;}
 	height: 50px;
 	margin: 0 40px;
   }
-  
+  /* === Button Row (side-by-side buttons) === */
+.btn-row {
+    display: flex;
+    gap: 1em;
+    margin-top: 2.5%;
+}
+.btn-row > .button {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    margin: 0;
+    max-width: none;
+}
+@media screen and (max-width: 736px) {
+    .btn-row {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    .btn-row > .button {
+        width: 100%;
+        max-width: 100%;
+    }
+}
