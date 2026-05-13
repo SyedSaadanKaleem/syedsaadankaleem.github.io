@@ -214,6 +214,113 @@
 				margin-bottom: 1em;
 			}
 
+			/* === Game Cards (always-visible info, hover is bonus) === */
+			.game-card {
+				display: flex;
+				flex-direction: column;
+				position: relative;
+				text-decoration: none !important;
+				border-radius: 14px;
+				overflow: hidden;
+				background: rgba(58, 45, 75, 0.45);
+				border: 1px solid rgba(255, 255, 255, 0.06);
+				box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+				transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+							box-shadow 0.4s ease,
+							border-color 0.4s ease;
+				color: inherit;
+				height: 100%;
+				text-align: left;
+			}
+			.game-card:hover {
+				transform: translateY(-6px);
+				border-color: rgba(199, 166, 252, 0.4);
+				box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5),
+							0 0 30px rgba(199, 166, 252, 0.15);
+				text-decoration: none !important;
+			}
+
+			.game-card-cover {
+				position: relative;
+				overflow: hidden;
+				background: #2c1f3d;
+				line-height: 0;
+			}
+			.game-card-cover img {
+				width: 100%;
+				height: auto;
+				display: block;
+				transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+				border-radius: 0 !important;
+			}
+			.game-card:hover .game-card-cover img {
+				transform: scale(1.08);
+			}
+			.game-card-cover::after {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(180deg, transparent 55%, rgba(20, 12, 35, 0.5) 100%);
+				pointer-events: none;
+			}
+
+			.game-card-body {
+				padding: 1.2em 1.4em 1.4em;
+				color: #fff;
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+			}
+			.game-card-body h3 {
+				font-family: azonix, sans-serif;
+				font-size: 1.1em !important;
+				color: #fff !important;
+				margin: 0 0 0.55em 0 !important;
+				letter-spacing: 0.04em;
+				line-height: 1.2;
+			}
+			.game-card-body p {
+				color: rgba(255, 255, 255, 0.72);
+				font-size: 0.85em;
+				line-height: 1.5;
+				margin: 0 0 1em 0;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				flex: 1;
+			}
+
+			.game-card-cta {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5em;
+				font-family: "Black Ops One", system-ui;
+				font-size: 0.7em;
+				letter-spacing: 0.22em;
+				text-transform: uppercase;
+				color: #c7a6fc;
+				transition: color 0.3s ease, gap 0.3s ease;
+				align-self: flex-start;
+			}
+			.game-card:hover .game-card-cta {
+				color: #fff;
+				gap: 0.85em;
+			}
+			.game-card-cta .arrow {
+				display: inline-block;
+				transition: transform 0.3s ease;
+			}
+			.game-card:hover .game-card-cta .arrow {
+				transform: translateX(4px);
+			}
+
+			@media screen and (max-width: 736px) {
+				.game-card-body { padding: 1em 1.1em 1.2em; }
+				.game-card-body h3 { font-size: 1em !important; }
+				.game-card-body p { font-size: 0.85em; }
+			}
+
 			@media screen and (max-width: 736px) {
 				.stat-number { font-size: 2em; }
 				.indev-card { padding: 1.5em; }
@@ -424,79 +531,91 @@
 
 							<div class="col-4 col-12-medium">
 								<section class="highlight">
-									<div class="box">
-										<img class="image2" src="images/CastleInvader/Castle-Invader-Thumnail.jpg" alt="">
-										<div class="overlay">
+									<a href="CastleInvader.html" class="game-card">
+										<div class="game-card-cover">
+											<img src="images/CastleInvader/Castle-Invader-Thumnail.jpg" alt="Castle Invader">
+										</div>
+										<div class="game-card-body">
 											<h3>Castle Invader</h3>
 											<p>Lead your team through weather obstacles in a charming Red Light Green Light adventure.</p>
-											<a href="CastleInvader.html" class="button style6S">Explore More</a>
+											<span class="game-card-cta">Explore <span class="arrow">→</span></span>
 										</div>
-									</div>
+									</a>
 								</section>
 							</div>
 
 							<div class="col-4 col-12-medium">
 								<section class="highlight">
-									<div class="box">
-										<img class="image2" src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg" alt="">
-										<div class="overlay">
+									<a href="PenguinPinnacle.html" class="game-card">
+										<div class="game-card-cover">
+											<img src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg" alt="Penguin Pinnacle">
+										</div>
+										<div class="game-card-body">
 											<h3>Penguin Pinnacle</h3>
 											<p>Guide a heroic penguin through vibrant worlds in this classic 2D platformer adventure.</p>
-											<a href="PenguinPinnacle.html" class="button style6S">Explore More</a>
+											<span class="game-card-cta">Explore <span class="arrow">→</span></span>
 										</div>
-									</div>
+									</a>
 								</section>
 							</div>
 
 							<div class="col-4 col-12-medium">
 								<section class="highlight">
-									<div class="box">
-										<img class="image2" src="images/Swift Beat/Swift-Beat-Thumnail.jpg" alt="">
-										<div class="overlay">
+									<a href="SwiftBeat.html" class="game-card">
+										<div class="game-card-cover">
+											<img src="images/Swift Beat/Swift-Beat-Thumnail.jpg" alt="Swift Beat">
+										</div>
+										<div class="game-card-body">
 											<h3>Swift Beat</h3>
 											<p>Sync your actions to the rhythmic beats, dodge obstacles, and save the ball in this rhythmic platformer.</p>
-											<a href="SwiftBeat.html"  class="button style6S">Explore More</a>
+											<span class="game-card-cta">Explore <span class="arrow">→</span></span>
 										</div>
-									</div>
+									</a>
 								</section>
 							</div>
 
 							<div class="col-4 col-12-medium">
 								<section class="highlight">
-									<div class="box">
-										<img class="image2" src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="">
-										<div class="overlay">
-											<h3>Slimey adventure</h3>
-											<p>Soar through perilous skies, dodging enemies & collecting power-ups in this action-packed 2D game.</p>
-											<a href="SlimeyAdventure.html"  class="button style6S">Explore More</a>
+									<a href="SlimeyAdventure.html" class="game-card">
+										<div class="game-card-cover">
+											<img src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="Slimey Adventure">
 										</div>
-									</div>
+										<div class="game-card-body">
+											<h3>Slimey Adventure</h3>
+											<p>Soar through perilous skies, dodging enemies &amp; collecting power-ups in this action-packed 2D game.</p>
+											<span class="game-card-cta">Explore <span class="arrow">→</span></span>
+										</div>
+									</a>
 								</section>
 							</div>
 
 							<div class="col-4 col-12-medium">
 								<section class="highlight">
-									<div class="box">
-										<img class="image2" src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg" alt="">
-										<div class="overlay">
-											<h3>Eggi Pegi</h3>
+									<a href="EggiPeggi.html" class="game-card">
+										<div class="game-card-cover">
+											<img src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg" alt="Eggi Peggi">
+										</div>
+										<div class="game-card-body">
+											<h3>Eggi Peggi</h3>
 											<p>Bounce an egg with a chicken's head to keep it airborne in this whimsical arcade challenge.</p>
-											<a href="EggiPeggi.html" class="button style6S">Explore More</a>
+											<span class="game-card-cta">Explore <span class="arrow">→</span></span>
 										</div>
-									</div>
+									</a>
 								</section>
 							</div>
 
 							<div class="col-4 col-12-medium">
 								<section class="highlight">
-									<div class="box">
-										<img class="image2" src="images/Metor Chase/Metor-Chase-Thumnail.jpg" alt="">
-										<div class="overlay">
-											<h3>Meteor  chase</h3>
-											<p>Dodge relentless meteors as an astronaut in this high-speed challenge of reflexes and strategy.</p>
-											<a href="MeteorChase.html"  class="button style6S">Explore More</a>
+									<a href="MeteorChase.html" class="game-card">
+										<div class="game-card-cover">
+											<img src="images/Metor Chase/Metor-Chase-Thumnail.jpg" alt="Meteor Chase">
 										</div>
-									</div>
+										<div class="game-card-body">
+											<h3>Meteor Chase</h3>
+											<p>Dodge relentless meteors as an astronaut in this high-speed challenge of reflexes and strategy.</p>
+											<span class="game-card-cta">Explore <span class="arrow">→</span></span>
+										</div>
+									</a>
 								</section>
 							</div>
 							
