@@ -4380,3 +4380,7 @@ margin-top: -2em;}
         max-width: 100%;
     }
 }
+.col-4 > section.highlight,
+.col-12-medium > section.highlight {
+    height: 100%;
+}
