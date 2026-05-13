@@ -97,7 +97,7 @@
 				line-height: 1.6;
 			}
 
-			/* === Journey Accordion (numbered, expanding rows) === */
+			/* === Journey Accordion (hover-expand, big numbers at bottom) === */
 			.journey-list {
 				max-width: 64em;
 				margin: 0 auto;
@@ -108,12 +108,9 @@
 				box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 			}
 			.journey-row {
-				display: flex;
-				align-items: center;
-				gap: 1.5em;
-				padding: 1.8em 2.5em;
+				position: relative;
+				padding: 2.2em 2.5em 2.2em 9em;
 				border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-				cursor: pointer;
 				transition: background 0.4s ease;
 				min-height: 7em;
 			}
@@ -121,16 +118,17 @@
 			.journey-row:hover { background: rgba(255, 255, 255, 0.03); }
 
 			.journey-num {
+				position: absolute;
+				bottom: -0.12em;
+				left: 0.6em;
 				font-family: azonix, sans-serif;
-				font-size: 4.5em;
-				line-height: 0.9;
+				font-size: 5.5em;
+				line-height: 0.85;
 				color: rgba(255, 255, 255, 0.12);
-				flex-shrink: 0;
-				width: 2.2em;
-				text-align: left;
+				pointer-events: none;
+				user-select: none;
 				transition: color 0.5s ease, text-shadow 0.5s ease;
 			}
-			.journey-body { flex: 1; overflow: hidden; }
 
 			.journey-row h3 {
 				font-family: azonix, sans-serif;
@@ -167,13 +165,13 @@
 				font-size: 0.95em;
 			}
 
-			/* Active row */
-			.journey-row.active .journey-num {
+			/* Hover-expand */
+			.journey-row:hover .journey-num {
 				color: #c7a6fc;
 				text-shadow: 0 0 35px rgba(199, 166, 252, 0.5);
 			}
-			.journey-row.active h3 { color: #fff !important; }
-			.journey-row.active .journey-detail {
+			.journey-row:hover h3 { color: #fff !important; }
+			.journey-row:hover .journey-detail {
 				max-height: 20em;
 				opacity: 1;
 				margin-top: 0.8em;
@@ -181,12 +179,24 @@
 
 			@media screen and (max-width: 736px) {
 				.journey-row {
-					padding: 1.2em 1.4em;
-					gap: 1em;
+					padding: 1.5em 1.4em 1.5em 5.5em;
 					min-height: 5em;
 				}
-				.journey-num { font-size: 2.8em; width: 1.8em; }
+				.journey-num {
+					font-size: 3.5em;
+					left: 0.3em;
+				}
 				.journey-row h3 { font-size: 1.05em; }
+				/* On touch devices show all expanded since hover isn't reliable */
+				.journey-detail {
+					max-height: 20em;
+					opacity: 1;
+					margin-top: 0.6em;
+				}
+				.journey-num {
+					color: #c7a6fc;
+				}
+				.journey-row h3 { color: #fff !important; }
 			}
 
 			/* === Worldscar feature label === */
@@ -388,17 +398,30 @@
 						</header>
 
 						<div class="row aln-center">
-  <div class="col-9 col-12-medium">
-        <section class="highlight">
-            <div class="box" style="padding: 3%;">
-                <img class="image3" src="images/ChessRun-Banner.jpg" alt="Chess Run Banner">
-                <div class="btn-row">
-                    <a href="javascript:void(0)" class="button style6S ChessRunVideo" onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Watch The Trailer</a>
-                    <a href="https://linktr.ee/ChessRun" target="_blank" class="button style6S">LinkTree</a>
-                </div>
-            </div>
-        </section>
-    </div>
+							<div class="col-9 col-12-medium">
+								<section class="highlight">
+									<div class="box" style="padding: 3%;">
+										<img class="image3" src="images/ChessRun-Banner.jpg" alt="Chess Run Banner">
+																	<div class="col-6 col-12-medium">
+								<section class="highlight">
+									
+								<a href="javascript:void(0)" class="button style6S ChessRunVideo" onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')" style="margin-top: 2.5%;  width: 100%; height: inherit;">Watch The Trailer</a>								</section>
+							</div>
+							<div class="col-6 col-12-medium">
+								<section class="highlight">
+									<a href="https://linktr.ee/ChessRun" target="_blank" class="button style6S" style="margin-top: 2.5%; width: 100%;">LinkTree</a>
+							</section>
+							</div>
+
+
+							<ul class="actions special" style="margin-top: 2%; display: flex; justify-content: center; gap: 1.5rem;">
+								<li></li>
+								<li></li>
+							</ul>
+									</div>
+								</section>
+							</div>
+
 							<!-- Games at CobWeb -->
 							<div class="col-12 col-12-medium">
 								<header class="style1">
@@ -660,47 +683,39 @@
 						<!-- Journey Accordion -->
 						<div class="journey-list">
 
-							<div class="journey-row active">
+							<div class="journey-row">
 								<div class="journey-num">01</div>
-								<div class="journey-body">
-									<h3>Freelance Game Developer</h3>
-									<div class="journey-detail">
-										<span class="journey-date">May 2019 — July 2023</span>
-										<p>Delivered websites, applications, and interactive digital solutions for clients across multiple industries, building a strong foundation in software development, design, and project management.</p>
-									</div>
+								<h3>Freelance Game Developer</h3>
+								<div class="journey-detail">
+									<span class="journey-date">May 2019 — July 2023</span>
+									<p>Delivered websites, applications, and interactive digital solutions for clients across multiple industries, building a strong foundation in software development, design, and project management.</p>
 								</div>
 							</div>
 
 							<div class="journey-row">
 								<div class="journey-num">02</div>
-								<div class="journey-body">
-									<h3>Game Developer · CobWeb Games</h3>
-									<div class="journey-detail">
-										<span class="journey-date">Aug 2023 — Sep 2024</span>
-										<p>Worked as a Unity Developer, contributing to over ten mobile games and successfully launching six titles on the Google Play Store, with a focus on gameplay systems, optimization, and publishing.</p>
-									</div>
+								<h3>Game Developer · CobWeb Games</h3>
+								<div class="journey-detail">
+									<span class="journey-date">Aug 2023 — Sep 2024</span>
+									<p>Worked as a Unity Developer, contributing to over ten mobile games and successfully launching six titles on the Google Play Store, with a focus on gameplay systems, optimization, and publishing.</p>
 								</div>
 							</div>
 
 							<div class="journey-row">
 								<div class="journey-num">03</div>
-								<div class="journey-body">
-									<h3>Co-Founder &amp; CTO · DesignFul</h3>
-									<div class="journey-detail">
-										<span class="journey-date">Feb 2023 — Jan 2026</span>
-										<p>Co-founded and served as CTO, leading the technical development of web, mobile, and digital products while overseeing architecture, development workflows, and product execution.</p>
-									</div>
+								<h3>Co-Founder &amp; CTO · DesignFul</h3>
+								<div class="journey-detail">
+									<span class="journey-date">Feb 2023 — Jan 2026</span>
+									<p>Co-founded and served as CTO, leading the technical development of web, mobile, and digital products while overseeing architecture, development workflows, and product execution.</p>
 								</div>
 							</div>
 
 							<div class="journey-row">
 								<div class="journey-num">04</div>
-								<div class="journey-body">
-									<h3>Co-Founder · Pixel Dreams Studio</h3>
-									<div class="journey-detail">
-										<span class="journey-date">Jan 2025 — Present</span>
-										<p>Co-founded an independent game studio focused on creating premium games, XR applications, and interactive experiences using Unity and Unreal Engine.</p>
-									</div>
+								<h3>Co-Founder · Pixel Dreams Studio</h3>
+								<div class="journey-detail">
+									<span class="journey-date">Jan 2025 — Present</span>
+									<p>Co-founded an independent game studio focused on creating premium games, XR applications, and interactive experiences using Unity and Unreal Engine.</p>
 								</div>
 							</div>
 
@@ -991,16 +1006,6 @@ iframeHover.addEventListener('mouseleave', () => {
 	  if (!modalContent.contains(e.target)) {
 		closeModal();
 	  }
-	});
-  </script>
-
-  <script>
-	// Journey accordion — click to expand a row
-	document.querySelectorAll('.journey-row').forEach(row => {
-		row.addEventListener('click', () => {
-			document.querySelectorAll('.journey-row').forEach(r => r.classList.remove('active'));
-			row.classList.add('active');
-		});
 	});
   </script>
 
