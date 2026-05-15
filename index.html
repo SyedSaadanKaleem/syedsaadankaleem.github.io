@@ -1362,6 +1362,97 @@ iframeHover.addEventListener('mouseleave', () => {
 	  }
 	});
   </script>
+<script>
+(function() {
+    // ============================================
+    // Auto-tag elements that should fade on scroll
+    // ============================================
+    const fadeSelectors = [
+        '#intro p.lead',
+        '#intro .stats-strip',
+        '#intro .actions',
+        '#intro .pill-cta-group',
+        '#highlights header.style1',
+        '#highlights .game-card',
+        '#highlights .indev-card',
+        '#highlights .feature-tag',
+        '#highlights .btn-row',
+        '#highlights .image3',
+        '#highlights .logos',
+        '#main header.style1',
+        '#main .journey-row',
+        '#main .skills-toolkit-header',
+        '#main .skill-chip',
+        '#main .actions',
+        '#main .image.featured',
+        '#main .pill-cta-group',
+        '#Certification header.style1',
+        '#Certification .journey-row',
+        '#Certification .banner',
+        '#Certification .banner2',
+        '#Certification .highlight',
+        '#footer header.style1',
+        '#footer .feature-list',
+        '#footer form'
+    ];
+    fadeSelectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+            el.classList.add('fade-on-scroll');
+        });
+    });
 
+    // ============================================
+    // Observer: in-view vs leaving vs hidden
+    // ============================================
+    const elements = document.querySelectorAll('.fade-on-scroll');
+
+    function checkVisibility() {
+        const viewportH = window.innerHeight;
+        const fadeZoneTop    = viewportH * 0.08; // top 8% = fading out (leaving up)
+        const fadeZoneBottom = viewportH * 0.92; // bottom 8% = approaching
+
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const elCenter = rect.top + rect.height / 2;
+
+            if (rect.bottom < 0 || rect.top > viewportH) {
+                // Fully out of viewport
+                el.classList.remove('is-visible', 'is-leaving');
+            } else if (elCenter < fadeZoneTop || elCenter > fadeZoneBottom) {
+                // In edge zones (top or bottom)
+                el.classList.add('is-leaving');
+                el.classList.remove('is-visible');
+            } else {
+                // In the middle band — fully visible
+                el.classList.add('is-visible');
+                el.classList.remove('is-leaving');
+            }
+        });
+    }
+
+    // Throttle scroll handler for performance
+    let scrollScheduled = false;
+    function onScroll() {
+        if (!scrollScheduled) {
+            scrollScheduled = true;
+            requestAnimationFrame(() => {
+                checkVisibility();
+                scrollScheduled = false;
+            });
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    // Initial check on load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkVisibility);
+    } else {
+        checkVisibility();
+    }
+    window.addEventListener('load', checkVisibility);
+})();
+</script>
 	</body>
 </html>
