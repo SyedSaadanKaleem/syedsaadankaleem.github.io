@@ -4384,3 +4384,257 @@ margin-top: -2em;}
 .col-12-medium > section.highlight {
     height: 100%;
 }
+/* Icon variant of journey-num */
+.journey-icon {
+    position: absolute;
+    top: 2.6em;
+    left: 1.8em;
+    width: 6.5em;
+    height: 6.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+}
+.journey-icon i {
+    font-size: 2.8em;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.18);
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+.journey-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.25;
+    filter: grayscale(1) brightness(1.6);
+    transition: opacity 0.5s ease, filter 0.5s ease;
+}
+.journey-row:hover .journey-icon i {
+    color: #c7a6fc;
+    text-shadow: 0 0 35px rgba(199, 166, 252, 0.5);
+}
+.journey-row:hover .journey-icon img {
+    opacity: 1;
+    filter: grayscale(0) brightness(1) drop-shadow(0 0 15px rgba(199, 166, 252, 0.5));
+}
+
+/* Responsive: icon scales down at smaller widths */
+@media screen and (max-width: 1280px) {
+    .journey-icon {
+        width: 5em;
+        height: 5em;
+        top: 2.4em;
+        left: 1.5em;
+    }
+    .journey-icon i { font-size: 2.2em; }
+}
+@media screen and (max-width: 980px) {
+    .journey-icon {
+        width: 3.8em;
+        height: 3.8em;
+        top: 1.8em;
+        left: 1.2em;
+    }
+    .journey-icon i { font-size: 1.8em; }
+}
+@media screen and (max-width: 736px) {
+    .journey-icon {
+        width: 2.4em;
+        height: 2.4em;
+        top: 1.2em;
+        left: 0.9em;
+    }
+    .journey-icon i {
+        font-size: 1.5em;
+        color: #c7a6fc;
+    }
+    .journey-icon img {
+        opacity: 1;
+        filter: grayscale(0) brightness(1) drop-shadow(0 0 8px rgba(199, 166, 252, 0.5));
+    }
+}
+@media screen and (max-width: 736px) {
+    .journey-icon i {
+        color: #c7a6fc;
+    }
+    .journey-icon img {
+        opacity: 1;
+        filter: grayscale(0) brightness(1) drop-shadow(0 0 8px rgba(199, 166, 252, 0.5));
+    }
+}
+/* Active icon state — also applies during hover at narrow widths */
+.journey-row:hover .journey-icon i,
+.journey-row.is-active .journey-icon i {
+    color: #c7a6fc !important;
+    text-shadow: 0 0 35px rgba(199, 166, 252, 0.5);
+}
+.journey-row:hover .journey-icon img,
+.journey-row.is-active .journey-icon img {
+    opacity: 1 !important;
+    filter: grayscale(0) brightness(1) drop-shadow(0 0 15px rgba(199, 166, 252, 0.5)) !important;
+}
+/* === Toolkit — focused 4-card grid === */
+.skills-toolkit-header {
+    text-align: center;
+    margin: 5em auto 2.5em;
+    max-width: 50em;
+}
+.skills-toolkit-header h3 {
+    font-family: azonix, sans-serif;
+    font-size: 1.5em;
+    color: #fff !important;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.6em 0 !important;
+    text-transform: uppercase;
+}
+.skills-toolkit-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95em;
+    margin: 0;
+}
+
+.skill-chips {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2em;
+    max-width: 64em;
+    margin: 0 auto;
+}
+.skill-chip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2em 1.2em;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+.skill-chip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(199, 166, 252, 0.15), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+.skill-chip:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(199, 166, 252, 0.5);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(199, 166, 252, 0.15);
+}
+.skill-chip:hover::before { opacity: 1; }
+
+.skill-chip-icon {
+    width: 3.5em;
+    height: 3.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.1em;
+    position: relative;
+    z-index: 1;
+}
+.skill-chip-icon i {
+    font-size: 2.4em;
+    color: #c7a6fc;
+    transition: transform 0.4s ease, color 0.4s ease;
+}
+.skill-chip-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+	color: #c7a6fc;
+}
+.skill-chip:hover .skill-chip-icon i,
+.skill-chip:hover .skill-chip-icon img {
+    transform: scale(1.12);
+}
+
+.skill-chip-name {
+    font-family: azonix, sans-serif;
+    font-size: 0.95em;
+    color: #fff;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5em;
+    position: relative;
+    z-index: 1;
+}
+.skill-chip-meta {
+    font-family: "Black Ops One", system-ui;
+    font-size: 0.6em;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    position: relative;
+    z-index: 1;
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media screen and (max-width: 980px) {
+    .skill-chips { grid-template-columns: repeat(2, 1fr); gap: 1em; }
+    .skill-chip { padding: 1.6em 1em; }
+}
+@media screen and (max-width: 480px) {
+    .skill-chips { grid-template-columns: repeat(2, 1fr); gap: 0.7em; }
+    .skill-chip { padding: 1.4em 0.8em; }
+    .skill-chip-icon { width: 2.6em; height: 2.6em; margin-bottom: 0.8em; }
+    .skill-chip-icon i { font-size: 1.9em; }
+    .skill-chip-name { font-size: 0.85em; }
+    .skill-chip-meta { font-size: 0.55em; letter-spacing: 0.2em; }
+}
+/* Glow behind logo on hover */
+.skill-chip-icon {
+    position: relative;
+}
+.skill-chip-icon::before {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(199, 166, 252, 0.55), transparent 65%);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+.skill-chip:hover .skill-chip-icon::before {
+    opacity: 1;
+    transform: scale(1);
+}
+/* Brighten + glow the logo on hover */
+.skill-chip-icon i,
+.skill-chip-icon img {
+    transition: transform 0.4s ease, filter 0.4s ease, color 0.4s ease;
+}
+.skill-chip:hover .skill-chip-icon i {
+    color: #eee;
+    filter: drop-shadow(0 0 8px rgba(199, 166, 252, 0.8));
+	opacity: 0.7;
+
+}
+.skill-chip:hover .skill-chip-icon img {
+    filter: brightness(1.4) drop-shadow(0 0 8px rgba(199, 166, 252, 0.8));
+	opacity: 0.7;
+}
+.skill-chip-icon svg {
+    width: 100%;
+    height: 100%;
+    color: #c7a6fc;
+    transition: color 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+}
+.skill-chip:hover .skill-chip-icon svg {
+    color: #fff;
+    filter: drop-shadow(0 0 8px rgba(199, 166, 252, 0.8));
+    transform: scale(1.12);
+}
