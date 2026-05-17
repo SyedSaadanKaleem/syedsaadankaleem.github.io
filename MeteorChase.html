@@ -259,7 +259,7 @@
 		<section id="ScreenshotGallery" class="wrapper style1">
 			<div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">ScreenShots</div>
 			<div class="container"><br>
-				<!-- <div class="row aln-center">
+				 <div class="row aln-center">
 					<div class="col-4 col-12-medium">
 						<section class="highlight">
 							<div class="box">
@@ -295,29 +295,7 @@
 						</div>
 						</section>
 					</div>
-				</div> -->
-					<div class="ss-gallery">
-    <div class="ss-panel active">
-        <img src="images/Metor Chase/ScreenShot-1.webp" alt="Meteor Chase Screenshot 1">
-        <span class="ss-panel-label"><span class="num">01</span>Space Survival</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Metor Chase/ScreenShot-3.webp" alt="Meteor Chase Screenshot 2">
-        <span class="ss-panel-label"><span class="num">02</span>Gameplay</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Metor Chase/ScreenShot-4.webp" alt="Meteor Chase Screenshot 3">
-        <span class="ss-panel-label"><span class="num">03</span>Gameplay</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Metor Chase/ScreenShot-2.webp" alt="Meteor Chase Screenshot 4">
-        <span class="ss-panel-label"><span class="num">04</span>Pause Menu</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Metor Chase/ScreenShot-5.webp" alt="Meteor Chase Screenshot 5">
-        <span class="ss-panel-label"><span class="num">05</span>Game Over</span>
-    </div>
-</div>
+				</div>
 						<br>
 						<br>
 						<div class="line2">
@@ -482,7 +460,6 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/script.js"></script>
 			<script src="assets/js/cursors.js"></script>
-			<script src="assets/js/SSCard.js"></script>
 						<script>
 				var loader = document.getElementById("preloader");
 
@@ -497,14 +474,15 @@
     // Auto-tag elements that should fade on scroll
     // ============================================
     const fadeSelectors = [
-        // Game Overview section
+    // Game Overview section
     '#gameOverview .S3',
     '#gameOverview .S2',
     '#gameOverview .skill-chip',
     '#gameOverview .actions',
 
     // Screenshot Gallery section
-    '#ScreenshotGallery .ss-panel',
+    '#ScreenshotGallery .highlight .box',
+    '#ScreenshotGallery .S1',
     '#ScreenshotGallery header.style1',
     '#ScreenshotGallery .actions',
     '#ScreenshotGallery .line2',

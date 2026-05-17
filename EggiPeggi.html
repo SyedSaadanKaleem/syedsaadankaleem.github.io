@@ -285,7 +285,7 @@
 		<section id="ScreenshotGallery" class="wrapper style1">
 					<div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">ScreenShot</div>
 					<div class="container"><br>
-						<!-- <div class="row aln-center">
+						 <div class="row aln-center">
 							<div class="col-4 col-12-medium">
 								<section class="highlight">
 									<div class="box">
@@ -300,17 +300,7 @@
 								</div>
 								</section>
 							</div>
-						</div> -->
-<div class="ss-gallery">
-    <div class="ss-panel active">
-        <img src="images/EggiPeggi/ScreenShot-2.webp" alt="Eggi Peggi Screenshot 1">
-        <span class="ss-panel-label"><span class="num">01</span>Main Menu</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/EggiPeggi/ScreenShot-1.webp" alt="Eggi Peggi Screenshot 2">
-        <span class="ss-panel-label"><span class="num">02</span>Gameplay</span>
-    </div>
-</div>
+						</div> 
 
 						<br>
 						<br>
@@ -476,7 +466,6 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/script.js"></script>
 			<script src="assets/js/cursors.js"></script>
-			<script src="assets/js/SSCard.js"></script>
 
 			<script>
 				var loader = document.getElementById("preloader");
@@ -492,14 +481,15 @@
     // Auto-tag elements that should fade on scroll
     // ============================================
     const fadeSelectors = [
-// Game Overview section
+    // Game Overview section
     '#gameOverview .S3',
     '#gameOverview .S2',
     '#gameOverview .skill-chip',
     '#gameOverview .actions',
 
     // Screenshot Gallery section
-    '#ScreenshotGallery .ss-panel',
+    '#ScreenshotGallery .highlight .box',
+    '#ScreenshotGallery .S1',
     '#ScreenshotGallery header.style1',
     '#ScreenshotGallery .actions',
     '#ScreenshotGallery .line2',

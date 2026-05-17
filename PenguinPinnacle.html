@@ -280,7 +280,7 @@
 		<section id="ScreenshotGallery" class="wrapper style1">
 					<div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">ScreenShots</div>
 					<div class="container"><br>
-						<!-- <div class="row aln-center">
+						 <div class="row aln-center">
 							<div class="col-6 col-12-medium">
 								<section class="highlight">
 									<div class="box">
@@ -295,29 +295,7 @@
 								</div>
 								</section>
 							</div>
-						</div> -->
-<div class="ss-gallery">
-    <div class="ss-panel active">
-        <img src="images/Penguin Pinnacle/ScreenShot-2.webp" alt="Penguin Pinnacle Screenshot 1">
-        <span class="ss-panel-label"><span class="num">01</span>The Adventure Begins</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Penguin Pinnacle/ScreenShot-1.webp" alt="Penguin Pinnacle Screenshot 2">
-        <span class="ss-panel-label"><span class="num">02</span>Level Selection</span>
-    </div>
-	<div class="ss-panel">
-        <img src="images/Penguin Pinnacle/ScreenShot-3.webp" alt="Penguin Pinnacle Screenshot 2">
-        <span class="ss-panel-label"><span class="num">03</span>Platforming Gameplay</span>
-    </div>
-	<div class="ss-panel">
-        <img src="images/Penguin Pinnacle/ScreenShot-5.webp" alt="Penguin Pinnacle Screenshot 2">
-        <span class="ss-panel-label"><span class="num">04</span>Platforming Gameplay</span>
-    </div>
-	<div class="ss-panel">
-        <img src="images/Penguin Pinnacle/ScreenShot-4.webp" alt="Penguin Pinnacle Screenshot 2">
-        <span class="ss-panel-label"><span class="num">05</span>The Castle</span>
-    </div>
-</div>
+						</div> 
 						<br>
 						<br>
 						<div class="line2">
@@ -482,7 +460,6 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/script.js"></script>
 			<script src="assets/js/cursors.js"></script>
-			<script src="assets/js/SSCard.js"></script>
 			<script>
 				var loader = document.getElementById("preloader");
 
@@ -497,14 +474,15 @@
     // Auto-tag elements that should fade on scroll
     // ============================================
     const fadeSelectors = [
-        // Game Overview section
+    // Game Overview section
     '#gameOverview .S3',
     '#gameOverview .S2',
     '#gameOverview .skill-chip',
     '#gameOverview .actions',
 
     // Screenshot Gallery section
-    '#ScreenshotGallery .ss-panel',
+    '#ScreenshotGallery .highlight .box',
+    '#ScreenshotGallery .S1',
     '#ScreenshotGallery header.style1',
     '#ScreenshotGallery .actions',
     '#ScreenshotGallery .line2',

@@ -259,7 +259,7 @@
 		<section id="ScreenshotGallery" class="wrapper style1">
 					<div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">ScreenShots</div>
 					<div class="container"><br>
-						<!-- <div class="row aln-center">
+						 <div class="row aln-center">
 							<div class="col-6 col-12-medium">
 								<section class="highlight">
 									<div class="box">
@@ -302,33 +302,7 @@
 								</div>
 								</section>
 							</div>
-						</div> -->
-<div class="ss-gallery">
-    <div class="ss-panel active">
-        <img src="images/Slimy Adventure/ScreenShot-1.webp" alt="Slimey Adventure Screenshot 1">
-        <span class="ss-panel-label"><span class="num">01</span>The Slime</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Slimy Adventure/ScreenShot-3.webp" alt="Slimey Adventure Screenshot 2">
-        <span class="ss-panel-label"><span class="num">02</span>Enemies</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Slimy Adventure/ScreenShot-2.webp" alt="Slimey Adventure Screenshot 3">
-        <span class="ss-panel-label"><span class="num">03</span>Obstacles</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Slimy Adventure/ScreenShot-4.webp" alt="Slimey Adventure Screenshot 4">
-        <span class="ss-panel-label"><span class="num">04</span>Power-Ups</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Slimy Adventure/ScreenShot-5.webp" alt="Slimey Adventure Screenshot 5">
-        <span class="ss-panel-label"><span class="num">05</span>Level Up</span>
-    </div>
-    <div class="ss-panel">
-        <img src="images/Slimy Adventure/ScreenShot-6.webp" alt="Slimey Adventure Screenshot 6">
-        <span class="ss-panel-label"><span class="num">06</span>Soaring</span>
-    </div>
-</div>
+						</div> 
 						<br>
 						<br>
 						<div class="line2">
@@ -493,7 +467,6 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/script.js"></script>
 			<script src="assets/js/cursors.js"></script>
-			<script src="assets/js/SSCard.js"></script>
 			<script>
 				var loader = document.getElementById("preloader");
 
@@ -508,14 +481,15 @@
     // Auto-tag elements that should fade on scroll
     // ============================================
     const fadeSelectors = [
-        // Game Overview section
+    // Game Overview section
     '#gameOverview .S3',
     '#gameOverview .S2',
     '#gameOverview .skill-chip',
     '#gameOverview .actions',
 
     // Screenshot Gallery section
-    '#ScreenshotGallery .ss-panel',
+    '#ScreenshotGallery .highlight .box',
+    '#ScreenshotGallery .S1',
     '#ScreenshotGallery header.style1',
     '#ScreenshotGallery .actions',
     '#ScreenshotGallery .line2',
