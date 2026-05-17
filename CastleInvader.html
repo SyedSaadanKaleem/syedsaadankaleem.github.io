@@ -212,50 +212,43 @@
 							</Div>
 							</header>					
 
-		<!-- <p class="style1">So in case you were wondering what this is all about ...</p>
-		<p class="style2">
-			I am a Unity and Unreal Game Developer
-		</p> -->
+<section id="features">
 
-		<section id="features">
+    <div class="skill-chips">
 
-			<div class="feature-list2">
-				<div class="row">
-					<div class="row">
-<div class="col-6 col-12-medium">
-<section>
-<h3><i class='bx bxs-joystick'></i>Classic Game Concept</h3>
-<p>Inspired by "Red Light Green Light" mechanics.</p>
-</section>
-</div>
-<div class="col-6 col-12-medium">
-	<section>
-	<h3><img src="images/hurdle-race.png" alt="">Avoiding Obstacles</h3>
-	<p>Navigate through torrents and other hazards to reach the castle.</p>
-	</section>
-	</div>
-<div class="col-6 col-12-medium">
-<section>
-<h3><img src="images/character-design.png" alt="">Cartoonish Graphics</h3>
-<p>Vibrant, cartoonish art style that appeals to a wide audience.</p>
-</section>
-</div>
-<div class="col-6 col-12-medium">
-<section>
-<h3><img src="images/Stairs.png" alt="">Challenging Progression</h3>
-<p>Increasing difficulty with each level, testing timing and patience.</p>
-</section>
-</div>
-</div>
-</div>
-<ul class="actions special">
-	<li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.CastleInvader&pcampaignid=web_share" target="_blank" class="button style3 large">Download Now</a></li>
-	<li><a href="index.html" class="button style7">Back to Home</a></li>
-	<li><br></li>
-</ul>
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><i class='bx bxs-joystick'></i></div>
+            <span class="skill-chip-name">Classic Concept</span>
+            <span class="skill-chip-meta">Red Light, Green Light reborn</span>
+        </div>
 
-			</div>
-		</section>
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/hurdle-race.png" alt=""></div>
+            <span class="skill-chip-name">Avoid Obstacles</span>
+            <span class="skill-chip-meta">Dodge torrents &amp; hazards</span>
+        </div>
+
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/character-design.png" alt=""></div>
+            <span class="skill-chip-name">Cartoon Graphics</span>
+            <span class="skill-chip-meta">Vibrant, playful art style</span>
+        </div>
+
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/Stairs.png" alt=""></div>
+            <span class="skill-chip-name">Rising Difficulty</span>
+            <span class="skill-chip-meta">Tests timing &amp; patience</span>
+        </div>
+
+    </div>
+
+    <ul class="actions special">
+        <li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.CastleInvader&pcampaignid=web_share" target="_blank" class="button style3 large">Download Now</a></li>
+        <li><a href="index.html" class="button style7">Back to Home</a></li>
+        <li><br></li>
+    </ul>
+
+</section>
 		</div>
 </section>
 
@@ -407,7 +400,7 @@
 						</div>
 						<div id="copyright">
 							<ul>
-								<li>&copy; SyedSaadanKaleem.</li><li>Design: <a href="http://designfull.net">designfull.net</a></li>
+								<li>&copy; Syed Saadan Bin Kaleem</a></li>
 							</ul>
 						</div>
 					</div>
@@ -459,5 +452,88 @@
 				})
 
 			</script>
+			<script>
+(function() {
+    // ============================================
+    // Auto-tag elements that should fade on scroll
+    // ============================================
+    const fadeSelectors = [
+        // Game Overview section
+    '#gameOverview .S3',
+    '#gameOverview .S2',
+    '#gameOverview .skill-chip',
+    '#gameOverview .actions',
+
+    // Screenshot Gallery section
+    '#ScreenshotGallery .highlight',
+    '#ScreenshotGallery header.style1',
+    '#ScreenshotGallery .actions',
+    '#ScreenshotGallery .line2',
+
+    // Footer
+    '#footer header.style1',
+    '#footer .feature-list',
+    '#footer form'
+    ];
+
+    fadeSelectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+            el.classList.add('fade-on-scroll');
+        });
+    });
+
+    // ============================================
+    // Observer: in-view vs leaving vs hidden
+    // ============================================
+    const elements = document.querySelectorAll('.fade-on-scroll');
+
+    function checkVisibility() {
+        const viewportH = window.innerHeight;
+        const fadeZoneTop    = viewportH * 0.05; // top 5% = fading out (leaving up)
+        const fadeZoneBottom = viewportH * 0.95; // bottom 5% = approaching
+
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const elCenter = rect.top + rect.height / 2;
+
+            if (rect.bottom < 0 || rect.top > viewportH) {
+                // Fully out of viewport
+                el.classList.remove('is-visible', 'is-leaving');
+            } else if (elCenter < fadeZoneTop || elCenter > fadeZoneBottom) {
+                // In edge zones (top or bottom)
+                el.classList.add('is-leaving');
+                el.classList.remove('is-visible');
+            } else {
+                // In the middle band — fully visible
+                el.classList.add('is-visible');
+                el.classList.remove('is-leaving');
+            }
+        });
+    }
+
+    // Throttle scroll handler for performance
+    let scrollScheduled = false;
+    function onScroll() {
+        if (!scrollScheduled) {
+            scrollScheduled = true;
+            requestAnimationFrame(() => {
+                checkVisibility();
+                scrollScheduled = false;
+            });
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    // Initial check on load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkVisibility);
+    } else {
+        checkVisibility();
+    }
+    window.addEventListener('load', checkVisibility);
+})();
+</script>
 	</body>
 </html>

@@ -216,51 +216,43 @@
 							</Div>
 							</header>					
 
+<section id="features">
 
-		<!-- <p class="style1">So in case you were wondering what this is all about ...</p>
-		<p class="style2">
-			I am a Unity and Unreal Game Developer
-		</p> -->
+    <div class="skill-chips">
 
-		<section id="features">
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/platform.png" alt=""></div>
+            <span class="skill-chip-name">Classic Platforming</span>
+            <span class="skill-chip-meta">Jump, dodge, conquer</span>
+        </div>
 
-			<div class="feature-list2">
-				<div class="row">
-					<div class="row">
-<div class="col-6 col-12-medium">
-<section>
-<h3><img src="images/platform.png" alt="">Classic Platforming</h3>
-<p>Inspired by traditional platformers like Mario, with jumping and enemy dodging.</p>
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/trees.png" alt=""></div>
+            <span class="skill-chip-name">Four Worlds</span>
+            <span class="skill-chip-meta">Distinct themes &amp; challenges</span>
+        </div>
+
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/sparkle.png" alt=""></div>
+            <span class="skill-chip-name">Charming Visuals</span>
+            <span class="skill-chip-meta">Cute, colorful penguin world</span>
+        </div>
+
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/Progression.png" alt=""></div>
+            <span class="skill-chip-name">Progressive Difficulty</span>
+            <span class="skill-chip-meta">Levels ramp up the challenge</span>
+        </div>
+
+    </div>
+
+    <ul class="actions special">
+        <li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.PenguinPinnacle&pcampaignid=web_share" target="_blank" class="button style3 large">Download Now</a></li>
+        <li><a href="index.html" class="button style7">Back to Home</a></li>
+        <li><br></li>
+    </ul>
+
 </section>
-</div>
-<div class="col-6 col-12-medium">
-	<section>
-	<h3><img src="images/trees.png" alt="">Varied Worlds</h3>
-	<p>Four unique worlds, each with different themes and challenges.</p>
-	</section>
-	</div>
-<div class="col-6 col-12-medium">
-<section>
-<h3><img src="images/sparkle.png" alt="">Charming Visuals</h3>
-<p>Cute, colorful graphics that bring the penguin world to life.</p>
-</section>
-</div>
-<div class="col-6 col-12-medium">
-<section>
-<h3><img src="images/Progression.png" alt="">Progressive Difficulty</h3>
-<p>Increasing challenge as players advance through levels.</p>
-</section>
-</div>
-</div>
-</div>
-<ul class="actions special">
-	<li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.PenguinPinnacle&pcampaignid=web_share" target="_blank" class="button style3 large">Download Now</a></li>
-	<li><a href="index.html" class="button style7">Back to Home</a></li>
-	<li><br></li>
-</ul>
-
-			</div>
-		</section>
 		</div>
 </section>
 
@@ -405,7 +397,7 @@
 						</div>
 						<div id="copyright">
 							<ul>
-								<li>&copy; SyedSaadanKaleem.</li><li>Design: <a href="http://designfull.net">designfull.net</a></li>
+								<li>&copy; Syed Saadan Bin Kaleem</a></li>
 							</ul>
 						</div>
 					</div>
@@ -457,5 +449,88 @@
 				})
 
 			</script>
+			<script>
+(function() {
+    // ============================================
+    // Auto-tag elements that should fade on scroll
+    // ============================================
+    const fadeSelectors = [
+        // Game Overview section
+    '#gameOverview .S3',
+    '#gameOverview .S2',
+    '#gameOverview .skill-chip',
+    '#gameOverview .actions',
+
+    // Screenshot Gallery section
+    '#ScreenshotGallery .highlight',
+    '#ScreenshotGallery header.style1',
+    '#ScreenshotGallery .actions',
+    '#ScreenshotGallery .line2',
+
+    // Footer
+    '#footer header.style1',
+    '#footer .feature-list',
+    '#footer form'
+    ];
+
+    fadeSelectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+            el.classList.add('fade-on-scroll');
+        });
+    });
+
+    // ============================================
+    // Observer: in-view vs leaving vs hidden
+    // ============================================
+    const elements = document.querySelectorAll('.fade-on-scroll');
+
+    function checkVisibility() {
+        const viewportH = window.innerHeight;
+        const fadeZoneTop    = viewportH * 0.05; // top 5% = fading out (leaving up)
+        const fadeZoneBottom = viewportH * 0.95; // bottom 5% = approaching
+
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const elCenter = rect.top + rect.height / 2;
+
+            if (rect.bottom < 0 || rect.top > viewportH) {
+                // Fully out of viewport
+                el.classList.remove('is-visible', 'is-leaving');
+            } else if (elCenter < fadeZoneTop || elCenter > fadeZoneBottom) {
+                // In edge zones (top or bottom)
+                el.classList.add('is-leaving');
+                el.classList.remove('is-visible');
+            } else {
+                // In the middle band — fully visible
+                el.classList.add('is-visible');
+                el.classList.remove('is-leaving');
+            }
+        });
+    }
+
+    // Throttle scroll handler for performance
+    let scrollScheduled = false;
+    function onScroll() {
+        if (!scrollScheduled) {
+            scrollScheduled = true;
+            requestAnimationFrame(() => {
+                checkVisibility();
+                scrollScheduled = false;
+            });
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    // Initial check on load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkVisibility);
+    } else {
+        checkVisibility();
+    }
+    window.addEventListener('load', checkVisibility);
+})();
+</script>
 	</body>
 </html>

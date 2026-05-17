@@ -215,51 +215,43 @@
 							</Div>
 							</header>					
 
+<section id="features">
 
-		<!-- <p class="style1">So in case you were wondering what this is all about ...</p>
-		<p class="style2">
-			I am a Unity and Unreal Game Developer
-		</p> -->
+    <div class="skill-chips">
 
-		<section id="features">
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><img src="images/bxs-bird.svg" style="color: aqua;" alt=""></div>
+            <span class="skill-chip-name">Flappy-Inspired</span>
+            <span class="skill-chip-meta">Familiar feel, fresh mechanics</span>
+        </div>
 
-			<div class="feature-list2">
-				<div class="row">
-					<div class="row">
-<div class="col-6 col-12-medium">
-<section>
-<h3><img src="images/bi--unity.png" alt="">Flappy Bird Inspired</h3>
-<p>Similar to Flappy Bird but with new mechanics and no pipes.</p>
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><i class='bx bxs-ghost'></i></div>
+            <span class="skill-chip-name">Enemy Encounters</span>
+            <span class="skill-chip-meta">Beyond pipes &amp; gravity</span>
+        </div>
+
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><i class='bx bxs-bolt'></i></div>
+            <span class="skill-chip-name">Power-Ups</span>
+            <span class="skill-chip-meta">Boost the slime's abilities</span>
+        </div>
+
+        <div class="skill-chip">
+            <div class="skill-chip-icon"><i class='bx bxs-palette'></i></div>
+            <span class="skill-chip-name">Colorful Visuals</span>
+            <span class="skill-chip-meta">Bright &amp; cartoonish style</span>
+        </div>
+
+    </div>
+
+    <ul class="actions special">
+        <li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.SlimeysAdventure&pcampaignid=web_share" target="_blank" class="button style3 large">Download Now</a></li>
+        <li><a href="index.html" class="button style7">Back to Home</a></li>
+        <li><br></li>
+    </ul>
+
 </section>
-</div>
-<div class="col-6 col-12-medium">
-	<section>
-	<h3><i class='fas fa-code'></i>Enemy Encounters</h3>
-	<p>Features enemies that add extra challenges to the gameplay.</p>
-	</section>
-	</div>
-<div class="col-6 col-12-medium">
-<section>
-<h3><img src="images/simple-icons--unrealengine.png" alt="">Power-Ups</h3>
-<p>Collect various power-ups to enhance the slime's abilities.</p>
-</section>
-</div>
-<div class="col-6 col-12-medium">
-<section>
-<h3><i class='fas fa-pencil-ruler'></i>Colorful Graphics</h3>
-<p>Bright and engaging visuals with a fun, cartoonish style.</p>
-</section>
-</div>
-</div>
-</div>
-<ul class="actions special">
-	<li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.SlimeysAdventure&pcampaignid=web_share" target="_blank" class="button style3 large">Download Now</a></li>
-	<li><a href="index.html" class="button style7">Back to Home</a></li>
-	<li><br></li>
-</ul>
-
-			</div>
-		</section>
 		</div>
 </section>
 
@@ -432,7 +424,7 @@
 						</div>
 						<div id="copyright">
 							<ul>
-								<li>&copy; SyedSaadanKaleem.</li><li>Design: <a href="http://designfull.net">designfull.net</a></li>
+								<li>&copy; Syed Saadan Bin Kaleem</a></li>
 							</ul>
 						</div>
 					</div>
@@ -476,6 +468,96 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/script.js"></script>
 			<script src="assets/js/cursors.js"></script>
+			<script>
+				var loader = document.getElementById("preloader");
 
+				window.addEventListener("load", function(){
+					loader.style.display = "none";
+				})
+
+			</script>
+			<script>
+(function() {
+    // ============================================
+    // Auto-tag elements that should fade on scroll
+    // ============================================
+    const fadeSelectors = [
+        // Game Overview section
+    '#gameOverview .S3',
+    '#gameOverview .S2',
+    '#gameOverview .skill-chip',
+    '#gameOverview .actions',
+
+    // Screenshot Gallery section
+    '#ScreenshotGallery .highlight',
+    '#ScreenshotGallery header.style1',
+    '#ScreenshotGallery .actions',
+    '#ScreenshotGallery .line2',
+
+    // Footer
+    '#footer header.style1',
+    '#footer .feature-list',
+    '#footer form'
+    ];
+
+    fadeSelectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+            el.classList.add('fade-on-scroll');
+        });
+    });
+
+    // ============================================
+    // Observer: in-view vs leaving vs hidden
+    // ============================================
+    const elements = document.querySelectorAll('.fade-on-scroll');
+
+    function checkVisibility() {
+        const viewportH = window.innerHeight;
+        const fadeZoneTop    = viewportH * 0.05; // top 5% = fading out (leaving up)
+        const fadeZoneBottom = viewportH * 0.95; // bottom 5% = approaching
+
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const elCenter = rect.top + rect.height / 2;
+
+            if (rect.bottom < 0 || rect.top > viewportH) {
+                // Fully out of viewport
+                el.classList.remove('is-visible', 'is-leaving');
+            } else if (elCenter < fadeZoneTop || elCenter > fadeZoneBottom) {
+                // In edge zones (top or bottom)
+                el.classList.add('is-leaving');
+                el.classList.remove('is-visible');
+            } else {
+                // In the middle band — fully visible
+                el.classList.add('is-visible');
+                el.classList.remove('is-leaving');
+            }
+        });
+    }
+
+    // Throttle scroll handler for performance
+    let scrollScheduled = false;
+    function onScroll() {
+        if (!scrollScheduled) {
+            scrollScheduled = true;
+            requestAnimationFrame(() => {
+                checkVisibility();
+                scrollScheduled = false;
+            });
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    // Initial check on load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkVisibility);
+    } else {
+        checkVisibility();
+    }
+    window.addEventListener('load', checkVisibility);
+})();
+</script>
 	</body>
 </html>
