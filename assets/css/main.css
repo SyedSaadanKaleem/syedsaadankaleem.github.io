@@ -1,60 +1,31 @@
+/* ============================================
+   FONTS
+   ============================================ */
 @import url("fontawesome-all.min.css");
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,900");
-@import url('https://fonts.googleapis.com/css2?family=Ga+Maamli&display=swap');
-@font-face {
-	font-family: cornerstone;
-	src: url(assets\webfonts\azonix\Cornerstone.ttf);
- }
-@font-face {
-	font-family: azonix;
-	src: url(assets\webfonts\azonix\azonix.otf);
-} 
-@font-face {
-	font-family: corn;
-	src: url(assets\webfonts\azonix\azonix.otf);
-} 
-@font-face {
-	font-family: ScribbleScrawl;
-	src: url(assets\webfonts\ScribbleScrawl.ttf);
-} 
-@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
-.amatic-sc-regular {
-	font-family: "Amatic SC", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-  }
-  
-  .amatic-sc-bold {
-	font-family: "Amatic SC", sans-serif;
-	font-weight: 700;
-	font-style: normal;
-  }
-  
-*{  
+@font-face {
+    font-family: 'Sage Grotesk';
+    src: url(/assets/webfonts/orithdisplay-regular.otf) format('opentype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'ScribbleScrawl';
+    src: url(/assets/webfonts/ScribbleScrawl.ttf) format('opentype');
+    font-display: swap;
+}
+body { font-family: 'Space Grotesk', system-ui, sans-serif; }
+h2, h3, h4 { font-family: 'Chakra Petch', sans-serif; }
+.S1, .S2, .S3 { font-family: 'Chakra Petch', sans-serif; }
+.mono, .stat-label, .timeline-date { font-family: 'JetBrains Mono', monospace; }
+
+*{
 	padding: 0;
     margin: 0;
     box-sizing: border-box;
 	cursor: none;
 scroll-behavior: smooth;
 }
-* .p{
-	font-family: "Amatic SC", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-}
-.black-ops-one-regular {
-	font-family: "Black Ops One", system-ui;
-	font-weight: 400;
-	font-style: normal;
-  }
-  
-.ga-maamli-regular {
-	font-family: "Ga Maamli", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-  }
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -393,7 +364,7 @@ color: rgba(0, 0, 0, 0);
 	}
 
 	body, input, textarea, select {
-		font-family: 'Source Sans Pro', sans-serif;
+		font-family: 'Space Grotesk', system-ui, sans-serif;
 		font-weight: 400;
 		color: #919499;
 		font-size: 14pt;
@@ -1951,7 +1922,7 @@ color: rgba(0, 0, 0, 0);
 		min-width: 12em;
 		height: 4em;
 		line-height: 4em;
-		font-family: azonix;	
+		font-family: 'Space Grotesk', system-ui, sans-serif;;	
 		box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
 
 	}
@@ -2773,16 +2744,16 @@ color: rgba(0, 0, 0, 0);
 	}
 
 		#logo h1 {
-			font-family: Helvetica ;
+			font-family: 'ScribbleScrawl', Helvetica, sans-serif;
 			font-weight: 900;
 			text-transform: uppercase;
-			color: #fff;
+			color: #eee;
 			font-size: 2em;
 			letter-spacing: 0.25em;
 		}
 
 		#logo p {
-			font-family: "Black Ops One", system-ui;
+			font-family: 'JetBrains Mono', monospace;
 			color: #eee;
 			color: rgba(255, 255, 255, 0.5);
 			text-transform: uppercase;
@@ -2935,7 +2906,7 @@ color: rgba(0, 0, 0, 0);
 		background: #5f497a;
 	}
 	#introTittle {
-		font-family: azonix;
+		font-family: 'Sage Grotesk', Helvetica, sans-serif;
 		background: #5f497a;
 		border-top-left-radius: 10em ;
 		border-top-right-radius: 10em ;
@@ -2981,7 +2952,7 @@ color: rgba(0, 0, 0, 0);
 	
 }
 #mainTittle{
-	font-family: azonix;
+	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 			border-top-left-radius: 10em ;
 		border-top-right-radius: 10em ;
 	
@@ -3017,7 +2988,7 @@ color: rgba(0, 0, 0, 0);
 	color:#eee;
 }
 #highlightsTittle{
-	font-family: azonix;
+	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	background: #715792;
 	color:#eee;
 			border-top-left-radius: 10em ;
@@ -3892,7 +3863,7 @@ html{
 }
 
 .overlay h3 {
-    font-family: azonix;
+    font-family: 'Space Grotesk', system-ui, sans-serif;;
     padding: 0;
     margin: 5% 0 2px 0;
 }
@@ -3982,7 +3953,7 @@ html{
 }
 
 #footerTittle{
-	font-family: azonix;
+	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 			border-top-left-radius: 10em ;
 		border-top-right-radius: 10em ;
 }
@@ -4152,7 +4123,7 @@ html{
 
 #gameOverviewTittle{
 	background: #5F497A;
-	font-family: azonix;
+	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	color:#eee;
 			border-top-left-radius: 10em ;
 		border-top-right-radius: 10em ;
@@ -4165,7 +4136,7 @@ html{
 
 #ScreenshotGalleryTittle{
 	background: #715792;
-	font-family: azonix;
+	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	color:#eee;
 			border-top-left-radius: 10em ;
 		border-top-right-radius: 10em ;
@@ -4182,7 +4153,7 @@ html{
 	color:#fff;
 }
 #CertificationTittle{
-	font-family: azonix;
+	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	background: #56426e;
 	color:#fff;
 			border-top-left-radius: 10em ;
@@ -4482,7 +4453,7 @@ margin-top: -2em;}
     max-width: 50em;
 }
 .skills-toolkit-header h3 {
-    font-family: azonix, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 1.5em;
     color: #fff !important;
     letter-spacing: 0.08em;
@@ -4560,7 +4531,7 @@ margin-top: -2em;}
 }
 
 .skill-chip-name {
-    font-family: azonix, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 0.95em;
     color: #fff;
     letter-spacing: 0.05em;
@@ -4569,7 +4540,7 @@ margin-top: -2em;}
     z-index: 1;
 }
 .skill-chip-meta {
-    font-family: "Black Ops One", system-ui;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6em;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -4683,7 +4654,7 @@ margin-top: -2em;}
 			}
 			.stat-number {
 				display: block;
-				font-family: azonix, sans-serif;
+				font-family: 'Space Grotesk', system-ui, sans-serif;;
 				font-size: 2.6em;
 				line-height: 1;
 				color: #fff;
@@ -4691,7 +4662,7 @@ margin-top: -2em;}
 			}
 			.stat-label {
 				display: block;
-				font-family: "Black Ops One", system-ui;
+				font-family: 'JetBrains Mono', monospace;
 				font-size: 0.7em;
 				letter-spacing: 0.25em;
 				text-transform: uppercase;
@@ -4715,7 +4686,7 @@ margin-top: -2em;}
 			}
 			.indev-tag {
 				display: inline-block;
-				font-family: "Black Ops One", system-ui;
+				font-family: 'JetBrains Mono', monospace;
 				font-size: 0.65em;
 				letter-spacing: 0.25em;
 				text-transform: uppercase;
@@ -4726,7 +4697,7 @@ margin-top: -2em;}
 				margin-bottom: 1em;
 			}
 			.indev-card h3 {
-				font-family: azonix, sans-serif;
+				font-family: 'Space Grotesk', system-ui, sans-serif;;
 				color: #fff !important;
 				font-size: 1.4em;
 				margin: 0.3em 0 0.6em 0;
@@ -4763,7 +4734,7 @@ margin-top: -2em;}
 				position: absolute;
 				top: 0.6em;
 				left: 0.3em;
-				font-family: azonix, sans-serif;
+				font-family: 'Space Grotesk', system-ui, sans-serif;
 				font-size: 5.5em;
 				line-height: 0.85;
 				color: rgba(255, 255, 255, 0.12);
@@ -4773,7 +4744,7 @@ margin-top: -2em;}
 			}
 
 			.journey-row h3 {
-				font-family: azonix, sans-serif;
+				font-family: 'Space Grotesk', system-ui, sans-serif;
 				font-size: 1.5em;
 				line-height: 1.2;
 				color: rgba(255, 255, 255, 0.55) !important;
@@ -4790,7 +4761,7 @@ margin-top: -2em;}
 			}
 			.journey-detail .journey-date {
 				display: inline-block;
-				font-family: "Black Ops One", system-ui;
+				font-family: 'JetBrains Mono', monospace;
 				font-size: 0.7em;
 				letter-spacing: 0.25em;
 				text-transform: uppercase;
@@ -4844,7 +4815,7 @@ margin-top: -2em;}
 			/* === Worldscar feature label === */
 			.feature-tag {
 				display: inline-block;
-				font-family: "Black Ops One", system-ui;
+				font-family: 'JetBrains Mono', monospace;
 				font-size: 0.7em;
 				letter-spacing: 0.3em;
 				text-transform: uppercase;
@@ -4915,7 +4886,7 @@ margin-top: -2em;}
 				flex-direction: column;
 			}
 			.game-card-body h3 {
-				font-family: azonix, sans-serif;
+				font-family: 'Space Grotesk', system-ui, sans-serif;
 				font-size: 1.1em !important;
 				color: #fff !important;
 				margin: 0 0 0.55em 0 !important;
@@ -4938,7 +4909,7 @@ margin-top: -2em;}
 				display: inline-flex;
 				align-items: center;
 				gap: 0.5em;
-				font-family: "Black Ops One", system-ui;
+				font-family: 'JetBrains Mono', monospace;
 				font-size: 0.7em;
 				letter-spacing: 0.22em;
 				text-transform: uppercase;
@@ -5035,7 +5006,7 @@ margin-top: -2em;}
     left: 1.6em;
     right: 1.6em;
     z-index: 2;
-    font-family: "Black Ops One", system-ui;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.75em;
     letter-spacing: 0.28em;
     text-transform: uppercase;
@@ -5079,4 +5050,3 @@ margin-top: -2em;}
         max-height: 70vh;
     }
 }
-			
