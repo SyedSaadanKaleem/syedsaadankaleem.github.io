@@ -104,7 +104,7 @@ function createProjectNavigation() {
     var navItems = [
         { href: startHref,                     iconClass: 'bx bxs-home',       text: 'Start' },
         { href: '#gameOverviewTittle',         iconClass: 'bx bxs-notepad',    text: 'Overview' },
-        { href: '#ScreenshotGalleryTittle',    iconClass: 'bx bxs-camera',     text: 'Screenshots' },
+        { href: '#ScreenshotGalleryTittle',    iconClass: 'bx bxs-camera',     text: 'Gallery' },
         { href: '#footerTittle',               iconClass: 'bx bxs-phone-call', text: 'Contact' }
     ];
 
