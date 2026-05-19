@@ -88,15 +88,26 @@ function createProjectNavigation() {
     var $navigationDiv = $('<div class="navigation">');
     var $ul = $('<ul>');
 
-    // Define navigation items for project page
+    // Find the project header on this page — any element whose ID starts with
+    // "header" (Castle Invader, Swift Beat, Eggi Peggi, Penguin Pinnacle,
+    // Meteor Chase, Slimey Adventure, or any future project). Falls back to
+    // plain "#header" if none found.
+    var startHref = '#header';
+    $('[id^="header"]').each(function() {
+        var id = this.id;
+        if (id !== 'header' && id !== 'footerTittle' && id.indexOf('Tittle') === -1) {
+            startHref = '#' + id;
+            return false; // break
+        }
+    });
+
     var navItems = [
-        { href: '#header', iconClass: 'bx bxs-home', text: 'Start' },
-        { href: '#gameOverviewTittle', iconClass: 'bx bxs-notepad', text: 'Overview' },
-        { href: '#ScreenshotGalleryTittle', iconClass: 'bx bxs-camera', text: 'Screenshots' },
-        { href: '#footerTittle', iconClass: 'bx bxs-phone-call', text: 'Contact' }
+        { href: startHref,                     iconClass: 'bx bxs-home',       text: 'Start' },
+        { href: '#gameOverviewTittle',         iconClass: 'bx bxs-notepad',    text: 'Overview' },
+        { href: '#ScreenshotGalleryTittle',    iconClass: 'bx bxs-camera',     text: 'Screenshots' },
+        { href: '#footerTittle',               iconClass: 'bx bxs-phone-call', text: 'Contact' }
     ];
 
-    // Create each nav item
     $.each(navItems, function(index, item) {
         var $li = $('<li>', { class: 'list' });
         var $a = $('<a>', { href: item.href });
@@ -110,7 +121,6 @@ function createProjectNavigation() {
         $ul.append($li);
     });
 
-    // Append the ul element to the main container div
     $navigationDiv.append($ul);
     $navigationDivContainer.append($navigationDiv);
     $navigationDivContainer.appendTo($('body'));
