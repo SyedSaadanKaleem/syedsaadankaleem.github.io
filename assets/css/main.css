@@ -279,8 +279,76 @@ color: rgba(0, 0, 0, 0);
 		pointer-events: auto;
 		transition-delay: calc(0.1s * var(--i));
 	}
+/* === Left sidebar tooltip on collapsed state === */
+.leftSidebar .list .list-item a {
+    position: relative;
+    overflow: visible;
+}
 
+.leftSidebar .list .list-item a::after {
+    content: attr(data-label);
+    position: absolute;
+    left: calc(100% + 14px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
 
+    /* Force these — don't let parent styles cascade in */
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    height: auto;
+
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(20, 12, 35, 0.95);
+    border: 1px solid rgba(199, 166, 252, 0.3);
+    border-radius: 6px;
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 100;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4),
+                0 0 12px rgba(199, 166, 252, 0.15);
+}
+
+/* Arrow pointing left, back at the icon */
+.leftSidebar .list .list-item a::before {
+    content: '';
+    position: absolute;
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 6px solid rgba(199, 166, 252, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 100;
+}
+
+.leftSidebar .list .list-item a:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.leftSidebar .list .list-item a:hover::before {
+    opacity: 1;
+}
+
+/* When sidebar is expanded, suppress the tooltip
+   (the .link-name text inside the anchor is already showing) */
+.leftSidebar.active .list .list-item a::after,
+.leftSidebar.active .list .list-item a::before {
+    display: none;
+}
 
 
 
@@ -334,7 +402,69 @@ color: rgba(0, 0, 0, 0);
 		line-height: 50px ;
 	}
 
+/* === Right sidebar tooltip === */
+#rightSidebar .list .list-item a {
+    position: relative;            /* anchor for tooltip */
+    overflow: visible;
+}
 
+#rightSidebar .list .list-item a::after {
+    content: attr(data-label);
+    position: absolute;
+    right: calc(100% + 14px);
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+
+    /* Force these — don't let parent styles cascade in */
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;              /* fixed px, not em */
+    line-height: 1;               /* no extra vertical space */
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 12px;            /* fixed px */
+    height: auto;
+
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(20, 12, 35, 0.95);
+    border: 1px solid rgba(199, 166, 252, 0.3);
+    border-radius: 6px;
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 100;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4),
+                0 0 12px rgba(199, 166, 252, 0.15);
+}
+
+/* Arrow pointing right, back at the icon */
+#rightSidebar .list .list-item a::before {
+    content: '';
+    position: absolute;
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid rgba(199, 166, 252, 0.3);  /* flipped: left border = arrow points right */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 100;
+}
+
+#rightSidebar .list .list-item a:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+#rightSidebar .list .list-item a:hover::before {
+    opacity: 1;
+}
 
 
 
@@ -1826,7 +1956,7 @@ color: rgba(0, 0, 0, 0);
 	}
 
 	form textarea {
-		min-height: 8em;
+		min-height: 10em;
 	}
 
 	form ul.actions {
@@ -3182,13 +3312,108 @@ transition: opacity 1s ease 0s;
 			}
 
 	}
-		.ContactSocial {
-			visibility: hidden;
-		background: rgb(101, 76, 133) url("images/overlay.png");
-		padding: 10px;
-		border-radius: 50%;
-align-items: center;
-position:static;}
+		/* === Contact Socials (small/medium screens only) === */
+.contact-socials {
+    display: flex;
+    gap: 0.9em;
+    list-style: none;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.contact-socials li {
+    padding: 0;
+    margin: 0;
+}
+
+.contact-socials a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3em;
+    height: 3em;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #c7a6fc;
+    text-decoration: none;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.4s ease,
+                border-color 0.4s ease,
+                box-shadow 0.4s ease;
+    overflow: visible;
+}
+
+/* Glow halo behind icon — same pattern as skill-chip */
+.contact-socials a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 0%, rgba(199, 166, 252, 0.2), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.contact-socials a:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(199, 166, 252, 0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35),
+                0 0 18px rgba(199, 166, 252, 0.2);
+}
+
+.contact-socials a:hover::before {
+    opacity: 1;
+}
+
+.contact-socials i {
+    font-size: 1.45em;
+    line-height: 1;
+    transition: transform 0.4s ease, color 0.4s ease, filter 0.4s ease;
+}
+
+.contact-socials a:hover i {
+    color: #fff;
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 8px rgba(199, 166, 252, 0.8));
+}
+
+/* Tooltip label on hover — matches your JetBrains Mono mono-eyebrow style */
+.contact-socials a::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55em;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(20, 12, 35, 0.92);
+    border: 1px solid rgba(199, 166, 252, 0.25);
+    padding: 0.55em 0.9em;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.contact-socials a:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Hide on screens wider than 1280px — same breakpoint as the old .ContactSocial */
+@media screen and (min-width: 1281px) {
+    .contact-socials {
+        display: none;
+    }
+}
 	
 /* Large */
 

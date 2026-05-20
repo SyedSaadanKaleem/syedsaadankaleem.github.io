@@ -62,35 +62,35 @@
 
 <ul class="list">
 	<li class="list-item">
-		<a href="#header" data-section="header">
+		<a href="#header" data-section="header" data-label="Start">
 			<i class='bx bxs-home'></i>
 			<span class="link-name" style="--i:1">Start</span>
 		</a>
 	</li>
 
 	<li class="list-item">
-		<a href="#introTittle" data-section="introTittle">
+		<a href="#introTittle" data-section="introTittle" data-label="Introduction">
 			<i class='bx bxs-notepad' ></i>
 			<span class="link-name" style="--i:2">Introduction</span>
 		</a>
 	</li>
 
 	<li class="list-item">
-		<a href="#highlightsTittle" data-section="highlightsTittle">
+		<a href="#highlightsTittle" data-section="highlightsTittle" data-label="Projects">
 			<i class='bx bxs-dashboard'></i>
 			<span class="link-name" style="--i:3">Projects</span>
 		</a>
 	</li>
 
 	<li class="list-item">
-		<a href="#mainTittle" data-section="mainTittle">
+		<a href="#mainTittle" data-section="mainTittle" data-label="Skills">
 			<i class='bx bxs-briefcase' ></i>
 			<span class="link-name" style="--i:3">Skills</span>
 		</a>
 	</li>
 
 	<li class="list-item">
-		<a href="#CertificationTittle" data-section="CertificationTittle">
+		<a href="#CertificationTittle" data-section="CertificationTittle" data-label="Experience">
 			<i class='bx bxs-food-menu' ></i>
 			<span class="link-name" style="--i:3">Experience</span>
 		</a>
@@ -99,7 +99,7 @@
 	
 
 	<li class="list-item">
-		<a href="#footerTittle" data-section="footerTittle">
+		<a href="#footerTittle" data-section="footerTittle" data-label="Contact Us">
 			<i class='bx bxs-phone-call' ></i>
 			<span class="link-name" style="--i:4">Contact Us</span>
 		</a>
@@ -112,28 +112,28 @@
 
 	<ul class="list">
 		<li class="list-item ">
-			<a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share" target="_blank">
+			<a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share" target="_blank" data-label="Upwork">
 				<i class='bx bxl-upwork'></i>
 				<span class="link-name"></span>
 			</a>
 		</li>
 
 		<li class="list-item">
-			<a href="https://github.com/SyedSaadanKaleem" target="_blank">
+			<a href="https://github.com/SyedSaadanKaleem" target="_blank" data-label="GitHub">
 				<i class='bx bxl-github' ></i>
 				<span class="link-name"></span>
 			</a>
 		</li>
 
 		<li class="list-item">
-			<a href="https://linkedin.com/in/syed-saadan-kaleem" target="_blank">
+			<a href="https://linkedin.com/in/syed-saadan-kaleem" target="_blank" data-label="LinkedIn">
 				<i class='bx bxl-linkedin' ></i>
 				<span class="link-name"></span>
 			</a>
 		</li>
 
 		<li class="list-item">
-			<a href="https://discordapp.com/users/1006718720577646623" target="_blank">
+			<a href="https://discordapp.com/users/1006718720577646623" target="_blank" data-label="Discord">
 				<i class='bx bxl-discord-alt' ></i>
 				<span class="link-name"></span>
 			</a>
@@ -230,9 +230,9 @@
 <!-- Featured: Chess Run -->
 						<header class="style1">
 							<div id="featuresHP">
-								<span class="feature-tag">Coming Soon</span>
+								<span class="feature-tag">Live Now</span>
 								<h2 class="S1">Chess Run — A Rougelike Endless Runner</h2>
-								<p class="S2">A strategic endless runner where every move counts and every level is a new challenge. Launching on Steam & Google Play Store.</p>
+								<p class="S2">A strategic endless runner where every move counts and every level is a new challenge. Demo out on Steam & Live on Google Play Store.</p>
 							</div>
 						</header>
 
@@ -906,13 +906,13 @@
 												<input type="hidden" name="access_key" value="809ad9bd-34e9-4f9e-8ece-bc34d48f18b1">
 
 												<div class="col-6 col-12-small">
-													<input type="text" name="name" id="contact-name" placeholder="Name" />
+													<input type="text" name="name" id="contact-name" placeholder="Name" required/>
 												</div>
 												<div class="col-6 col-12-small">
-													<input type="text" name="email" id="contact-email" placeholder="Email" />
+													<input type="text" name="email" id="contact-email" placeholder="Email" required/>
 												</div>
 												<div class="col-12">
-													<textarea name="message" id="contact-message" placeholder="Message" rows="4"></textarea>
+													<textarea name="message" id="contact-message" placeholder="Message" rows="4" required style="resize: none;"></textarea>
 												</div>
 												<div class="col-12">
 													<ul class="actions">
@@ -950,16 +950,20 @@
 											</div>
 											<br>
 
-											<div class="col-12 col-12-small" >
-												<section>
-<ul>
-	<a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share" class="ContactSocial"><i class="bx bxl-upwork"></i></a>
-	<a href="https://github.com/SyedSaadanKaleem" class="ContactSocial"><i class="bx bxl-github"></i></a>
-	<a href="https://linkedin.com/in/syed-saadan-kaleem" class="ContactSocial"><i class="bx bxl-linkedin"></i></a>
-	<a href="https://discordapp.com/users/1006718720577646623" class="ContactSocial"><i class="bx bxl-discord-alt"></i></a>
-</ul>
-												</section>
-											</div>
+											<div class="col-12 col-12-small">
+    <section style="padding-left: 0;">
+        <ul class="contact-socials">
+            <li><a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share"
+                   aria-label="Upwork" data-label="Upwork"><i class="bx bxl-upwork"></i></a></li>
+            <li><a href="https://github.com/SyedSaadanKaleem"
+                   aria-label="GitHub" data-label="GitHub"><i class="bx bxl-github"></i></a></li>
+            <li><a href="https://linkedin.com/in/syed-saadan-kaleem"
+                   aria-label="LinkedIn" data-label="LinkedIn"><i class="bx bxl-linkedin"></i></a></li>
+            <li><a href="https://discordapp.com/users/1006718720577646623"
+                   aria-label="Discord" data-label="Discord"><i class="bx bxl-discord-alt"></i></a></li>
+        </ul>
+    </section>
+</div>
 									</section>
 
 							</div>
