@@ -2749,7 +2749,16 @@ color: rgba(0, 0, 0, 0);
 	background: url("../../images/Slimy Adventure/BG.jpg") center center;
 }
 
+#headerChessRun{
+	background: url("../../images/ChessRun/BG.jpg") center center;
+}
+#headerSnatch{
+	background: url("../../images/Snatch/BG.jpg") center center;
+}
 
+#headerWordScar{
+	background: url("../../images/WorldScar/BG.jpg") center center;
+}
 
 #videoModal {
 	display: none;
