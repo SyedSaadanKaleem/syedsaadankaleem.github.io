@@ -5084,6 +5084,132 @@ margin-top: -2em;}
     line-height: 0;
     aspect-ratio: 2 / 1;
 }
+/* === Game Card Tags === */
+.game-card-tag {
+    position: absolute;
+    top: 0.9em;
+    z-index: 3;                                /* above the gradient ::after */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55em;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+
+    padding: 0.6em 0.9em;
+    border-radius: 6px;
+    background: rgba(20, 12, 35, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+
+    pointer-events: none;                      /* don't block card hover */
+    transition: transform 0.4s ease, border-color 0.4s ease;
+}
+.game-card-tags-left {
+    position: absolute;
+    top: 0.9em;
+    left: 0.9em;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+    pointer-events: none;
+}
+
+/* When inside the wrapper, tags don't need their own positioning */
+.game-card-tags-left .game-card-tag {
+    position: static;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 736px) {
+    .game-card-tags-left {
+        top: 0.7em;
+        left: 0.7em;
+        gap: 0.3em;
+    }
+}
+.tag-publisher  {     
+	position: absolute;
+	top: 1.18em;                  /* was inheriting 0.9em — now sits lower */
+    right: 0.9em;
+    font-size: 0.65em;           /* was 0.55em from the base .game-card-tag rule */
+    padding: 0.7em 1em;          /* slightly chunkier than the base 0.6em 0.9em */
+    letter-spacing: 0.2em;  
+	border-color: rgba(199, 166, 252, 0.35);
+    background: rgba(20, 12, 35, 0.92);
+ }
+/* Matching responsive adjustment for small screens */
+@media screen and (max-width: 736px) {
+    .tag-publisher {
+        top: 1em;
+        font-size: 0.58em;
+        padding: 0.55em 0.8em;
+    }
+}
+/* Subtle lift in sync with the card hover */
+.game-card:hover .game-card-tag {
+    border-color: rgba(199, 166, 252, 0.4);
+}
+
+/* Optional icon before the label */
+.game-card-tag i {
+    font-size: 1.3em;
+    line-height: 1;
+}
+
+/* === Brand variants — colored left border + matching icon tint === */
+.tag-steam      { border-left: 2px solid #00adee; }
+.tag-googleplay { border-left: 2px solid #4285F4; }
+.tag-appstore   { border-left: 2px solid #0066CC; }
+.tag-itch       { border-left: 2px solid #fa5c5c; }
+.tag-epic       { border-left: 2px solid #2f2f2f; background: rgba(40, 40, 40, 0.85); }
+.tag-web        { border-left: 2px solid #c7a6fc; }
+
+.tag-steam i      { color: #00adee; }
+.tag-googleplay i { color: #4285F4; }
+.tag-appstore i   { color: #0066CC; }
+.tag-itch i       { color: #fa5c5c; }
+.tag-epic i       { color: #2f2f2f; }
+.tag-web i        { color: #c7a6fc; }
+
+/* Responsive: shrink slightly on small cards */
+@media screen and (max-width: 736px) {
+    .game-card-tag {
+        font-size: 0.5em;
+        padding: 0.5em 0.7em;
+        top: 0.7em;
+    }
+.game-card-tags-left {
+    position: absolute;
+    top: 0.9em;
+    left: 0.9em;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+    pointer-events: none;
+}
+
+/* When inside the wrapper, tags don't need their own positioning */
+.game-card-tags-left .game-card-tag {
+    position: static;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 736px) {
+    .game-card-tags-left {
+        top: 0.7em;
+        left: 0.7em;
+        gap: 0.3em;
+    }
+}    .tag-publisher { right: 0.7em; }
+}
 .game-card-cover img {
     width: 100%;
     height: 100%;
