@@ -44,7 +44,7 @@
 
 <ul class="list">
 	<li class="list-item">
-		<a href="#headerEggiPeggi" data-section="header">
+		<a href="#headerEggiPeggi" data-section="header" data-label="Start">
 			<i class='bx bxs-home'></i>
 			<span class="link-name" style="--i:1">Start</span>
 		</a>
@@ -52,7 +52,7 @@
 	</li>
 
 	<li class="list-item">
-		<a href="#gameOverviewTittle" data-section="gameOverviewTittle">
+		<a href="#gameOverviewTittle" data-section="gameOverviewTittle" data-label="Overview">
 			<i class='bx bxs-notepad' ></i>
 			<span class="link-name" style="--i:2">Overview</span>
 		</a>
@@ -61,7 +61,7 @@
 
 	</li>
 	<li class="list-item">
-		<a href="#ScreenshotGalleryTittle" data-section="ScreenshotGalleryTittle">
+		<a href="#ScreenshotGalleryTittle" data-section="ScreenshotGalleryTittle" data-label="Gallery">
 			<i class='bx bxs-camera' ></i>
 			<span class="link-name" style="--i:3">Gallery</span>
 		</a>
@@ -69,7 +69,7 @@
 	 
 	</li> 
 	<li class="list-item">
-		<a href="#footerTittle" data-section="footerTittle">
+		<a href="#footerTittle" data-section="footerTittle" data-label="Contact us">
 			<i class='bx bxs-phone-call' ></i>
 			<span class="link-name" style="--i:4">Contact us</span>
 		</a>
@@ -82,9 +82,9 @@
 		</a>
 	</li>
 	<li class="list-item">
-		<a href="index.html" data-section="">
+		<a href="index.html" class="back-to-home" data-section="" data-label="Back to Home">
 			<i class='bx bx-arrow-back'></i>
-			<span class="link-name" style="--i:5">Back To Home</span>
+			<span class="link-name back-to-home" style="--i:5">Back To Home</span>
 		</a>
 	</li>
 </ul>
@@ -96,7 +96,7 @@
 
 	<ul class="list">
 		<li class="list-item ">
-			<a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share" target="_blank">
+			<a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share" target="_blank" data-label="Upwork">
 				<i class='bx bxl-upwork'></i>
 				<span class="link-name"></span>
 			</a>
@@ -104,7 +104,7 @@
 		</li>
 
 		<li class="list-item">
-			<a href="https://github.com/SyedSaadanKaleem" target="_blank">
+			<a href="https://github.com/SyedSaadanKaleem" target="_blank" data-label="GitHub">
 				<i class='bx bxl-github' ></i>
 				<span class="link-name"></span>
 			</a>
@@ -112,7 +112,7 @@
 		</li>
 
 		<li class="list-item">
-			<a href="https://linkedin.com/in/syed-saadan-kaleem" target="_blank">
+			<a href="https://linkedin.com/in/syed-saadan-kaleem" target="_blank" data-label="LinkedIn">
 				<i class='bx bxl-linkedin' ></i>
 				<span class="link-name"></span>
 			</a>
@@ -120,7 +120,7 @@
 		</li>
 
 		<li class="list-item">
-			<a href="https://discordapp.com/users/1006718720577646623" target="_blank">
+			<a href="https://discordapp.com/users/1006718720577646623" target="_blank" data-label="Discord">
 				<i class='bx bxl-discord-alt' ></i>
 				<span class="link-name"></span>
 			</a>
@@ -201,7 +201,7 @@
 
     <ul class="actions special">
         <li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.EggiPeggi&pcampaignid=web_share" target="_blank" class="button style3 large">Download Now</a></li>
-        <li><a href="index.html" class="button style7">Back to Home</a></li>
+        <li><a href="index.html" class="button style7 back-to-home">Back to Home</a></li>
         <li><br></li>
     </ul>
 
@@ -244,7 +244,7 @@
 
 <Div id="featuresHP">
 	<ul class="actions special">
-		<li><a href="index.html" class="button style4 ">Wanna go back to Home?</a></li>
+		<li><a href="index.html" class="button style4 back-to-home ">Wanna go back to Home?</a></li>
 	</ul>							</Div>
 							</header>
 			</div>			
@@ -395,6 +395,7 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/script.js"></script>
 			<script src="assets/js/cursors.js"></script>
+			<script src="./assets/js/sounds.js"></script>
 
 			<script>
 				var loader = document.getElementById("preloader");
