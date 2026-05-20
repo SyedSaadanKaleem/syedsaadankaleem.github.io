@@ -28,6 +28,7 @@
         '#nav > ul > li > a',
         '#nav2 > ul > li > a',
         '.game-card',
+        '.banner-zoom',                              
         '#videoModal .modal-close',
         '.leftSidebar .logo-menu .toggle-btn'   // burger toggle
     ];
@@ -124,7 +125,7 @@
         if (muted) return;
 
         // Match game cards OR back-to-home buttons
-        const trigger = e.target.closest('.game-card, .back-to-home, [data-back-home]');
+        const trigger = e.target.closest('.game-card, .back-to-home, [data-back-home], .banner-zoom');
         if (!trigger) return;
 
         // Resolve the link being clicked
