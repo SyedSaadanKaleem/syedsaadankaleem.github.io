@@ -2831,10 +2831,17 @@ color: rgba(0, 0, 0, 0);
 	background: red;
   }
 
+  
 #headerPenguinPinnacle,
 #headerEggiPeggi,
 #headerCastleInvader,
-	#header {
+#headerSwiftBeat,
+#headermetorchase,
+#headerslimyadventure,
+#headerChessRun,
+#headerSnatch,
+#headerWordScar,
+	#header  {
 		display: -moz-flex;
 		display: -webkit-flex;
 		display: -ms-flex;
@@ -2853,10 +2860,16 @@ color: rgba(0, 0, 0, 0);
 		padding: 0;
 	}
 
-	#headerPenguinPinnacle::before,
-	#headerEggiPeggi::before
-	#headerCastleInvader:before,
-		#header:before {
+#headerPenguinPinnacle::before,
+#headerEggiPeggi::before,
+#headerCastleInvader::before,
+#headerSwiftBeat::before,
+#headermetorchase::before,
+#headerslimyadventure::before,
+#headerChessRun::before,
+#headerSnatch::before,
+#headerWordScar::before,
+	#header:before {
 			content: '';
 			position: absolute;
 			top: 0;
@@ -2865,9 +2878,16 @@ color: rgba(0, 0, 0, 0);
 			height: 100%;
 			background: url("images/overlay.png");
 		}
-		#headerPenguinPinnacle,
+
+	#headerPenguinPinnacle,
 		#headerEggiPeggi,
 		#headerCastleInvader,
+		#headerSwiftBeat,
+		#headermetorchase,
+		#headerslimyadventure,
+		#headerChessRun,
+		#headerSnatch,
+		#headerWordScar,
 		.project #header,
 		.homepage #header {
 			height: 30em;
