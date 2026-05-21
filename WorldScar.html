@@ -237,8 +237,14 @@
 								</div>
 
 								<!-- Video view (shown after click, hidden initially) -->
-								<video class="video-banner-player" controls playsinline preload="none"
-									poster="images/WorldScar/Trailer-Thumbnail.jpg">
+<video class="video-banner-player"
+    controls
+    controlsList="nodownload noremoteplayback"
+    disablePictureInPicture
+    oncontextmenu="return false;"
+    playsinline
+    preload="none"
+    poster="images/WorldScar/Trailer-Thumbnail.jpg">
 									<source src="videos/Trailer-WorldScar.mp4" type="video/mp4">
 									Your browser doesn't support HTML5 video.
 								</video>
