@@ -3863,7 +3863,7 @@ html{
 
 
  .cursor {
-	z-index: 1000000000000000000000000000000000000010;
+	z-index: 2147483647 !important;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -5450,4 +5450,228 @@ margin-top: -2em;}
 }
 .banner-zoom:hover img {
     transform: scale(1.08);
+}
+/* === Play Badge (rotating text + center button) === */
+.play-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+
+    width: 8em;
+    height: 8em;
+    cursor: none;
+    pointer-events: auto;
+}
+
+/* Rotating text ring */
+.play-badge-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: play-badge-spin 12s linear infinite;
+}
+
+.play-badge-ring text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    fill: #fff;
+}
+
+@keyframes play-badge-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Solid disc background */
+.play-badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(199, 166, 252, 0.95);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5),
+                0 0 0 0 rgba(199, 166, 252, 0.5);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* White inner circle holding the play icon */
+.play-badge-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+
+    width: 4.4em;
+    height: 4.4em;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #5f497a;
+    transition: transform 0.4s ease, background 0.3s ease;
+}
+
+.play-badge-icon i {
+    font-size: 2.6em;
+    line-height: 1;
+    margin-left: 0.1em;   /* visually center the play triangle */
+}
+
+/* Hover state */
+.play-badge:hover::before {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 14px rgba(199, 166, 252, 0.18);
+}
+
+.play-badge:hover .play-badge-icon {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: #fff;
+}
+
+.play-badge:hover .play-badge-ring {
+    animation-duration: 6s;   /* speed up the spin on hover */
+}
+
+/* Pause spin when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .play-badge-ring {
+        animation: none;
+    }
+}
+
+/* Responsive sizing */
+@media screen and (max-width: 980px) {
+    .play-badge {
+        width: 7em;
+        height: 7em;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    .play-badge {
+        width: 5.5em;
+        height: 5.5em;
+    }
+    .play-badge-ring text {
+        font-size: 12px;
+    }
+    .play-badge-icon i {
+        font-size: 2em;
+    }
+}
+.game-card:has(.play-badge):hover .game-card-cover img {
+    transform: none;
+}
+.game-card-wide:hover {
+    transform: none;
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+/* Reset button styling for the video banner */
+.video-banner {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);     /* re-add what .game-card had */
+    min-width: 0;
+    height: auto;
+    line-height: normal;
+    text-align: left;
+    width: 100%;
+    cursor: none;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.video-banner:hover,
+.video-banner:focus,
+.video-banner:active {
+    background: transparent;
+}
+
+
+/* === Local Video Banner === */
+.video-banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+/* Poster view */
+.video-banner-poster {
+    cursor: none;
+}
+
+/* The actual video element — hidden initially */
+.video-banner-player {
+    display: none;
+    width: 100%;
+    height: auto;
+    background: #000;
+    border-radius: 14px;
+}
+
+/* When playing, swap visibility */
+.video-banner.is-playing .video-banner-poster {
+    display: none;
+}
+.video-banner.is-playing .video-banner-player {
+    display: block;
+}
+/* Round the image itself */
+.video-banner-img {
+    border-radius: 14px !important;
+    display: block;
+}
+
+/* Force every parent in the chain to clip rounded children */
+.video-banner,
+.video-banner-poster,
+.video-banner-poster .game-card-cover {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* Same for the video player */
+.video-banner-player {
+    border-radius: 14px;
+    overflow: hidden;
+}
+.video-banner .game-card-cover {
+    background: transparent;
+}
+
+.video-banner .game-card-cover::after {
+    border-radius: 14px;
+}
+/* === Override native video control cursor === */
+.video-banner-player {
+    cursor: none !important;
+}
+
+/* Hide the system cursor over every internal control (Chrome/Edge/Safari) */
+.video-banner-player::-webkit-media-controls,
+.video-banner-player::-webkit-media-controls-panel,
+.video-banner-player::-webkit-media-controls-play-button,
+.video-banner-player::-webkit-media-controls-volume-slider,
+.video-banner-player::-webkit-media-controls-mute-button,
+.video-banner-player::-webkit-media-controls-timeline,
+.video-banner-player::-webkit-media-controls-current-time-display,
+.video-banner-player::-webkit-media-controls-time-remaining-display,
+.video-banner-player::-webkit-media-controls-fullscreen-button,
+.video-banner-player::-webkit-media-controls-enclosure {
+    cursor: none !important;
 }

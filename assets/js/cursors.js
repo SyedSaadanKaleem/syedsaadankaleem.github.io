@@ -105,7 +105,23 @@
  });
 
 
+const banner = document.querySelector('.video-banner');
+console.log('Banner found:', banner);
+console.log('startClickAnimationLoop is:', typeof startClickAnimationLoop);
 
+if (banner && typeof startClickAnimationLoop === 'function') {
+    banner.addEventListener('mouseenter', () => {
+        console.log('Banner mouseenter fired!');
+        startClickAnimationLoop();
+    });
+    banner.addEventListener('mouseleave', () => {
+        console.log('Banner mouseleave fired!');
+        stopClickAnimationLoop();
+    });
+    console.log('Listeners attached manually. Try hovering now.');
+} else {
+    console.log('Something is missing.');
+}
 
  const cursorTag = document.querySelector("div.cursor")
  const balls = cursorTag.querySelectorAll("div")
