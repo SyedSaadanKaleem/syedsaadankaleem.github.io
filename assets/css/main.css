@@ -5675,3 +5675,17 @@ margin-top: -2em;}
 .video-banner-player::-webkit-media-controls-enclosure {
     cursor: none !important;
 }
+@media (max-width: 736px) {
+    #logo {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    #logo img {
+        max-width: 100%;
+        height: auto;
+        display: inline-block;
+    }
+}
