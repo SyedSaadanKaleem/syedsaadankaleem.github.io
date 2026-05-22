@@ -2760,6 +2760,10 @@ color: rgba(0, 0, 0, 0);
 	background: url("../../images/WorldScar/BG.jpg") center center;
 }
 
+#headerOneiros{
+	background: url("../../images/Oneiros/BG.jpg") center center;
+}
+
 #videoModal {
 	display: none;
 	position: fixed;
@@ -2841,6 +2845,8 @@ color: rgba(0, 0, 0, 0);
 #headerChessRun,
 #headerSnatch,
 #headerWordScar,
+#headerOneiros,
+.project #header,
 	#header  {
 		display: -moz-flex;
 		display: -webkit-flex;
@@ -2869,6 +2875,7 @@ color: rgba(0, 0, 0, 0);
 #headerChessRun::before,
 #headerSnatch::before,
 #headerWordScar::before,
+#headerOneiros::before,
 	#header:before {
 			content: '';
 			position: absolute;
@@ -2888,6 +2895,7 @@ color: rgba(0, 0, 0, 0);
 		#headerChessRun,
 		#headerSnatch,
 		#headerWordScar,
+		#headerOneiros,
 		.project #header,
 		.homepage #header {
 			height: 30em;
@@ -5226,6 +5234,7 @@ margin-top: -2em;}
 .tag-itch       { border-left: 2px solid #fa5c5c; }
 .tag-epic       { border-left: 2px solid #2f2f2f; background: rgba(40, 40, 40, 0.85); }
 .tag-web        { border-left: 2px solid #c7a6fc; }
+.tag-meta        { border-left: 2px solid #0082FB ; }
 
 .tag-steam i      { color: #00adee; }
 .tag-googleplay i { color: #4285F4; }
@@ -5233,6 +5242,7 @@ margin-top: -2em;}
 .tag-itch i       { color: #fa5c5c; }
 .tag-epic i       { color: #2f2f2f; }
 .tag-web i        { color: #c7a6fc; }
+.tag-meta i        { color: #0082FB ; }
 
 /* Responsive: shrink slightly on small cards */
 @media screen and (max-width: 736px) {
