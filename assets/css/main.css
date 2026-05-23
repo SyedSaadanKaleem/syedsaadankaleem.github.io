@@ -5218,7 +5218,7 @@ margin-top: -2em;}
 /* Subtle lift in sync with the card hover */
 .game-card:hover .game-card-tag,
 .box:hover .game-card-tag {
-    border-color: rgba(199, 166, 252, 0.4);
+    border-color: #9553ff;
 }
 
 /* Optional icon before the label */
