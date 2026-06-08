@@ -3075,8 +3075,8 @@ color: rgba(0, 0, 0, 0);
 	#introTittle {
 		font-family: 'Sage Grotesk', Helvetica, sans-serif;
 		background: #5f497a;
-		border-top-left-radius: 10em ;
-		border-top-right-radius: 10em ;
+		border-top-left-radius: 2rem ;
+		border-top-right-radius: 2rem ;
 	}
 		#intro p.style1 {
 			font-size: 1.5em;
@@ -3120,8 +3120,8 @@ color: rgba(0, 0, 0, 0);
 }
 #mainTittle{
 	font-family: 'Sage Grotesk', Helvetica, sans-serif;
-			border-top-left-radius: 10em ;
-		border-top-right-radius: 10em ;
+			border-top-left-radius: 2rem ;
+		border-top-right-radius: 2rem ;
 	
 }
 	#features header.style1 {
@@ -3158,8 +3158,8 @@ color: rgba(0, 0, 0, 0);
 	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	background: #715792;
 	color:#eee;
-			border-top-left-radius: 10em ;
-		border-top-right-radius: 10em ;
+			border-top-left-radius: 2rem ;
+		border-top-right-radius: 2rem ;
 }
 
 	#highlights .highlight {
@@ -4216,8 +4216,8 @@ html{
 
 #footerTittle{
 	font-family: 'Sage Grotesk', Helvetica, sans-serif;
-			border-top-left-radius: 10em ;
-		border-top-right-radius: 10em ;
+			border-top-left-radius: 2rem ;
+		border-top-right-radius: 2rem ;
 }
 
 
@@ -4387,8 +4387,8 @@ html{
 	background: #5F497A;
 	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	color:#eee;
-			border-top-left-radius: 10em ;
-		border-top-right-radius: 10em ;
+			border-top-left-radius: 2rem ;
+		border-top-right-radius: 2rem ;
 }
 
 #ScreenshotGallery{
@@ -4400,8 +4400,8 @@ html{
 	background: #715792;
 	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	color:#eee;
-			border-top-left-radius: 10em ;
-		border-top-right-radius: 10em ;
+			border-top-left-radius: 2rem ;
+		border-top-right-radius: 2rem ;
 }
 #ScreenshotGallery .line2{
 	background-color:  rgba(255, 255, 255, 0.12);
@@ -4418,8 +4418,8 @@ html{
 	font-family: 'Sage Grotesk', Helvetica, sans-serif;
 	background: #56426e;
 	color:#fff;
-			border-top-left-radius: 10em ;
-		border-top-right-radius: 10em ;
+			border-top-left-radius: 2rem ;
+		border-top-right-radius: 2rem ;
 }
 
 
