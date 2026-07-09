@@ -39,6 +39,36 @@
 		body.sidebar-open { --sb-w: 260px; }
 		@media (max-width: 1280px) { body, body.sidebar-open { --sb-w: 0px; } }
 		.vg-hero__content { padding-left: calc(var(--sb-w) + var(--hero-gap)); transition: padding-left 0.45s ease; }
+		/* --- Small / short screens: move hero content up, scale it down, and keep it clear of the fixed bottom nav --- */
+		@media (max-width: 1280px) {
+			.vg-hero__content { align-items: flex-start; padding-top: clamp(2.5rem, 8vh, 5.5rem); padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); }
+		}
+		@media (max-width: 1000px) {
+			.vg-hero__eyebrow { margin-bottom: 0.9rem; }
+			.vg-hero__eyebrow span { font-size: 0.6rem; letter-spacing: 0.2em; }
+			.vg-hero__title { font-size: clamp(2rem, 10vw, 3.4rem); line-height: 0.95; }
+			.vg-hero__lead { margin-top: 0.85rem; font-size: 0.88rem; }
+			.vg-hero__actions { margin-top: 1rem; gap: 0.9rem; }
+			.vg-hero__stats { margin-top: 1rem; gap: 1.4rem; }
+			.vg-hero__stat-num { font-size: clamp(1.3rem, 6vw, 2rem); }
+			.vg-hero__stat-label { font-size: 0.6rem; }
+		}
+		/* Short viewports (e.g. landscape phones): scale to the available height */
+		@media (max-height: 640px) {
+			.vg-hero__content { align-items: flex-start; padding-top: clamp(1.25rem, 4vh, 2.75rem); padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+			.vg-hero__eyebrow { margin-bottom: 0.5rem; }
+			.vg-hero__title { font-size: clamp(1.5rem, 7.5vh, 3rem); line-height: 0.95; }
+			.vg-hero__lead { margin-top: 0.55rem; font-size: 0.82rem; }
+			.vg-hero__actions { margin-top: 0.75rem; }
+			.vg-hero__stats { margin-top: 0.75rem; gap: 1.1rem; }
+			.vg-hero__stat-num { font-size: clamp(1.05rem, 5vh, 1.7rem); }
+		}
+		@media (max-height: 480px) {
+			.vg-hero__lead { display: none; }
+			.vg-hero__badge { display: none; }
+			.vg-hero__stats { margin-top: 0.55rem; }
+			.vg-hero__title { font-size: clamp(1.3rem, 8vh, 2.4rem); }
+		}
 		/* On desktop (sidebars visible) inset every section so no text sits behind a sidebar */
 		@media (min-width: 1281px) {
 			#page-wrapper > section:not(#header) {
@@ -57,6 +87,9 @@
 		.vg-hero__lead { margin: 1.75rem 0 0; max-width: 30rem; font-size: clamp(0.95rem, 1.4vw, 1.1rem); line-height: 1.6; color: rgba(255,255,255,0.72); }
 		.vg-hero__lead strong { color: #fff; font-weight: 600; }
 		.vg-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 2.25rem; }
+		/* Keep the hero CTA left-aligned (not centered) on small screens */
+		.vg-hero__actions { justify-content: flex-start; }
+		.vg-hero__actions .button { display: inline-flex; align-items: center; justify-content: center; width: auto; max-width: none; margin-left: 0; margin-right: 0; }
 		.vg-hero__cta { display: inline-flex; align-items: center; gap: 0.6rem; background: #ee2b2b; color: #fff !important; padding: 0.95rem 1.7rem; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 2px; transition: background .25s ease, transform .25s ease; }
 		.vg-hero__cta:hover { background: #c81f1f; color: #fff !important; }
 		.vg-hero__cta svg { width: 16px; height: 16px; transition: transform .25s ease; }
@@ -1445,4 +1478,4 @@
 	</script>
 </body>
 
-</html>
+</html
