@@ -2166,7 +2166,7 @@ color: rgba(0, 0, 0, 0);
 				input[type="reset"].style4:hover,
 				button.style4:hover,
 				.button.style4:hover {
-					box-shadow: inset 0px 0px 2px 0px #252525;
+					box-shadow: inset 0px 0px 2px 0px #df0000;
 				}
 	
 				input[type="button"].style4:active,
