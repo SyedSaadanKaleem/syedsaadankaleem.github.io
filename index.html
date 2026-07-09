@@ -34,9 +34,19 @@
 				linear-gradient(0deg, rgba(238,43,43,0.20) 0%, rgba(0,0,0,0) 55%);
 		}
 		.vg-hero__content { position: relative; z-index: 3; height: 100%; display: flex; align-items: center; padding: 0 6vw; }
-		.vg-hero__content { transition: padding-left 0.5s ease; }
-		/* Shift hero text right when the left sidebar is expanded */
-		body.sidebar-open .vg-hero__content { padding-left: max(6vw, 288px); }
+		/* Sidebar geometry -> keep all content clear of the fixed sidebars */
+		body { --sb-w: 80px; --sb-right: 80px; --hero-gap: clamp(28px, 3vw, 64px); --edge-gap: clamp(18px, 2vw, 44px); }
+		body.sidebar-open { --sb-w: 260px; }
+		@media (max-width: 1280px) { body, body.sidebar-open { --sb-w: 0px; } }
+		.vg-hero__content { padding-left: calc(var(--sb-w) + var(--hero-gap)); transition: padding-left 0.45s ease; }
+		/* On desktop (sidebars visible) inset every section so no text sits behind a sidebar */
+		@media (min-width: 1281px) {
+			#page-wrapper > section:not(#header) {
+				padding-left: calc(var(--sb-w) + var(--edge-gap));
+				padding-right: calc(var(--sb-right) + var(--edge-gap));
+				transition: padding-left 0.45s ease, padding-right 0.45s ease;
+			}
+		}
 		.vg-hero__inner { max-width: 60rem; }
 		.vg-hero__eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
 		.vg-hero__eyebrow svg { width: 18px; height: 18px; color: rgba(255,255,255,0.7); }
@@ -98,13 +108,13 @@
 
 					<div class="vg-hero__eyebrow vg-anim vg-anim-0">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
-						<span>Saadan Kaleem — Game Developer · Studio Founder · Storyteller</span>
+						<span>Game Developer · Studio Founder · Storyteller</span>
 					</div>
 
 					<h1 class="vg-hero__title vg-anim vg-anim-1">
-						<span>Dream.</span>
-						<span>Build.</span>
-						<span class="vg-accent">Play.</span>
+						<!-- <span>Syed</span> -->
+						<span class="vg-accent">Saadan</span>
+						<span>Kaleem</span>
 					</h1>
 
 					<p class="vg-hero__lead vg-anim vg-anim-2">
