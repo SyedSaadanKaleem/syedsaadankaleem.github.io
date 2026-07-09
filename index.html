@@ -19,35 +19,126 @@
 	<link
 		href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
 		rel="stylesheet">
-	<!--
-			===========================================================
-			NEW COMPONENT STYLES — minimal additions to main.css
-			(stats strip, in-development cards, journey timeline)
-			Move this <style> block to the END of main.css if you
-			prefer to keep all styles in one place.
-			===========================================================
-		-->
+	<!-- Hero fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://db.onlinewebfonts.com/c/8b75d9dcff6a48c35a46656192adf019?family=FSP+DEMO+-+PODIUM+Sharp+4.11">
+
+	<!-- ===== Hero (Vanguard-style) styles ===== -->
+	<style>
+		/* Full-screen hero — force full viewport, override template wrapper padding */
+		#header.vg-hero { display: block; position: relative; height: 100vh; height: 100dvh; min-height: 100vh; width: 100%; margin: 0; padding: 0; overflow: hidden; background: #000 url("images/banner.jpg") center center / cover no-repeat !important; font-family: 'Inter', sans-serif; }
+		.vg-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-fit: cover;   object-position: right 20% top 50%; z-index: 0; }
+		.vg-hero__overlay { position: absolute; inset: 0; pointer-events: none;
+			background:
+				linear-gradient(90deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.25) 100%),
+				linear-gradient(0deg, rgba(238,43,43,0.20) 0%, rgba(0,0,0,0) 55%);
+		}
+		.vg-hero__content { position: relative; z-index: 3; height: 100%; display: flex; align-items: center; padding: 0 6vw; }
+		.vg-hero__inner { max-width: 60rem; }
+		.vg-hero__eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
+		.vg-hero__eyebrow svg { width: 18px; height: 18px; color: rgba(255,255,255,0.7); }
+		.vg-hero__eyebrow span { font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+		.vg-hero__title { font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif; text-transform: uppercase; color: #fff; line-height: 0.92; letter-spacing: -0.01em; font-size: clamp(2.8rem, 8vw, 7rem); font-weight: 700; margin: 0; }
+		.vg-hero__title span { display: block; }
+		.vg-hero__title .vg-accent { color: #ee2b2b; }
+		.vg-hero__lead { margin: 1.75rem 0 0; max-width: 30rem; font-size: clamp(0.95rem, 1.4vw, 1.1rem); line-height: 1.6; color: rgba(255,255,255,0.72); }
+		.vg-hero__lead strong { color: #fff; font-weight: 600; }
+		.vg-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 2.25rem; }
+		.vg-hero__cta { display: inline-flex; align-items: center; gap: 0.6rem; background: #ee2b2b; color: #fff !important; padding: 0.95rem 1.7rem; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 2px; transition: background .25s ease, transform .25s ease; }
+		.vg-hero__cta:hover { background: #c81f1f; color: #fff !important; }
+		.vg-hero__cta svg { width: 16px; height: 16px; transition: transform .25s ease; }
+		.vg-hero__cta:hover svg { transform: translate(2px, -2px); }
+		.vg-hero__badge { display: flex; align-items: center; gap: 0.75rem; }
+		.vg-hero__badge svg { width: 30px; height: 30px; color: rgba(255,255,255,0.5); }
+		.vg-hero__badge div div { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); line-height: 1.3; }
+		.vg-hero__stats { display: flex; flex-wrap: wrap; gap: clamp(1.5rem, 5vw, 4rem); margin-top: clamp(2rem, 4vw, 3.5rem); }
+		.vg-hero__stat-num { font-weight: 700; letter-spacing: -0.02em; color: #fff; font-size: clamp(1.6rem, 4vw, 3rem); }
+		.vg-hero__stat-label { margin-top: 0.35rem; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+		@keyframes vgFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+		.vg-anim { opacity: 0; animation: vgFadeUp .8s ease-out forwards; }
+		.vg-anim-0 { animation-delay: 0s; }
+		.vg-anim-1 { animation-delay: .2s; }
+		.vg-anim-2 { animation-delay: .4s; }
+		.vg-anim-3 { animation-delay: .6s; }
+		.vg-anim-4 { animation-delay: .8s; }
+		@media (max-width: 736px) {
+			.vg-hero__badge { display: none; }
+			#header.vg-hero { height: 100vh; height: 100dvh; min-height: 100dvh; }
+		}
+		/* keep hero content visible even if preload/animation is disabled */
+		body.is-preload #header.vg-hero .vg-anim { opacity: 1; }
+		@media (prefers-reduced-motion: reduce) { .vg-anim { opacity: 1 !important; animation: none !important; } }
+
+		/* ===== Sticky hero — page content scrolls up over it ===== */
+		#header.vg-hero { position: sticky; top: 0; z-index: 0; }		
+		#page-wrapper > section:not(#header) { position: relative; z-index: 1; }
+	</style>
 </head>
 
 <body class="homepage is-preload">
 	<div id="preloader"></div>
 	<div id="page-wrapper">
 
-		<!-- Header -->
-		<section id="header" class="wrapper">
+		<!-- Header / Hero -->
+		<section id="header" class="vg-hero">
 
-			<!-- Logo -->
-			<div id="logo">
-				<h1 style="line-height: 2rem;">Saadan Kaleem</h1>
-				<p>Game Developer · Studio Founder · Storyteller</p>
+			<!-- Background video -->
+			<video class="vg-hero__video" autoplay muted loop playsinline poster="images/banner.jpg"
+				src="images/Hero-BG.mp4"></video>
+
+			<!-- Legibility overlay (black/red) -->
+			<div class="vg-hero__overlay"></div>
+
+			<!-- Hero content -->
+			<div class="vg-hero__content">
+				<div class="vg-hero__inner">
+
+					<div class="vg-hero__eyebrow vg-anim vg-anim-0">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+						<span>Saadan Kaleem — Game Developer · Studio Founder · Storyteller</span>
+					</div>
+
+					<h1 class="vg-hero__title vg-anim vg-anim-1">
+						<span>Dream.</span>
+						<span>Build.</span>
+						<span class="vg-accent">Play.</span>
+					</h1>
+
+					<p class="vg-hero__lead vg-anim vg-anim-2">
+						I craft immersive games and interactive experiences — from first concept to launch day.
+						Co-founder &amp; CTO building worlds that <strong>lead.</strong>
+					</p>
+
+					<div class="vg-hero__actions vg-anim vg-anim-3">
+						<a href="#highlightsTittle" class="button style5">
+							My Work
+						</a>
+						<div class="vg-hero__badge">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+							<div>
+								<div>Unity &amp; Unreal</div>
+								<div>Game Developer</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="vg-hero__stats vg-anim vg-anim-4">
+						<div class="vg-hero__stat">
+							<div class="vg-hero__stat-num">6+</div>
+							<div class="vg-hero__stat-label">Titles Launched</div>
+						</div>
+						<div class="vg-hero__stat">
+							<div class="vg-hero__stat-num">10+</div>
+							<div class="vg-hero__stat-label">Games Built</div>
+						</div>
+						<div class="vg-hero__stat">
+							<div class="vg-hero__stat-num">6+</div>
+							<div class="vg-hero__stat-label">Years Building</div>
+						</div>
+					</div>
+
+				</div>
 			</div>
-			<nav id="nav2">
-				<ul>
-					<nav id="nav">
-						<ul>
-						</ul>
-					</nav>
-
 		</section>
 
 		<!--SideBars (UNCHANGED — do not edit) -->
@@ -153,7 +244,7 @@
 		<!-- SECTION 1: INTRO + STATS                           -->
 		<!-- ================================================== -->
 		<section id="intro" class="wrapper style1">
-			<div id="introTittle" class="title" data-section="introTittle">Start Here</div>
+			<!-- <div id="introTittle" class="title" data-section="introTittle">Start Here</div> -->
 			<div class="container">
 				<p class="lead">
 					I’m a Game Developer, Technical Leader, and Creative Entrepreneur specializing in immersive games
@@ -1158,12 +1249,16 @@
 
 
 	<script>
-		var loader = document.getElementById("preloader");
-
-		window.addEventListener("load", function () {
-			loader.style.display = "none";
-		})
-
+		(function () {
+			var loader = document.getElementById("preloader");
+			function hidePreloader() {
+				if (loader) loader.style.display = "none";
+				document.body.classList.remove("is-preload");
+			}
+			window.addEventListener("load", hidePreloader);
+			// Fallback so a slow/blocked hero video can never keep the loader up.
+			setTimeout(hidePreloader, 1500);
+		})();
 	</script>
 
 	<div id="videoModal">
