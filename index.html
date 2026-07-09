@@ -34,6 +34,9 @@
 				linear-gradient(0deg, rgba(238,43,43,0.20) 0%, rgba(0,0,0,0) 55%);
 		}
 		.vg-hero__content { position: relative; z-index: 3; height: 100%; display: flex; align-items: center; padding: 0 6vw; }
+		.vg-hero__content { transition: padding-left 0.5s ease; }
+		/* Shift hero text right when the left sidebar is expanded */
+		body.sidebar-open .vg-hero__content { padding-left: max(6vw, 288px); }
 		.vg-hero__inner { max-width: 60rem; }
 		.vg-hero__eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
 		.vg-hero__eyebrow svg { width: 18px; height: 18px; color: rgba(255,255,255,0.7); }
