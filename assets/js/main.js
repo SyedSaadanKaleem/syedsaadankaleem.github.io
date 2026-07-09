@@ -54,8 +54,8 @@ function createHomepageNavigation() {
 
     // Define navigation items for homepage
     var navItems = [
-        { href: '#header', iconClass: 'bx bxs-home', text: 'Start' },
-        { href: '#introTittle', iconClass: 'bx bxs-notepad', text: 'Intro' },
+        { href: '#page-wrapper', iconClass: 'bx bxs-home', text: 'Start' },
+        { href: '#intro', iconClass: 'bx bxs-notepad', text: 'Intro' },
         { href: '#highlightsTittle', iconClass: 'bx bxs-dashboard', text: 'Work' },
         { href: '#mainTittle', iconClass: 'bx bxs-briefcase', text: 'Skills' },
         { href: '#CertificationTittle', iconClass: 'bx bxs-food-menu', text: 'Experience' },
