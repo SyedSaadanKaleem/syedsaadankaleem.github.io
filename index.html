@@ -466,10 +466,13 @@
 		}
 		/* Logo boxes ~half their original width -> stack, collaborations moves below */
 		@media (max-width: 720px) {
-			.intro2-grid { grid-template-columns: 1fr; gap: 2rem; }
+			.intro2-grid { grid-template-columns: 1fr; gap: 1.6rem; }
 			.intro2 { max-width: none; }
 			.intro2-collab { margin-top: 0.5rem; }
-			.intro2-logos { grid-template-columns: repeat(2, 1fr); }
+			.intro2-logos { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; margin-top: 1.2rem; }
+			.intro2-logo { padding: 1rem 1.1rem; }
+			.intro2-title { margin-bottom: 1.2rem; }
+			.intro2-lead { line-height: 1.65; margin-bottom: 1.6rem; }
 		}
 		/* ===== Career Highlights — full-screen vertical snap slider ===== */
 		/* Firm snap turns on (via JS) only while inside Career Highlights; hero + intro scroll normally */
@@ -500,6 +503,9 @@
 		/* Card frame — matched to the intro slide's collaboration cards (.intro2-logo):
 		   flat translucent-white fill, hairline border, 14px radius, red hover lift. */
 		.hl-slide-bg { grid-column: 2; grid-row: 1; align-self: end; margin-bottom: clamp(2.5rem, 8vh, 6rem); position: relative; z-index: 2; display: flex; flex-direction: column; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;}
+@media (max-width: 1280px) {
+		.hl-slide-bg { grid-column: 2; grid-row: 1; align-self: end; margin-bottom: clamp(9rem, 8vh, 6rem); position: relative; z-index: 2; display: flex; flex-direction: column; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;}
+}
 		.hl-slide-bg:hover { border-color: rgba(238,43,43,0.5); background: rgba(255,255,255,0.05); transform: translateY(-3px); }
 		/* Banner (true 3:1 ratio — no crop for 1500×500 art) */
 		.hl-gc-banner { width: 100%; aspect-ratio: 3 / 1; background-size: cover; background-position: center; background-repeat: no-repeat; }
@@ -509,7 +515,7 @@
 		.hl-gc-meta { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
 		.hl-gc-name { font-family:'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color:#fff; font-size: 1.12rem; line-height: 1; letter-spacing: 0.01em; }
 		.hl-gc-sub { font-family:'Inter',system-ui,sans-serif; color:#ee2b2b; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.6rem; }
-		.hl-gc-tag { font-family:'Inter',system-ui,sans-serif; color: rgba(255,255,255,0.5); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		.hl-gc-tag { visibility:hidden;'Inter',system-ui,sans-serif; color: rgba(255,255,255,0.5); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 		/* Cobweb copy stays in the LEFT column (the 70vw span is only for the banner slides),
 		   so its description can't run behind the game tiles. */
 		.hl-slide:has(> .hl-slide-bg).hl-slide--cobweb .hl-slide-content { grid-column: 1; max-width: none; position: relative; z-index: 3; }
@@ -588,6 +594,7 @@
 		@media (max-width: 900px) {
 			.hl-cobweb-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
 			.hl-slide-content, .hl-cobweb-inner { padding-top: clamp(4.5rem, 12vh, 7rem); padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); }
+			.hl-slide--intro .hl-slide-content { padding-top: clamp(3.5rem, 8vh, 5.5rem); }
 			.hl-mini-name { font-size: 0.72rem; }
 		}
 	</style>
