@@ -428,6 +428,48 @@
 			position: relative;
 			z-index: 1;
 		}
+		/* ===== Intro — matched to hero style ===== */
+		#intro.wrapper { text-align: left; }
+		.intro2-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(1.5rem, 3.5vw, 6rem); align-items: start; }
+		.intro2 { max-width: 46rem; }
+		.intro2-eyebrow { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem; }
+		.intro2-eyebrow svg { width: 18px; height: 18px; color: #ee2b2b; flex: none; }
+		.intro2-eyebrow span { font-family: 'Inter', system-ui, sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+		.intro2-title { font-family: 'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color: #fff; line-height: 0.95; letter-spacing: -0.01em; font-size: clamp(2rem, 4.4vw, 3.8rem); margin: 0 0 1.6rem; }
+		.intro2-title span { display: block; }
+		.intro2-title .vg-accent { color: #ee2b2b; }
+		.intro2-lead { font-family: 'Inter', system-ui, sans-serif; font-size: clamp(0.95rem, 1.1vw, 1.08rem); line-height: 1.8; color: rgba(255,255,255,0.66); margin: 0 0 2.4rem; }
+		.intro2-stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1.2rem; }
+		.intro2-stat { border-top: 2px solid rgba(238,43,43,0.55); padding-top: 0.85rem; }
+		.intro2-stat-num { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; color: #fff; font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1; }
+		.intro2-stat-label { margin-top: 0.5rem; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+		/* Collaborations column with logo grid */
+		.intro2-collab { margin: 0; }
+		.intro2-collab-title { font-family: 'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color: rgba(255,255,255,0.85); font-size: clamp(1.05rem, 1.5vw, 1.5rem); letter-spacing: 0.01em; line-height: 1.15; margin: 0.3rem 0 0; }
+		.intro2-logos { display: grid; grid-template-columns: 1fr; gap: 0.85rem; margin-top: 1.6rem; }
+		.intro2-logo { display: flex; align-items: center; justify-content: center; padding: 1.35rem 1.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease; }
+		.intro2-logo img { max-width: 100%; max-height: 2.4rem; width: auto; height: auto; opacity: 0.72; transition: opacity 0.3s ease; }
+		.intro2-logo:hover { border-color: rgba(238,43,43,0.5); background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+		.intro2-logo:hover img { opacity: 1; }
+		/* Keep collaborations sticky on the right while the two-column layout holds */
+		@media (min-width: 721px) {
+			.intro2-collab { position: sticky; top: clamp(6rem, 16vh, 9rem); align-self: start; }
+		}
+		/* Sidebars are hidden below 1280 -> add a normal responsive gutter (still two-column) */
+		@media (max-width: 1280px) {
+			#intro { padding-left: clamp(1.25rem, 5vw, 3rem); padding-right: clamp(1.25rem, 5vw, 3rem); }
+		}
+		/* Narrow left column -> stats to two-up */
+		@media (max-width: 900px) {
+			.intro2-stats { grid-template-columns: repeat(2, 1fr); gap: 1.1rem 1rem; }
+		}
+		/* Logo boxes ~half their original width -> stack, collaborations moves below */
+		@media (max-width: 720px) {
+			.intro2-grid { grid-template-columns: 1fr; gap: 2rem; }
+			.intro2 { max-width: none; }
+			.intro2-collab { margin-top: 0.5rem; }
+			.intro2-logos { grid-template-columns: repeat(2, 1fr); }
+		}
 	</style>
 </head>
 
@@ -607,77 +649,40 @@
 		<!-- SECTION 1: INTRO + STATS                           -->
 		<!-- ================================================== -->
 		<section id="intro" class="wrapper style1">
-			<!-- <div id="introTittle" class="title" data-section="introTittle">Start Here</div> -->
-			<div class="container">
-				<p class="lead">
-					I’m a Game Developer, Technical Leader, and Creative Entrepreneur specializing in immersive games
-					and interactive digital experiences. As the Co-founder & CTO of Designfull.net
-					and Co-founder of Pixel Dreams Studio, I combine technical expertise with creative vision to build
-					products that blend innovative gameplay, striking visuals, and polished user experiences, with
-					experience in the IT industry since 2019 and game development since 2021, I’ve worked on more than
-					ten games and successfully launched six titles on the Google Play
-					. Using Unity and Unreal Engine, I lead projects from concept to release, transforming ideas into
-					memorable digital experiences that push the boundaries of creativity and technology.
-				</p>
+			<div class="intro2-grid">
+				<div class="intro2">
+					<div class="intro2-eyebrow">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none"/></svg>
+						<span>Who I Am</span>
+					</div>
+					<h2 class="intro2-title">
+						<span>Crafting worlds</span>
+						<span>worth <span class="vg-accent">playing.</span></span>
+					</h2>
+					<p class="intro2-lead">
+						I’m a game developer, technical leader, and creative entrepreneur specializing in immersive games and interactive experiences. As Co-founder &amp; CTO of Designfull.net and Co-founder of Pixel Dreams Studio, I pair engineering with creative vision — shipping products with innovative gameplay, striking visuals, and polished experiences. In the IT industry since 2019 and building games since 2021, I’ve worked on 10+ games and launched 6 titles on Google Play. Using Unity and Unreal Engine, I lead projects from concept to release.
+					</p>
+					<div class="intro2-stats">
+						<div class="intro2-stat"><div class="intro2-stat-num" data-count="6">6</div><div class="intro2-stat-label">Games Live</div></div>
+						<div class="intro2-stat"><div class="intro2-stat-num" data-count="2">2</div><div class="intro2-stat-label">In Development</div></div>
+						<div class="intro2-stat"><div class="intro2-stat-num" data-count="6" data-suffix="+">6+</div><div class="intro2-stat-label">Years Building</div></div>
+						<div class="intro2-stat"><div class="intro2-stat-num" data-count="2">2</div><div class="intro2-stat-label">Studios Founded</div></div>
+					</div>
+				</div>
 
-				<!-- Stats strip -->
-				<div class="stats-strip">
-					<div class="stat-item">
-						<span class="stat-number">6</span>
-						<span class="stat-label">Games Live</span>
+				<aside class="intro2-collab">
+					<div class="intro2-eyebrow">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 3-3"/><path d="M4 7h16"/><rect x="3" y="7" width="18" height="13" rx="2"/></svg>
+						<span>Collaborations</span>
 					</div>
-					<div class="stat-item">
-						<span class="stat-number">2</span>
-						<span class="stat-label">In Development</span>
+					<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
+					<div class="intro2-logos">
+						<div class="intro2-logo"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
+						<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
+						<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
+						<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
 					</div>
-					<div class="stat-item">
-						<span class="stat-number">6+</span>
-						<span class="stat-label">Years Building</span>
-					</div>
-					<div class="stat-item">
-						<span class="stat-number">2</span>
-						<span class="stat-label">Studios Founded</span>
-					</div>
-				</div>
-			</div>
-			<header class="style1" style="margin-top: 3rem;padding-bottom: 0.5rem;">
-				<div id="featuresHP" style="margin-top: 3rem; padding-bottom: 0.5rem;">
-					<span class="feature-tag">Collaborations</span>
-					<h2 class="S1">A few names that let me play in their sandbox</h2>
-
-				</div>
-			</header>
-			<div class="logos">
-				<div class="logos-slide">
-					<img src="./logos/CanvasDigital.svg" />
-					<img src="./logos/Khareed-o-Mobile.svg" />
-					<img src="./logos/LiftOnHai.svg" />
-					<img src="./logos/ShotSpire.svg" />
-					<img src="./logos/CanvasDigital.svg" />
-					<img src="./logos/Khareed-o-Mobile.svg" />
-					<img src="./logos/LiftOnHai.svg" />
-					<img src="./logos/ShotSpire.svg" />
-				</div>
-				<div class="logos-slide">
-					<img src="./logos/CanvasDigital.svg" />
-					<img src="./logos/Khareed-o-Mobile.svg" />
-					<img src="./logos/LiftOnHai.svg" />
-					<img src="./logos/ShotSpire.svg" />
-					<img src="./logos/CanvasDigital.svg" />
-					<img src="./logos/Khareed-o-Mobile.svg" />
-					<img src="./logos/LiftOnHai.svg" />
-					<img src="./logos/ShotSpire.svg" />
-				</div>
-				<div class="logos-slide">
-					<img src="./logos/CanvasDigital.svg" />
-					<img src="./logos/Khareed-o-Mobile.svg" />
-					<img src="./logos/LiftOnHai.svg" />
-					<img src="./logos/ShotSpire.svg" />
-					<img src="./logos/CanvasDigital.svg" />
-					<img src="./logos/Khareed-o-Mobile.svg" />
-					<img src="./logos/LiftOnHai.svg" />
-					<img src="./logos/ShotSpire.svg" />
-				</div>
+				</aside>
 			</div>
 		</section>
 
@@ -1730,12 +1735,7 @@
 			// Auto-tag elements that should fade on scroll
 			// ============================================
 			const fadeSelectors = [
-				'#intro p.lead',
-				'#intro .stats-strip',
-				'#intro .actions',
-				'#intro .pill-cta-group',
-				'#intro header.style1',
-				'#intro .logos',
+				/* #intro is animated with GSAP below */
 				'#highlights header.style1',
 				'#highlights .indev-card',
 				'#highlights .feature-tag',
@@ -1814,6 +1814,41 @@
 			window.addEventListener('load', checkVisibility);
 		})();
 	</script>
+	<!-- GSAP intro animations -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+	<script>
+		(function () {
+			if (!window.gsap || !window.ScrollTrigger) return;
+			gsap.registerPlugin(ScrollTrigger);
+			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduce) return;
+
+			// Staggered reveal of the intro block
+			var tl = gsap.timeline({ scrollTrigger: { trigger: '#intro', start: 'top 68%', once: true } });
+			tl.from('.intro2-eyebrow', { y: 24, autoAlpha: 0, duration: 0.6, ease: 'power3.out' })
+			  .from('.intro2-title span', { y: 44, autoAlpha: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12 }, '-=0.25')
+			  .from('.intro2-lead', { y: 24, autoAlpha: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+			  .from('.intro2-stat', { y: 30, autoAlpha: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 }, '-=0.4');
+
+			// Count-up on the stat numbers
+			gsap.utils.toArray('.intro2-stat-num').forEach(function (el) {
+				var end = parseInt(el.getAttribute('data-count') || el.textContent, 10) || 0;
+				var suffix = el.getAttribute('data-suffix') || '';
+				var obj = { v: 0 };
+				gsap.to(obj, { v: end, duration: 1.3, ease: 'power2.out',
+					scrollTrigger: { trigger: '#intro', start: 'top 62%', once: true },
+					onUpdate: function () { el.textContent = Math.round(obj.v) + suffix; } });
+			});
+
+			// Collaborations block + logo strip
+			// Collaborations: keep the heading visible, just stagger the logo cards in
+			gsap.from('.intro2-logo', { y: 28, autoAlpha: 0, scale: 0.94, duration: 0.6, ease: 'power3.out', stagger: 0.1,
+				scrollTrigger: { trigger: '.intro2-logos', start: 'top 90%', once: true } });
+			ScrollTrigger.refresh();
+		})();
+	</script>
+
 </body>
 
-</html
+</html>

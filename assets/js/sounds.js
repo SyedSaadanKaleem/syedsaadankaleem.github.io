@@ -297,8 +297,9 @@
     }
 
     // Bind pitches to chips — picks a new random scale on each call
+    const PAD_SELECTOR = '.skill-chip, .intro2-logo';
     function initSkillChipPad() {
-        const chips = document.querySelectorAll('.skill-chip');
+        const chips = document.querySelectorAll(PAD_SELECTOR);
         if (!chips.length) return;
 
         const pitches = generateRandomPitches(chips.length);
@@ -315,7 +316,7 @@
     // Click handler — intercept skill chips BEFORE the generic click sound fires
     document.addEventListener('click', function (e) {
         if (muted) return;
-        const chip = e.target.closest('.skill-chip');
+        const chip = e.target.closest('.skill-chip, .intro2-logo');
         if (!chip) return;
 
         const pitch = parseFloat(chip.dataset.padPitch);
