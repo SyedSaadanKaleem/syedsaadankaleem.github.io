@@ -482,6 +482,12 @@
 		/* Veil: hide the next card during the intro entry/overshoot so a fast fling can
 		   never flash it over the intro before the hard-stop lands. Cleared on settle/advance. */
 		.hl-slide.hl-veil { opacity: 0 !important; visibility: hidden !important; }
+		/* Last-slide pin range: a full-viewport spacer at the end of the sticky stack keeps
+		   the last slide fixed while the Skills section (pulled up + above it) scrolls over
+		   it — the same reveal-stack feel the other cards get. #main must be opaque so it
+		   actually covers the pinned slide. */
+		.hl-stack-tail { height: 100vh; height: 100dvh; pointer-events: none; }
+		#main { position: relative; z-index: 2; margin-top: -100vh; margin-top: -100dvh; background: #0b0b0b; }
 		.hl-slide-bg { display: none; }
 		.hl-slide::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(0deg, rgba(238,43,43,0.08), transparent 60%); }
 		.hl-slide-content, .hl-cobweb-inner { position: relative; z-index: 2; width: 100%; max-width: 60rem; padding: clamp(5rem,10vh,7rem) 6vw clamp(5rem,10vh,7rem) calc(var(--sb-w) + var(--hero-gap)); }
@@ -1667,6 +1673,15 @@
 			var wrap = document.querySelector('.hl-slides');
 			var overlays = document.querySelector('.hl-overlays');
 			if (!section || !slides.length) return;
+			// Append a full-viewport spacer to the sticky stack so the LAST slide gets a real
+			// pin range (it's otherwise the last child and slides straight off). With #main
+			// pulled up over this region, Skills scrolls over the pinned last slide.
+			if (wrap && !wrap.querySelector('.hl-stack-tail')) {
+				var _tail = document.createElement('div');
+				_tail.className = 'hl-stack-tail';
+				_tail.setAttribute('aria-hidden', 'true');
+				wrap.appendChild(_tail);
+			}
 			if (overlays) {
 				var so = new IntersectionObserver(function (entries) {
 					entries.forEach(function (e) { overlays.classList.toggle('is-active', e.isIntersecting); });
@@ -1688,21 +1703,33 @@
 			function slideTop(i) { return slideTops()[i]; }
 			function bounds() { var a = topOf(section); return { a: a, b: a + section.offsetHeight }; }
 			function inSlider() {
-				var vh = window.innerHeight, y = window.pageYOffset, bb = bounds();
-				return y >= bb.a - 4 && y <= bb.b - vh + 4;
+				var y = window.pageYOffset, bb = bounds();
+				// Cap capture at the last slide's rest point. Below it lies the spacer +
+				// Skills-cover zone, which must scroll natively so Skills can slide over the
+				// pinned last slide. (bb.b now includes the spacer, so we can't use it here.)
+				return y >= bb.a - 4 && y <= slideTop(slides.length - 1) + 4;
 			}
 			function currentIndex() {
 				var y = window.pageYOffset, tops = slideTops(), idx = 0, best = Infinity;
 				for (var i = 0; i < tops.length; i++) { var d = Math.abs(tops[i] - y); if (d < best) { best = d; idx = i; } }
 				return idx;
 			}
-			// Hide/show EVERY card after the intro so none of them can flash over the
-			// intro during a fast entry before the hard-stop settles. They're off-screen
-			// at rest, so veiling them is invisible until the moment one would peek.
-			function veilNext(on) { for (var i = 1; i < slides.length; i++) slides[i].classList.toggle('hl-veil', !!on); }
+			// Veil cards during a fast entry so none can flash over the target slide before
+			// the hard-stop settles. 'down' hides everything after the intro (entering from
+			// above), 'up' hides everything before the last slide (entering from below),
+			// 'none' clears. At rest the hidden cards are off-screen/covered, so veiling is
+			// invisible until the moment one would otherwise peek.
+			function setVeil(mode) {
+				var last = slides.length - 1;
+				for (var i = 0; i < slides.length; i++) {
+					var hide = (mode === 'down' && i >= 1) || (mode === 'up' && i <= last - 1);
+					slides[i].classList.toggle('hl-veil', hide);
+				}
+			}
 			var locked = false, targetIdx = null, lastWheelT = 0, goToT = 0, pollT = null;
 			var lastY = -1, stillCount = 0;
 			var engaged = false, prevY = window.pageYOffset, lastUserScrollT = 0, entrySide = 0;
+			var lastArmed = false;   // becomes true only after the last slide has settled — gates the exit to the next section
 			var QUIET_MS = 200;   // wheel silence required before the lock releases
 			var MIN_LOCK = 420;   // hold at least this long so momentum can't skip a card mid-scroll
 			var STALL_MS = 1200;  // hard ceiling (scrollbar drag / interrupted scroll) -> force unlock
@@ -1713,10 +1740,11 @@
 				// and in this sticky reveal-stack any overshoot exposes the next slide from the
 				// bottom. Forcing the precise resting position kills that peek in both directions.
 				if (targetIdx !== null) window.scrollTo({ top: Math.round(slideTop(targetIdx)), behavior: 'instant' });
+				if (targetIdx === slides.length - 1) lastArmed = true;   // last slide has fully settled -> a fresh scroll may now exit to the next section
 				locked = false; targetIdx = null;
 				clearTimeout(pollT); pollT = null;
 				if (wrap) wrap.classList.remove('hl-animating');
-				veilNext(false);   // intro has hard-stopped (or we've moved on) — slide 2 is off-screen, safe to reveal
+				setVeil('none');   // hard-stop landed (or we've moved on) — hidden cards are off-screen, safe to reveal
 			}
 			function poll() {
 				var now = performance.now();
@@ -1731,7 +1759,7 @@
 			}
 			function goTo(i, instant) {
 				i = Math.max(0, Math.min(i, slides.length - 1));
-				if (i >= 1) veilNext(false);   // advancing to reveal slide 2 (or beyond) — unveil it
+				lastArmed = false;   // any move dis-arms the exit; it re-arms only once the last slide settles
 				locked = true;
 				targetIdx = i;
 				lastWheelT = goToT = performance.now();
@@ -1753,12 +1781,23 @@
 					// (No magnetic pull toward the intro from a distance — the intro is only
 					// ever reached by natural scrolling; we just refuse to let it overshoot.)
 					if (locked) { e.preventDefault(); return; }
-					// Pre-veil slide 2 as we approach the intro from above, so an overshoot
-					// frame can't flash it before the hard-stop lands. (Off-screen anyway, so
-					// hiding it here is invisible until the moment it would otherwise peek.)
-					// Clear it if we're not on that approach, so it never gets stuck hidden.
-					if (e.deltaY > 0 && entrySide < 0 && t0o - window.pageYOffset <= window.innerHeight * 1.5) veilNext(true);
-					else veilNext(false);
+					var vh = window.innerHeight, y = window.pageYOffset, tLast = slideTop(slides.length - 1);
+					// Pre-veil the cards after the intro as we approach it from above, so an
+					// overshoot frame can't flash one before the hard-stop lands. (Only the
+					// downward direction gets a veil — scrolling UP reveals the previous card
+					// from behind the current one, so hiding it would just expose grey.)
+					if (e.deltaY > 0 && entrySide < 0 && t0o - y <= vh * 1.5) setVeil('down');
+					else setVeil('none');
+					// Upward approach to the last slide from below: hard-stop on it NOW, before
+					// inertial momentum can carry us up past it into the earlier cards. This is
+					// wheel-driven (not timer-driven), so it can't be defeated by momentum that
+					// stops firing wheel events — and nav-link smooth-scrolls fire no wheel
+					// events, so they're never grabbed.
+					if (e.deltaY < 0 && entrySide > 0 && y > tLast && y - tLast <= vh * 1.2) {
+						e.preventDefault();
+						goTo(slides.length - 1);
+						return;
+					}
 					return;
 				}
 				var dir = e.deltaY > 0 ? 1 : (e.deltaY < 0 ? -1 : 0);
@@ -1772,13 +1811,21 @@
 					engaged = true;
 					e.preventDefault();
 					lastWheelT = performance.now();
-					goTo(entrySide < 0 ? 0 : (entrySide > 0 ? slides.length - 1 : currentIndex()));
+					if (entrySide < 0) { setVeil('down'); goTo(0); }              // from above -> hard-stop on the intro (veil later cards)
+					else if (entrySide > 0) { goTo(slides.length - 1); }          // from below -> hard-stop on the last slide (no veil; real content shows)
+					else goTo(currentIndex());
 					return;
 				}
 				engaged = true;
 				var idx = locked && targetIdx !== null ? targetIdx : currentIndex();
 				if (!locked) {
-					if (dir > 0 && idx >= slides.length - 1) { engaged = false; return; }   // past last -> let page scroll on
+					if (dir > 0 && idx >= slides.length - 1) {
+						// Reached the last slide. Hard-stop here and absorb the gesture so
+						// momentum can't spill into the next section. Only a FRESH scroll,
+						// after the slide has settled (lastArmed), is allowed to exit.
+						if (!lastArmed) { e.preventDefault(); lastWheelT = performance.now(); goTo(slides.length - 1); return; }
+						engaged = false; return;   // armed -> let the page scroll on to the next section
+					}
 					if (dir < 0 && idx <= 0) { engaged = false; return; }                   // before first -> let page scroll up
 				}
 				e.preventDefault();
@@ -1791,17 +1838,21 @@
 			//     intro top. Only reacts to genuine user wheel (not nav-link smooth scrolls). ---
 			window.addEventListener("scroll", function () {
 				var y = window.pageYOffset;
-				if (!reduce && !engaged && !locked && y > prevY) {
-					var t0 = slideTop(0);
-					// Any downward crossing of the intro top that came from a genuine user
-					// wheel gets clamped to the intro — no matter how far past it the fling
-					// jumped in one frame. (No upper bound: a fast flick can leap over the
-					// whole intro band, and we still want it pinned to slide one.)
-					if (performance.now() - lastUserScrollT < 250 && prevY < t0 && y >= t0) {
+				if (!reduce && !engaged && !locked && performance.now() - lastUserScrollT < 250) {
+					var t0 = slideTop(0), tLast = slideTop(slides.length - 1);
+					// Any crossing of an end slide's rest point from a genuine user wheel gets
+					// clamped to that slide — no matter how far past it the fling jumped in one
+					// frame. (No bound: a fast flick can leap over the whole band and we still
+					// want it pinned.) Downward -> intro; upward -> last slide.
+					if (y > prevY && prevY < t0 && y >= t0) {
 						engaged = true;
 						lastWheelT = performance.now();
-						veilNext(true);        // keep slide 2 hidden through the snap-back + hold
-						goTo(0, true);         // instant snap back onto the intro, then hold through momentum
+						setVeil('down');       // keep later cards hidden through the snap-back + hold
+						goTo(0, true);         // instant snap back onto the intro
+					} else if (y < prevY && prevY > tLast && y <= tLast) {
+						engaged = true;
+						lastWheelT = performance.now();
+						goTo(slides.length - 1, true);   // instant snap back onto the last slide (no veil — real content shows behind it)
 					}
 				}
 				prevY = y;
