@@ -3076,8 +3076,6 @@ color: rgba(0, 0, 0, 0);
 		font-family: 'FSP DEMO - PODIUM Sharp 4.11', sans-serif;
 		background: #0e0e0e;
 		border-top: 3px solid #ee2b2b;
-		border-top-left-radius: 2rem ;
-		border-top-right-radius: 2rem ;
 	}
 		#intro p.style1 {
 			font-size: 1.5em;
@@ -3160,10 +3158,7 @@ color: rgba(0, 0, 0, 0);
 #highlightsTittle{
 	font-family: 'FSP DEMO - PODIUM Sharp 4.11', sans-serif;
 	background: #181818;
-	border-top: 3px solid #ee2b2b;
 	color:#eee;
-			border-top-left-radius: 2rem ;
-		border-top-right-radius: 2rem ;
 }
 
 	#highlights .highlight {
