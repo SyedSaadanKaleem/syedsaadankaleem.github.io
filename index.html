@@ -479,6 +479,9 @@
 		.hl-slide { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; align-items: center; overflow: hidden; background: radial-gradient(120% 90% at 15% 20%, rgba(238,43,43,0.18), transparent 60%), #0b0b0b; transition: box-shadow 0.28s ease; }
 		/* Seam shadow only while a slide is moving — at rest the next slide's upward shadow must not bleed up into the current one. */
 		.hl-slides.hl-animating .hl-slide { box-shadow: 0 -28px 70px rgba(0,0,0,0.55); }
+		/* Veil: hide the next card during the intro entry/overshoot so a fast fling can
+		   never flash it over the intro before the hard-stop lands. Cleared on settle/advance. */
+		.hl-slide.hl-veil { opacity: 0 !important; visibility: hidden !important; }
 		.hl-slide-bg { display: none; }
 		.hl-slide::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(0deg, rgba(238,43,43,0.08), transparent 60%); }
 		.hl-slide-content, .hl-cobweb-inner { position: relative; z-index: 2; width: 100%; max-width: 60rem; padding: clamp(5rem,10vh,7rem) 6vw clamp(5rem,10vh,7rem) calc(var(--sb-w) + var(--hero-gap)); }
@@ -1693,8 +1696,13 @@
 				for (var i = 0; i < tops.length; i++) { var d = Math.abs(tops[i] - y); if (d < best) { best = d; idx = i; } }
 				return idx;
 			}
+			// Hide/show EVERY card after the intro so none of them can flash over the
+			// intro during a fast entry before the hard-stop settles. They're off-screen
+			// at rest, so veiling them is invisible until the moment one would peek.
+			function veilNext(on) { for (var i = 1; i < slides.length; i++) slides[i].classList.toggle('hl-veil', !!on); }
 			var locked = false, targetIdx = null, lastWheelT = 0, goToT = 0, pollT = null;
 			var lastY = -1, stillCount = 0;
+			var engaged = false, prevY = window.pageYOffset, lastUserScrollT = 0, entrySide = 0;
 			var QUIET_MS = 200;   // wheel silence required before the lock releases
 			var MIN_LOCK = 420;   // hold at least this long so momentum can't skip a card mid-scroll
 			var STALL_MS = 1200;  // hard ceiling (scrollbar drag / interrupted scroll) -> force unlock
@@ -1708,6 +1716,7 @@
 				locked = false; targetIdx = null;
 				clearTimeout(pollT); pollT = null;
 				if (wrap) wrap.classList.remove('hl-animating');
+				veilNext(false);   // intro has hard-stopped (or we've moved on) — slide 2 is off-screen, safe to reveal
 			}
 			function poll() {
 				var now = performance.now();
@@ -1720,31 +1729,83 @@
 				if ((quiet && minElapsed && settled) || now - goToT >= STALL_MS) { release(); return; }
 				pollT = setTimeout(poll, 50);
 			}
-			function goTo(i) {
+			function goTo(i, instant) {
 				i = Math.max(0, Math.min(i, slides.length - 1));
+				if (i >= 1) veilNext(false);   // advancing to reveal slide 2 (or beyond) — unveil it
 				locked = true;
 				targetIdx = i;
 				lastWheelT = goToT = performance.now();
 				lastY = -1; stillCount = 0;
 				if (wrap) wrap.classList.add('hl-animating');
-				window.scrollTo({ top: Math.round(slideTop(i)), behavior: reduce ? 'auto' : 'smooth' });
+				window.scrollTo({ top: Math.round(slideTop(i)), behavior: (reduce || instant) ? 'auto' : 'smooth' });
 				clearTimeout(pollT); pollT = setTimeout(poll, 50);
 			}
 			// --- Wheel: hard lock, exactly one card per gesture; release at the ends ---
 			window.addEventListener("wheel", function (e) {
-				if (reduce || !inSlider()) return;
+				lastUserScrollT = performance.now();   // timestamp EVERY wheel so the entry-catch can distinguish real user scroll from programmatic
+				if (reduce) return;
+				if (!inSlider()) {
+					engaged = false;
+					var t0o = slideTop(0);
+					entrySide = window.pageYOffset < t0o ? -1 : 1;   // remember which side we're approaching from
+					// Hold the hard-stop: once the safety net has locked onto the intro,
+					// swallow any outside wheels so native momentum can't overrun the stop.
+					// (No magnetic pull toward the intro from a distance — the intro is only
+					// ever reached by natural scrolling; we just refuse to let it overshoot.)
+					if (locked) { e.preventDefault(); return; }
+					// Pre-veil slide 2 as we approach the intro from above, so an overshoot
+					// frame can't flash it before the hard-stop lands. (Off-screen anyway, so
+					// hiding it here is invisible until the moment it would otherwise peek.)
+					// Clear it if we're not on that approach, so it never gets stuck hidden.
+					if (e.deltaY > 0 && entrySide < 0 && t0o - window.pageYOffset <= window.innerHeight * 1.5) veilNext(true);
+					else veilNext(false);
+					return;
+				}
 				var dir = e.deltaY > 0 ? 1 : (e.deltaY < 0 ? -1 : 0);
 				if (!dir) return;
+				// First wheel after entering the slider: settle onto the entry slide and
+				// swallow the gesture, so a fast flick can't skip a card on entry. When we
+				// arrived from above, that entry slide is ALWAYS the intro (index 0) even if
+				// momentum already scrolled us partway into the next card. Advancing waits
+				// for the next gesture.
+				if (!engaged && !locked) {
+					engaged = true;
+					e.preventDefault();
+					lastWheelT = performance.now();
+					goTo(entrySide < 0 ? 0 : (entrySide > 0 ? slides.length - 1 : currentIndex()));
+					return;
+				}
+				engaged = true;
 				var idx = locked && targetIdx !== null ? targetIdx : currentIndex();
 				if (!locked) {
-					if (dir > 0 && idx >= slides.length - 1) return;   // past last -> let page scroll on
-					if (dir < 0 && idx <= 0) return;                   // before first -> let page scroll up
+					if (dir > 0 && idx >= slides.length - 1) { engaged = false; return; }   // past last -> let page scroll on
+					if (dir < 0 && idx <= 0) { engaged = false; return; }                   // before first -> let page scroll up
 				}
 				e.preventDefault();
 				lastWheelT = performance.now();   // momentum tail keeps the lock alive
 				if (locked) return;                // swallow every event until settled + quiet
 				goTo(idx + dir);
 			}, { passive: false });
+			// --- Entry-catch safety net: if a fast fling blows past the intro's resting
+			//     point before the wheel grab fires, snap it back the instant we cross the
+			//     intro top. Only reacts to genuine user wheel (not nav-link smooth scrolls). ---
+			window.addEventListener("scroll", function () {
+				var y = window.pageYOffset;
+				if (!reduce && !engaged && !locked && y > prevY) {
+					var t0 = slideTop(0);
+					// Any downward crossing of the intro top that came from a genuine user
+					// wheel gets clamped to the intro — no matter how far past it the fling
+					// jumped in one frame. (No upper bound: a fast flick can leap over the
+					// whole intro band, and we still want it pinned to slide one.)
+					if (performance.now() - lastUserScrollT < 250 && prevY < t0 && y >= t0) {
+						engaged = true;
+						lastWheelT = performance.now();
+						veilNext(true);        // keep slide 2 hidden through the snap-back + hold
+						goTo(0, true);         // instant snap back onto the intro, then hold through momentum
+					}
+				}
+				prevY = y;
+			}, { passive: true });
 			// --- Keyboard ---
 			window.addEventListener("keydown", function (e) {
 				if (reduce || !inSlider() || locked) return;
