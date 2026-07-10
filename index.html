@@ -470,6 +470,59 @@
 			.intro2-collab { margin-top: 0.5rem; }
 			.intro2-logos { grid-template-columns: repeat(2, 1fr); }
 		}
+		/* ===== Career Highlights — full-screen vertical snap slider ===== */
+		/* Firm snap turns on (via JS) only while inside Career Highlights; hero + intro scroll normally */
+		html { scroll-behavior: smooth; }
+		#highlights.wrapper { padding: 0 !important; text-align: left; position: relative; }
+		.hl-anchor { position: absolute; top: 0; left: 0; width: 1px; height: 1px; }
+		.hl-slides { position: relative; }
+		.hl-slide { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; align-items: center; overflow: hidden; background: radial-gradient(120% 90% at 15% 20%, rgba(238,43,43,0.18), transparent 60%), #0b0b0b; transition: box-shadow 0.28s ease; }
+		/* Seam shadow only while a slide is moving — at rest the next slide's upward shadow must not bleed up into the current one. */
+		.hl-slides.hl-animating .hl-slide { box-shadow: 0 -28px 70px rgba(0,0,0,0.55); }
+		.hl-slide-bg { display: none; }
+		.hl-slide::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(0deg, rgba(238,43,43,0.08), transparent 60%); }
+		.hl-slide-content, .hl-cobweb-inner { position: relative; z-index: 2; width: 100%; max-width: 60rem; padding: clamp(5rem,10vh,7rem) 6vw clamp(5rem,10vh,7rem) calc(var(--sb-w) + var(--hero-gap)); }
+		.hl-slide-content { max-width: 48rem; }
+		.hl-tag { display: inline-flex; align-items: center; gap: 0.7rem; background: none; border: 0; padding: 0; border-radius: 0; color: rgba(255,255,255,0.6); font-family:'Inter',system-ui,sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.4rem; }
+		.hl-tag i { color:#ee2b2b; font-size: 1.25em; }
+		.hl-slide-title { font-family:'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color:#fff; font-size: clamp(2rem, 4.4vw, 3.8rem); line-height: 0.95; letter-spacing:-0.01em; margin:0; }
+		.hl-slide-sub { font-family:'Inter',system-ui,sans-serif; color:#ee2b2b; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(0.72rem,1.1vw,0.9rem); margin: 0.7rem 0 0; }
+		.hl-slide-desc { font-family:'Inter',system-ui,sans-serif; max-width: 44rem; font-size: clamp(0.95rem,1.1vw,1.08rem); line-height: 1.8; color: rgba(255,255,255,0.66); margin: 1.5rem 0 2rem; }
+		.hl-slide-actions { display:flex; flex-wrap:wrap; gap: 0.75rem; }
+		.hl-btn { display:inline-flex; align-items:center; gap:0.4em; font-family:'Inter',system-ui,sans-serif; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; padding: 0.8em 1.3em; border-radius: 8px; border:1px solid rgba(255,255,255,0.2); color:#fff !important; background: transparent; transition: background .25s, border-color .25s, transform .25s; }
+		.hl-btn:hover { border-color: rgba(238,43,43,0.6); background: rgba(238,43,43,0.14); }
+		.hl-btn--primary { background:#ee2b2b; border-color:#ee2b2b; }
+		.hl-btn--primary:hover { background:#c81f1f; border-color:#c81f1f; }
+		.hl-btn .arrow { transition: transform .25s; }
+		.hl-btn--primary:hover .arrow { transform: translateX(3px); }
+		.hl-slide--intro { background: #0e0e0e; }
+		.hl-slide--intro { height: auto; min-height: 100vh; min-height: 100dvh; }
+		.hl-slide--intro .hl-slide-content { max-width: none; padding-right: calc(var(--sb-right) + var(--hero-gap)); }
+		.hl-slide--intro .intro2-lead { margin-bottom: 2rem; }
+		.hl-slide--intro::after { background: none; }
+		.hl-slide--intro .hl-slide-title { font-size: clamp(2.6rem, 8vw, 6.5rem); }
+		.hl-scrollhint { display:inline-flex; align-items:center; gap:0.5em; font-family:'Inter',system-ui,sans-serif; font-size:0.7rem; letter-spacing:0.24em; text-transform:uppercase; color: rgba(255,255,255,0.55); }
+		.hl-scrollhint-arrow { display:inline-block; animation: hlbob 1.6s ease-in-out infinite; color:#ee2b2b; font-size:1.2em; }
+		@keyframes hlbob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(4px);} }
+		.hl-slide--cobweb::after { background: linear-gradient(0deg, rgba(238,43,43,0.1), transparent 60%); }
+		.hl-cobweb-inner .hl-slide-title { font-size: clamp(1.8rem,4.5vw,3.4rem); }
+		.hl-cobweb-inner .hl-slide-desc { margin-bottom: 1.6rem; }
+		.hl-cobweb-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: 1rem; max-width: 62rem; }
+		.hl-mini { display:flex; flex-direction:column; gap:0.5rem; padding:0.6rem; border-radius:12px; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); transition: border-color .25s, background .25s, transform .25s; }
+		.hl-mini:hover { border-color: rgba(238,43,43,0.5); background: rgba(255,255,255,0.06); transform: translateY(-3px); }
+		.hl-mini-thumb { aspect-ratio: 16/10; border-radius:8px; overflow:hidden; }
+		.hl-mini-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+		.hl-mini-name { font-family:'Inter',system-ui,sans-serif; font-size:0.82rem; font-weight:600; color:#fff; }
+		.hl-mini-store { display:inline-flex; align-items:center; gap:0.35em; font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; color: rgba(255,255,255,0.5); font-family:'Inter',system-ui,sans-serif; }
+		.hl-mini-store i { color:#ee2b2b; font-size:1.15em; }
+		.hl-overlays { position: fixed; inset: 0; z-index: 45; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; }
+		.hl-overlays.is-active { opacity: 1; }
+		.hl-label { position: absolute; top: clamp(1.4rem, 5vh, 2.6rem); left: calc(var(--sb-w) + var(--hero-gap)); font-family:'Inter',system-ui,sans-serif; font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+		@media (max-width: 900px) {
+			.hl-cobweb-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+			.hl-slide-content, .hl-cobweb-inner { padding-top: clamp(4.5rem, 12vh, 7rem); padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); }
+			.hl-mini-name { font-size: 0.72rem; }
+		}
 	</style>
 </head>
 
@@ -569,7 +622,7 @@
 				</li>
 
 				<li class="list-item">
-					<a href="#intro" data-section="introTittle" data-label="Introduction">
+					<a href="#introTittle" data-section="introTittle" data-label="Introduction">
 						<i class='bx bxs-notepad'></i>
 						<span class="link-name" style="--i:2">Introduction</span>
 					</a>
@@ -648,349 +701,140 @@
 		<!-- ================================================== -->
 		<!-- SECTION 1: INTRO + STATS                           -->
 		<!-- ================================================== -->
-		<section id="intro" class="wrapper style1">
-			<div class="intro2-grid">
-				<div class="intro2">
-					<div class="intro2-eyebrow">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none"/></svg>
-						<span>Who I Am</span>
-					</div>
-					<h2 class="intro2-title">
-						<span>Crafting worlds</span>
-						<span>worth <span class="vg-accent">playing.</span></span>
-					</h2>
-					<p class="intro2-lead">
-						I’m a game developer, technical leader, and creative entrepreneur specializing in immersive games and interactive experiences. As Co-founder &amp; CTO of Designfull.net and Co-founder of Pixel Dreams Studio, I pair engineering with creative vision — shipping products with innovative gameplay, striking visuals, and polished experiences. In the IT industry since 2019 and building games since 2021, I’ve worked on 10+ games and launched 6 titles on Google Play. Using Unity and Unreal Engine, I lead projects from concept to release.
-					</p>
-					<div class="intro2-stats">
-						<div class="intro2-stat"><div class="intro2-stat-num" data-count="6">6</div><div class="intro2-stat-label">Games Live</div></div>
-						<div class="intro2-stat"><div class="intro2-stat-num" data-count="2">2</div><div class="intro2-stat-label">In Development</div></div>
-						<div class="intro2-stat"><div class="intro2-stat-num" data-count="6" data-suffix="+">6+</div><div class="intro2-stat-label">Years Building</div></div>
-						<div class="intro2-stat"><div class="intro2-stat-num" data-count="2">2</div><div class="intro2-stat-label">Studios Founded</div></div>
-					</div>
-				</div>
 
-				<aside class="intro2-collab">
-					<div class="intro2-eyebrow">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 3-3"/><path d="M4 7h16"/><rect x="3" y="7" width="18" height="13" rx="2"/></svg>
-						<span>Collaborations</span>
-					</div>
-					<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
-					<div class="intro2-logos">
-						<div class="intro2-logo"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
-						<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
-						<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-						<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
-					</div>
-				</aside>
-			</div>
-		</section>
 
 
 		<!-- ================================================== -->
 		<!-- SECTION 2: GAMES (Worldscar + Shipped + In Dev)    -->
 		<!-- ================================================== -->
 		<section id="highlights" class="wrapper style3">
-			<div id="highlightsTittle" class="title" data-section="highlightsTittle">Career Highlights</div>
-			<div class="container">
-
-				<!-- ChessRun — flagship, Recently Live -->
-				<header class="style1">
-					<div id="featuresHP">
-						<div id="my-work"></div>
-						<span class="feature-tag">Recently Live · Pixel Dreams</span>
-						<h2 class="S1">Chess Run<br>A Rougelike Endless Runner</h2>
-						<p class="S2">A strategic endless runner where every move counts and every level is a new
-							challenge. Demo out on Steam &amp; Live on Google Play Store.</p>
-					</div>
-				</header>
-
-				<div class="row aln-center">
-					<div class="col-11 col-12-medium">
-						<section class="highlight">
-							<div class="box" style="position: relative; padding: 0; overflow: hidden;">
-								<div class="game-card-tags-left">
-									<span class="game-card-tag tag-googleplay">
-										<i class='bx bxl-play-store'></i> Play Store
-									</span>
-								</div>
-								<a href="ChessRun.html" class="banner-zoom">
-									<img src="images/ChessRun/ChessRun-Banner.jpg" alt="Chess Run">
-								</a>
-								<div class="btn-row" style="padding: 0 3% 3% 3%; margin-top: 3%;">
-									<a href="javascript:void(0)" class="button style6S ChessRunVideo"
-										onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Watch
-										The Trailer</a>
-									<a href="https://linktr.ee/ChessRun" target="_blank" rel="noopener noreferrer"
-										class="button style6S">LinkTree</a>
-								</div>
+		<div class="hl-slides">
+			<div class="hl-slide hl-slide--intro" id="introTittle" data-index="0">
+				<div class="hl-slide-content">
+					<div class="intro2-grid">
+						<div class="intro2">
+							<div class="intro2-eyebrow">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none"/></svg>
+								<span>Who I Am</span>
 							</div>
-						</section>
-					</div>
-				</div>
-				<!-- Line -->
-				<div class="col-12 col-12-medium" style="padding-bottom: 0em;">
-					<header class="style1" style="padding-bottom: 0em;">
-						<div id="featuresHP" style="padding-bottom: 0em;">
-							<hr style="opacity: 0.28; margin-bottom: 3em;">
-						</div>
-					</header>
-				</div>
-				<!-- Worldscar — flagship, In Development -->
-				<header class="style1">
-					<div id="featuresHP">
-						<span class="feature-tag">In Development · Pixel Dreams</span>
-						<h2 class="S1">Worldscar<br>A Horror Escape Room</h2>
-						<p class="S2">My first Unreal Engine title. A psychological horror experience where every shadow
-							holds a story and every room is a puzzle. Launching on Steam.</p>
-					</div>
-				</header>
-
-				<div class="row aln-center">
-					<div class="col-11 col-12-medium">
-						<section class="highlight">
-							<div class="box" style="position: relative; padding: 0; overflow: hidden;">
-								<a href="WorldScar.html" class="banner-zoom">
-									<img src="images/WorldScar/WorldScar-Banner.jpg" alt="Worldscar">
-								</a>
-								<div class="btn-row" style="padding: 0 3% 3% 3%; margin-top: 0;">
-									<a href="javascript:void(0)" class="button style6S WorldScarVideo"
-										onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')"
-										style="margin-top: 2.5%; width: 100%;">Watch Environmental Concept</a>
-								</div>
+							<h2 class="intro2-title"><span>Crafting worlds</span><span>worth <span class="vg-accent">playing.</span></span></h2>
+							<p class="intro2-lead">I’m a game developer, technical leader, and creative entrepreneur specializing in immersive games and interactive experiences. As Co-founder &amp; CTO of Designfull.net and Co-founder of Pixel Dreams Studio, I pair engineering with creative vision — shipping products with innovative gameplay, striking visuals, and polished experiences. Since 2019 in the industry and 2021 in games, I’ve worked on 10+ games and launched 6 titles on Google Play.</p>
+							<div class="intro2-stats">
+								<div class="intro2-stat"><div class="intro2-stat-num">6</div><div class="intro2-stat-label">Games Live</div></div>
+								<div class="intro2-stat"><div class="intro2-stat-num">2</div><div class="intro2-stat-label">In Development</div></div>
+								<div class="intro2-stat"><div class="intro2-stat-num">6+</div><div class="intro2-stat-label">Years Building</div></div>
+								<div class="intro2-stat"><div class="intro2-stat-num">2</div><div class="intro2-stat-label">Studios Founded</div></div>
 							</div>
-						</section>
-					</div>
-				</div>
-				<!-- Slim tier break into Other Projects -->
-				<div class="col-12 col-12-medium">
-					<header class="style1">
-						<div id="featuresHP">
-							<hr style="opacity: 0.28;">
-							<h2 class="S1">Other Projects</h2>
-							<hr style="opacity: 0.28;">
 						</div>
-					</header>
-				</div>
-
-				<!-- Oneiros — top of Other Projects (XR), full-width wide card -->
-				<header class="style1">
-					<div id="featuresHP">
-						<span class="feature-tag">XR · Client Work</span>
-						<h2 class="S1">Oneiros<br>XR Experience</h2>
-						<p class="S2">An immersive XR eyewear showroom where shoppers reach out, pick up a pair of
-							glasses, resize them, and recolor them in real space, the "try it on" moment, made
-							tangible.</p>
-					</div>
-				</header>
-
-				<div class="row aln-center">
-					<div class="col-12 col-12-medium">
-						<section class="highlight">
-							<a href="Oneiros.html" class="game-card game-card-wide">
-								<div class="game-card-cover" style="aspect-ratio: auto;">
-									<div class="game-card-tags-left">
-										<span class="game-card-tag tag-meta">
-											<i class='bx bxl-meta'></i> Meta Quest
-										</span>
-									</div>
-									<span class="game-card-tag tag-publisher">Re-Vision</span>
-									<img src="images/Oneiros/Banner.jpg" alt="Oneiros">
-								</div>
-								<div class="game-card-body">
-									<h3>Oneiros</h3>
-									<p>A spatial showroom for eyewear. Grab a pair, scale it, recolor it, reset it —
-										product browsing you do with your hands instead of a mouse.</p>
-									<span class="game-card-cta">Explore <span class="arrow">→</span></span>
-								</div>
-							</a>
-						</section>
-					</div>
-				</div>
-				<!-- Line -->
-				<div class="col-12 col-12-medium" style="padding-bottom: 0em;">
-					<header class="style1" style="padding-bottom: 0em;">
-						<div id="featuresHP" style="padding-bottom: 0em;">
-							<hr style="opacity: 0.28; margin-bottom: 0.5em;">
-						</div>
-					</header>
-				</div>
-				<!-- Snatch — secondary, trimmed header (no paragraph) -->
-				<header class="style1">
-					<div id="featuresHP">
-						<span class="feature-tag">Coming Soon</span>
-						<h2 class="S1">Snatch<br>New Era of Pong</h2>
-					</div>
-				</header>
-
-				<div class="row aln-center">
-					<div class="col-10 col-12-medium">
-						<section class="highlight">
-							<div class="box" style="position: relative; padding: 0; overflow: hidden;">
-								<div class="game-card-tags-left">
-									<span class="game-card-tag tag-steam">
-										<i class='bx bxl-steam'></i> Steam
-									</span>
-								</div>
-								<span class="game-card-tag tag-publisher">Re-Vision</span>
-								<a href="Snatch.html" class="banner-zoom">
-									<img src="images/Snatch/SnatchThumnail.jpg" alt="Snatch">
-								</a>
-								<div class="btn-row" style="padding: 0 3% 3% 3%; margin-top: 3%;">
-									<!-- Placeholder — swap for real Steam URL -->
-									<a href="#" target="_blank" rel="noopener noreferrer" class="button style6S"
-										style="width: 100%;">View on Steam</a>
-								</div>
+						<aside class="intro2-collab">
+							<div class="intro2-eyebrow">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 3-3"/><path d="M4 7h16"/><rect x="3" y="7" width="18" height="13" rx="2"/></svg>
+								<span>Collaborations</span>
 							</div>
-						</section>
+							<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
+							<div class="intro2-logos">
+								<div class="intro2-logo"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
+								<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
+								<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
+								<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
+							</div>
+						</aside>
 					</div>
 				</div>
-				<!-- Line -->
-				<div class="col-12 col-12-medium" style="padding-bottom: 0em;">
-					<header class="style1" style="padding-bottom: 0em;">
-						<div id="featuresHP" style="padding-bottom: 0em;">
-							<hr style="opacity: 0.28; margin-bottom: 3em;">
-						</div>
-					</header>
-				</div>
-				<!-- Cobweb — the volume story, compact grid -->
-				<header class="style1">
-					<div id="featuresHP">
-						<span class="feature-tag">Cobweb Games</span>
-						<h2 class="S1">Ten Projects, Six Launches, Thirteen Months</h2>
-						<p class="S2">Shipped six titles to Google Play as a Unity Developer at Cobweb.<br>Built fast,
-							optimized hard, learned to deliver under real production timelines.</p>
-					</div>
-				</header>
-
-				<div class="row aln-center">
-
-					<div class="col-4 col-12-medium">
-						<section class="highlight">
-							<a href="CastleInvader.html" class="game-card">
-								<div class="game-card-cover">
-									<div class="game-card-tags-left">
-										<span class="game-card-tag tag-googleplay"><i class='bx bxl-play-store'></i>
-											Play Store</span>
-									</div>
-									<img src="images/CastleInvader/Castle-Invader-Thumnail.jpg" alt="Castle Invader">
-								</div>
-								<div class="game-card-body">
-									<h3>Castle Invader</h3>
-									<p>Lead your team through weather obstacles in a charming Red Light Green Light
-										adventure.</p>
-									<span class="game-card-cta">Explore <span class="arrow">→</span></span>
-								</div>
-							</a>
-						</section>
-					</div>
-
-					<div class="col-4 col-12-medium">
-						<section class="highlight">
-							<a href="PenguinPinnacle.html" class="game-card">
-								<div class="game-card-cover">
-									<div class="game-card-tags-left">
-										<span class="game-card-tag tag-googleplay"><i class='bx bxl-play-store'></i>
-											Play Store</span>
-									</div>
-									<img src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg"
-										alt="Penguin Pinnacle">
-								</div>
-								<div class="game-card-body">
-									<h3>Penguin Pinnacle</h3>
-									<p>Guide a heroic penguin through vibrant worlds in this classic 2D platformer
-										adventure.</p>
-									<span class="game-card-cta">Explore <span class="arrow">→</span></span>
-								</div>
-							</a>
-						</section>
-					</div>
-
-					<div class="col-4 col-12-medium">
-						<section class="highlight">
-							<a href="SwiftBeat.html" class="game-card">
-								<div class="game-card-cover">
-									<div class="game-card-tags-left">
-										<span class="game-card-tag tag-googleplay"><i class='bx bxl-play-store'></i>
-											Play Store</span>
-									</div>
-									<img src="images/Swift Beat/Swift-Beat-Thumnail.jpg" alt="Swift Beat">
-								</div>
-								<div class="game-card-body">
-									<h3>Swift Beat</h3>
-									<p>Sync your actions to the rhythmic beats, dodge obstacles, and save the ball in
-										this rhythmic platformer.</p>
-									<span class="game-card-cta">Explore <span class="arrow">→</span></span>
-								</div>
-							</a>
-						</section>
-					</div>
-
-					<div class="col-4 col-12-medium">
-						<section class="highlight">
-							<a href="SlimeyAdventure.html" class="game-card">
-								<div class="game-card-cover">
-									<div class="game-card-tags-left">
-										<span class="game-card-tag tag-googleplay"><i class='bx bxl-play-store'></i>
-											Play Store</span>
-									</div>
-									<img src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg"
-										alt="Slimey Adventure">
-								</div>
-								<div class="game-card-body">
-									<h3>Slimey Adventure</h3>
-									<p>Soar through perilous skies, dodging enemies &amp; collecting power-ups in this
-										action-packed 2D game.</p>
-									<span class="game-card-cta">Explore <span class="arrow">→</span></span>
-								</div>
-							</a>
-						</section>
-					</div>
-
-					<div class="col-4 col-12-medium">
-						<section class="highlight">
-							<a href="EggiPeggi.html" class="game-card">
-								<div class="game-card-cover">
-									<div class="game-card-tags-left">
-										<span class="game-card-tag tag-googleplay"><i class='bx bxl-play-store'></i>
-											Play Store</span>
-									</div>
-									<img src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg" alt="Eggi Peggi">
-								</div>
-								<div class="game-card-body">
-									<h3>Eggi Peggi</h3>
-									<p>Bounce an egg with a chicken's head to keep it airborne in this whimsical arcade
-										challenge.</p>
-									<span class="game-card-cta">Explore <span class="arrow">→</span></span>
-								</div>
-							</a>
-						</section>
-					</div>
-
-					<div class="col-4 col-12-medium">
-						<section class="highlight">
-							<a href="MeteorChase.html" class="game-card">
-								<div class="game-card-cover">
-									<div class="game-card-tags-left">
-										<span class="game-card-tag tag-googleplay"><i class='bx bxl-play-store'></i>
-											Play Store</span>
-									</div>
-									<img src="images/Metor Chase/Metor-Chase-Thumnail.jpg" alt="Meteor Chase">
-								</div>
-								<div class="game-card-body">
-									<h3>Meteor Chase</h3>
-									<p>Dodge relentless meteors as an astronaut in this high-speed challenge of reflexes
-										and strategy.</p>
-									<span class="game-card-cta">Explore <span class="arrow">→</span></span>
-								</div>
-							</a>
-						</section>
-					</div>
-
-				</div>
-
 			</div>
-		</section>
+			<div class="hl-slide" id="highlightsTittle" data-index="1">
+				<div class="hl-slide-bg" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')" role="img" aria-label="Chess Run"></div>
+				<div class="hl-slide-content">
+					<span class="hl-tag"><i class='bx bxl-play-store'></i> Recently Live · Pixel Dreams</span>
+					<h2 class="hl-slide-title">Chess Run</h2>
+					<p class="hl-slide-sub">A Roguelike Endless Runner</p>
+					<p class="hl-slide-desc">A strategic endless runner where every move counts and every level is a new challenge. Demo out on Steam &amp; live on Google Play.</p>
+					<div class="hl-slide-actions">
+						<a class="hl-btn hl-btn--primary" href="ChessRun.html">Explore <span class="arrow">→</span></a>
+						<a class="hl-btn" href="javascript:void(0)" onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Trailer</a>
+						<a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank" rel="noopener">LinkTree</a>
+					</div>
+				</div>
+			</div>
+			<div class="hl-slide" data-index="2">
+				<div class="hl-slide-bg" style="background-image:url('images/WorldScar/WorldScar-Banner.jpg')" role="img" aria-label="Worldscar"></div>
+				<div class="hl-slide-content">
+					<span class="hl-tag">In Development · Pixel Dreams</span>
+					<h2 class="hl-slide-title">Worldscar</h2>
+					<p class="hl-slide-sub">A Horror Escape Room</p>
+					<p class="hl-slide-desc">My first Unreal Engine title. A psychological horror experience where every shadow holds a story and every room is a puzzle. Launching on Steam.</p>
+					<div class="hl-slide-actions">
+						<a class="hl-btn hl-btn--primary" href="WorldScar.html">Explore <span class="arrow">→</span></a>
+						<a class="hl-btn" href="javascript:void(0)" onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Concept</a>
+					</div>
+				</div>
+			</div>
+			<div class="hl-slide" data-index="3">
+				<div class="hl-slide-bg" style="background-image:url('images/Oneiros/Banner.jpg')" role="img" aria-label="Oneiros"></div>
+				<div class="hl-slide-content">
+					<span class="hl-tag"><i class='bx bxl-meta'></i> XR · Client Work</span>
+					<h2 class="hl-slide-title">Oneiros</h2>
+					<p class="hl-slide-sub">XR Experience · Meta Quest</p>
+					<p class="hl-slide-desc">An immersive XR eyewear showroom — reach out, pick up a pair of glasses, resize and recolor them in real space. The &ldquo;try it on&rdquo; moment, made tangible.</p>
+					<div class="hl-slide-actions">
+						<a class="hl-btn hl-btn--primary" href="Oneiros.html">Explore <span class="arrow">→</span></a>
+					</div>
+				</div>
+			</div>
+			<div class="hl-slide" data-index="4">
+				<div class="hl-slide-bg" style="background-image:url('images/Snatch/SnatchThumnail.jpg')" role="img" aria-label="Snatch"></div>
+				<div class="hl-slide-content">
+					<span class="hl-tag"><i class='bx bxl-steam'></i> Coming Soon · Re-Vision</span>
+					<h2 class="hl-slide-title">Snatch</h2>
+					<p class="hl-slide-sub">A New Era of Pong</p>
+					<p class="hl-slide-desc">A fast, competitive reinvention of Pong with a modern twist. Coming to Steam.</p>
+					<div class="hl-slide-actions">
+						<a class="hl-btn hl-btn--primary" href="Snatch.html">Explore <span class="arrow">→</span></a>
+						<a class="hl-btn" href="#" target="_blank" rel="noopener">Steam</a>
+					</div>
+				</div>
+			</div>
+			<div class="hl-slide hl-slide--cobweb" data-index="5">
+				<div class="hl-cobweb-inner">
+					<span class="hl-tag">Cobweb Games · Unity Developer</span>
+					<h2 class="hl-slide-title">Ten Projects · Six Launches</h2>
+					<p class="hl-slide-desc">Shipped six titles to Google Play as a Unity Developer at Cobweb — built fast, optimized hard, and learned to deliver under real production timelines.</p>
+					<div class="hl-cobweb-grid">
+						<a class="hl-mini" href="CastleInvader.html">
+							<span class="hl-mini-thumb"><img src="images/CastleInvader/Castle-Invader-Thumnail.jpg" alt="Castle Invader" loading="lazy"></span>
+							<span class="hl-mini-name">Castle Invader</span>
+							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+						</a>
+						<a class="hl-mini" href="PenguinPinnacle.html">
+							<span class="hl-mini-thumb"><img src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg" alt="Penguin Pinnacle" loading="lazy"></span>
+							<span class="hl-mini-name">Penguin Pinnacle</span>
+							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+						</a>
+						<a class="hl-mini" href="SwiftBeat.html">
+							<span class="hl-mini-thumb"><img src="images/Swift Beat/Swift-Beat-Thumnail.jpg" alt="Swift Beat" loading="lazy"></span>
+							<span class="hl-mini-name">Swift Beat</span>
+							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+						</a>
+						<a class="hl-mini" href="SlimeyAdventure.html">
+							<span class="hl-mini-thumb"><img src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="Slimey Adventure" loading="lazy"></span>
+							<span class="hl-mini-name">Slimey Adventure</span>
+							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+						</a>
+						<a class="hl-mini" href="EggiPeggi.html">
+							<span class="hl-mini-thumb"><img src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg" alt="Eggi Peggi" loading="lazy"></span>
+							<span class="hl-mini-name">Eggi Peggi</span>
+							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+						</a>
+						<a class="hl-mini" href="MeteorChase.html">
+							<span class="hl-mini-thumb"><img src="images/Metor Chase/Metor-Chase-Thumnail.jpg" alt="Meteor Chase" loading="lazy"></span>
+							<span class="hl-mini-name">Meteor Chase</span>
+							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 		<!-- ================================================== -->
 		<!-- SECTION 3: SKILLS (How I Build)                    -->
 		<!-- ================================================== -->
@@ -1736,10 +1580,6 @@
 			// ============================================
 			const fadeSelectors = [
 				/* #intro is animated with GSAP below */
-				'#highlights header.style1',
-				'#highlights .indev-card',
-				'#highlights .feature-tag',
-				'#highlights .highlight',
 				'#main header.style1',
 				'#main .journey',
 				'#main .skills-toolkit-header',
@@ -1814,38 +1654,117 @@
 			window.addEventListener('load', checkVisibility);
 		})();
 	</script>
-	<!-- GSAP intro animations -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+
+	<!-- Career Highlights vertical slider (one-card-per-gesture lock) -->
 	<script>
 		(function () {
-			if (!window.gsap || !window.ScrollTrigger) return;
-			gsap.registerPlugin(ScrollTrigger);
-			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduce) return;
-
-			// Staggered reveal of the intro block
-			var tl = gsap.timeline({ scrollTrigger: { trigger: '#intro', start: 'top 68%', once: true } });
-			tl.from('.intro2-eyebrow', { y: 24, autoAlpha: 0, duration: 0.6, ease: 'power3.out' })
-			  .from('.intro2-title span', { y: 44, autoAlpha: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12 }, '-=0.25')
-			  .from('.intro2-lead', { y: 24, autoAlpha: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
-			  .from('.intro2-stat', { y: 30, autoAlpha: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 }, '-=0.4');
-
-			// Count-up on the stat numbers
-			gsap.utils.toArray('.intro2-stat-num').forEach(function (el) {
-				var end = parseInt(el.getAttribute('data-count') || el.textContent, 10) || 0;
-				var suffix = el.getAttribute('data-suffix') || '';
-				var obj = { v: 0 };
-				gsap.to(obj, { v: end, duration: 1.3, ease: 'power2.out',
-					scrollTrigger: { trigger: '#intro', start: 'top 62%', once: true },
-					onUpdate: function () { el.textContent = Math.round(obj.v) + suffix; } });
+			var section = document.getElementById('highlights');
+			var slides = Array.prototype.slice.call(document.querySelectorAll('.hl-slide'));
+			var wrap = document.querySelector('.hl-slides');
+			var overlays = document.querySelector('.hl-overlays');
+			if (!section || !slides.length) return;
+			if (overlays) {
+				var so = new IntersectionObserver(function (entries) {
+					entries.forEach(function (e) { overlays.classList.toggle('is-active', e.isIntersecting); });
+				}, { threshold: 0.02 });
+				so.observe(section);
+			}
+			var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+			// Sticky slides report their *stuck* offsetTop once pinned, so derive layout
+			// positions from the (non-sticky) container top + cumulative slide heights.
+			function slideTops() {
+				var c = document.querySelector('.hl-slides') || section;
+				// Use fractional rect heights, not integer offsetHeight: on fractional display
+				// scaling the rounding drift accumulates and pushes the snap target past a slide top.
+				var t = topOf(c), out = [];
+				for (var i = 0; i < slides.length; i++) { out.push(t); t += slides[i].getBoundingClientRect().height; }
+				return out;
+			}
+			function slideTop(i) { return slideTops()[i]; }
+			function bounds() { var a = topOf(section); return { a: a, b: a + section.offsetHeight }; }
+			function inSlider() {
+				var vh = window.innerHeight, y = window.pageYOffset, bb = bounds();
+				return y >= bb.a - 4 && y <= bb.b - vh + 4;
+			}
+			function currentIndex() {
+				var y = window.pageYOffset, tops = slideTops(), idx = 0, best = Infinity;
+				for (var i = 0; i < tops.length; i++) { var d = Math.abs(tops[i] - y); if (d < best) { best = d; idx = i; } }
+				return idx;
+			}
+			var locked = false, targetIdx = null, lastWheelT = 0, goToT = 0, pollT = null;
+			var lastY = -1, stillCount = 0;
+			var QUIET_MS = 200;   // wheel silence required before the lock releases
+			var MIN_LOCK = 420;   // hold at least this long so momentum can't skip a card mid-scroll
+			var STALL_MS = 1200;  // hard ceiling (scrollbar drag / interrupted scroll) -> force unlock
+			// Timer-driven (not rAF): rAF pauses in a backgrounded tab, which would wedge the lock
+			// AND leave the seam shadow stuck on. setTimeout still fires when backgrounded.
+			function release() {
+				// Snap to the EXACT slide top. Smooth scroll can stop a few px past the target,
+				// and in this sticky reveal-stack any overshoot exposes the next slide from the
+				// bottom. Forcing the precise resting position kills that peek in both directions.
+				if (targetIdx !== null) window.scrollTo({ top: Math.round(slideTop(targetIdx)), behavior: 'instant' });
+				locked = false; targetIdx = null;
+				clearTimeout(pollT); pollT = null;
+				if (wrap) wrap.classList.remove('hl-animating');
+			}
+			function poll() {
+				var now = performance.now();
+				var y = window.pageYOffset;
+				if (y === lastY) stillCount++; else stillCount = 0;
+				lastY = y;
+				var quiet = now - lastWheelT >= QUIET_MS;
+				var minElapsed = now - goToT >= MIN_LOCK;
+				var settled = stillCount >= 2;   // scroll animation has actually stopped moving
+				if ((quiet && minElapsed && settled) || now - goToT >= STALL_MS) { release(); return; }
+				pollT = setTimeout(poll, 50);
+			}
+			function goTo(i) {
+				i = Math.max(0, Math.min(i, slides.length - 1));
+				locked = true;
+				targetIdx = i;
+				lastWheelT = goToT = performance.now();
+				lastY = -1; stillCount = 0;
+				if (wrap) wrap.classList.add('hl-animating');
+				window.scrollTo({ top: Math.round(slideTop(i)), behavior: reduce ? 'auto' : 'smooth' });
+				clearTimeout(pollT); pollT = setTimeout(poll, 50);
+			}
+			// --- Wheel: hard lock, exactly one card per gesture; release at the ends ---
+			window.addEventListener("wheel", function (e) {
+				if (reduce || !inSlider()) return;
+				var dir = e.deltaY > 0 ? 1 : (e.deltaY < 0 ? -1 : 0);
+				if (!dir) return;
+				var idx = locked && targetIdx !== null ? targetIdx : currentIndex();
+				if (!locked) {
+					if (dir > 0 && idx >= slides.length - 1) return;   // past last -> let page scroll on
+					if (dir < 0 && idx <= 0) return;                   // before first -> let page scroll up
+				}
+				e.preventDefault();
+				lastWheelT = performance.now();   // momentum tail keeps the lock alive
+				if (locked) return;                // swallow every event until settled + quiet
+				goTo(idx + dir);
+			}, { passive: false });
+			// --- Keyboard ---
+			window.addEventListener("keydown", function (e) {
+				if (reduce || !inSlider() || locked) return;
+				var idx = currentIndex();
+				if ((e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") && idx < slides.length - 1) { e.preventDefault(); goTo(idx + 1); }
+				else if ((e.key === "ArrowUp" || e.key === "PageUp") && idx > 0) { e.preventDefault(); goTo(idx - 1); }
 			});
-
-			// Collaborations block + logo strip
-			// Collaborations: keep the heading visible, just stagger the logo cards in
-			gsap.from('.intro2-logo', { y: 28, autoAlpha: 0, scale: 0.94, duration: 0.6, ease: 'power3.out', stagger: 0.1,
-				scrollTrigger: { trigger: '.intro2-logos', start: 'top 90%', once: true } });
-			ScrollTrigger.refresh();
+			// --- Touch swipe (mobile) ---
+			var ty = null;
+			window.addEventListener("touchstart", function (e) { ty = inSlider() ? e.touches[0].clientY : null; }, { passive: true });
+			window.addEventListener("touchmove", function (e) {
+				if (ty === null || locked || !inSlider()) return;
+				var dy = ty - e.touches[0].clientY;
+				if (Math.abs(dy) < 45) return;
+				var idx = currentIndex(), dir = dy > 0 ? 1 : -1;
+				if (dir > 0 && idx >= slides.length - 1) return;
+				if (dir < 0 && idx <= 0) return;
+				ty = null;
+				goTo(idx + dir);
+			}, { passive: true });
 		})();
 	</script>
 

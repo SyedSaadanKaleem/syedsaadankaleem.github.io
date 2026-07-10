@@ -45,6 +45,7 @@ if (toggleBtn && leftSidebar) {
             for (var i = 0; i < candidates.length; i++) {
                 var el = document.getElementById(candidates[i]);
                 if (!el) continue;
+                var slide = el.closest && el.closest('.hl-slide'); if (slide) return slide;
                 if (el.tagName === 'SECTION') return el;
                 var sec = el.closest && el.closest('section');
                 if (sec) return sec;
