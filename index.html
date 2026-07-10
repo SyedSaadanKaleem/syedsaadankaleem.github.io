@@ -491,7 +491,7 @@
 		   it — the same reveal-stack feel the other cards get. #main must be opaque so it
 		   actually covers the pinned slide. */
 		.hl-stack-tail { height: 100vh; height: 100dvh; pointer-events: none; }
-		#main { position: relative; z-index: 2; margin-top: -100vh; margin-top: -100dvh; background: #0b0b0b; }
+		#main { position: relative; z-index: 2; margin-top: -100vh; margin-top: -100dvh; background: #0b0b0b; border-top: 3px solid #ee2b2b; }
 		/* Two-column game slide: LEFT copy stays exactly as it was; on the RIGHT is a game CARD
 		   built from the assets already on disk — the 3:1 banner up top, then a footer with the
 		   game's Logo.png, name and tag. Scoped with :has to the game slides only. */
@@ -596,6 +596,22 @@
 			.hl-slide-content, .hl-cobweb-inner { padding-top: clamp(4.5rem, 12vh, 7rem); padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); }
 			.hl-slide--intro .hl-slide-content { padding-top: clamp(3.5rem, 8vh, 5.5rem); }
 			.hl-mini-name { font-size: 0.72rem; }
+		}
+		/* ===== Skills (The Craft) — matched to hero/intro style ===== */
+		.craft-head { max-width: 64em; margin: 0 auto 3.5em; text-align: left; align-items: center; grid-template-columns: minmax(0, 32fr) minmax(0, 68fr); }
+		.craft-head .intro2-title { margin-bottom: 0; }
+		.craft-head-copy .intro2-lead { margin-bottom: 1.2rem; }
+		.craft-head-copy .intro2-lead:last-child { margin-bottom: 0; }
+		@media (max-width: 720px) {
+			.craft-head { display: block; }
+			.craft-head .intro2-title { margin-bottom: 1.4rem; }
+		}
+		.skills-toolkit-header { text-align: left; max-width: 64em; }
+		.craft-actions { max-width: 64em; margin: 4.5em auto 0; justify-content: center; gap: 1rem; }
+		.craft-actions .hl-btn { font-size: 0.82rem; padding: 1.05em 2em; border-radius: 10px; }
+		@media (max-width: 480px) {
+			.craft-actions { flex-direction: column; align-items: stretch; }
+			.craft-actions .hl-btn { justify-content: center; }
 		}
 	</style>
 </head>
@@ -913,22 +929,25 @@
 		<!-- SECTION 3: SKILLS (How I Build)                    -->
 		<!-- ================================================== -->
 		<section id="main" class="wrapper style2">
-			<div id="mainTittle" class="title" data-section="mainTittle">The Craft</div>
+			<div id="mainTittle" data-section="mainTittle" aria-hidden="true"></div>
 			<div class="container">
-
-				<!-- Image -->
-				<img class="image featured" src="images/pic1.jpg" alt="" />
 
 				<!-- Features -->
 				<section id="features">
-					<header class="style1">
-						<div id="featuresHP">
-							<hr style="opacity: 0.28;">
-							<h2 class="S1">How I Build</h2>
-							<hr style="opacity: 0.28;">
-							<p class="S2">I move fast, prototype faster, and obsess over how a game <em>feels</em> in
-								the player's hands. Here's the toolkit behind the work.</p>
+					<header class="craft-head intro2-grid">
+						<div class="craft-head-lead">
+							<div class="intro2-eyebrow">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+								<span>The Process</span>
+							</div>
+							<h2 class="intro2-title"><span>How I</span><span><span class="vg-accent">build.</span></span></h2>
 						</div>
+						<aside class="craft-head-copy">
+							<p class="intro2-lead">I move fast, prototype faster, and obsess over how a game <em>feels</em> in
+								the player's hands. Every project runs the same six-step loop — spark, prototype, design,
+								build, test, ship — refined over six years and ten-plus titles.</p>
+							<p class="intro2-lead">Below: the process, and the toolkit behind the work.</p>
+						</aside>
 					</header>
 					<!-- <div class="feature-list">
 								<div class="row">
@@ -1161,16 +1180,11 @@
 
 					<!-- The Toolkit — what I work with -->
 					<div class="skills-toolkit-header">
-						<!-- Line -->
-						<div class="col-12 col-12-medium" style="padding-bottom: 0em;">
-							<header class="style1" style="padding-bottom: 0em;">
-								<div id="featuresHP" style="padding-bottom: 0em;">
-									<hr style="opacity: 0.28; margin-bottom: 3em;">
-								</div>
-							</header>
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+							<span>The Toolkit</span>
 						</div>
-						<h3>The Toolkit</h3>
-						<p>The engines and platforms I use to bring everything above to life.</p>
+						<h3 class="intro2-collab-title">The engines and platforms I use to bring everything above to life</h3>
 					</div>
 					<div class="skill-chips">
 
@@ -1253,11 +1267,10 @@
 						</div>
 
 					</div>
-					<br><br>
-					<ul class="actions special">
-						<li><a href="#footerTittle" class="button style5 large">Let's Work Together</a></li>
-						<li><a href="#highlightsTittle" class="button style4 large">View Games</a></li>
-					</ul>
+					<div class="hl-slide-actions craft-actions">
+						<a class="hl-btn hl-btn--primary" href="#footerTittle">Let's Work Together <span class="arrow">→</span></a>
+						<a class="hl-btn" href="#highlightsTittle">View Games</a>
+					</div>
 
 				</section>
 			</div>
