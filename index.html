@@ -494,11 +494,11 @@
 		/* Mirror the intro slide's two-column grid (same 1.3fr/1fr columns, gap and side
 		   padding) so the card's left & right edges line up EXACTLY with the intro's
 		   collaboration cards. The copy sits in column 1, the card in column 2. */
-		.hl-slide:has(> .hl-slide-bg) { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-rows: 1fr; gap: clamp(1.5rem, 3.5vw, 6rem); align-items: start; padding-left: calc(var(--sb-w) + var(--hero-gap)); padding-right: calc(var(--sb-right) + var(--hero-gap)); }
-		.hl-slide:has(> .hl-slide-bg) .hl-slide-content { grid-column: 1; grid-row: 1; align-self: start; padding-left: 0; padding-right: 0; min-width: 0; }
+		.hl-slide:has(> .hl-slide-bg) { display: grid; grid-template-columns: minmax(0, 1fr) clamp(360px, 50vw, 960px); grid-template-rows: 1fr; gap: clamp(1.5rem, 3.5vw, 6rem); align-items: start; padding-left: calc(var(--sb-w) + var(--hero-gap)); padding-right: calc(var(--sb-right) + var(--hero-gap)); }
+		.hl-slide:has(> .hl-slide-bg) .hl-slide-content { grid-column: 1 / -1; grid-row: 1; align-self: start; max-width: 70vw; padding-left: 0; padding-right: 0; min-width: 0; }
 		/* Card frame — matched to the intro slide's collaboration cards (.intro2-logo):
 		   flat translucent-white fill, hairline border, 14px radius, red hover lift. */
-		.hl-slide-bg { grid-column: 2; align-self: end; margin-bottom: clamp(2.5rem, 8vh, 6rem); position: relative; z-index: 2; display: flex; flex-direction: column; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease; width: 50vw; right: 13.3rem;}
+		.hl-slide-bg { grid-column: 2; grid-row: 1; align-self: end; margin-bottom: clamp(2.5rem, 8vh, 6rem); position: relative; z-index: 2; display: flex; flex-direction: column; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;}
 		.hl-slide-bg:hover { border-color: rgba(238,43,43,0.5); background: rgba(255,255,255,0.05); transform: translateY(-3px); }
 		/* Banner (true 3:1 ratio — no crop for 1500×500 art) */
 		.hl-gc-banner { width: 100%; aspect-ratio: 3 / 1; background-size: cover; background-position: center; background-repeat: no-repeat; }
@@ -509,18 +509,39 @@
 		.hl-gc-name { font-family:'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color:#fff; font-size: 1.12rem; line-height: 1; letter-spacing: 0.01em; }
 		.hl-gc-sub { font-family:'Inter',system-ui,sans-serif; color:#ee2b2b; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.6rem; }
 		.hl-gc-tag { font-family:'Inter',system-ui,sans-serif; color: rgba(255,255,255,0.5); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-		/* Not enough room beside the copy on smaller screens — drop the card and restore the
-		   original single-column slide (copy reflows full width with its normal padding). */
+		/* Cobweb copy stays in the LEFT column (the 70vw span is only for the banner slides),
+		   so its description can't run behind the game tiles. */
+		.hl-slide:has(> .hl-slide-bg).hl-slide--cobweb .hl-slide-content { grid-column: 1; max-width: none; position: relative; z-index: 3; }
+		/* Cobweb: NO outer box — six game tiles, each an image-on-top card with a title and a
+		   short blurb (Explore button dropped to save space), equal gaps both ways. */
+		.hl-cobweb-card { background: none; border: 0; border-radius: 0; box-shadow: none; overflow: visible; padding: 0; justify-content: center; }
+		.hl-cobweb-card:hover { background: none; border-color: transparent; transform: none; }
+		.hl-cobweb-card .hl-cobweb-grid { max-width: none; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.5rem, 0.9vw, 0.85rem); margin: 0; }
+		.hl-cobweb-card .hl-mini { padding: 0; gap: 0; overflow: hidden; }
+		.hl-cobweb-card .hl-mini-thumb { border-radius: 0; }
+		.hl-cobweb-card .hl-mini-name { padding: 0.5rem 0.6rem 0; font-size: 0.72rem; }
+		.hl-cobweb-card .hl-mini-desc { font-family:'Inter',system-ui,sans-serif; font-size: 0.58rem; line-height: 1.45; color: rgba(255,255,255,0.55); padding: 0.25rem 0.6rem 0.6rem; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+		.hl-cobweb-card .hl-mini-store { display: none; }
+		@media (max-width: 700px) { .hl-cobweb-card .hl-cobweb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+		@media (max-width: 460px) { .hl-cobweb-card .hl-cobweb-grid { grid-template-columns: 1fr; } }
+		/* Small screens: keep the card, stacked UNDER the copy in a single column. */
 		@media (max-width: 1024px) {
-			.hl-slide:has(> .hl-slide-bg) { display: flex; padding-left: 0; padding-right: 0; }
-			.hl-slide:has(> .hl-slide-bg) .hl-slide-content { padding-left: calc(var(--sb-w) + var(--hero-gap)); padding-right: 6vw; }
-			.hl-slide-bg { display: none; }
+			.hl-slide:has(> .hl-slide-bg) { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: clamp(1.1rem, 3.5vh, 2rem); align-items: start; align-content: center; padding-right: 6vw; }
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-content { grid-column: 1; grid-row: 1; }
+			.hl-slide-bg { grid-column: 1; grid-row: 2; align-self: start; justify-self: start; width: 100%; max-width: 560px; margin-bottom: 0; }
+		}
+		/* Phones: trim the card so the stack always fits the viewport height. */
+		@media (max-width: 600px) {
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-bg { max-width: 100%; }
+			.hl-gc-foot { padding: 0.8rem 0.95rem 0.9rem; gap: 0.7rem; }
+			.hl-gc-logo { width: 40px; height: 40px; }
 		}
 		.hl-slide::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(0deg, rgba(238,43,43,0.08), transparent 60%); }
 		.hl-slide-content, .hl-cobweb-inner { position: relative; z-index: 2; width: 100%; max-width: 60rem; padding: clamp(5rem,10vh,7rem) 6vw clamp(5rem,10vh,7rem) calc(var(--sb-w) + var(--hero-gap)); }
 		.hl-slide-content { max-width: 48rem; }
 		.hl-tag { display: inline-flex; align-items: center; gap: 0.7rem; background: none; border: 0; padding: 0; border-radius: 0; color: rgba(255,255,255,0.6); font-family:'Inter',system-ui,sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.4rem; }
 		.hl-tag i { color:#ee2b2b; font-size: 1.25em; }
+		.hl-tag-logo { height: 1.3em; width: auto; flex: none; display: inline-block; vertical-align: middle; }
 		.hl-slide-title { font-family:'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color:#fff; font-size: clamp(2rem, 4.4vw, 3.8rem); line-height: 0.95; letter-spacing:-0.01em; margin:0; }
 		.hl-slide-sub { font-family:'Inter',system-ui,sans-serif; color:#ee2b2b; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(0.72rem,1.1vw,0.9rem); margin: 0.7rem 0 0; }
 		.hl-slide-desc { font-family:'Inter',system-ui,sans-serif; max-width: 44rem; font-size: clamp(0.95rem,1.1vw,1.08rem); line-height: 1.8; color: rgba(255,255,255,0.66); margin: 1.5rem 0 2rem; }
@@ -833,7 +854,7 @@
 			<div class="hl-slide hl-slide--cobweb" data-index="5">
 				<div class="hl-cobweb-inner">
 					<span class="hl-tag">Cobweb Games · Unity Developer</span>
-					<h2 class="hl-slide-title">Ten Projects · Six Launches</h2>
+					<h2 class="hl-slide-title">Ten Projects,  Six Launches</h2>
 					<p class="hl-slide-desc">Shipped six titles to Google Play as a Unity Developer at Cobweb — built fast, optimized hard, and learned to deliver under real production timelines.</p>
 					<div class="hl-cobweb-grid">
 						<a class="hl-mini" href="CastleInvader.html">
@@ -1709,6 +1730,57 @@
 				_tail.setAttribute('aria-hidden', 'true');
 				wrap.appendChild(_tail);
 			}
+			// Rework the Cobweb (last) slide into the same two-column layout: its text on the
+			// left (like every other slide) and all six games in a card on the right.
+			(function () {
+				var cob = section.querySelector('.hl-slide--cobweb');
+				if (!cob || cob.getAttribute('data-carded')) return;
+				var inner = cob.querySelector('.hl-cobweb-inner');
+				var grid = cob.querySelector('.hl-cobweb-grid');
+				if (!inner || !grid) return;
+				inner.classList.add('hl-slide-content');       // left column, styled like other slides
+				// Add the red subtitle (like the other slides) between the title and blurb.
+				var cobTitle = inner.querySelector('.hl-slide-title');
+				if (cobTitle && !inner.querySelector('.hl-slide-sub')) {
+					var cobSub = document.createElement('p');
+					cobSub.className = 'hl-slide-sub';
+					cobSub.textContent = 'With-in Thirteen Months';
+					cobTitle.insertAdjacentElement('afterend', cobSub);
+				}
+				// Put the CobWeb logo in the tag, where the other slides show a red icon.
+				var cobTag = inner.querySelector('.hl-tag');
+				if (cobTag && !cobTag.querySelector('.hl-tag-logo')) {
+					var cobLogo = document.createElement('img');
+					cobLogo.className = 'hl-tag-logo';
+					cobLogo.src = 'cobweb-logo.svg';
+					cobLogo.alt = 'CobWeb';
+					cobTag.insertBefore(cobLogo, cobTag.firstChild);
+				}
+				// Give each game tile a short blurb (from the old cards) beneath its title.
+				var DESCS = {
+					'CastleInvader.html': 'Lead your team through weather obstacles in a charming Red Light Green Light adventure.',
+					'PenguinPinnacle.html': 'Guide a heroic penguin through vibrant worlds in this classic 2D platformer adventure.',
+					'SwiftBeat.html': 'Sync your actions to the rhythmic beats, dodge obstacles, and save the ball in this rhythmic platformer.',
+					'SlimeyAdventure.html': 'Soar through perilous skies, dodging enemies & collecting power-ups in this action-packed 2D game.',
+					'EggiPeggi.html': "Bounce an egg with a chicken's head to keep it airborne in this whimsical arcade challenge.",
+					'MeteorChase.html': 'Dodge relentless meteors as an astronaut in this high-speed challenge of reflexes and strategy.'
+				};
+				Array.prototype.forEach.call(grid.querySelectorAll('.hl-mini'), function (mini) {
+					var href = (mini.getAttribute('href') || '').split('/').pop();
+					var nameEl = mini.querySelector('.hl-mini-name');
+					if (!DESCS[href] || !nameEl || mini.querySelector('.hl-mini-desc')) return;
+					var p = document.createElement('span');
+					p.className = 'hl-mini-desc';
+					p.textContent = DESCS[href];
+					nameEl.insertAdjacentElement('afterend', p);
+				});
+				var card = document.createElement('div');
+				card.className = 'hl-slide-bg hl-cobweb-card';  // right card (reuses card frame + grid placement)
+				card.setAttribute('data-carded', '1');
+				card.appendChild(grid);                         // move the six-game grid inside the card
+				cob.appendChild(card);
+				cob.setAttribute('data-carded', '1');
+			})();
 			// Build the right-side game card from assets already on disk: the slide's banner
 			// (from .hl-slide-bg's inline background) + the game's Logo.png, name and tag.
 			slides.forEach(function (slide) {
