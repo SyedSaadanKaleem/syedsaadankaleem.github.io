@@ -4233,11 +4233,12 @@ html{
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #c7a6fcaf;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
     color: #fff;
     margin-bottom: 20px;
-	box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 .banner-image img {
@@ -4326,11 +4327,12 @@ html{
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #c7a6fcaf;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
     color: #fff;
-    margin-bottom: 20px;	
-	box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 
 }
 
@@ -4541,7 +4543,7 @@ margin-top: -2em;}
 
 
 	#preloader{
-		background: #121212 url(../../images/preloader.gif) no-repeat center center;
+		background: #121212 url(../../images/Hero-BG.mp4) no-repeat center center;
 		height: 100vh;
 		width: 100%;
 		position: fixed;
@@ -4861,14 +4863,14 @@ margin-top: -2em;}
     transition: transform 0.4s ease, filter 0.4s ease, color 0.4s ease;
 }
 .skill-chip:hover .skill-chip-icon i {
-    color: #eee;
+    color: #121212;
     filter: drop-shadow(0 0 8px rgba(238, 43, 43, 0.8));
-	opacity: 0.7;
+	opacity: 1;
 
 }
 .skill-chip:hover .skill-chip-icon img {
-    filter: brightness(1.4) drop-shadow(0 0 8px rgba(238, 43, 43, 0.8));
-	opacity: 0.7;
+    filter: brightness(0) drop-shadow(0 0 8px rgba(238, 43, 43, 0.8));
+	opacity: 1;
 }
 .skill-chip-icon svg {
     width: 100%;
@@ -4877,7 +4879,7 @@ margin-top: -2em;}
     transition: color 0.4s ease, transform 0.4s ease, filter 0.4s ease;
 }
 .skill-chip:hover .skill-chip-icon svg {
-    color: #fff;
+    color: #121212;
     filter: drop-shadow(0 0 8px rgba(238, 43, 43, 0.8));
     transform: scale(1.12);
 }
