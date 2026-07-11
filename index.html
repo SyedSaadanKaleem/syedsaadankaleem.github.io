@@ -1571,6 +1571,67 @@
 				justify-content: center;
 			}
 		}
+
+		/* ===== Contact / footer — matched to hero/intro style ===== */
+		#footer { border-top: 3px solid #ee2b2b; }
+		#footerTittle { display: block; height: 0; border: 0; }
+		.contact-head { margin-bottom: clamp(2.5em, 5vw, 4em); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+		.contact-head .intro2-title .vg-accent { display: inline; }
+		#footer header.craft-head { border-bottom: 0; padding-bottom: 0; }
+		#footer .container > .row,
+		#footer #copyright { max-width: 64em; margin-left: auto; margin-right: auto; }
+		/* Dark hairline inputs with red focus */
+		#footer form input[type="text"],
+		#footer form input[type="email"],
+		#footer form textarea {
+			background: rgba(255,255,255,0.03);
+			border: 1px solid rgba(255,255,255,0.1);
+			border-radius: 10px;
+			color: #fff;
+			box-shadow: none;
+			font-family: 'Inter', system-ui, sans-serif;
+			transition: border-color .3s ease, background .3s ease;
+		}
+		#footer form input[type="text"]:focus,
+		#footer form input[type="email"]:focus,
+		#footer form textarea:focus {
+			background: rgba(255,255,255,0.05);
+			border-color: rgba(238,43,43,0.6);
+			box-shadow: none;
+		}
+		#footer form ::placeholder { color: rgba(255,255,255,0.4); }
+		/* Send / Reset as hero buttons */
+		#footer .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+		#footer .actions li { padding: 0; }
+		#footer .actions a { display: inline-flex; }
+		#footer .actions input[type="submit"],
+		#footer .actions input[type="reset"] {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.72rem;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			padding: 0.9em 1.8em;
+			height: auto;
+			line-height: 1;
+			border-radius: 10px;
+			border: 1px solid rgba(255,255,255,0.2);
+			background: transparent;
+			color: #fff;
+			box-shadow: none;
+			cursor: pointer;
+			transition: background .25s, border-color .25s, transform .25s;
+		}
+		#footer .actions input[type="submit"] { background: #ee2b2b; border-color: #ee2b2b; }
+		#footer .actions input[type="submit"]:hover { background: #c81f1f; border-color: #c81f1f; box-shadow: none; }
+		#footer .actions input[type="reset"]:hover { border-color: rgba(238,43,43,0.6); background: rgba(238,43,43,0.14); box-shadow: none; }
+		/* Contact info column */
+		#footer .feature-list h3.icon { color: #fff; }
+		#footer .feature-list a { color: rgba(255,255,255,0.7); transition: color .25s; }
+		#footer .feature-list a:hover { color: #ee2b2b; }
+		@media (max-width: 480px) {
+			#footer .actions { flex-direction: column; align-items: stretch; }
+			#footer .actions a, #footer .actions input { width: 100%; }
+		}
 	</style>
 </head>
 
@@ -2480,13 +2541,20 @@
 		<!-- SECTION 5: FOOTER / CONTACT                        -->
 		<!-- ================================================== -->
 		<section id="footer" class="wrapper">
-			<div id="footerTittle" class="title" data-section="footerTittle">Get in Touch</div>
+			<div id="footerTittle" data-section="footerTittle" aria-hidden="true"></div>
 			<div class="container">
-				<header class="style1">
-					<h2>Let's turn your Fantasy into Reality!</h2>
-					<p>
-						Got a project, a wild idea, or just want to talk games? My inbox is open.
-					</p>
+				<header class="craft-head intro2-grid contact-head">
+					<div class="craft-head-lead">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+							<span>Get in Touch</span>
+						</div>
+						<h2 class="intro2-title"><span>Let’s turn ideas</span><span>into <span class="vg-accent">reality.</span></span></h2>
+					</div>
+					<aside class="craft-head-copy">
+						<p class="intro2-lead">Got a project, a wild idea, or just want to talk games? My inbox is open —
+							drop a line and I'll get back to you.</p>
+					</aside>
 				</header>
 				<div class="row">
 					<div class="col-6 col-12-medium">
