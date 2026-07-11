@@ -517,7 +517,7 @@ color: rgba(0, 0, 0, 0);
 		-webkit-transition: color .25s ease-in-out;
 		-ms-transition: color .25s ease-in-out;
 		transition: color .25s ease-in-out;
-		text-decoration: underline;
+		text-decoration: none;
 		color: #717479;
 	}
 
@@ -4415,14 +4415,11 @@ html{
 #Certification{
 	background: #181818;
 	color:#fff;
+	border-top: 3px solid #ee2b2b;
 }
 #CertificationTittle{
-	font-family: 'FSP DEMO - PODIUM Sharp 4.11', sans-serif;
-	background: #181818;
-	border-top: 3px solid #ee2b2b;
-	color:#fff;
-			border-top-left-radius: 2rem ;
-		border-top-right-radius: 2rem ;
+	display: block;
+	height: 0;
 }
 
 

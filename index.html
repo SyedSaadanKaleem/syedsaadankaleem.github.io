@@ -87,7 +87,8 @@
 			body,
 			body.sidebar-open {
 				--sb-w: 0px;
-				--sb-right: 0px; /* right sidebar is hidden here too — keep gaps symmetric */
+				--sb-right: 0px;
+				/* right sidebar is hidden here too — keep gaps symmetric */
 			}
 		}
 
@@ -429,189 +430,1143 @@
 			position: relative;
 			z-index: 1;
 		}
+
 		/* ===== Intro — matched to hero style ===== */
-		#intro.wrapper { text-align: left; }
-		.intro2-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(1.5rem, 3.5vw, 6rem); align-items: start; }
-		.intro2 { max-width: 46rem; }
-		.intro2-eyebrow { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem; }
-		.intro2-eyebrow svg { width: 18px; height: 18px; color: #ee2b2b; flex: none; }
-		.intro2-eyebrow span { font-family: 'Inter', system-ui, sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
-		.intro2-title { font-family: 'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color: #fff; line-height: 0.95; letter-spacing: -0.01em; font-size: clamp(2rem, 4.4vw, 3.8rem); margin: 0 0 1.6rem; }
-		.intro2-title span { display: block; }
-		.intro2-title .vg-accent { color: #ee2b2b; }
-		.intro2-lead { font-family: 'Inter', system-ui, sans-serif; font-size: clamp(0.95rem, 1.1vw, 1.08rem); line-height: 1.8; color: rgba(255,255,255,0.66); margin: 0 0 2.4rem; }
-		.intro2-stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1.2rem; }
-		.intro2-stat { border-top: 2px solid rgba(238,43,43,0.55); padding-top: 0.85rem; }
-		.intro2-stat-num { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; color: #fff; font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1; }
-		.intro2-stat-label { margin-top: 0.5rem; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+		#intro.wrapper {
+			text-align: left;
+		}
+
+		.intro2-grid {
+			display: grid;
+			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+			gap: clamp(1.5rem, 3.5vw, 6rem);
+			align-items: start;
+		}
+
+		.intro2 {
+			max-width: 46rem;
+		}
+
+		.intro2-eyebrow {
+			display: flex;
+			align-items: center;
+			gap: 0.7rem;
+			margin-bottom: 1.4rem;
+		}
+
+		.intro2-eyebrow svg {
+			width: 18px;
+			height: 18px;
+			color: #ee2b2b;
+			flex: none;
+		}
+
+		.intro2-eyebrow span {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.7rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.6);
+		}
+
+		.intro2-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			line-height: 0.95;
+			letter-spacing: -0.01em;
+			font-size: clamp(2rem, 4.4vw, 3.8rem);
+			margin: 0 0 1.6rem;
+		}
+
+		.intro2-title span {
+			display: block;
+		}
+
+		.intro2-title .vg-accent {
+			color: #ee2b2b;
+		}
+
+		.intro2-lead {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: clamp(0.95rem, 1.1vw, 1.08rem);
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.66);
+			margin: 0 0 2.4rem;
+		}
+
+		.intro2-stats {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 1.2rem;
+		}
+
+		.intro2-stat {
+			border-top: 2px solid rgba(238, 43, 43, 0.55);
+			padding-top: 0.85rem;
+		}
+
+		.intro2-stat-num {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-weight: 700;
+			letter-spacing: -0.02em;
+			color: #fff;
+			font-size: clamp(1.6rem, 3vw, 2.6rem);
+			line-height: 1;
+		}
+
+		.intro2-stat-label {
+			margin-top: 0.5rem;
+			font-size: 0.58rem;
+			letter-spacing: 0.16em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+		}
+
 		/* Collaborations column with logo grid */
-		.intro2-collab { margin: 0; }
-		.intro2-collab-title { font-family: 'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color: rgba(255,255,255,0.85); font-size: clamp(1.05rem, 1.5vw, 1.5rem); letter-spacing: 0.01em; line-height: 1.15; margin: 0.3rem 0 0; }
-		.intro2-logos { display: grid; grid-template-columns: 1fr; gap: 0.85rem; margin-top: 1.6rem; }
-		.intro2-logo { display: flex; align-items: center; justify-content: center; padding: 1.35rem 1.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease; }
-		.intro2-logo img { max-width: 100%; max-height: 2.4rem; width: auto; height: auto; opacity: 0.72; transition: opacity 0.3s ease; }
-		.intro2-logo:hover { border-color: rgba(238,43,43,0.5); background: rgba(255,255,255,0.05); transform: translateY(-3px); }
-		.intro2-logo:hover img { opacity: 1; }
+		.intro2-collab {
+			margin: 0;
+		}
+
+		.intro2-collab-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.85);
+			font-size: clamp(1.05rem, 1.5vw, 1.5rem);
+			letter-spacing: 0.01em;
+			line-height: 1.15;
+			margin: 0.3rem 0 0;
+		}
+
+		.intro2-logos {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 0.85rem;
+			margin-top: 1.6rem;
+		}
+
+		.intro2-logo {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1.35rem 1.4rem;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 14px;
+			transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+		}
+
+		.intro2-logo img {
+			max-width: 100%;
+			max-height: 2.4rem;
+			width: auto;
+			height: auto;
+			opacity: 0.72;
+			transition: opacity 0.3s ease;
+		}
+
+		.intro2-logo:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.05);
+			transform: translateY(-3px);
+		}
+
+		.intro2-logo:hover img {
+			opacity: 1;
+		}
+
 		/* Keep collaborations sticky on the right while the two-column layout holds */
 		@media (min-width: 721px) {
-			.intro2-collab { position: sticky; top: clamp(6rem, 16vh, 9rem); align-self: start; }
+			.intro2-collab {
+				position: sticky;
+				top: clamp(6rem, 16vh, 9rem);
+				align-self: start;
+			}
 		}
+
 		/* Sidebars are hidden below 1280 -> add a normal responsive gutter (still two-column) */
 		@media (max-width: 1280px) {
-			#intro { padding-left: clamp(1.25rem, 5vw, 3rem); padding-right: clamp(1.25rem, 5vw, 3rem); }
+			#intro {
+				padding-left: clamp(1.25rem, 5vw, 3rem);
+				padding-right: clamp(1.25rem, 5vw, 3rem);
+			}
 		}
+
 		/* Narrow left column -> stats to two-up */
 		@media (max-width: 900px) {
-			.intro2-stats { grid-template-columns: repeat(2, 1fr); gap: 1.1rem 1rem; }
+			.intro2-stats {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1.1rem 1rem;
+			}
 		}
+
 		/* Logo boxes ~half their original width -> stack, collaborations moves below */
 		@media (max-width: 720px) {
-			.intro2-grid { grid-template-columns: 1fr; gap: 1.6rem; }
-			.intro2 { max-width: none; }
-			.intro2-collab { margin-top: 0.5rem; }
-			.intro2-logos { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; margin-top: 1.2rem; }
-			.intro2-logo { padding: 1rem 1.1rem; }
-			.intro2-title { margin-bottom: 1.2rem; }
-			.intro2-lead { line-height: 1.65; margin-bottom: 1.6rem; }
+			.intro2-grid {
+				grid-template-columns: 1fr;
+				gap: 1.6rem;
+			}
+
+			.intro2 {
+				max-width: none;
+			}
+
+			.intro2-collab {
+				margin-top: 0.5rem;
+			}
+
+			.intro2-logos {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 0.7rem;
+				margin-top: 1.2rem;
+			}
+
+			.intro2-logo {
+				padding: 1rem 1.1rem;
+			}
+
+			.intro2-title {
+				margin-bottom: 1.2rem;
+			}
+
+			.intro2-lead {
+				line-height: 1.65;
+				margin-bottom: 1.6rem;
+			}
 		}
+
 		/* ===== Career Highlights — full-screen vertical snap slider ===== */
 		/* Firm snap turns on (via JS) only while inside Career Highlights; hero + intro scroll normally */
-		html { scroll-behavior: smooth; }
-		#highlights.wrapper { padding: 0 !important; text-align: left; position: relative; }
-		.hl-anchor { position: absolute; top: 0; left: 0; width: 1px; height: 1px; }
-		.hl-slides { position: relative; }
-		.hl-slide { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; align-items: center; overflow: hidden; background: radial-gradient(120% 90% at 15% 20%, rgba(238,43,43,0.18), transparent 60%), #0b0b0b; transition: box-shadow 0.28s ease; }
+		html {
+			scroll-behavior: smooth;
+		}
+
+		#highlights.wrapper {
+			padding: 0 !important;
+			text-align: left;
+			position: relative;
+		}
+
+		.hl-anchor {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 1px;
+			height: 1px;
+		}
+
+		.hl-slides {
+			position: relative;
+		}
+
+		.hl-slide {
+			position: sticky;
+			top: 0;
+			height: 100vh;
+			height: 100dvh;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
+			background: radial-gradient(120% 90% at 15% 20%, rgba(238, 43, 43, 0.18), transparent 60%), #0b0b0b;
+			transition: box-shadow 0.28s ease;
+		}
+
 		/* Seam shadow only while a slide is moving — at rest the next slide's upward shadow must not bleed up into the current one. */
-		.hl-slides.hl-animating .hl-slide { box-shadow: 0 -28px 70px rgba(0,0,0,0.55); }
+		.hl-slides.hl-animating .hl-slide {
+			box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.55);
+		}
+
 		/* Veil: hide the next card during the intro entry/overshoot so a fast fling can
 		   never flash it over the intro before the hard-stop lands. Cleared on settle/advance. */
-		.hl-slide.hl-veil { opacity: 0 !important; visibility: hidden !important; }
+		.hl-slide.hl-veil {
+			opacity: 0 !important;
+			visibility: hidden !important;
+		}
+
 		/* Last-slide pin range: a full-viewport spacer at the end of the sticky stack keeps
 		   the last slide fixed while the Skills section (pulled up + above it) scrolls over
 		   it — the same reveal-stack feel the other cards get. #main must be opaque so it
 		   actually covers the pinned slide. */
-		.hl-stack-tail { height: 100vh; height: 100dvh; pointer-events: none; }
-		#main { position: relative; z-index: 2; margin-top: -100vh; margin-top: -100dvh; background: #0b0b0b; border-top: 3px solid #ee2b2b; }
+		.hl-stack-tail {
+			height: 100vh;
+			height: 100dvh;
+			pointer-events: none;
+		}
+
+		#main {
+			position: relative;
+			z-index: 2;
+			margin-top: -100vh;
+			margin-top: -100dvh;
+			background: #0b0b0b;
+			border-top: 3px solid #ee2b2b;
+		}
+
 		/* Two-column game slide: LEFT copy stays exactly as it was; on the RIGHT is a game CARD
 		   built from the assets already on disk — the 3:1 banner up top, then a footer with the
 		   game's Logo.png, name and tag. Scoped with :has to the game slides only. */
 		/* Mirror the intro slide's two-column grid (same 1.3fr/1fr columns, gap and side
 		   padding) so the card's left & right edges line up EXACTLY with the intro's
 		   collaboration cards. The copy sits in column 1, the card in column 2. */
-		.hl-slide:has(> .hl-slide-bg) { display: grid; grid-template-columns: minmax(0, 1fr) clamp(360px, 50vw, 960px); grid-template-rows: 1fr; gap: clamp(1.5rem, 3.5vw, 6rem); align-items: start; padding-left: calc(var(--sb-w) + var(--hero-gap)); padding-right: calc(var(--sb-right) + var(--hero-gap)); }
-		.hl-slide:has(> .hl-slide-bg) .hl-slide-content { grid-column: 1 / -1; grid-row: 1; align-self: start; max-width: 70vw; padding-left: 0; padding-right: 0; min-width: 0; }
+		.hl-slide:has(> .hl-slide-bg) {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) clamp(360px, 50vw, 960px);
+			grid-template-rows: 1fr;
+			gap: clamp(1.5rem, 3.5vw, 6rem);
+			align-items: start;
+			padding-left: calc(var(--sb-w) + var(--hero-gap));
+			padding-right: calc(var(--sb-right) + var(--hero-gap));
+		}
+
+		.hl-slide:has(> .hl-slide-bg) .hl-slide-content {
+			grid-column: 1 / -1;
+			grid-row: 1;
+			align-self: start;
+			max-width: 70vw;
+			padding-left: 0;
+			padding-right: 0;
+			min-width: 0;
+		}
+
 		/* Card frame — matched to the intro slide's collaboration cards (.intro2-logo):
 		   flat translucent-white fill, hairline border, 14px radius, red hover lift. */
-		.hl-slide-bg { grid-column: 2; grid-row: 1; align-self: end; margin-bottom: clamp(2.5rem, 8vh, 6rem); position: relative; z-index: 2; display: flex; flex-direction: column; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;}
-@media (max-width: 1280px) {
-		.hl-slide-bg { grid-column: 2; grid-row: 1; align-self: end; margin-bottom: clamp(9rem, 8vh, 6rem); position: relative; z-index: 2; display: flex; flex-direction: column; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;}
-}
-		.hl-slide-bg:hover { border-color: rgba(238,43,43,0.5); background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+		.hl-slide-bg {
+			grid-column: 2;
+			grid-row: 1;
+			align-self: end;
+			margin-bottom: clamp(2.5rem, 8vh, 6rem);
+			position: relative;
+			z-index: 2;
+			display: flex;
+			flex-direction: column;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 14px;
+			overflow: hidden;
+			transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+		}
+
+		@media (max-width: 1280px) {
+			.hl-slide-bg {
+				grid-column: 2;
+				grid-row: 1;
+				align-self: end;
+				margin-bottom: clamp(9rem, 8vh, 6rem);
+				position: relative;
+				z-index: 2;
+				display: flex;
+				flex-direction: column;
+				background: rgba(255, 255, 255, 0.03);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 14px;
+				overflow: hidden;
+				transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+			}
+		}
+
+		.hl-slide-bg:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.05);
+			transform: translateY(-3px);
+		}
+
 		/* Banner (true 3:1 ratio — no crop for 1500×500 art) */
-		.hl-gc-banner { width: 100%; aspect-ratio: 3 / 1; background-size: cover; background-position: center; background-repeat: no-repeat; }
+		.hl-gc-banner {
+			width: 100%;
+			aspect-ratio: 3 / 1;
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
 		/* Footer: logo + name + tag */
-		.hl-gc-foot { display: flex; align-items: center; gap: 0.85rem; padding: 0.95rem 1.15rem 1.05rem; }
-		.hl-gc-logo { width: 46px; height: 46px; object-fit: contain; flex: none; border-radius: 9px; background: rgba(255,255,255,0.04); }
-		.hl-gc-meta { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
-		.hl-gc-name { font-family:'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color:#fff; font-size: 1.12rem; line-height: 1; letter-spacing: 0.01em; }
-		.hl-gc-sub { font-family:'Inter',system-ui,sans-serif; color:#ee2b2b; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.6rem; }
-		.hl-gc-tag { visibility:hidden;'Inter',system-ui,sans-serif; color: rgba(255,255,255,0.5); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		.hl-gc-foot {
+			display: flex;
+			align-items: center;
+			gap: 0.85rem;
+			padding: 0.95rem 1.15rem 1.05rem;
+		}
+
+		.hl-gc-logo {
+			width: 46px;
+			height: 46px;
+			object-fit: contain;
+			flex: none;
+			border-radius: 9px;
+			background: rgba(255, 255, 255, 0.04);
+		}
+
+		.hl-gc-meta {
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+			padding-top: 1.25%;
+		}
+
+		.hl-gc-name {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: 1.12rem;
+			line-height: 1;
+			letter-spacing: 0.01em;
+		}
+
+		.hl-gc-sub {
+			font-family: 'Inter', system-ui, sans-serif;
+			color: #ee2b2b;
+			text-transform: uppercase;
+			letter-spacing: 0.16em;
+			font-size: 0.6rem;
+		}
+
+		
+
 		/* Cobweb copy stays in the LEFT column (the 70vw span is only for the banner slides),
 		   so its description can't run behind the game tiles. */
-		.hl-slide:has(> .hl-slide-bg).hl-slide--cobweb .hl-slide-content { grid-column: 1; max-width: none; position: relative; z-index: 3; }
+		.hl-slide:has(> .hl-slide-bg).hl-slide--cobweb .hl-slide-content {
+			grid-column: 1;
+			max-width: none;
+			position: relative;
+			z-index: 3;
+		}
+
 		/* Cobweb: NO outer box — six game tiles, each an image-on-top card with a title and a
 		   short blurb (Explore button dropped to save space), equal gaps both ways. */
-		.hl-cobweb-card { background: none; border: 0; border-radius: 0; box-shadow: none; overflow: visible; padding: 0; justify-content: center; }
-		.hl-cobweb-card:hover { background: none; border-color: transparent; transform: none; }
-		.hl-cobweb-card .hl-cobweb-grid { max-width: none; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.5rem, 0.9vw, 0.85rem); margin: 0; }
-		.hl-cobweb-card .hl-mini { padding: 0; gap: 0; overflow: hidden; }
-		.hl-cobweb-card .hl-mini-thumb { border-radius: 0; }
-		.hl-cobweb-card .hl-mini-name { padding: 0.5rem 0.6rem 0; font-size: 0.72rem; }
-		.hl-cobweb-card .hl-mini-desc { font-family:'Inter',system-ui,sans-serif; font-size: 0.58rem; line-height: 1.45; color: rgba(255,255,255,0.55); padding: 0.25rem 0.6rem 0.6rem; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-		.hl-cobweb-card .hl-mini-store { display: none; }
+		.hl-cobweb-card {
+			background: none;
+			border: 0;
+			border-radius: 0;
+			box-shadow: none;
+			overflow: visible;
+			padding: 0;
+			justify-content: center;
+		}
+
+		.hl-cobweb-card:hover {
+			background: none;
+			border-color: transparent;
+			transform: none;
+		}
+
+		.hl-cobweb-card .hl-cobweb-grid {
+			max-width: none;
+			width: 100%;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: clamp(0.5rem, 0.9vw, 0.85rem);
+			margin: 0;
+		}
+
+		.hl-cobweb-card .hl-mini {
+			padding: 0;
+			gap: 0;
+			overflow: hidden;
+		}
+
+		.hl-cobweb-card .hl-mini-thumb {
+			border-radius: 0;
+		}
+
+		.hl-cobweb-card .hl-mini-name {
+			padding: 0.5rem 0.6rem 0;
+			font-size: 0.72rem;
+		}
+
+		.hl-cobweb-card .hl-mini-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.58rem;
+			line-height: 1.45;
+			color: rgba(255, 255, 255, 0.55);
+			padding: 0.25rem 0.6rem 0.6rem;
+			margin: 0;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.hl-cobweb-card .hl-mini-store {
+			display: none;
+		}
+
 		/* Phones: keep the 3-col mosaic but drop the blurbs and shrink the names —
 		   2-col tiles with descriptions stack too tall for one viewport. */
 		@media (max-width: 700px) {
-			.hl-cobweb-card .hl-mini-desc { display: none; }
-			.hl-cobweb-card .hl-mini-name { font-size: 0.62rem; padding: 0.4rem 0.45rem 0.5rem; }
+			.hl-cobweb-card .hl-mini-desc {
+				display: none;
+			}
+
+			.hl-cobweb-card .hl-mini-name {
+				font-size: 0.62rem;
+				padding: 0.4rem 0.45rem 0.5rem;
+			}
 		}
+
 		/* Small screens: keep the card, stacked UNDER the copy in a single column.
 		   The slide grid owns the vertical padding (incl. bottom-nav clearance, which must
 		   sit BELOW the card, not between copy and card) and may grow past the viewport
 		   (min-height, like the intro) so content is never clipped by overflow:hidden. */
 		@media (max-width: 1024px) {
-			.hl-slide:has(> .hl-slide-bg) { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: clamp(1.1rem, 3.5vh, 2rem); align-items: start; align-content: center; padding-right: 6vw; height: auto; min-height: 100vh; min-height: 100dvh; padding-top: clamp(3.5rem, 8vh, 6rem); padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
-			.hl-slide:has(> .hl-slide-bg) .hl-slide-content { grid-column: 1; grid-row: 1; padding-top: 0; padding-bottom: 0; }
-			.hl-slide-bg { grid-column: 1; grid-row: 2; align-self: start; justify-self: start; width: 100%; max-width: 560px; margin-bottom: 0; }
+			.hl-slide:has(> .hl-slide-bg) {
+				grid-template-columns: minmax(0, 1fr);
+				grid-template-rows: auto auto;
+				gap: clamp(1.1rem, 3.5vh, 2rem);
+				align-items: start;
+				align-content: center;
+				padding-right: 6vw;
+				height: auto;
+				min-height: 100vh;
+				min-height: 100dvh;
+				padding-top: clamp(3.5rem, 8vh, 6rem);
+				padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+			}
+
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-content {
+				grid-column: 1;
+				grid-row: 1;
+				padding-top: 0;
+				padding-bottom: 0;
+			}
+
+			.hl-slide-bg {
+				grid-column: 1;
+				grid-row: 2;
+				align-self: start;
+				justify-self: start;
+				width: 100%;
+				max-width: 560px;
+				margin-bottom: 0;
+			}
 		}
+
 		/* Phones: trim the card + copy spacing so the stack fits the viewport height. */
 		@media (max-width: 600px) {
-			.hl-slide:has(> .hl-slide-bg) .hl-slide-bg { max-width: 100%; }
-			.hl-gc-foot { padding: 0.8rem 0.95rem 0.9rem; gap: 0.7rem; }
-			.hl-gc-logo { width: 40px; height: 40px; }
-			.hl-tag { margin-bottom: 1rem; }
-			.hl-slide-desc { margin: 0.9rem 0 1.2rem; line-height: 1.65; }
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-bg {
+				max-width: 100%;
+			}
+
+			.hl-gc-foot {
+				padding: 0.8rem 0.95rem 0.9rem;
+				gap: 0.7rem;
+			}
+
+			.hl-gc-logo {
+				width: 40px;
+				height: 40px;
+			}
+
+			.hl-tag {
+				margin-bottom: 1rem;
+			}
+
+			.hl-slide-desc {
+				margin: 0.9rem 0 1.2rem;
+				line-height: 1.65;
+			}
 		}
-		.hl-slide::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(0deg, rgba(238,43,43,0.08), transparent 60%); }
-		.hl-slide-content, .hl-cobweb-inner { position: relative; z-index: 2; width: 100%; max-width: 60rem; padding: clamp(5rem,10vh,7rem) 6vw clamp(5rem,10vh,7rem) calc(var(--sb-w) + var(--hero-gap)); }
-		.hl-slide-content { max-width: 48rem; }
-		.hl-tag { display: inline-flex; align-items: center; gap: 0.7rem; background: none; border: 0; padding: 0; border-radius: 0; color: rgba(255,255,255,0.6); font-family:'Inter',system-ui,sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.4rem; }
-		.hl-tag i { color:#ee2b2b; font-size: 1.25em; }
-		.hl-tag-logo { height: 1.3em; width: auto; flex: none; display: inline-block; vertical-align: middle; }
-		.hl-slide-title { font-family:'FSP DEMO - PODIUM Sharp 4.11','Chakra Petch',sans-serif; text-transform: uppercase; color:#fff; font-size: clamp(2rem, 4.4vw, 3.8rem); line-height: 0.95; letter-spacing:-0.01em; margin:0; }
-		.hl-slide-sub { font-family:'Inter',system-ui,sans-serif; color:#ee2b2b; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(0.72rem,1.1vw,0.9rem); margin: 0.7rem 0 0; }
-		.hl-slide-desc { font-family:'Inter',system-ui,sans-serif; max-width: 44rem; font-size: clamp(0.95rem,1.1vw,1.08rem); line-height: 1.8; color: rgba(255,255,255,0.66); margin: 1.5rem 0 2rem; }
-		.hl-slide-actions { display:flex; flex-wrap:wrap; gap: 0.75rem; }
-		.hl-btn { display:inline-flex; align-items:center; gap:0.4em; font-family:'Inter',system-ui,sans-serif; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; padding: 0.8em 1.3em; border-radius: 8px; border:1px solid rgba(255,255,255,0.2); color:#fff !important; background: transparent; transition: background .25s, border-color .25s, transform .25s; }
-		.hl-btn:hover { border-color: rgba(238,43,43,0.6); background: rgba(238,43,43,0.14); }
-		.hl-btn--primary { background:#ee2b2b; border-color:#ee2b2b; }
-		.hl-btn--primary:hover { background:#c81f1f; border-color:#c81f1f; }
-		.hl-btn .arrow { transition: transform .25s; }
-		.hl-btn--primary:hover .arrow { transform: translateX(3px); }
-		.hl-slide--intro { background: #0e0e0e; }
-		.hl-slide--intro { height: auto; min-height: 100vh; min-height: 100dvh; }
-		.hl-slide--intro .hl-slide-content { max-width: none; padding-right: calc(var(--sb-right) + var(--hero-gap)); }
-		.hl-slide--intro .intro2-lead { margin-bottom: 2rem; }
-		.hl-slide--intro::after { background: none; }
-		.hl-slide--intro .hl-slide-title { font-size: clamp(2.6rem, 8vw, 6.5rem); }
-		.hl-scrollhint { display:inline-flex; align-items:center; gap:0.5em; font-family:'Inter',system-ui,sans-serif; font-size:0.7rem; letter-spacing:0.24em; text-transform:uppercase; color: rgba(255,255,255,0.55); }
-		.hl-scrollhint-arrow { display:inline-block; animation: hlbob 1.6s ease-in-out infinite; color:#ee2b2b; font-size:1.2em; }
-		@keyframes hlbob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(4px);} }
-		.hl-slide--cobweb::after { background: linear-gradient(0deg, rgba(238,43,43,0.1), transparent 60%); }
-		.hl-cobweb-inner .hl-slide-title { font-size: clamp(1.8rem,4.5vw,3.4rem); }
-		.hl-cobweb-inner .hl-slide-desc { margin-bottom: 1.6rem; }
-		.hl-cobweb-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: 1rem; max-width: 62rem; }
-		.hl-mini { display:flex; flex-direction:column; gap:0.5rem; padding:0.6rem; border-radius:12px; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); transition: border-color .25s, background .25s, transform .25s; }
-		.hl-mini:hover { border-color: rgba(238,43,43,0.5); background: rgba(255,255,255,0.06); transform: translateY(-3px); }
-		.hl-mini-thumb { aspect-ratio: 16/10; border-radius:8px; overflow:hidden; }
-		.hl-mini-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-		.hl-mini-name { font-family:'Inter',system-ui,sans-serif; font-size:0.82rem; font-weight:600; color:#fff; }
-		.hl-mini-store { display:inline-flex; align-items:center; gap:0.35em; font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; color: rgba(255,255,255,0.5); font-family:'Inter',system-ui,sans-serif; }
-		.hl-mini-store i { color:#ee2b2b; font-size:1.15em; }
-		.hl-overlays { position: fixed; inset: 0; z-index: 45; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; }
-		.hl-overlays.is-active { opacity: 1; }
-		.hl-label { position: absolute; top: clamp(1.4rem, 5vh, 2.6rem); left: calc(var(--sb-w) + var(--hero-gap)); font-family:'Inter',system-ui,sans-serif; font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+
+		.hl-slide::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: 1;
+			pointer-events: none;
+			background: linear-gradient(0deg, rgba(238, 43, 43, 0.08), transparent 60%);
+		}
+
+		.hl-slide-content,
+		.hl-cobweb-inner {
+			position: relative;
+			z-index: 2;
+			width: 100%;
+			max-width: 60rem;
+			padding: clamp(5rem, 10vh, 7rem) 6vw clamp(5rem, 10vh, 7rem) calc(var(--sb-w) + var(--hero-gap));
+		}
+
+		.hl-slide-content {
+			max-width: 48rem;
+		}
+
+		.hl-tag {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.7rem;
+			background: none;
+			border: 0;
+			padding: 0;
+			border-radius: 0;
+			color: rgba(255, 255, 255, 0.6);
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.7rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			margin-bottom: 1.4rem;
+		}
+
+		.hl-tag i {
+			color: #ee2b2b;
+			font-size: 1.25em;
+		}
+
+		.hl-tag-logo {
+			height: 1.3em;
+			width: auto;
+			flex: none;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.hl-slide-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: clamp(2rem, 4.4vw, 3.8rem);
+			line-height: 0.95;
+			letter-spacing: -0.01em;
+			margin: 0;
+		}
+
+		.hl-slide-sub {
+			font-family: 'Inter', system-ui, sans-serif;
+			color: #ee2b2b;
+			text-transform: uppercase;
+			letter-spacing: 0.18em;
+			font-size: clamp(0.72rem, 1.1vw, 0.9rem);
+			margin: 0.7rem 0 0;
+		}
+
+		.hl-slide-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			max-width: 44rem;
+			font-size: clamp(0.95rem, 1.1vw, 1.08rem);
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.66);
+			margin: 1.5rem 0 2rem;
+		}
+
+		.hl-slide-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+		}
+
+		.hl-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4em;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.72rem;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			padding: 0.8em 1.3em;
+			border-radius: 8px;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			color: #fff !important;
+			background: transparent;
+			transition: background .25s, border-color .25s, transform .25s;
+		}
+
+		.hl-btn:hover {
+			border-color: rgba(238, 43, 43, 0.6);
+			background: rgba(238, 43, 43, 0.14);
+		}
+
+		.hl-btn--primary {
+			background: #ee2b2b;
+			border-color: #ee2b2b;
+		}
+
+		.hl-btn--primary:hover {
+			background: #c81f1f;
+			border-color: #c81f1f;
+		}
+
+		.hl-btn .arrow {
+			transition: transform .25s;
+		}
+
+		.hl-btn--primary:hover .arrow {
+			transform: translateX(3px);
+		}
+
+		.hl-slide--intro {
+			background: #0e0e0e;
+		}
+
+		.hl-slide--intro {
+			height: auto;
+			min-height: 100vh;
+			min-height: 100dvh;
+		}
+
+		.hl-slide--intro .hl-slide-content {
+			max-width: none;
+			padding-right: calc(var(--sb-right) + var(--hero-gap));
+		}
+
+		.hl-slide--intro .intro2-lead {
+			margin-bottom: 2rem;
+		}
+
+		.hl-slide--intro::after {
+			background: none;
+		}
+
+		.hl-slide--intro .hl-slide-title {
+			font-size: clamp(2.6rem, 8vw, 6.5rem);
+		}
+
+		.hl-scrollhint {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5em;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.7rem;
+			letter-spacing: 0.24em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.55);
+		}
+
+		.hl-scrollhint-arrow {
+			display: inline-block;
+			animation: hlbob 1.6s ease-in-out infinite;
+			color: #ee2b2b;
+			font-size: 1.2em;
+		}
+
+		@keyframes hlbob {
+
+			0%,
+			100% {
+				transform: translateY(0);
+			}
+
+			50% {
+				transform: translateY(4px);
+			}
+		}
+
+		.hl-slide--cobweb::after {
+			background: linear-gradient(0deg, rgba(238, 43, 43, 0.1), transparent 60%);
+		}
+
+		.hl-cobweb-inner .hl-slide-title {
+			font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+		}
+
+		.hl-cobweb-inner .hl-slide-desc {
+			margin-bottom: 1.6rem;
+		}
+
+		.hl-cobweb-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+			max-width: 62rem;
+		}
+
+		.hl-mini {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			padding: 0.6rem;
+			border-radius: 12px;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			transition: border-color .25s, background .25s, transform .25s;
+		}
+
+		.hl-mini:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.06);
+			transform: translateY(-3px);
+		}
+
+		.hl-mini-thumb {
+			aspect-ratio: 16/10;
+			border-radius: 8px;
+			overflow: hidden;
+		}
+
+		.hl-mini-thumb img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		.hl-mini-name {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.82rem;
+			font-weight: 600;
+			color: #fff;
+		}
+
+		.hl-mini-store {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35em;
+			font-size: 0.55rem;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+			font-family: 'Inter', system-ui, sans-serif;
+		}
+
+		.hl-mini-store i {
+			color: #ee2b2b;
+			font-size: 1.15em;
+		}
+
+		.hl-overlays {
+			position: fixed;
+			inset: 0;
+			z-index: 45;
+			pointer-events: none;
+			opacity: 0;
+			transition: opacity 0.4s ease;
+		}
+
+		.hl-overlays.is-active {
+			opacity: 1;
+		}
+
+		.hl-label {
+			position: absolute;
+			top: clamp(1.4rem, 5vh, 2.6rem);
+			left: calc(var(--sb-w) + var(--hero-gap));
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.66rem;
+			letter-spacing: 0.32em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.85);
+		}
+
 		@media (max-width: 900px) {
-			.hl-cobweb-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
-			.hl-slide-content, .hl-cobweb-inner { padding-top: clamp(4.5rem, 12vh, 7rem); padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); }
-			.hl-slide--intro .hl-slide-content { padding-top: clamp(3.5rem, 8vh, 5.5rem); }
-			.hl-mini-name { font-size: 0.72rem; }
+			.hl-cobweb-grid {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 0.7rem;
+			}
+
+			.hl-slide-content,
+			.hl-cobweb-inner {
+				padding-top: clamp(4.5rem, 12vh, 7rem);
+				padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+			}
+
+			.hl-slide--intro .hl-slide-content {
+				padding-top: clamp(3.5rem, 8vh, 5.5rem);
+			}
+
+			.hl-mini-name {
+				font-size: 0.72rem;
+			}
 		}
+
 		/* ===== Skills (The Craft) — matched to hero/intro style ===== */
-		.craft-head { max-width: 64em; margin: 0 auto 3.5em; text-align: left; align-items: center; grid-template-columns: minmax(0, 32fr) minmax(0, 68fr); }
-		.craft-head .intro2-title { margin-bottom: 0; }
-		.craft-head-copy .intro2-lead { margin-bottom: 1.2rem; }
-		.craft-head-copy .intro2-lead:last-child { margin-bottom: 0; }
-		@media (max-width: 720px) {
-			.craft-head { display: block; }
-			.craft-head .intro2-title { margin-bottom: 1.4rem; }
+		.craft-head {
+			max-width: 64em;
+			margin: 0 auto 3.5em;
+			text-align: left;
+			align-items: center;
+			grid-template-columns: minmax(0, 32fr) minmax(0, 68fr);
 		}
-		.skills-toolkit-header { text-align: left; max-width: 64em; }
-		.craft-actions { max-width: 64em; margin: 4.5em auto 0; justify-content: center; gap: 1rem; }
-		.craft-actions .hl-btn { font-size: 0.82rem; padding: 1.05em 2em; border-radius: 10px; }
+
+		.craft-head .intro2-title {
+			margin-bottom: 0;
+		}
+
+		.craft-head-copy .intro2-lead {
+			margin-bottom: 1.2rem;
+		}
+
+		.craft-head-copy .intro2-lead:last-child {
+			margin-bottom: 0;
+		}
+
+		@media (max-width: 720px) {
+			.craft-head {
+				display: block;
+			}
+
+			.craft-head .intro2-title {
+				margin-bottom: 1.4rem;
+			}
+		}
+
+		.skills-toolkit-header {
+			text-align: left;
+			max-width: 64em;
+		}
+
+		#Certification .craft-head .intro2-title .vg-accent {
+			display: inline;
+		}
+
+		/* ===== Journey cards (certs + ventures) — compact horizontal, no dead space ===== */
+		.cert-grid,
+		.venture-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: clamp(0.8rem, 1.6vw, 1.2rem);
+			max-width: 64em;
+			margin: 0 auto;
+			align-items: stretch;
+		}
+
+		/* margin 0: the template's `article { margin-bottom }` inflates grid tracks (margins count toward track size) */
+		.cert-card,
+		.venture-card {
+			position: relative;
+			height: 100%;
+			margin: 0;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 14px;
+			overflow: hidden;
+			transition: border-color .3s ease, background .3s ease, transform .3s ease;
+		}
+
+		.cert-card::before,
+		.venture-card::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: radial-gradient(60% 90% at 0% 50%, rgba(238, 43, 43, 0.12), transparent 70%);
+			opacity: 0;
+			transition: opacity .4s ease;
+			pointer-events: none;
+		}
+
+		.cert-card:hover,
+		.venture-card:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.05);
+			transform: translateY(-3px);
+		}
+
+		.cert-card:hover::before,
+		.venture-card:hover::before {
+			opacity: 1;
+		}
+
+		/* Certs — badge left, copy right */
+		.cert-card {
+			display: flex;
+			align-items: center;
+			gap: clamp(1rem, 2vw, 1.5rem);
+			text-align: left;
+			padding: clamp(1.1rem, 1.8vw, 1.5rem) clamp(1.2rem, 2vw, 1.7rem);
+		}
+
+		.cert-badge {
+			position: relative;
+			z-index: 1;
+			flex: none;
+		}
+
+		.cert-badge img {
+			display: block;
+			width: clamp(72px, 11vw, 150px);
+			height: auto;
+			filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45));
+			transition: transform .4s ease;
+		}
+
+		.cert-card:hover .cert-badge img {
+			transform: scale(1.05);
+		}
+
+		.cert-body {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			min-width: 0;
+		}
+
+		.cert-issuer {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.56rem;
+			letter-spacing: 0.26em;
+			text-transform: uppercase;
+			color: #ee2b2b;
+			margin-bottom: 0.5rem;
+		}
+
+		.cert-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+			line-height: 1.05;
+			letter-spacing: 0.01em;
+			margin: 0 0 0.55rem;
+		}
+
+		.cert-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.8rem;
+			line-height: 1.6;
+			color: rgba(255, 255, 255, 0.55);
+			margin: 0 0 0.9rem;
+		}
+
+		/* Text link instead of boxed button */
+		.cert-verify,
+		.venture-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45em;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			color: #ee2b2b !important;
+		}
+
+		.cert-verify .arrow,
+		.venture-link .arrow {
+			transition: transform .25s ease;
+		}
+
+		.cert-verify:hover .arrow,
+		.venture-link:hover .arrow {
+			transform: translateX(3px);
+		}
+
+		/* Ventures — big logo band on top (≥1/3 of card), compact copy below */
+		.venture-card {
+			display: flex;
+			flex-direction: column;
+			padding: 0;
+		}
+
+		.venture-logo {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: clamp(1.6rem, 2.6vw, 2.2rem) 1.5rem;
+			background: rgba(255, 255, 255, 0.02);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		}
+
+		.venture-logo img {
+			height:
+				height: clamp(38px, 10vw, 150px);
+			width: auto;
+			max-width: 90%;
+			object-fit: contain;
+			opacity: 0.92;
+			filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5));
+			transition: opacity .3s ease, transform .4s ease;
+		}
+
+		.venture-card:hover .venture-logo img {
+			opacity: 1;
+			transform: scale(1.04);
+		}
+
+		.venture-body {
+			position: relative;
+			z-index: 1;
+			padding: clamp(0.9rem, 1.5vw, 1.1rem) clamp(1.2rem, 2vw, 1.5rem) clamp(1.1rem, 1.8vw, 1.3rem);
+		}
+
+		.venture-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			margin-bottom: 0.4rem;
+		}
+
+		.venture-status {
+			flex: none;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.56rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.35);
+		}
+
+		.venture-status::before {
+			content: '';
+			display: inline-block;
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.25);
+			margin-right: 0.6em;
+			vertical-align: middle;
+		}
+
+		.venture-name {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: clamp(1rem, 1.4vw, 1.2rem);
+			line-height: 1.05;
+			letter-spacing: 0.01em;
+			margin: 0;
+		}
+
+		.venture-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.6rem;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		@media (max-width: 640px) {
+
+			.cert-grid,
+			.venture-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.journey-subhead {
+			margin-top: 4.5em;
+		}
+
+		.journey-subhead .intro2-collab-title {
+			margin-top: 0.3rem;
+		}
+
+		.journey-subhead .intro2-lead {
+			max-width: 40rem;
+			margin: 1rem 0 0;
+		}
+
+		.craft-actions {
+			max-width: 64em;
+			margin: 4.5em auto 0;
+			justify-content: center;
+			gap: 1rem;
+		}
+
+		.craft-actions .hl-btn {
+			font-size: 0.82rem;
+			padding: 1.05em 2em;
+			border-radius: 10px;
+		}
+
 		@media (max-width: 480px) {
-			.craft-actions { flex-direction: column; align-items: stretch; }
-			.craft-actions .hl-btn { justify-content: center; }
+			.craft-actions {
+				flex-direction: column;
+				align-items: stretch;
+			}
+
+			.craft-actions .hl-btn {
+				justify-content: center;
+			}
 		}
 	</style>
 </head>
@@ -798,133 +1753,192 @@
 		<!-- SECTION 2: GAMES (Worldscar + Shipped + In Dev)    -->
 		<!-- ================================================== -->
 		<section id="highlights" class="wrapper style3">
-		<div class="hl-slides">
-			<div class="hl-slide hl-slide--intro" id="introTittle" data-index="0">
-				<div class="hl-slide-content">
-					<div class="intro2-grid">
-						<div class="intro2">
-							<div class="intro2-eyebrow">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none"/></svg>
-								<span>Who I Am</span>
+			<div class="hl-slides">
+				<div class="hl-slide hl-slide--intro" id="introTittle" data-index="0">
+					<div class="hl-slide-content">
+						<div class="intro2-grid">
+							<div class="intro2">
+								<div class="intro2-eyebrow">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+										stroke="currentColor" stroke-width="2" stroke-linecap="round"
+										stroke-linejoin="round">
+										<rect x="2" y="6" width="20" height="12" rx="4" />
+										<line x1="6" y1="12" x2="10" y2="12" />
+										<line x1="8" y1="10" x2="8" y2="14" />
+										<circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none" />
+										<circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none" />
+									</svg>
+									<span>Who I Am</span>
+								</div>
+								<h2 class="intro2-title"><span>Crafting worlds</span><span>worth <span
+											class="vg-accent">playing.</span></span></h2>
+								<p class="intro2-lead">I’m a game developer, technical leader, and creative entrepreneur
+									specializing in immersive games and interactive experiences. As Co-founder &amp; CTO
+									of Designfull.net and Co-founder of Pixel Dreams Studio, I pair engineering with
+									creative vision — shipping products with innovative gameplay, striking visuals, and
+									polished experiences. Since 2019 in the industry and 2021 in games, I’ve worked on
+									10+ games and launched 6 titles on Google Play.</p>
+								<div class="intro2-stats">
+									<div class="intro2-stat">
+										<div class="intro2-stat-num">6</div>
+										<div class="intro2-stat-label">Games Live</div>
+									</div>
+									<div class="intro2-stat">
+										<div class="intro2-stat-num">2</div>
+										<div class="intro2-stat-label">In Development</div>
+									</div>
+									<div class="intro2-stat">
+										<div class="intro2-stat-num">6+</div>
+										<div class="intro2-stat-label">Years Building</div>
+									</div>
+									<div class="intro2-stat">
+										<div class="intro2-stat-num">2</div>
+										<div class="intro2-stat-label">Studios Founded</div>
+									</div>
+								</div>
 							</div>
-							<h2 class="intro2-title"><span>Crafting worlds</span><span>worth <span class="vg-accent">playing.</span></span></h2>
-							<p class="intro2-lead">I’m a game developer, technical leader, and creative entrepreneur specializing in immersive games and interactive experiences. As Co-founder &amp; CTO of Designfull.net and Co-founder of Pixel Dreams Studio, I pair engineering with creative vision — shipping products with innovative gameplay, striking visuals, and polished experiences. Since 2019 in the industry and 2021 in games, I’ve worked on 10+ games and launched 6 titles on Google Play.</p>
-							<div class="intro2-stats">
-								<div class="intro2-stat"><div class="intro2-stat-num">6</div><div class="intro2-stat-label">Games Live</div></div>
-								<div class="intro2-stat"><div class="intro2-stat-num">2</div><div class="intro2-stat-label">In Development</div></div>
-								<div class="intro2-stat"><div class="intro2-stat-num">6+</div><div class="intro2-stat-label">Years Building</div></div>
-								<div class="intro2-stat"><div class="intro2-stat-num">2</div><div class="intro2-stat-label">Studios Founded</div></div>
-							</div>
+							<aside class="intro2-collab">
+								<div class="intro2-eyebrow">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+										stroke="currentColor" stroke-width="2" stroke-linecap="round"
+										stroke-linejoin="round">
+										<path d="M9 11l3 3 3-3" />
+										<path d="M4 7h16" />
+										<rect x="3" y="7" width="18" height="13" rx="2" />
+									</svg>
+									<span>Collaborations</span>
+								</div>
+								<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
+								<div class="intro2-logos">
+									<div class="intro2-logo"><img src="./logos/CanvasDigital.svg"
+											alt="Canvas Digital" /></div>
+									<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg"
+											alt="Khareed-o-Mobile" /></div>
+									<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
+									<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
+								</div>
+							</aside>
 						</div>
-						<aside class="intro2-collab">
-							<div class="intro2-eyebrow">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 3-3"/><path d="M4 7h16"/><rect x="3" y="7" width="18" height="13" rx="2"/></svg>
-								<span>Collaborations</span>
-							</div>
-							<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
-							<div class="intro2-logos">
-								<div class="intro2-logo"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
-								<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
-								<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-								<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
-							</div>
-						</aside>
+					</div>
+				</div>
+				<div class="hl-slide" id="highlightsTittle" data-index="1">
+					<div class="hl-slide-bg" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"
+						role="img" aria-label="Chess Run"></div>
+					<div class="hl-slide-content">
+						<span class="hl-tag"><i class='bx bxl-play-store'></i> Recently Live · Pixel Dreams</span>
+						<h2 class="hl-slide-title">Chess Run</h2>
+						<p class="hl-slide-sub">A Roguelike Endless Runner</p>
+						<p class="hl-slide-desc">A strategic endless runner where every move counts and every level is a
+							new challenge. Demo out on Steam &amp; live on Google Play.</p>
+						<div class="hl-slide-actions">
+							<a class="hl-btn hl-btn--primary" href="ChessRun.html">Explore <span
+									class="arrow">→</span></a>
+							<a class="hl-btn" href="javascript:void(0)"
+								onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Trailer</a>
+							<a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank"
+								rel="noopener">LinkTree</a>
+						</div>
+					</div>
+				</div>
+				<div class="hl-slide" data-index="2">
+					<div class="hl-slide-bg" style="background-image:url('images/WorldScar/WorldScar-Banner.jpg')"
+						role="img" aria-label="Worldscar"></div>
+					<div class="hl-slide-content">
+						<span class="hl-tag">In Development · Pixel Dreams</span>
+						<h2 class="hl-slide-title">Worldscar</h2>
+						<p class="hl-slide-sub">A Horror Escape Room</p>
+						<p class="hl-slide-desc">My first Unreal Engine title. A psychological horror experience where
+							every shadow holds a story and every room is a puzzle. Launching on Steam.</p>
+						<div class="hl-slide-actions">
+							<a class="hl-btn hl-btn--primary" href="WorldScar.html">Explore <span
+									class="arrow">→</span></a>
+							<a class="hl-btn" href="javascript:void(0)"
+								onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Concept</a>
+						</div>
+					</div>
+				</div>
+				<div class="hl-slide" data-index="3">
+					<div class="hl-slide-bg" style="background-image:url('images/Oneiros/Banner.jpg')" role="img"
+						aria-label="Oneiros"></div>
+					<div class="hl-slide-content">
+						<span class="hl-tag"><i class='bx bxl-meta'></i> XR · Client Work</span>
+						<h2 class="hl-slide-title">Oneiros</h2>
+						<p class="hl-slide-sub">XR Experience · Meta Quest</p>
+						<p class="hl-slide-desc">An immersive XR eyewear showroom — reach out, pick up a pair of
+							glasses, resize and recolor them in real space. The &ldquo;try it on&rdquo; moment, made
+							tangible.</p>
+						<div class="hl-slide-actions">
+							<a class="hl-btn hl-btn--primary" href="Oneiros.html">Explore <span
+									class="arrow">→</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="hl-slide" data-index="4">
+					<div class="hl-slide-bg" style="background-image:url('images/Snatch/SnatchThumnail.jpg')" role="img"
+						aria-label="Snatch"></div>
+					<div class="hl-slide-content">
+						<span class="hl-tag"><i class='bx bxl-steam'></i> Coming Soon · Re-Vision</span>
+						<h2 class="hl-slide-title">Snatch</h2>
+						<p class="hl-slide-sub">A New Era of Pong</p>
+						<p class="hl-slide-desc">A fast, competitive reinvention of Pong with a modern twist. Coming to
+							Steam.</p>
+						<div class="hl-slide-actions">
+							<a class="hl-btn hl-btn--primary" href="Snatch.html">Explore <span
+									class="arrow">→</span></a>
+							<a class="hl-btn" href="#" target="_blank" rel="noopener">Steam</a>
+						</div>
+					</div>
+				</div>
+				<div class="hl-slide hl-slide--cobweb" data-index="5">
+					<div class="hl-cobweb-inner">
+						<span class="hl-tag">Cobweb Games · Unity Developer</span>
+						<h2 class="hl-slide-title">Ten Projects, Six Launches</h2>
+						<p class="hl-slide-desc">Shipped six titles to Google Play as a Unity Developer at Cobweb —
+							built fast, optimized hard, and learned to deliver under real production timelines.</p>
+						<div class="hl-cobweb-grid">
+							<a class="hl-mini" href="CastleInvader.html">
+								<span class="hl-mini-thumb"><img src="images/CastleInvader/Castle-Invader-Thumnail.jpg"
+										alt="Castle Invader" loading="lazy"></span>
+								<span class="hl-mini-name">Castle Invader</span>
+								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+							</a>
+							<a class="hl-mini" href="PenguinPinnacle.html">
+								<span class="hl-mini-thumb"><img
+										src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg"
+										alt="Penguin Pinnacle" loading="lazy"></span>
+								<span class="hl-mini-name">Penguin Pinnacle</span>
+								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+							</a>
+							<a class="hl-mini" href="SwiftBeat.html">
+								<span class="hl-mini-thumb"><img src="images/Swift Beat/Swift-Beat-Thumnail.jpg"
+										alt="Swift Beat" loading="lazy"></span>
+								<span class="hl-mini-name">Swift Beat</span>
+								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+							</a>
+							<a class="hl-mini" href="SlimeyAdventure.html">
+								<span class="hl-mini-thumb"><img
+										src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="Slimey Adventure"
+										loading="lazy"></span>
+								<span class="hl-mini-name">Slimey Adventure</span>
+								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+							</a>
+							<a class="hl-mini" href="EggiPeggi.html">
+								<span class="hl-mini-thumb"><img src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg"
+										alt="Eggi Peggi" loading="lazy"></span>
+								<span class="hl-mini-name">Eggi Peggi</span>
+								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+							</a>
+							<a class="hl-mini" href="MeteorChase.html">
+								<span class="hl-mini-thumb"><img src="images/Metor Chase/Metor-Chase-Thumnail.jpg"
+										alt="Meteor Chase" loading="lazy"></span>
+								<span class="hl-mini-name">Meteor Chase</span>
+								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="hl-slide" id="highlightsTittle" data-index="1">
-				<div class="hl-slide-bg" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')" role="img" aria-label="Chess Run"></div>
-				<div class="hl-slide-content">
-					<span class="hl-tag"><i class='bx bxl-play-store'></i> Recently Live · Pixel Dreams</span>
-					<h2 class="hl-slide-title">Chess Run</h2>
-					<p class="hl-slide-sub">A Roguelike Endless Runner</p>
-					<p class="hl-slide-desc">A strategic endless runner where every move counts and every level is a new challenge. Demo out on Steam &amp; live on Google Play.</p>
-					<div class="hl-slide-actions">
-						<a class="hl-btn hl-btn--primary" href="ChessRun.html">Explore <span class="arrow">→</span></a>
-						<a class="hl-btn" href="javascript:void(0)" onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Trailer</a>
-						<a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank" rel="noopener">LinkTree</a>
-					</div>
-				</div>
-			</div>
-			<div class="hl-slide" data-index="2">
-				<div class="hl-slide-bg" style="background-image:url('images/WorldScar/WorldScar-Banner.jpg')" role="img" aria-label="Worldscar"></div>
-				<div class="hl-slide-content">
-					<span class="hl-tag">In Development · Pixel Dreams</span>
-					<h2 class="hl-slide-title">Worldscar</h2>
-					<p class="hl-slide-sub">A Horror Escape Room</p>
-					<p class="hl-slide-desc">My first Unreal Engine title. A psychological horror experience where every shadow holds a story and every room is a puzzle. Launching on Steam.</p>
-					<div class="hl-slide-actions">
-						<a class="hl-btn hl-btn--primary" href="WorldScar.html">Explore <span class="arrow">→</span></a>
-						<a class="hl-btn" href="javascript:void(0)" onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Concept</a>
-					</div>
-				</div>
-			</div>
-			<div class="hl-slide" data-index="3">
-				<div class="hl-slide-bg" style="background-image:url('images/Oneiros/Banner.jpg')" role="img" aria-label="Oneiros"></div>
-				<div class="hl-slide-content">
-					<span class="hl-tag"><i class='bx bxl-meta'></i> XR · Client Work</span>
-					<h2 class="hl-slide-title">Oneiros</h2>
-					<p class="hl-slide-sub">XR Experience · Meta Quest</p>
-					<p class="hl-slide-desc">An immersive XR eyewear showroom — reach out, pick up a pair of glasses, resize and recolor them in real space. The &ldquo;try it on&rdquo; moment, made tangible.</p>
-					<div class="hl-slide-actions">
-						<a class="hl-btn hl-btn--primary" href="Oneiros.html">Explore <span class="arrow">→</span></a>
-					</div>
-				</div>
-			</div>
-			<div class="hl-slide" data-index="4">
-				<div class="hl-slide-bg" style="background-image:url('images/Snatch/SnatchThumnail.jpg')" role="img" aria-label="Snatch"></div>
-				<div class="hl-slide-content">
-					<span class="hl-tag"><i class='bx bxl-steam'></i> Coming Soon · Re-Vision</span>
-					<h2 class="hl-slide-title">Snatch</h2>
-					<p class="hl-slide-sub">A New Era of Pong</p>
-					<p class="hl-slide-desc">A fast, competitive reinvention of Pong with a modern twist. Coming to Steam.</p>
-					<div class="hl-slide-actions">
-						<a class="hl-btn hl-btn--primary" href="Snatch.html">Explore <span class="arrow">→</span></a>
-						<a class="hl-btn" href="#" target="_blank" rel="noopener">Steam</a>
-					</div>
-				</div>
-			</div>
-			<div class="hl-slide hl-slide--cobweb" data-index="5">
-				<div class="hl-cobweb-inner">
-					<span class="hl-tag">Cobweb Games · Unity Developer</span>
-					<h2 class="hl-slide-title">Ten Projects,  Six Launches</h2>
-					<p class="hl-slide-desc">Shipped six titles to Google Play as a Unity Developer at Cobweb — built fast, optimized hard, and learned to deliver under real production timelines.</p>
-					<div class="hl-cobweb-grid">
-						<a class="hl-mini" href="CastleInvader.html">
-							<span class="hl-mini-thumb"><img src="images/CastleInvader/Castle-Invader-Thumnail.jpg" alt="Castle Invader" loading="lazy"></span>
-							<span class="hl-mini-name">Castle Invader</span>
-							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-						</a>
-						<a class="hl-mini" href="PenguinPinnacle.html">
-							<span class="hl-mini-thumb"><img src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg" alt="Penguin Pinnacle" loading="lazy"></span>
-							<span class="hl-mini-name">Penguin Pinnacle</span>
-							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-						</a>
-						<a class="hl-mini" href="SwiftBeat.html">
-							<span class="hl-mini-thumb"><img src="images/Swift Beat/Swift-Beat-Thumnail.jpg" alt="Swift Beat" loading="lazy"></span>
-							<span class="hl-mini-name">Swift Beat</span>
-							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-						</a>
-						<a class="hl-mini" href="SlimeyAdventure.html">
-							<span class="hl-mini-thumb"><img src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="Slimey Adventure" loading="lazy"></span>
-							<span class="hl-mini-name">Slimey Adventure</span>
-							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-						</a>
-						<a class="hl-mini" href="EggiPeggi.html">
-							<span class="hl-mini-thumb"><img src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg" alt="Eggi Peggi" loading="lazy"></span>
-							<span class="hl-mini-name">Eggi Peggi</span>
-							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-						</a>
-						<a class="hl-mini" href="MeteorChase.html">
-							<span class="hl-mini-thumb"><img src="images/Metor Chase/Metor-Chase-Thumnail.jpg" alt="Meteor Chase" loading="lazy"></span>
-							<span class="hl-mini-name">Meteor Chase</span>
-							<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
 		<!-- ================================================== -->
 		<!-- SECTION 3: SKILLS (How I Build)                    -->
 		<!-- ================================================== -->
@@ -937,14 +1951,22 @@
 					<header class="craft-head intro2-grid">
 						<div class="craft-head-lead">
 							<div class="intro2-eyebrow">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+									stroke="currentColor" stroke-width="2" stroke-linecap="round"
+									stroke-linejoin="round">
+									<path
+										d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+								</svg>
 								<span>The Process</span>
 							</div>
-							<h2 class="intro2-title"><span>How I</span><span><span class="vg-accent">build.</span></span></h2>
+							<h2 class="intro2-title"><span>How I</span><span><span
+										class="vg-accent">build.</span></span></h2>
 						</div>
 						<aside class="craft-head-copy">
-							<p class="intro2-lead">I move fast, prototype faster, and obsess over how a game <em>feels</em> in
-								the player's hands. Every project runs the same six-step loop — spark, prototype, design,
+							<p class="intro2-lead">I move fast, prototype faster, and obsess over how a game
+								<em>feels</em> in
+								the player's hands. Every project runs the same six-step loop — spark, prototype,
+								design,
 								build, test, ship — refined over six years and ten-plus titles.</p>
 							<p class="intro2-lead">Below: the process, and the toolkit behind the work.</p>
 						</aside>
@@ -1181,10 +2203,19 @@
 					<!-- The Toolkit — what I work with -->
 					<div class="skills-toolkit-header">
 						<div class="intro2-eyebrow">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+								stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<polygon points="12 2 2 7 12 12 22 7 12 2" />
+								<polyline points="2 17 12 22 22 17" />
+								<polyline points="2 12 12 17 22 12" />
+							</svg>
 							<span>The Toolkit</span>
 						</div>
-						<h3 class="intro2-collab-title">The engines and platforms I use to bring everything above to life</h3>
+						<h3 class="intro2-collab-title">The engines and platforms I use to bring everything above to
+							life</h3>
+													<a class="hl-btn hl-btn--primary" href="#footerTittle">Let's Work Together <span
+								class="arrow">→</span></a>
+
 					</div>
 					<div class="skill-chips">
 
@@ -1265,13 +2296,7 @@
 							<span class="skill-chip-name">Project Leadership</span>
 							<span class="skill-chip-meta">CTO at DesignFul</span>
 						</div>
-
 					</div>
-					<div class="hl-slide-actions craft-actions">
-						<a class="hl-btn hl-btn--primary" href="#footerTittle">Let's Work Together <span class="arrow">→</span></a>
-						<a class="hl-btn" href="#highlightsTittle">View Games</a>
-					</div>
-
 				</section>
 			</div>
 		</section>
@@ -1279,16 +2304,28 @@
 		<!-- SECTION 4: JOURNEY (Experience + Certs + Studios)  -->
 		<!-- ================================================== -->
 		<section id="Certification" class="wrapper style3">
-			<div id="CertificationTittle" class="title" data-section="CertificationTittle">Journey</div>
+			<div id="CertificationTittle" data-section="CertificationTittle" aria-hidden="true"></div>
 			<div class="container">
 
-				<header class="style1">
-					<div id="featuresHP">
-						<span class="feature-tag">The Path So Far</span>
-						<p class="S2">Six years of building, shipping, and learning. From small mobile titles to
-							founding studios.</p>
+				<header class="craft-head intro2-grid">
+					<div class="craft-head-lead">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+								stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M9 20l-5.5 3 1-6L0 12.5l6-1L9 6l3 5.5 6 1-4.5 4.5 1 6z" />
+								<path d="M18 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" />
+							</svg>
+							<span>The Journey</span>
+						</div>
+						<h2 class="intro2-title"><span>The path</span><span>so <span
+									class="vg-accent">far.</span></span></h2>
 					</div>
-					<hr style="opacity: 0.28;">
+					<aside class="craft-head-copy">
+						<p class="intro2-lead">Six years of building, shipping, and learning — from freelance client
+							work
+							and shipping mobile titles at a studio, to founding two of my own. Here's the path so far.
+						</p>
+					</aside>
 				</header>
 
 				<!-- Journey Accordion -->
@@ -1346,84 +2383,91 @@
 				<br><br>
 
 				<!-- Unity Certifications (using existing .banner pattern) -->
-				<header class="style1">
-					<div id="featuresHP">
-						<hr style="opacity: 0.28;">
-						<h2 class="S1">Unity Certifications</h2>
-						<hr style="opacity: 0.28;">
+				<div class="skills-toolkit-header journey-subhead">
+					<div class="intro2-eyebrow">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="8" r="6" />
+							<path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5" />
+						</svg>
+						<span>Certified</span>
 					</div>
-				</header>
+					<h3 class="intro2-collab-title">Unity Certifications</h3>
+				</div>
 
-				<div class="row aln-center">
-
-					<div class="col-12 col-12-medium">
-						<div class="banner">
-							<div class="banner-image">
-								<img src="images/unity-essentials-pathway.png" alt="Banner Image">
-							</div>
-							<div class="banner-content">
-								<h1>Unity Essentials Pathway</h1>
-								<p>Earning the Unity Essentials Pathway badge signifies proficiency in real-time
-									production techniques, mastery of essential Unity Editor features, adept navigation
-									in 3D environments, proficient creation and management of Scenes, GameObjects, and
-									Prefabs, and the ability to successfully publish Unity projects.</p>
-								<a href="https://www.credly.com/go/y61Zpr3x" target="_blank"
-									class="button style6">Verify</a>
-							</div>
+				<div class="cert-grid">
+					<article class="cert-card">
+						<div class="cert-body">
+							<span class="cert-issuer">Unity · Credential</span>
+							<h3 class="cert-title">Unity Essentials Pathway</h3>
+							<p class="cert-desc">Proficiency in real-time production — mastery of the Unity Editor,
+								3D scene navigation, and managing Scenes, GameObjects, and Prefabs through to a
+								published project.</p>
+							<a class="cert-verify" href="https://www.credly.com/go/y61Zpr3x" target="_blank"
+								rel="noopener">Verify on Credly <span class="arrow">→</span></a>
 						</div>
-					</div>
-
-					<br><br>
-					<div class="col-12 col-12-medium">
-						<div class="banner2">
-							<div class="banner-content">
-								<h1>Unity Junior Programmer</h1>
-								<p>The Unity Junior Programmer Pathway verifies and enhances skills as a junior
-									programmer proficient in writing scripts using C# within the Unity Editor. This
-									certification confirms the ability to create interactive experiences using Unity's
-									powerful tools.</p>
-								<a href="https://www.credly.com/go/T2ZadnH1" target="_blank"
-									class="button style6">Verify</a>
-							</div>
-							<div class="banner-image">
-								<img src="images/unity-junior-programmer.png" alt="Banner Image">
-							</div>
+						<div class="cert-badge">
+							<img src="images/unity-essentials-pathway.png" alt="Unity Essentials Pathway badge"
+								loading="lazy">
 						</div>
-					</div>
+					</article>
+					<article class="cert-card">
+						<div class="cert-body">
+							<span class="cert-issuer">Unity · Credential</span>
+							<h3 class="cert-title">Unity Junior Programmer</h3>
+							<p class="cert-desc">Verified skill writing C# scripts inside the Unity Editor — building
+								interactive experiences with Unity's tools as a proficient junior programmer.</p>
+							<a class="cert-verify" href="https://www.credly.com/go/T2ZadnH1" target="_blank"
+								rel="noopener">Verify on Credly <span class="arrow">→</span></a>
+						</div>
+						<div class="cert-badge">
+							<img src="images/unity-junior-programmer.png" alt="Unity Junior Programmer badge"
+								loading="lazy">
+						</div>
+					</article>
+				</div>
 
-					<!-- Studios I'm Building -->
-					<div class="col-12 col-12-medium">
-						<header class="style1">
-							<div id="featuresHP">
-								<hr style="opacity: 0.28;">
-								<h2 class="S1">Studios Under Development</h2>
-								<hr style="opacity: 0.28;">
-								<p class="S2">Two ventures I co-founded, pushing the boundaries of design and gaming.
-								</p>
-							</div>
-						</header>
+				<!-- Studios I'm Building -->
+				<div class="skills-toolkit-header journey-subhead">
+					<div class="intro2-eyebrow">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M3 21h18" />
+							<path d="M5 21V7l7-4 7 4v14" />
+							<path d="M9 21v-6h6v6" />
+						</svg>
+						<span>Founder</span>
 					</div>
+					<h3 class="intro2-collab-title">Studios Under Development</h3>
+					<p class="intro2-lead">Two ventures I co-founded, pushing the boundaries of design and gaming.</p>
+				</div>
 
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="images" src="images/designfull.png" alt="">
+				<div class="venture-grid">
+					<article class="venture-card">
+						<div class="venture-logo">
+							<img src="images/designfull.png" alt="Designfull" loading="lazy">
+						</div>
+						<div class="venture-body">
+							<div class="venture-row">
+								<h3 class="venture-name">Designfull</h3>
+								<span class="venture-status">Offline</span>
 							</div>
-							<a href="https://designfull.net/" status="unactive" target="_blank" class="button style6"
-								style=" margin-top: 3vh; width: 100%; pointer-events: none;"><del>visit
-									Designfull.net</del></a>
-						</section>
-					</div>
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="images" src="images/PDS.png" alt="">
+							<p class="venture-desc">Co-founder &amp; CTO · 2023–2026 · Web, Mobile &amp; Interactive</p>
+						</div>
+					</article>
+					<article class="venture-card">
+						<div class="venture-logo">
+							<img src="images/PDS.png" alt="Pixel Dreams Studio" loading="lazy">
+						</div>
+						<div class="venture-body">
+							<div class="venture-row">
+								<h3 class="venture-name">Pixel Dreams Studio</h3>
+								<a class="venture-link" href="https://pixeldreams.studio/" target="_blank"
+									rel="noopener">Visit <span class="arrow">→</span></a>
 							</div>
-							<a href="https://pixeldreams.studio/" target="_blank" class="button style6"
-								style=" margin-top: 3vh; width: 100%;">visit pixeldreams.studio</a>
-						</section>
-					</div>
-
+							<p class="venture-desc">Co-founder · 2025–Present · Games, XR &amp; Interactive</p>
+						</div>
+					</article>
 				</div>
 			</div>
 		</section>
@@ -1833,12 +2877,11 @@
 				bg.innerHTML =
 					'<div class="hl-gc-banner" style="background-image:url(\'' + src + '\')"></div>' +
 					'<div class="hl-gc-foot">' +
-						'<img class="hl-gc-logo" src="' + folder + '/Logo.png" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
-						'<div class="hl-gc-meta">' +
-							'<span class="hl-gc-name">' + name + '</span>' +
-							(sub ? '<span class="hl-gc-sub">' + sub + '</span>' : '') +
-							(tag ? '<span class="hl-gc-tag">' + tag + '</span>' : '') +
-						'</div>' +
+					'<img class="hl-gc-logo" src="' + folder + '/Logo.png" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
+					'<div class="hl-gc-meta">' +
+					'<span class="hl-gc-name">' + name + '</span>' +
+					(sub ? '<span class="hl-gc-sub">' + sub + '</span>' : '') +
+					'</div>' +
 					'</div>';
 			});
 			if (overlays) {
