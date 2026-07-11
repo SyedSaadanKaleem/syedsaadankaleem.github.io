@@ -4887,6 +4887,16 @@ margin-top: -2em;}
     transform: translateY(-20px);
 }
 
+/* Journey rows: slower, gentler fade so the cards appear and disappear smoothly
+   instead of snapping as they cross the narrow fade zone. */
+#Certification .journey.fade-on-scroll {
+    transition: opacity 1.4s ease-in-out, transform 1.4s ease-in-out;
+    transform: translateY(24px);
+}
+#Certification .journey.fade-on-scroll.is-leaving {
+    transform: translateY(-14px);
+}
+
 /* Respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
     .fade-on-scroll,
