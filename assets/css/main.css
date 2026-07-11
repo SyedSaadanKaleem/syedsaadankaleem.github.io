@@ -4381,6 +4381,7 @@ html{
 #gameOverview{
 	background-color: #0e0e0e;
 	color:#eee;
+	border-top: 3px solid #ee2b2b;
 }
 
 #gameOverviewTittle{
@@ -4735,6 +4736,16 @@ margin-top: -2em;}
     max-width: 64em;
     margin: 0 auto;
 }
+/* Feature chips inside the intro2 aside (project pages) — 2-up, tighter */
+.intro2-collab .skill-chips {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    margin-top: 1.6rem;
+}
+.intro2-collab .skill-chip {
+    padding: 1.5em 1em;
+}
+
 .skill-chip {
     position: relative;
     display: flex;
