@@ -5729,3 +5729,1632 @@ margin-top: -2em;}
         display: inline-block;
     }
 }
+
+/* ===== Hero (Vanguard-style) styles — moved from index.html ===== */
+		/* Full-screen hero — force full viewport, override template wrapper padding */
+		#header.vg-hero {
+			display: block;
+			position: relative;
+			height: 100vh;
+			height: 100dvh;
+			min-height: 100vh;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background: #000 url("images/banner.jpg") center center / cover no-repeat !important;
+			font-family: 'Inter', sans-serif;
+		}
+
+		.vg-hero__video {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-fit: cover;
+			object-position: right 20% top 50%;
+			z-index: 0;
+		}
+
+		.vg-hero__overlay {
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			background:
+				linear-gradient(90deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0.25) 100%),
+				linear-gradient(0deg, rgba(238, 43, 43, 0.20) 0%, rgba(0, 0, 0, 0) 55%);
+		}
+
+		.vg-hero__content {
+			position: relative;
+			z-index: 3;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			padding: 0 6vw;
+		}
+
+		/* Sidebar geometry -> keep all content clear of the fixed sidebars */
+		body {
+			--sb-w: 80px;
+			--sb-right: 80px;
+			--hero-gap: clamp(28px, 3vw, 64px);
+			--edge-gap: clamp(18px, 2vw, 44px);
+		}
+
+		body.sidebar-open {
+			--sb-w: 260px;
+		}
+
+		@media (max-width: 1280px) {
+
+			body,
+			body.sidebar-open {
+				--sb-w: 0px;
+				--sb-right: 0px;
+				/* right sidebar is hidden here too — keep gaps symmetric */
+			}
+		}
+
+		.vg-hero__content {
+			padding-left: calc(var(--sb-w) + var(--hero-gap));
+			transition: padding-left 0.45s ease;
+		}
+
+		/* --- Small / short screens: move hero content up, scale it down, and keep it clear of the fixed bottom nav --- */
+		@media (max-width: 1280px) {
+			.vg-hero__content {
+				align-items: flex-start;
+				padding-top: clamp(2.5rem, 8vh, 5.5rem);
+				padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+			}
+		}
+
+		@media (max-width: 1000px) {
+			.vg-hero__eyebrow {
+				margin-bottom: 0.9rem;
+			}
+
+			.vg-hero__eyebrow span {
+				font-size: 0.6rem;
+				letter-spacing: 0.2em;
+			}
+
+			.vg-hero__title {
+				font-size: clamp(2rem, 10vw, 3.4rem);
+				line-height: 0.95;
+			}
+
+			.vg-hero__lead {
+				margin-top: 0.85rem;
+				font-size: 0.88rem;
+			}
+
+			.vg-hero__actions {
+				margin-top: 1rem;
+				gap: 0.9rem;
+			}
+
+			.vg-hero__stats {
+				margin-top: 1rem;
+				gap: 1.4rem;
+			}
+
+			.vg-hero__stat-num {
+				font-size: clamp(1.3rem, 6vw, 2rem);
+			}
+
+			.vg-hero__stat-label {
+				font-size: 0.6rem;
+			}
+		}
+
+		/* Short viewports (e.g. landscape phones): scale to the available height */
+		@media (max-height: 640px) {
+			.vg-hero__content {
+				align-items: flex-start;
+				padding-top: clamp(1.25rem, 4vh, 2.75rem);
+				padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+			}
+
+			.vg-hero__eyebrow {
+				margin-bottom: 0.5rem;
+			}
+
+			.vg-hero__title {
+				font-size: clamp(1.5rem, 7.5vh, 3rem);
+				line-height: 0.95;
+			}
+
+			.vg-hero__lead {
+				margin-top: 0.55rem;
+				font-size: 0.82rem;
+			}
+
+			.vg-hero__actions {
+				margin-top: 0.75rem;
+			}
+
+			.vg-hero__stats {
+				margin-top: 0.75rem;
+				gap: 1.1rem;
+			}
+
+			.vg-hero__stat-num {
+				font-size: clamp(1.05rem, 5vh, 1.7rem);
+			}
+		}
+
+		@media (max-height: 480px) {
+			.vg-hero__lead {
+				display: none;
+			}
+
+			.vg-hero__badge {
+				display: none;
+			}
+
+			.vg-hero__stats {
+				margin-top: 0.55rem;
+			}
+
+			.vg-hero__title {
+				font-size: clamp(1.3rem, 8vh, 2.4rem);
+			}
+		}
+
+		/* On desktop (sidebars visible) inset every section so no text sits behind a sidebar */
+		@media (min-width: 1281px) {
+			#page-wrapper>section:not(#header) {
+				padding-left: calc(var(--sb-w) + var(--edge-gap));
+				padding-right: calc(var(--sb-right) + var(--edge-gap));
+				transition: padding-left 0.45s ease, padding-right 0.45s ease;
+			}
+		}
+
+		.vg-hero__inner {
+			max-width: 60rem;
+		}
+
+		.vg-hero__eyebrow {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			margin-bottom: 1.75rem;
+		}
+
+		.vg-hero__eyebrow svg {
+			width: 18px;
+			height: 18px;
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		.vg-hero__eyebrow span {
+			font-size: 0.78rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		.vg-hero__title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			line-height: 0.92;
+			letter-spacing: -0.01em;
+			font-size: clamp(2.8rem, 8vw, 7rem);
+			font-weight: 700;
+			margin: 0;
+		}
+
+		.vg-hero__title span {
+			display: block;
+		}
+
+		.vg-hero__title .vg-accent {
+			color: #ee2b2b;
+		}
+
+		.vg-hero__lead {
+			margin: 1.75rem 0 0;
+			max-width: 30rem;
+			font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+			line-height: 1.6;
+			color: rgba(255, 255, 255, 0.72);
+		}
+
+		.vg-hero__lead strong {
+			color: #fff;
+			font-weight: 600;
+		}
+
+		.vg-hero__actions {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 1.5rem;
+			margin-top: 2.25rem;
+		}
+
+		/* Keep the hero CTA left-aligned (not centered) on small screens */
+		.vg-hero__actions {
+			justify-content: flex-start;
+		}
+
+		.vg-hero__actions .button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: auto;
+			max-width: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		.vg-hero__cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.6rem;
+			background: #ee2b2b;
+			color: #fff !important;
+			padding: 0.95rem 1.7rem;
+			font-size: 0.72rem;
+			letter-spacing: 0.18em;
+			text-transform: uppercase;
+			border-radius: 2px;
+			transition: background .25s ease, transform .25s ease;
+		}
+
+		.vg-hero__cta:hover {
+			background: #c81f1f;
+			color: #fff !important;
+		}
+
+		.vg-hero__cta svg {
+			width: 16px;
+			height: 16px;
+			transition: transform .25s ease;
+		}
+
+		.vg-hero__cta:hover svg {
+			transform: translate(2px, -2px);
+		}
+
+		.vg-hero__badge {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+		}
+
+		.vg-hero__badge svg {
+			width: 30px;
+			height: 30px;
+			color: rgba(255, 255, 255, 0.5);
+		}
+
+		.vg-hero__badge div div {
+			font-size: 0.72rem;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.6);
+			line-height: 1.3;
+		}
+
+		.vg-hero__stats {
+			display: flex;
+			flex-wrap: wrap;
+			gap: clamp(1.5rem, 5vw, 4rem);
+			margin-top: clamp(2rem, 4vw, 3.5rem);
+		}
+
+		.vg-hero__stat-num {
+			font-weight: 700;
+			letter-spacing: -0.02em;
+			color: #fff;
+			font-size: clamp(1.6rem, 4vw, 3rem);
+		}
+
+		.vg-hero__stat-label {
+			margin-top: 0.35rem;
+			font-size: 0.68rem;
+			letter-spacing: 0.18em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+		}
+
+		@keyframes vgFadeUp {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.vg-anim {
+			opacity: 0;
+			animation: vgFadeUp .8s ease-out forwards;
+		}
+
+		.vg-anim-0 {
+			animation-delay: 0s;
+		}
+
+		.vg-anim-1 {
+			animation-delay: .2s;
+		}
+
+		.vg-anim-2 {
+			animation-delay: .4s;
+		}
+
+		.vg-anim-3 {
+			animation-delay: .6s;
+		}
+
+		.vg-anim-4 {
+			animation-delay: .8s;
+		}
+
+		@media (max-width: 736px) {
+			.vg-hero__badge {
+				display: none;
+			}
+
+			#header.vg-hero {
+				height: 100vh;
+				height: 100dvh;
+				min-height: 100dvh;
+			}
+		}
+
+		/* keep hero content visible even if preload/animation is disabled */
+		body.is-preload #header.vg-hero .vg-anim {
+			opacity: 1;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.vg-anim {
+				opacity: 1 !important;
+				animation: none !important;
+			}
+		}
+
+		/* ===== Sticky hero — page content scrolls up over it ===== */
+		#header.vg-hero {
+			position: sticky;
+			top: 0;
+			z-index: 0;
+		}
+
+		#page-wrapper>section:not(#header) {
+			position: relative;
+			z-index: 1;
+		}
+
+		/* ===== Intro — matched to hero style ===== */
+		#intro.wrapper {
+			text-align: left;
+		}
+
+		.intro2-grid {
+			display: grid;
+			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+			gap: clamp(1.5rem, 3.5vw, 6rem);
+			align-items: start;
+		}
+
+		.intro2 {
+			max-width: 46rem;
+		}
+
+		.intro2-eyebrow {
+			display: flex;
+			align-items: center;
+			gap: 0.7rem;
+			margin-bottom: 1.4rem;
+		}
+.middle{
+	    margin-bottom: 0.8rem !important;
+
+}
+		.intro2-eyebrow svg {
+			width: 18px;
+			height: 18px;
+			color: #ee2b2b;
+			flex: none;
+		}
+
+		.intro2-eyebrow span {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.7rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.6);
+		}
+
+		.intro2-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			line-height: 0.95;
+			letter-spacing: -0.01em;
+			font-size: clamp(2rem, 4.4vw, 3.8rem);
+			margin: 0 0 1.6rem;
+		}
+
+		.intro2-title span {
+			display: block;
+		}
+
+		.intro2-title .vg-accent {
+			color: #ee2b2b;
+		}
+
+		.intro2-lead {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: clamp(0.95rem, 1.1vw, 1.08rem);
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.66);
+			margin: 0 0 2.4rem;
+		}
+
+		.intro2-stats {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 1.2rem;
+		}
+
+		.intro2-stat {
+			border-top: 2px solid rgba(238, 43, 43, 0.55);
+			padding-top: 0.85rem;
+		}
+
+		.intro2-stat-num {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-weight: 700;
+			letter-spacing: -0.02em;
+			color: #fff;
+			font-size: clamp(1.6rem, 3vw, 2.6rem);
+			line-height: 1;
+		}
+
+		.intro2-stat-label {
+			margin-top: 0.5rem;
+			font-size: 0.58rem;
+			letter-spacing: 0.16em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+		}
+
+		/* Collaborations column with logo grid */
+		.intro2-collab {
+			margin: 0;
+		}
+
+		.intro2-collab-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.85);
+			font-size: clamp(1.05rem, 1.5vw, 1.5rem);
+			letter-spacing: 0.01em;
+			line-height: 1.15;
+			margin: 0.3rem 0 0;
+		}
+
+		.intro2-logos {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 0.85rem;
+			margin-top: 1.6rem;
+		}
+
+		.intro2-logo {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1.35rem 1.4rem;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 14px;
+			transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+		}
+
+		.intro2-logo img {
+			max-width: 100%;
+			max-height: 2.4rem;
+			width: auto;
+			height: auto;
+			opacity: 0.72;
+			transition: opacity 0.3s ease;
+		}
+
+		.intro2-logo:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.05);
+			transform: translateY(-3px);
+		}
+
+		.intro2-logo:hover img {
+			opacity: 1;
+		}
+
+		/* Keep collaborations sticky on the right while the two-column layout holds */
+		@media (min-width: 721px) {
+			.intro2-collab {
+				position: sticky;
+				top: clamp(6rem, 16vh, 9rem);
+				align-self: start;
+			}
+		}
+
+		/* Sidebars are hidden below 1280 -> add a normal responsive gutter (still two-column) */
+		@media (max-width: 1280px) {
+			#intro {
+				padding-left: clamp(1.25rem, 5vw, 3rem);
+				padding-right: clamp(1.25rem, 5vw, 3rem);
+			}
+		}
+
+		/* Narrow left column -> stats to two-up */
+		@media (max-width: 900px) {
+			.intro2-stats {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1.1rem 1rem;
+			}
+		}
+
+		/* Logo boxes ~half their original width -> stack, collaborations moves below */
+		@media (max-width: 720px) {
+			.intro2-grid {
+				grid-template-columns: 1fr;
+				gap: 1.6rem;
+			}
+
+			.intro2 {
+				max-width: none;
+			}
+
+			.intro2-collab {
+				margin-top: 0.5rem;
+			}
+
+			.intro2-logos {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 0.7rem;
+				margin-top: 1.2rem;
+			}
+
+			.intro2-logo {
+				padding: 1rem 1.1rem;
+			}
+
+			.intro2-title {
+				margin-bottom: 1.2rem;
+			}
+
+			.intro2-lead {
+				line-height: 1.65;
+				margin-bottom: 1.6rem;
+			}
+		}
+
+		/* ===== Career Highlights — full-screen vertical snap slider ===== */
+		/* Firm snap turns on (via JS) only while inside Career Highlights; hero + intro scroll normally */
+		html {
+			scroll-behavior: smooth;
+		}
+
+		#highlights.wrapper {
+			padding: 0 !important;
+			text-align: left;
+			position: relative;
+		}
+
+		.hl-anchor {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 1px;
+			height: 1px;
+		}
+
+		.hl-slides {
+			position: relative;
+		}
+
+		.hl-slide {
+			position: sticky;
+			top: 0;
+			height: 100vh;
+			height: 100dvh;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
+			background: radial-gradient(120% 90% at 15% 20%, rgba(238, 43, 43, 0.18), transparent 60%), #0b0b0b;
+			transition: box-shadow 0.28s ease;
+		}
+
+		/* Seam shadow only while a slide is moving — at rest the next slide's upward shadow must not bleed up into the current one. */
+		.hl-slides.hl-animating .hl-slide {
+			box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.55);
+		}
+
+		/* Veil: hide the next card during the intro entry/overshoot so a fast fling can
+		   never flash it over the intro before the hard-stop lands. Cleared on settle/advance. */
+		.hl-slide.hl-veil {
+			opacity: 0 !important;
+			visibility: hidden !important;
+		}
+
+		/* Last-slide pin range: a full-viewport spacer at the end of the sticky stack keeps
+		   the last slide fixed while the Skills section (pulled up + above it) scrolls over
+		   it — the same reveal-stack feel the other cards get. #main must be opaque so it
+		   actually covers the pinned slide. */
+		.hl-stack-tail {
+			height: 100vh;
+			height: 100dvh;
+			pointer-events: none;
+		}
+
+		#main {
+			margin-top: -100vh;
+			margin-top: -100dvh;
+			background: #0b0b0b;
+			border-top: 3px solid #ee2b2b;
+		}
+
+		/* Reveal-stack between sections: #main and #Certification pin at their end
+		   (JS sets the negative sticky top), then the next section — with a higher
+		   z-index and an opaque background — scrolls over the pinned one.
+		   (section#… selectors: must outrank `#page-wrapper > section:not(#header)`.) */
+		#page-wrapper > section#main { position: sticky; z-index: 2; }
+		#page-wrapper > section#Certification { position: sticky; z-index: 3; }
+		#page-wrapper > section#footer { position: relative; z-index: 4; }
+
+		/* Two-column game slide: LEFT copy stays exactly as it was; on the RIGHT is a game CARD
+		   built from the assets already on disk — the 3:1 banner up top, then a footer with the
+		   game's Logo.png, name and tag. Scoped with :has to the game slides only. */
+		/* Mirror the intro slide's two-column grid (same 1.3fr/1fr columns, gap and side
+		   padding) so the card's left & right edges line up EXACTLY with the intro's
+		   collaboration cards. The copy sits in column 1, the card in column 2. */
+		.hl-slide:has(> .hl-slide-bg) {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) clamp(360px, 50vw, 960px);
+			grid-template-rows: 1fr;
+			gap: clamp(1.5rem, 3.5vw, 6rem);
+			align-items: start;
+			padding-left: calc(var(--sb-w) + var(--hero-gap));
+			padding-right: calc(var(--sb-right) + var(--hero-gap));
+		}
+
+		.hl-slide:has(> .hl-slide-bg) .hl-slide-content {
+			grid-column: 1 / -1;
+			grid-row: 1;
+			align-self: start;
+			max-width: 70vw;
+			padding-left: 0;
+			padding-right: 0;
+			min-width: 0;
+		}
+
+		/* Card frame — matched to the intro slide's collaboration cards (.intro2-logo):
+		   flat translucent-white fill, hairline border, 14px radius, red hover lift. */
+		.hl-slide-bg {
+			grid-column: 2;
+			grid-row: 1;
+			align-self: end;
+			margin-bottom: clamp(2.5rem, 8vh, 6rem);
+			position: relative;
+			z-index: 2;
+			display: flex;
+			flex-direction: column;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 14px;
+			overflow: hidden;
+			transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+		}
+
+		@media (max-width: 1280px) {
+			.hl-slide-bg {
+				grid-column: 2;
+				grid-row: 1;
+				align-self: end;
+				margin-bottom: clamp(9rem, 8vh, 6rem);
+				position: relative;
+				z-index: 2;
+				display: flex;
+				flex-direction: column;
+				background: rgba(255, 255, 255, 0.03);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 14px;
+				overflow: hidden;
+				transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+			}
+		}
+
+		.hl-slide-bg:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.05);
+			transform: translateY(-3px);
+		}
+
+		/* Banner (true 3:1 ratio — no crop for 1500×500 art) */
+		.hl-gc-banner {
+			width: 100%;
+			aspect-ratio: 3 / 1;
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		/* Footer: logo + name + tag */
+		.hl-gc-foot {
+			display: flex;
+			align-items: center;
+			gap: 0.85rem;
+			padding: 0.95rem 1.15rem 1.05rem;
+		}
+
+		.hl-gc-logo {
+			width: 46px;
+			height: 46px;
+			object-fit: contain;
+			flex: none;
+			border-radius: 9px;
+			background: rgba(255, 255, 255, 0.04);
+		}
+
+		.hl-gc-meta {
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+			padding-top: 1.25%;
+		}
+
+		.hl-gc-name {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: 1.12rem;
+			line-height: 1;
+			letter-spacing: 0.01em;
+		}
+
+		.hl-gc-sub {
+			font-family: 'Inter', system-ui, sans-serif;
+			color: #ee2b2b;
+			text-transform: uppercase;
+			letter-spacing: 0.16em;
+			font-size: 0.6rem;
+		}
+
+		
+
+		/* Cobweb copy stays in the LEFT column (the 70vw span is only for the banner slides),
+		   so its description can't run behind the game tiles. */
+		.hl-slide:has(> .hl-slide-bg).hl-slide--cobweb .hl-slide-content {
+			grid-column: 1;
+			max-width: none;
+			position: relative;
+			z-index: 3;
+		}
+
+		/* Cobweb: NO outer box — six game tiles, each an image-on-top card with a title and a
+		   short blurb (Explore button dropped to save space), equal gaps both ways. */
+		.hl-cobweb-card {
+			background: none;
+			border: 0;
+			border-radius: 0;
+			box-shadow: none;
+			overflow: visible;
+			padding: 0;
+			justify-content: center;
+		}
+
+		.hl-cobweb-card:hover {
+			background: none;
+			border-color: transparent;
+			transform: none;
+		}
+
+		.hl-cobweb-card .hl-cobweb-grid {
+			max-width: none;
+			width: 100%;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: clamp(0.5rem, 0.9vw, 0.85rem);
+			margin: 0;
+		}
+
+		.hl-cobweb-card .hl-mini {
+			padding: 0;
+			gap: 0;
+			overflow: hidden;
+		}
+
+		.hl-cobweb-card .hl-mini-thumb {
+			border-radius: 0;
+		}
+
+		.hl-cobweb-card .hl-mini-name {
+			padding: 0.5rem 0.6rem 0;
+			font-size: 0.72rem;
+		}
+
+		.hl-cobweb-card .hl-mini-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.58rem;
+			line-height: 1.45;
+			color: rgba(255, 255, 255, 0.55);
+			padding: 0.25rem 0.6rem 0.6rem;
+			margin: 0;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.hl-cobweb-card .hl-mini-store {
+			display: none;
+		}
+
+		/* Phones: keep the 3-col mosaic but drop the blurbs and shrink the names —
+		   2-col tiles with descriptions stack too tall for one viewport. */
+		@media (max-width: 700px) {
+			.hl-cobweb-card .hl-mini-desc {
+				display: none;
+			}
+
+			.hl-cobweb-card .hl-mini-name {
+				font-size: 0.62rem;
+				padding: 0.4rem 0.45rem 0.5rem;
+			}
+		}
+
+		/* Small screens: keep the card, stacked UNDER the copy in a single column.
+		   The slide grid owns the vertical padding (incl. bottom-nav clearance, which must
+		   sit BELOW the card, not between copy and card) and may grow past the viewport
+		   (min-height, like the intro) so content is never clipped by overflow:hidden. */
+		@media (max-width: 1024px) {
+			.hl-slide:has(> .hl-slide-bg) {
+				grid-template-columns: minmax(0, 1fr);
+				grid-template-rows: auto auto;
+				gap: clamp(1.1rem, 3.5vh, 2rem);
+				align-items: start;
+				align-content: center;
+				padding-right: 6vw;
+				height: auto;
+				min-height: 100vh;
+				min-height: 100dvh;
+				padding-top: clamp(3.5rem, 8vh, 6rem);
+				padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+			}
+
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-content {
+				grid-column: 1;
+				grid-row: 1;
+				padding-top: 0;
+				padding-bottom: 0;
+			}
+
+			.hl-slide-bg {
+				grid-column: 1;
+				grid-row: 2;
+				align-self: start;
+				justify-self: start;
+				width: 100%;
+				max-width: 560px;
+				margin-bottom: 0;
+			}
+		}
+
+		/* Phones: trim the card + copy spacing so the stack fits the viewport height. */
+		@media (max-width: 600px) {
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-bg {
+				max-width: 100%;
+			}
+
+			.hl-gc-foot {
+				padding: 0.8rem 0.95rem 0.9rem;
+				gap: 0.7rem;
+			}
+
+			.hl-gc-logo {
+				width: 40px;
+				height: 40px;
+			}
+
+			.hl-tag {
+				margin-bottom: 1rem;
+			}
+
+			.hl-slide-desc {
+				margin: 0.9rem 0 1.2rem;
+				line-height: 1.65;
+			}
+		}
+
+		.hl-slide::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: 1;
+			pointer-events: none;
+			background: linear-gradient(0deg, rgba(238, 43, 43, 0.08), transparent 60%);
+		}
+
+		.hl-slide-content,
+		.hl-cobweb-inner {
+			position: relative;
+			z-index: 2;
+			width: 100%;
+			max-width: 60rem;
+			padding: clamp(5rem, 10vh, 7rem) 6vw clamp(5rem, 10vh, 7rem) calc(var(--sb-w) + var(--hero-gap));
+		}
+
+		.hl-slide-content {
+			max-width: 48rem;
+		}
+
+		.hl-tag {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.7rem;
+			background: none;
+			border: 0;
+			padding: 0;
+			border-radius: 0;
+			color: rgba(255, 255, 255, 0.6);
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.7rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			margin-bottom: 1.4rem;
+		}
+
+		.hl-tag i {
+			color: #ee2b2b;
+			font-size: 1.25em;
+		}
+
+		.hl-tag-logo {
+			height: 1.3em;
+			width: auto;
+			flex: none;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.hl-slide-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: clamp(2rem, 4.4vw, 3.8rem);
+			line-height: 0.95;
+			letter-spacing: -0.01em;
+			margin: 0;
+		}
+
+		.hl-slide-sub {
+			font-family: 'Inter', system-ui, sans-serif;
+			color: #ee2b2b;
+			text-transform: uppercase;
+			letter-spacing: 0.18em;
+			font-size: clamp(0.72rem, 1.1vw, 0.9rem);
+			margin: 0.7rem 0 0;
+		}
+
+		.hl-slide-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			max-width: 44rem;
+			font-size: clamp(0.95rem, 1.1vw, 1.08rem);
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.66);
+			margin: 1.5rem 0 2rem;
+		}
+
+		.hl-slide-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+		}
+
+		.hl-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4em;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.72rem;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			padding: 0.8em 1.3em;
+			border-radius: 8px;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			color: #fff !important;
+			background: transparent;
+			transition: background .25s, border-color .25s, transform .25s;
+		}
+
+		.hl-btn:hover {
+			border-color: rgba(238, 43, 43, 0.6);
+			background: rgba(238, 43, 43, 0.14);
+		}
+
+		.hl-btn--primary {
+			background: #ee2b2b;
+			border-color: #ee2b2b;
+		}
+
+		.hl-btn--primary:hover {
+			background: #c81f1f;
+			border-color: #c81f1f;
+		}
+
+		.hl-btn .arrow {
+			transition: transform .25s;
+		}
+
+		.hl-btn--primary:hover .arrow {
+			transform: translateX(3px);
+		}
+
+		.hl-slide--intro {
+			background: #0e0e0e;
+		}
+
+		.hl-slide--intro {
+			height: auto;
+			min-height: 100vh;
+			min-height: 100dvh;
+		}
+
+		.hl-slide--intro .hl-slide-content {
+			max-width: none;
+			padding-right: calc(var(--sb-right) + var(--hero-gap));
+		}
+
+		.hl-slide--intro .intro2-lead {
+			margin-bottom: 2rem;
+		}
+
+		.hl-slide--intro::after {
+			background: none;
+		}
+
+		.hl-slide--intro .hl-slide-title {
+			font-size: clamp(2.6rem, 8vw, 6.5rem);
+		}
+
+		.hl-scrollhint {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5em;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.7rem;
+			letter-spacing: 0.24em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.55);
+		}
+
+		.hl-scrollhint-arrow {
+			display: inline-block;
+			animation: hlbob 1.6s ease-in-out infinite;
+			color: #ee2b2b;
+			font-size: 1.2em;
+		}
+
+		@keyframes hlbob {
+
+			0%,
+			100% {
+				transform: translateY(0);
+			}
+
+			50% {
+				transform: translateY(4px);
+			}
+		}
+
+		.hl-slide--cobweb::after {
+			background: linear-gradient(0deg, rgba(238, 43, 43, 0.1), transparent 60%);
+		}
+
+		.hl-cobweb-inner .hl-slide-title {
+			font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+		}
+
+		.hl-cobweb-inner .hl-slide-desc {
+			margin-bottom: 1.6rem;
+		}
+
+		.hl-cobweb-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+			max-width: 62rem;
+		}
+
+		.hl-mini {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			padding: 0.6rem;
+			border-radius: 12px;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			transition: border-color .25s, background .25s, transform .25s;
+		}
+
+		.hl-mini:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.06);
+			transform: translateY(-3px);
+		}
+
+		.hl-mini-thumb {
+			aspect-ratio: 16/10;
+			border-radius: 8px;
+			overflow: hidden;
+		}
+
+		.hl-mini-thumb img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		.hl-mini-name {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.82rem;
+			font-weight: 600;
+			color: #fff;
+		}
+
+		.hl-mini-store {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35em;
+			font-size: 0.55rem;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+			font-family: 'Inter', system-ui, sans-serif;
+		}
+
+		.hl-mini-store i {
+			color: #ee2b2b;
+			font-size: 1.15em;
+		}
+
+		.hl-overlays {
+			position: fixed;
+			inset: 0;
+			z-index: 45;
+			pointer-events: none;
+			opacity: 0;
+			transition: opacity 0.4s ease;
+		}
+
+		.hl-overlays.is-active {
+			opacity: 1;
+		}
+
+		.hl-label {
+			position: absolute;
+			top: clamp(1.4rem, 5vh, 2.6rem);
+			left: calc(var(--sb-w) + var(--hero-gap));
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.66rem;
+			letter-spacing: 0.32em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.85);
+		}
+
+		@media (max-width: 900px) {
+			.hl-cobweb-grid {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 0.7rem;
+			}
+
+			.hl-slide-content,
+			.hl-cobweb-inner {
+				padding-top: clamp(4.5rem, 12vh, 7rem);
+				padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+			}
+
+			.hl-slide--intro .hl-slide-content {
+				padding-top: clamp(3.5rem, 8vh, 5.5rem);
+			}
+
+			.hl-mini-name {
+				font-size: 0.72rem;
+			}
+		}
+
+		/* ===== Skills (The Craft) — matched to hero/intro style ===== */
+		.craft-head {
+			max-width: 64em;
+			margin: 0 auto 3.5em;
+			text-align: left;
+			align-items: center;
+			grid-template-columns: minmax(0, 32fr) minmax(0, 68fr);
+		}
+
+		.craft-head .intro2-title {
+			margin-bottom: 0;
+		}
+
+		.craft-head-copy .intro2-lead {
+			margin-bottom: 1.2rem;
+		}
+
+		.craft-head-copy .intro2-lead:last-child {
+			margin-bottom: 0;
+		}
+
+		@media (max-width: 720px) {
+			.craft-head {
+				display: block;
+			}
+
+			.craft-head .intro2-title {
+				margin-bottom: 1.4rem;
+			}
+		}
+
+		.skills-toolkit-header {
+			text-align: left;
+			max-width: 64em;
+		}
+		/* Toolkit header: eyebrow + title on the left, CTA button on the right */
+		#main .skills-toolkit-header {
+			display: grid;
+			grid-template-columns: 1fr auto;
+			grid-template-rows: auto auto;
+			align-items: center;
+			column-gap: 2rem;
+		}
+		#main .skills-toolkit-header .intro2-eyebrow { grid-column: 1; grid-row: 1; }
+		#main .skills-toolkit-header .intro2-collab-title { grid-column: 1; grid-row: 2; margin-top: 0.3rem; }
+		#main .skills-toolkit-header .hl-btn { grid-column: 2; grid-row: 1 / span 2; justify-self: end; flex: none; }
+		@media (max-width: 640px) {
+			#main .skills-toolkit-header { grid-template-columns: 1fr; }
+			#main .skills-toolkit-header .hl-btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 1.2rem; }
+		}
+
+		#Certification .craft-head .intro2-title .vg-accent {
+			display: inline;
+		}
+
+		/* ===== Journey cards (certs + ventures) — compact horizontal, no dead space ===== */
+		.cert-grid,
+		.venture-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: clamp(0.8rem, 1.6vw, 1.2rem);
+			max-width: 64em;
+			margin: 0 auto;
+			align-items: stretch;
+		}
+
+		/* margin 0: the template's `article { margin-bottom }` inflates grid tracks (margins count toward track size) */
+		.cert-card,
+		.venture-card {
+			position: relative;
+			height: 100%;
+			margin: 0;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 14px;
+			overflow: hidden;
+			transition: border-color .3s ease, background .3s ease, transform .3s ease;
+		}
+
+		.cert-card::before,
+		.venture-card::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: radial-gradient(60% 90% at 0% 50%, rgba(238, 43, 43, 0.12), transparent 70%);
+			opacity: 0;
+			transition: opacity .4s ease;
+			pointer-events: none;
+		}
+
+		.cert-card:hover,
+		.venture-card:hover {
+			border-color: rgba(238, 43, 43, 0.5);
+			background: rgba(255, 255, 255, 0.05);
+			transform: translateY(-3px);
+		}
+
+		.cert-card:hover::before,
+		.venture-card:hover::before {
+			opacity: 1;
+		}
+
+		/* Certs — badge left, copy right */
+		.cert-card {
+			display: flex;
+			align-items: center;
+			gap: clamp(1rem, 2vw, 1.5rem);
+			text-align: left;
+			padding: clamp(1.1rem, 1.8vw, 1.5rem) clamp(1.2rem, 2vw, 1.7rem);
+		}
+
+		.cert-badge {
+			position: relative;
+			z-index: 1;
+			flex: none;
+		}
+
+		.cert-badge img {
+			display: block;
+			width: clamp(72px, 11vw, 150px);
+			height: auto;
+			filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45));
+			transition: transform .4s ease;
+		}
+
+		.cert-card:hover .cert-badge img {
+			transform: scale(1.05);
+		}
+
+		.cert-body {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			min-width: 0;
+		}
+
+		.cert-issuer {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.56rem;
+			letter-spacing: 0.26em;
+			text-transform: uppercase;
+			color: #ee2b2b;
+			margin-bottom: 0.5rem;
+		}
+
+		.cert-title {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+			line-height: 1.05;
+			letter-spacing: 0.01em;
+			margin: 0 0 0.55rem;
+		}
+
+		.cert-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.8rem;
+			line-height: 1.6;
+			color: rgba(255, 255, 255, 0.55);
+			margin: 0 0 0.9rem;
+		}
+
+		/* Text link instead of boxed button */
+		.cert-verify,
+		.venture-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45em;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			color: #ee2b2b !important;
+		}
+
+		.cert-verify .arrow,
+		.venture-link .arrow {
+			transition: transform .25s ease;
+		}
+
+		.cert-verify:hover .arrow,
+		.venture-link:hover .arrow {
+			transform: translateX(3px);
+		}
+
+		/* Ventures — big logo band on top (≥1/3 of card), compact copy below */
+		.venture-card {
+			display: flex;
+			flex-direction: column;
+			padding: 0;
+		}
+
+		.venture-logo {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: clamp(1.6rem, 2.6vw, 2.2rem) 1.5rem;
+			background: rgba(255, 255, 255, 0.02);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		}
+
+		.venture-logo img {
+			height:
+				height: clamp(38px, 10vw, 150px);
+			width: auto;
+			max-width: 90%;
+			object-fit: contain;
+			opacity: 0.92;
+			filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5));
+			transition: opacity .3s ease, transform .4s ease;
+		}
+
+		.venture-card:hover .venture-logo img {
+			opacity: 1;
+			transform: scale(1.04);
+		}
+
+		.venture-body {
+			position: relative;
+			z-index: 1;
+			padding: clamp(0.9rem, 1.5vw, 1.1rem) clamp(1.2rem, 2vw, 1.5rem) clamp(1.1rem, 1.8vw, 1.3rem);
+		}
+
+		.venture-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			margin-bottom: 0.4rem;
+		}
+
+		.venture-status {
+			flex: none;
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.56rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.35);
+		}
+
+		.venture-status::before {
+			content: '';
+			display: inline-block;
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.25);
+			margin-right: 0.6em;
+			vertical-align: middle;
+		}
+
+		.venture-name {
+			font-family: 'FSP DEMO - PODIUM Sharp 4.11', 'Chakra Petch', sans-serif;
+			text-transform: uppercase;
+			color: #fff;
+			font-size: clamp(1rem, 1.4vw, 1.2rem);
+			line-height: 1.05;
+			letter-spacing: 0.01em;
+			margin: 0;
+		}
+
+		.venture-desc {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.6rem;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		@media (max-width: 640px) {
+
+			.cert-grid,
+			.venture-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.journey-subhead {
+			margin-top: 4.5em;
+		}
+
+		.journey-subhead .intro2-collab-title {
+			margin-top: 0.3rem;
+		}
+
+		.journey-subhead .intro2-lead {
+			max-width: 40rem;
+			margin: 1rem 0 0;
+		}
+
+		.craft-actions {
+			max-width: 64em;
+			margin: 4.5em auto 0;
+			justify-content: center;
+			gap: 1rem;
+		}
+
+		.craft-actions .hl-btn {
+			font-size: 0.82rem;
+			padding: 1.05em 2em;
+			border-radius: 10px;
+		}
+
+		@media (max-width: 480px) {
+			.craft-actions {
+				flex-direction: column;
+				align-items: stretch;
+			}
+
+			.craft-actions .hl-btn {
+				justify-content: center;
+			}
+		}
+
+		/* ===== Contact / footer — matched to hero/intro style ===== */
+		#footer { border-top: 3px solid #ee2b2b; }
+		#footerTittle { display: block; height: 0; border: 0; }
+		.contact-head { margin-bottom: clamp(2.5em, 5vw, 4em); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+		.contact-head .intro2-title .vg-accent { display: inline; }
+		#footer header.craft-head { border-bottom: 0; padding-bottom: 0; }
+		#footer .container > .row,
+		#footer #copyright { max-width: 64em; margin-left: auto; margin-right: auto; }
+		/* Dark hairline inputs with red focus */
+		#footer form input[type="text"],
+		#footer form input[type="email"],
+		#footer form textarea {
+			background: rgba(255,255,255,0.03);
+			border: 1px solid rgba(255,255,255,0.1);
+			border-radius: 10px;
+			color: #fff;
+			box-shadow: none;
+			font-family: 'Inter', system-ui, sans-serif;
+			transition: border-color .3s ease, background .3s ease;
+		}
+		#footer form input[type="text"]:focus,
+		#footer form input[type="email"]:focus,
+		#footer form textarea:focus {
+			background: rgba(255,255,255,0.05);
+			border-color: rgba(238,43,43,0.6);
+			box-shadow: none;
+		}
+		#footer form ::placeholder { color: rgba(255,255,255,0.4); }
+		/* Send / Reset as hero buttons */
+		#footer .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+		#footer .actions li { padding: 0; }
+		#footer .actions a { display: inline-flex; }
+		#footer .actions input[type="submit"],
+		#footer .actions input[type="reset"] {
+			font-family: 'Inter', system-ui, sans-serif;
+			font-size: 0.72rem;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			padding: 0.9em 1.8em;
+			height: auto;
+			line-height: 1;
+			border-radius: 10px;
+			border: 1px solid rgba(255,255,255,0.2);
+			background: transparent;
+			color: #fff;
+			box-shadow: none;
+			cursor: pointer;
+			transition: background .25s, border-color .25s, transform .25s;
+		}
+		#footer .actions input[type="submit"] { background: #ee2b2b; border-color: #ee2b2b; }
+		#footer .actions input[type="submit"]:hover { background: #c81f1f; border-color: #c81f1f; box-shadow: none; }
+		#footer .actions input[type="reset"]:hover { border-color: rgba(238,43,43,0.6); background: rgba(238,43,43,0.14); box-shadow: none; }
+		/* Contact info column */
+		#footer .feature-list h3.icon { color: #fff; }
+		#footer .feature-list a { color: rgba(255,255,255,0.7); transition: color .25s; }
+		#footer .feature-list a:hover { color: #ee2b2b; }
+		@media (max-width: 480px) {
+			#footer .actions { flex-direction: column; align-items: stretch; }
+			#footer .actions a, #footer .actions input { width: 100%; }
+		}
