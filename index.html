@@ -697,13 +697,19 @@
 		}
 
 		#main {
-			position: relative;
-			z-index: 2;
 			margin-top: -100vh;
 			margin-top: -100dvh;
 			background: #0b0b0b;
 			border-top: 3px solid #ee2b2b;
 		}
+
+		/* Reveal-stack between sections: #main and #Certification pin at their end
+		   (JS sets the negative sticky top), then the next section — with a higher
+		   z-index and an opaque background — scrolls over the pinned one.
+		   (section#… selectors: must outrank `#page-wrapper > section:not(#header)`.) */
+		#page-wrapper > section#main { position: sticky; z-index: 2; }
+		#page-wrapper > section#Certification { position: sticky; z-index: 3; }
+		#page-wrapper > section#footer { position: relative; z-index: 4; }
 
 		/* Two-column game slide: LEFT copy stays exactly as it was; on the RIGHT is a game CARD
 		   built from the assets already on disk — the 3:1 banner up top, then a footer with the
@@ -3178,6 +3184,76 @@
 				if (dir < 0 && idx <= 0) return;
 				ty = null;
 				goTo(idx + dir);
+			}, { passive: true });
+		})();
+	</script>
+
+	<script>
+		// ===== Section reveal-stack + end hard-stops =====
+		// #main (The Process) and #Certification (The Journey) pin at their end —
+		// sticky with a negative top of -(height - viewport) so they scroll through
+		// normally, then freeze bottom-aligned while the next section slides over.
+		// A wheel hard-stop lands scrolling exactly on each pin point and absorbs
+		// momentum; only a fresh gesture after the stop scrolls the next section on.
+		(function () {
+			var stops = ['main', 'Certification'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+			if (!stops.length) return;
+			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+			// Sticky top sync (same pattern as the slider's syncStickyTops)
+			function sync() {
+				stops.forEach(function (s) {
+					var over = s.offsetHeight - window.innerHeight;
+					s.style.top = (over > 0 ? -over : 0) + 'px';
+				});
+			}
+			sync();
+			window.addEventListener('resize', sync);
+			window.addEventListener('load', sync);
+			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduce) return;
+			// The pin point: the scroll position where the section's bottom meets the
+			// viewport bottom (its sticky freeze point). Computed from the NEXT section's
+			// top, not the section's own — offsetTop on a stuck sticky element reports its
+			// displaced position, which would inflate the stop and let fast flings slip past.
+			function stopYOf(s) {
+				var next = s.nextElementSibling;
+				while (next && next.tagName !== 'SECTION') next = next.nextElementSibling;
+				var top = next ? topOf(next) : topOf(s) + s.offsetHeight;
+				return top - window.innerHeight;
+			}
+			var locked = false, goT = 0, lastWheelT = 0, lastY = -1, still = 0, pollT = null;
+			var prevY = window.pageYOffset, lastUserT = 0;
+			function release() { locked = false; clearTimeout(pollT); pollT = null; }
+			function poll() {
+				var now = performance.now(), y = window.pageYOffset;
+				if (y === lastY) still++; else still = 0;
+				lastY = y;
+				if ((now - lastWheelT >= 200 && now - goT >= 420 && still >= 2) || now - goT >= 1200) { release(); return; }
+				pollT = setTimeout(poll, 50);
+			}
+			function hardStop(sy) {
+				locked = true; goT = lastWheelT = performance.now(); lastY = -1; still = 0;
+				window.scrollTo({ top: Math.round(sy), behavior: 'instant' });
+				clearTimeout(pollT); pollT = setTimeout(poll, 50);
+			}
+			// While locked, swallow the momentum tail so it can't push past the stop.
+			window.addEventListener('wheel', function (e) {
+				lastUserT = performance.now();
+				if (locked) { e.preventDefault(); lastWheelT = performance.now(); }
+			}, { passive: false });
+			// Crossing a pin point downward on a genuine user wheel clamps to it —
+			// once per approach (after the stop, prevY sits at/past the point, so the
+			// next gesture scrolls on and reveals the covering section). Nav-link
+			// smooth scrolls fire no wheel events and are never grabbed.
+			window.addEventListener('scroll', function () {
+				var y = window.pageYOffset;
+				if (!locked && y > prevY && performance.now() - lastUserT < 250) {
+					for (var i = 0; i < stops.length; i++) {
+						var sy = stopYOf(stops[i]);
+						if (prevY < sy - 2 && y >= sy) { hardStop(sy); break; }
+					}
+				}
+				prevY = y;
 			}, { passive: true });
 		})();
 	</script>
