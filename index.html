@@ -3115,15 +3115,11 @@
 				// momentum already scrolled us partway into the next card. Advancing waits
 				// for the next gesture.
 				if (!engaged && !locked) {
-					// Entering from below while scrolling UP: don't grab — let the reveal-stack
-					// scroll past natively so the last slide never snaps into view. Reversing to
-					// scroll down re-engages normal per-card snapping.
-					if (entrySide > 0 && dir < 0) return;
 					engaged = true;
 					e.preventDefault();
 					lastWheelT = performance.now();
 					if (entrySide < 0) { setVeil('down'); goTo(0); }              // from above -> hard-stop on the intro (veil later cards)
-					else if (entrySide > 0) { goTo(currentIndex()); }             // from below scrolling down -> settle on the current card
+					else if (entrySide > 0) { goTo(slides.length - 1); }          // from below -> settle on the last slide (only reachable once it's fully in view)
 					else goTo(currentIndex());
 					return;
 				}
@@ -3151,15 +3147,21 @@
 			window.addEventListener("scroll", function () {
 				var y = window.pageYOffset;
 				if (!reduce && !engaged && !locked && performance.now() - lastUserScrollT < 250) {
-					var t0 = slideTop(0);
-					// A fast downward fling past the intro's rest point gets clamped back onto the
-					// intro. (Upward flings past the last slide are intentionally NOT clamped — the
-					// last slide must not snap into view when scrolling up from below.)
+					var t0 = slideTop(0), tLast = slideTop(slides.length - 1);
+					// Crossing an end slide's rest point clamps to that slide. Downward -> intro.
+					// Upward -> the last slide, but ONLY at its exact rest point (the moment it is
+					// fully in view after the Skills section slides away) — no magnetic grab from a
+					// distance, so scrolling up from Skills stays native until the hand-off, then
+					// hard-stops; per-card snapping takes over from there.
 					if (y > prevY && prevY < t0 && y >= t0) {
 						engaged = true;
 						lastWheelT = performance.now();
 						setVeil('down');       // keep later cards hidden through the snap-back + hold
 						goTo(0, true);         // instant snap back onto the intro
+					} else if (y < prevY && prevY > tLast && y <= tLast) {
+						engaged = true;
+						lastWheelT = performance.now();
+						goTo(slides.length - 1, true);   // instant hard-stop on the fully-revealed last slide
 					}
 				}
 				prevY = y;
