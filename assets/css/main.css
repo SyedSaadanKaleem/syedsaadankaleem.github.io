@@ -4861,6 +4861,37 @@ margin-top: -2em;}
     }
 }
 
+/* Duo collage: wide promo-art hero tile + 2 portrait shots, equal height
+   (Eggi Peggi). Column ratios match the image aspect ratios so nothing
+   gets cropped: 1358/692 ≈ 3.49 × the portrait width at equal height. */
+.shot-grid--duo {
+    grid-template-columns: 3.49fr 1fr 1fr;
+    grid-auto-rows: auto;
+}
+.shot-grid--duo .shot,
+.shot-grid--duo .shot:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 810 / 1440;
+}
+.shot-grid--duo .shot--wide:nth-child(n) {
+    aspect-ratio: 1358 / 692;
+}
+
+@media (max-width: 720px) {
+    .shot-grid--duo { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+    .shot-grid--duo .shot,
+    .shot-grid--duo .shot:nth-child(n) {
+        grid-column: auto;
+        grid-row: auto;
+        aspect-ratio: 810 / 1440;
+    }
+    .shot-grid--duo .shot--wide:nth-child(n) {
+        grid-column: 1 / -1;
+        aspect-ratio: 1358 / 692;
+    }
+}
+
 /* Lightbox */
 .lightbox {
     position: fixed;
