@@ -4801,6 +4801,66 @@ margin-top: -2em;}
     .shot:nth-child(1) { grid-column: span 2; grid-row: span 2; }
 }
 
+/* Tall collage: for pages whose screenshots are portrait phone shots.
+   Flex row of natural-aspect tiles, every other tile nudged down for a
+   staggered collage look. Stagger uses margin-top (not transform) because
+   fade-on-scroll owns the transform on .shot. */
+.shot-grid--tall {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.1rem;
+}
+.shot-grid--tall .shot {
+    flex: 0 1 clamp(150px, 17vw, 215px);
+}
+.shot-grid--tall .shot img {
+    height: auto;
+}
+.shot-grid--tall .shot:nth-child(even) { margin-top: 2.4rem; }
+/* Landscape shots mixed into a tall collage take two portrait widths */
+.shot-grid--tall .shot--wide {
+    flex-basis: calc(2 * clamp(150px, 17vw, 215px) + 1.1rem);
+}
+
+@media (max-width: 720px) {
+    .shot-grid--tall { gap: 0.8rem; }
+    .shot-grid--tall .shot { flex: 0 1 calc(50% - 0.5rem); }
+    .shot-grid--tall .shot:nth-child(even) { margin-top: 1.4rem; }
+    .shot-grid--tall .shot--wide { flex-basis: 100%; margin-top: 0; }
+}
+
+/* Mixed collage: 3 portrait shots side by side, 2 landscape shots
+   stacked in a wider right-hand column (Castle Invader). */
+.shot-grid--mixed {
+    grid-template-columns: repeat(3, 1fr) 1.6fr;
+    grid-auto-rows: clamp(100px, 14vw, 182px);
+}
+.shot-grid--mixed .shot,
+.shot-grid--mixed .shot:nth-child(n) {
+    grid-column: auto;
+    grid-row: span 2;
+}
+.shot-grid--mixed .shot--wide:nth-child(n) {
+    grid-column: 4;
+    grid-row: span 1;
+}
+
+@media (max-width: 720px) {
+    .shot-grid--mixed { grid-template-columns: repeat(3, 1fr); grid-auto-rows: auto; }
+    .shot-grid--mixed .shot,
+    .shot-grid--mixed .shot:nth-child(n) {
+        grid-column: auto;
+        grid-row: auto;
+        aspect-ratio: 809 / 1440;
+    }
+    .shot-grid--mixed .shot--wide:nth-child(n) {
+        grid-column: 1 / -1;
+        aspect-ratio: 526 / 296;
+    }
+}
+
 /* Lightbox */
 .lightbox {
     position: fixed;

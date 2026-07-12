@@ -14,6 +14,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+		rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet"
+		href="https://db.onlinewebfonts.com/c/8b75d9dcff6a48c35a46656192adf019?family=FSP+DEMO+-+PODIUM+Sharp+4.11">
 </head>
 
 <body class="project is-preload">
@@ -21,13 +29,11 @@
 	<div id="page-wrapper">
 
 		<!-- Header -->
-		<section id="headerSnatch" class="wrapper">
+		<section id="headerSnatch" class="wrapper" style="position: sticky; top: 0; ">
 
 			<!-- Logo -->
 			<div id="logo">
-				<!-- <h1>Bank Heist</h1> -->
 				<img src="images/Snatch/Logo.png" alt="">
-				<!-- <p>A Unity and Unreal Game Developer</p> -->
 			</div>
 		</section>
 		<!--SideBars-->
@@ -54,7 +60,7 @@
 				</li>
 
 				<li class="list-item">
-					<a href="#gameOverviewTittle" data-section="gameOverviewTittle" data-label="Overview">
+					<a href="#gameOverview" data-section="gameOverviewTittle" data-label="Overview">
 						<i class='bx bxs-notepad'></i>
 						<span class="link-name" style="--i:2">Overview</span>
 					</a>
@@ -63,7 +69,7 @@
 
 				</li>
 				<li class="list-item">
-					<a href="#ScreenshotGalleryTittle" data-section="ScreenshotGalleryTittle" data-label="Gallery">
+					<a href="#ScreenshotGallery" data-section="ScreenshotGalleryTittle" data-label="Gallery">
 						<i class='bx bxs-camera'></i>
 						<span class="link-name" style="--i:3">Gallery</span>
 					</a>
@@ -135,153 +141,159 @@
 		</nav>
 		<!-- Game Overview -->
 		<section id="gameOverview" class="wrapper style1">
-			<div id="gameOverviewTittle" class="title" data-section="gameOverviewTittle">Game Overview</div>
+			<!-- <div id="gameOverviewTittle" class="title" data-section="gameOverviewTittle">Game Overview</div> -->
 			<div class="container">
-				<header class="style1">
-					<Div id="featuresHP">
-						<h2 class="S3">Snatch</h2>
-						<p class="S2"><b>Snatch</b> takes the timeless idea of Pong and dials it up to eleven. This
-							isn't just bouncing a ball back and forth — it's speed, strategy, and a wild arsenal of
-							powers thrown against cunning AI rivals. Dash. Deflect. Warp. Blast. Take on tough AI in 1v1
-							duels, or hold your nerve against four enemies at once. Matches are quick, punchy, and built
-							so "just one more round" always turns into ten. Bright, loud, and unapologetically chaotic —
-							every duel is a spectacle.</p>
-					</Div>
-				</header>
-
-				<section id="features">
-
-					<div class="skill-chips">
-
-						<div class="skill-chip">
-							<div class="skill-chip-icon"><i class='bx bxs-tennis-ball'></i></div>
-							<span class="skill-chip-name">Pong, Evolved</span>
-							<span class="skill-chip-meta">Classic mechanics, modern chaos</span>
+				<div class="intro2-grid">
+					<div class="intro2">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<rect x="2" y="6" width="20" height="12" rx="4" />
+								<line x1="6" y1="12" x2="10" y2="12" />
+								<line x1="8" y1="10" x2="8" y2="14" />
+								<circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none" />
+								<circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none" />
+							</svg>
+							<span>About the Game</span>
 						</div>
-
-						<div class="skill-chip">
-							<div class="skill-chip-icon"><i class='bx bxs-zap'></i></div>
-							<span class="skill-chip-name">Ability Overload</span>
-							<span class="skill-chip-meta">Dash, deflect, warp, blast</span>
+						<h2 class="intro2-title"><span>Pong, cranked</span><span>to <span class="vg-accent">eleven.</span></span></h2>
+						<p class="intro2-lead"><b>Snatch</b> takes the timeless idea of Pong and dials it up to eleven.
+							This isn't just bouncing a ball back and forth — it's speed, strategy, and a wild arsenal
+							of powers thrown against cunning AI rivals. Dash. Deflect. Warp. Blast. Take on tough AI in
+							1v1 duels, or hold your nerve against four enemies at once. Matches are quick, punchy, and
+							built so "just one more round" always turns into ten. Bright, loud, and unapologetically
+							chaotic — every duel is a spectacle.</p>
+						<div class="intro2-stats">
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">PONG</div>
+								<div class="intro2-stat-label">Evolved Classic</div>
+							</div>
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">1v4</div>
+								<div class="intro2-stat-label">Duels &amp; Chaos</div>
+							</div>
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">PWR</div>
+								<div class="intro2-stat-label">Wild Abilities</div>
+							</div>
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">AI</div>
+								<div class="intro2-stat-label">Cunning Rivals</div>
+							</div>
 						</div>
-
-						<div class="skill-chip">
-							<div class="skill-chip-icon"><i class='bx bxs-bot'></i></div>
-							<span class="skill-chip-name">Cunning AI Rivals</span>
-							<span class="skill-chip-meta">1v1 duels or 4-enemy chaos</span>
-						</div>
-
-						<div class="skill-chip">
-							<div class="skill-chip-icon"><i class='bx bxs-rocket'></i></div>
-							<span class="skill-chip-name">Fast & Addictive</span>
-							<span class="skill-chip-meta">One more round, every time</span>
-						</div>
-
 					</div>
+					<aside class="intro2-collab">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M9 20l-5.5 3 1-6L0 12.5l6-1L9 6l3 5.5 6 1-4.5 4.5 1 6z" />
+								<path d="M18 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" />
+							</svg>
+							<span>Key Features</span>
+						</div>
+						<h3 class="intro2-collab-title">What's waiting in the arena</h3>
+						<div class="skill-chips">
 
-					<ul class="actions special">
-						<!-- <li><a href="https://play.google.com/store/apps/details?id=com.CobwebGames.CastleInvader&pcampaignid=web_share"
-								target="_blank" class="button style3 large">Download Now</a></li> -->
-						<li><a href="index.html" class="button style7">Back to Home</a></li>
-						<li><br></li>
-					</ul>
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-tennis-ball'></i></div>
+								<span class="skill-chip-name">Pong, Evolved</span>
+								<span class="skill-chip-meta">Classic mechanics, modern chaos</span>
+							</div>
 
-				</section>
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-zap'></i></div>
+								<span class="skill-chip-name">Ability Overload</span>
+								<span class="skill-chip-meta">Dash, deflect, warp, blast</span>
+							</div>
+
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-bot'></i></div>
+								<span class="skill-chip-name">Cunning AI Rivals</span>
+								<span class="skill-chip-meta">1v1 duels or 4-enemy chaos</span>
+							</div>
+
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-rocket'></i></div>
+								<span class="skill-chip-name">Fast &amp; Addictive</span>
+								<span class="skill-chip-meta">One more round, every time</span>
+							</div>
+
+						</div>
+					</aside>
+				</div>
 			</div>
 		</section>
 
 		<!-- Screenshots Gallery -->
 		<section id="ScreenshotGallery" class="wrapper style1">
-			<div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">Gallery</div>
-			<div class="container"><br>
-				<header class="style1">
-					<div id="featuresHP">
-						<span class="feature-tag">Coming Soon</span>
-						<h2 class="S1">Snatch — A Pong Evolution</h2>
-						<p class="S2">Pong cranked to eleven. Dash, warp, deflect, and blast your way past cunning AI
-							opponents in fast, flashy duels where reflexes and tactics collide.</p>
-
+			<!-- <div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">Gallery</div> -->
+			<div class="container">
+				<header class="craft-head intro2-grid">
+					<div class="craft-head-lead">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+								<circle cx="12" cy="13" r="4" />
+							</svg>
+							<span>Gallery · Arcade Duels</span>
+						</div>
+						<h2 class="intro2-title"><span>Into</span><span>the <span class="vg-accent">arena.</span></span></h2>
 					</div>
+					<aside class="craft-head-copy">
+						<p class="intro2-lead">Pong cranked to eleven. Dash, warp, deflect, and blast your way past
+							cunning AI opponents in fast, flashy duels where reflexes and tactics collide.</p>
+					</aside>
 				</header>
-				<div class="row aln-center">
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="image2" src="images/Snatch/ScreenShot-1.jpg" alt="">
-							</div>
-						</section>
-					</div>
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="image2" src="images/Snatch/ScreenShot-2.jpg" alt="">
-							</div>
-						</section>
-					</div>
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="image2" src="images/Snatch/ScreenShot-3.jpg" alt="">
-							</div>
-						</section>
-					</div>
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="image2" src="images/Snatch/ScreenShot-4.jpg" alt="">
-							</div>
-						</section>
-					</div>
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="image2" src="images/Snatch/ScreenShot-5.jpg" alt="">
-							</div>
-						</section>
-					</div>
-					<div class="col-6 col-12-medium">
-						<section class="highlight">
-							<div class="box">
-								<img class="image2" src="images/Snatch/ScreenShot-6.jpg" alt="">
-							</div>
-						</section>
-					</div>
+				<div class="shot-grid">
+					<span class="shot" >
+						<img src="images/Snatch/ScreenShot-1.jpg" alt="Snatch screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/Snatch/ScreenShot-2.jpg" alt="Snatch screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/Snatch/ScreenShot-3.jpg" alt="Snatch screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/Snatch/ScreenShot-4.jpg" alt="Snatch screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/Snatch/ScreenShot-5.jpg" alt="Snatch screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/Snatch/ScreenShot-6.jpg" alt="Snatch screenshot" loading="lazy">
+					</span>
 				</div>
-
-				<br>
-				<br>
-				<div class="line2">
-					<br>
-				</div><br>
-				<header class="style1">
-					<Div id="featuresHP">
-						<h2 class="S1"><b>Ready for one more round?</b><br>Snatch the win.</h2>
-						<!-- <ul class="actions special">
-							<li><a href="REPLACE_WITH_SNATCH_STORE_URL" target="_blank" class="button style6 large">Play
-									Now</a></li>
-						</ul> -->
-					</Div>
-
-					<Div id="featuresHP">
-						<ul class="actions special">
-							<li><a href="index.html" class="button style4 back-to-home">Wanna go back to Home?</a></li>
-						</ul>
-					</Div>
-				</header>
+				<div class="skills-toolkit-header">
+					<div class="intro2-eyebrow middle">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+							<polyline points="16 17 21 12 16 7" />
+							<line x1="21" y1="12" x2="9" y2="12" />
+						</svg>
+						<span>One More Round?</span>
+					</div>
+					<h3 class="intro2-collab-title">Think you can snatch the win in <span class="vg-accent">Snatch?</span></h3>
+					<a class="hl-btn hl-btn--primary" href="#footerTittle">Let's Work Together <span class="arrow">→</span></a>
+				</div>
 			</div>
 		</section>
 
 
 		<!-- Footer -->
 		<section id="footer" class="wrapper">
-			<div id="footerTittle" class="title" data-section="footerTittle">Get in Touch</div>
+			<div id="footerTittle" data-section="footerTittle" aria-hidden="true"></div>
 			<div class="container">
-				<header class="style1">
-					<h2>Let's turn your Fantacy into Reality!</h2>
-					<p>
-						If you're interested in collaborating, have a project in mind, or just want to say hi, feel free
-						to reach out!
-					</p>
+				<header class="craft-head intro2-grid contact-head">
+					<div class="craft-head-lead">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+							<span>Get in Touch</span>
+						</div>
+						<h2 class="intro2-title"><span>Let’s turn ideas</span><span>into <span class="vg-accent">reality.</span></span></h2>
+					</div>
+					<aside class="craft-head-copy">
+						<p class="intro2-lead">Got a project, a wild idea, or just want to talk games? My inbox is open —
+							drop a line and I'll get back to you.</p>
+					</aside>
 				</header>
 				<div class="row">
 					<div class="col-6 col-12-medium">
@@ -293,20 +305,21 @@
 									<input type="hidden" name="access_key" value="809ad9bd-34e9-4f9e-8ece-bc34d48f18b1">
 
 									<div class="col-6 col-12-small">
-										<input type="text" name="name" id="contact-name" placeholder="Name" />
+										<input type="text" name="name" id="contact-name" placeholder="Name" required />
 									</div>
 									<div class="col-6 col-12-small">
-										<input type="text" name="email" id="contact-email" placeholder="Email" />
+										<input type="text" name="email" id="contact-email" placeholder="Email"
+											required />
 									</div>
 									<div class="col-12">
-										<textarea name="message" id="contact-message" placeholder="Message"
-											rows="4"></textarea>
+										<textarea name="message" id="contact-message" placeholder="Message" rows="4"
+											required style="resize: none;"></textarea>
 									</div>
 									<div class="col-12">
-										<ul class="actions">
-											<li><a><input type="submit" class="style1" value="Send" /></a></li>
-											<li><a><input type="reset" class="style4" value="Reset" /></a></li>
-										</ul>
+										<div class="hl-btn-split">
+											<input type="submit" class="hl-btn hl-btn--primary" value="Send" />
+											<input type="reset" class="hl-btn" value="Reset" />
+										</div>
 									</div>
 								</div>
 							</form>
@@ -319,26 +332,6 @@
 						<!-- Contact -->
 						<section class="feature-list small">
 							<div class="row">
-								<!--<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-home">Mailing Address</h3>
-													<p>
-														Untitled Corp<br />
-														1234 Somewhere Rd<br />
-														Nashville, TN 00000
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-comment">Social</h3>
-													<p>
-														<a href="#">@untitled-corp</a><br />
-														<a href="#">linkedin.com/untitled</a><br />
-														<a href="#">facebook.com/untitled</a>
-													</p>
-												</section>
-											</div>-->
 								<div class="col-12 col-12-small">
 									<section>
 										<h3 class="icon solid fa-envelope">Email</h3>
@@ -387,7 +380,6 @@
 				</div>
 			</div>
 		</section>
-
 	</div>
 
 	<div class="cursor">
@@ -427,6 +419,7 @@
 	<script src="assets/js/script.js"></script>
 	<script src="assets/js/cursors.js"></script>
 	<script src="assets/js/sounds.js"></script>
+	<script src="assets/js/gallery.js"></script>
 
 
 	<script>
@@ -443,19 +436,22 @@
 				// Auto-tag elements that should fade on scroll
 				// ============================================
 				const fadeSelectors = [
-					// Game Overview section
-					'#gameOverview .S3',
-					'#gameOverview .S2',
+										'#footer .craft-head',
+	'#gameOverview .intro2-title',
+					'#gameOverview .intro2-lead',
+					'#gameOverview .intro2-stat',
+					'#gameOverview .intro2-collab-title',
 					'#gameOverview .skill-chip',
 					'#gameOverview .actions',
 
 					// Screenshot Gallery section
-					'#ScreenshotGallery .highlight .box',
+					'#ScreenshotGallery .shot',
 					'#ScreenshotGallery .S1',
-					'#ScreenshotGallery header.style1',
-					'#ScreenshotGallery .actions',
+						'#ScreenshotGallery .craft-head',
+					'#ScreenshotGallery .skills-toolkit-header',
+				'#ScreenshotGallery .actions',
 					'#ScreenshotGallery .line2',
-
+					'#ScreenshotGallery .highlight',
 					// Footer
 					'#footer header.style1',
 					'#footer .feature-list',
@@ -467,6 +463,11 @@
 						el.classList.add('fade-on-scroll');
 					});
 				});
+				// Overview right column reveals late — only after it's scrolled well into view
+				document.querySelectorAll('#gameOverview .intro2-collab').forEach(el => {
+					el.classList.add('fade-on-scroll', 'fade-late');
+				});
+
 
 				// ============================================
 				// Observer: in-view vs leaving vs hidden
@@ -480,12 +481,14 @@
 
 					elements.forEach(el => {
 						const rect = el.getBoundingClientRect();
-						const elCenter = rect.top + rect.height / 2;
+						const elCenter = rect.top + rect.height / 2;						// fade-late elements need to be scrolled deeper before revealing
+						const bottomLimit = el.classList.contains('fade-late') ? viewportH * 0.8 : fadeZoneBottom;
 
 						if (rect.bottom < 0 || rect.top > viewportH) {
 							// Fully out of viewport
 							el.classList.remove('is-visible', 'is-leaving');
-						} else if (elCenter < fadeZoneTop || elCenter > fadeZoneBottom) {
+						} else if (elCenter < fadeZoneTop || elCenter > bottomLimit) {
+
 							// In edge zones (top or bottom)
 							el.classList.add('is-leaving');
 							el.classList.remove('is-visible');
@@ -520,6 +523,98 @@
 				}
 				window.addEventListener('load', checkVisibility);
 			})();
+	</script>
+	<script>
+		// ===== Section reveal-stack (same behavior as the home page) =====
+		// Every section pins when its bottom meets the viewport bottom — sticky with a
+		// negative top of -(height - viewport) — then the next section slides over it.
+		// A wheel hard-stop lands scrolling exactly on each pin point.
+		(function () {
+			var sections = Array.prototype.slice.call(document.querySelectorAll('#page-wrapper > section'));
+			if (sections.length < 2) return;
+			var stops = sections.slice(0, -1); // last section (footer) is the top cover, never pins
+			sections.forEach(function (s, i) {
+				s.style.zIndex = i + 1;
+				s.style.position = i < sections.length - 1 ? 'sticky' : 'relative';
+			});
+			function sync() {
+				stops.forEach(function (s) {
+					var over = s.offsetHeight - window.innerHeight;
+					s.style.top = (over > 0 ? -over : 0) + 'px';
+				});
+			}
+			sync();
+			window.addEventListener('resize', sync);
+			window.addEventListener('load', sync);
+			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduce) return;
+			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+			// The pin point: where the section's bottom meets the viewport bottom. Computed
+			// from the NEXT section's top — offsetTop on a stuck sticky element reports its
+			// displaced position, which would inflate the stop and let fast flings slip past.
+			function stopYOf(s) {
+				var next = s.nextElementSibling;
+				while (next && next.tagName !== 'SECTION') next = next.nextElementSibling;
+				var top = next ? topOf(next) : topOf(s) + s.offsetHeight;
+				return top - window.innerHeight;
+			}
+			var locked = false, goT = 0, lastWheelT = 0, lastY = -1, still = 0, pollT = null;
+			var prevY = window.pageYOffset, lastUserT = 0;
+			function release() { locked = false; clearTimeout(pollT); pollT = null; }
+			function poll() {
+				var now = performance.now(), y = window.pageYOffset;
+				if (y === lastY) still++; else still = 0;
+				lastY = y;
+				if ((now - lastWheelT >= 200 && now - goT >= 420 && still >= 2) || now - goT >= 1200) { release(); return; }
+				pollT = setTimeout(poll, 50);
+			}
+			function hardStop(sy) {
+				locked = true; goT = lastWheelT = performance.now(); lastY = -1; still = 0;
+				window.scrollTo({ top: Math.round(sy), behavior: 'instant' });
+				clearTimeout(pollT); pollT = setTimeout(poll, 50);
+			}
+			var navUntil = 0; // while in the future, hard-stops are suspended for a nav-link glide
+			// While locked, swallow the momentum tail so it can't push past the stop.
+			window.addEventListener('wheel', function (e) {
+				lastUserT = performance.now();
+				navUntil = 0; // user wheel takes over: re-arm the hard-stops immediately
+				if (locked) { e.preventDefault(); lastWheelT = performance.now(); }
+			}, { passive: false });
+			// Crossing a pin point downward on a genuine user wheel clamps to it — once per
+			// approach. Nav-link smooth scrolls fire no wheel events and are never grabbed.
+			window.addEventListener('scroll', function () {
+				var y = window.pageYOffset;
+				if (!locked && y > prevY && performance.now() >= navUntil && performance.now() - lastUserT < 250) {
+					for (var i = 0; i < stops.length; i++) {
+						var sy = stopYOf(stops[i]);
+						if (prevY < sy - 2 && y >= sy) { hardStop(sy); break; }
+					}
+				}
+				prevY = y;
+			}, { passive: true });
+			// Nav links: suspend the hard-stops, glide to the target section's static top
+			// (offsetTop on stuck sticky sections is displaced, so sum heights instead),
+			// then re-arm once the glide is over.
+			function staticTopOf(sec) {
+				var t = 0;
+				for (var i = 0; i < sections.length && sections[i] !== sec; i++) t += sections[i].offsetHeight;
+				return t;
+			}
+			document.addEventListener('click', function (e) {
+				var a = e.target.closest && e.target.closest('a[href^="#"]');
+				if (!a || a.getAttribute('href').length < 2) return;
+				var el = document.getElementById(a.getAttribute('href').slice(1));
+				if (!el) return;
+				var sec = el.closest('section');
+				while (sec && sections.indexOf(sec) === -1) sec = sec.parentElement && sec.parentElement.closest('section');
+				if (!sec) return;
+				e.preventDefault();
+				release();
+				navUntil = performance.now() + 1600;
+				history.replaceState(null, '', a.getAttribute('href'));
+				window.scrollTo({ top: staticTopOf(sec), behavior: 'smooth' });
+			});
+		})();
 	</script>
 </body>
 
