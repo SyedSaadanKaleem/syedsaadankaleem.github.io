@@ -60,7 +60,7 @@
 				</li>
 
 				<li class="list-item">
-					<a href="#gameOverviewTittle" data-section="gameOverviewTittle" data-label="Overview">
+					<a href="#gameOverview" data-section="gameOverviewTittle" data-label="Overview">
 						<i class='bx bxs-notepad'></i>
 						<span class="link-name" style="--i:2">Overview</span>
 					</a>
@@ -69,7 +69,7 @@
 
 				</li>
 				<li class="list-item">
-					<a href="#ScreenshotGalleryTittle" data-section="ScreenshotGalleryTittle" data-label="Gallery">
+					<a href="#ScreenshotGallery" data-section="ScreenshotGalleryTittle" data-label="Gallery">
 						<i class='bx bxs-camera'></i>
 						<span class="link-name" style="--i:3">Gallery</span>
 					</a>
@@ -649,16 +649,18 @@
 				window.scrollTo({ top: Math.round(sy), behavior: 'instant' });
 				clearTimeout(pollT); pollT = setTimeout(poll, 50);
 			}
+			var navUntil = 0; // while in the future, hard-stops are suspended for a nav-link glide
 			// While locked, swallow the momentum tail so it can't push past the stop.
 			window.addEventListener('wheel', function (e) {
 				lastUserT = performance.now();
+				navUntil = 0; // user wheel takes over: re-arm the hard-stops immediately
 				if (locked) { e.preventDefault(); lastWheelT = performance.now(); }
 			}, { passive: false });
 			// Crossing a pin point downward on a genuine user wheel clamps to it — once per
 			// approach. Nav-link smooth scrolls fire no wheel events and are never grabbed.
 			window.addEventListener('scroll', function () {
 				var y = window.pageYOffset;
-				if (!locked && y > prevY && performance.now() - lastUserT < 250) {
+				if (!locked && y > prevY && performance.now() >= navUntil && performance.now() - lastUserT < 250) {
 					for (var i = 0; i < stops.length; i++) {
 						var sy = stopYOf(stops[i]);
 						if (prevY < sy - 2 && y >= sy) { hardStop(sy); break; }
@@ -666,6 +668,28 @@
 				}
 				prevY = y;
 			}, { passive: true });
+			// Nav links: suspend the hard-stops, glide to the target section's static top
+			// (offsetTop on stuck sticky sections is displaced, so sum heights instead),
+			// then re-arm once the glide is over.
+			function staticTopOf(sec) {
+				var t = 0;
+				for (var i = 0; i < sections.length && sections[i] !== sec; i++) t += sections[i].offsetHeight;
+				return t;
+			}
+			document.addEventListener('click', function (e) {
+				var a = e.target.closest && e.target.closest('a[href^="#"]');
+				if (!a || a.getAttribute('href').length < 2) return;
+				var el = document.getElementById(a.getAttribute('href').slice(1));
+				if (!el) return;
+				var sec = el.closest('section');
+				while (sec && sections.indexOf(sec) === -1) sec = sec.parentElement && sec.parentElement.closest('section');
+				if (!sec) return;
+				e.preventDefault();
+				release();
+				navUntil = performance.now() + 1600;
+				history.replaceState(null, '', a.getAttribute('href'));
+				window.scrollTo({ top: staticTopOf(sec), behavior: 'smooth' });
+			});
 		})();
 	</script>
 	<script>
