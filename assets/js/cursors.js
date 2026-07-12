@@ -93,15 +93,13 @@
   //   stopClickAnimationLoop();
   // });
 
- document.querySelectorAll('a, button').forEach(element => {
-   element.addEventListener('mouseenter', startClickAnimationLoop);
-   element.addEventListener('mouseleave', stopClickAnimationLoop);
-   element.addEventListener('scroll', stopClickAnimationLoop);
+ // Delegated so links/buttons added after load (e.g. the slider's game cards) get it too.
+ document.addEventListener('mouseover', (e) => {
+   if (e.target.closest('a, button, .toggle-btn')) startClickAnimationLoop();
  });
-
- document.querySelectorAll('.toggle-btn, button').forEach(element => {
-   element.addEventListener('mouseenter', startClickAnimationLoop);
-   element.addEventListener('mouseleave', stopClickAnimationLoop);
+ document.addEventListener('mouseout', (e) => {
+   const el = e.target.closest('a, button, .toggle-btn');
+   if (el && !el.contains(e.relatedTarget)) stopClickAnimationLoop();
  });
 
 

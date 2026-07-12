@@ -6,6 +6,18 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8734"],
       "port": 8734
+    },
+    {
+      "name": "portfolio-alt",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8735"],
+      "port": 8735
+    },
+    {
+      "name": "portfolio-alt2",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8736"],
+      "port": 8736
     }
   ]
 }

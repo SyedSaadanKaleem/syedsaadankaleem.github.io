@@ -14,6 +14,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+		rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet"
+		href="https://db.onlinewebfonts.com/c/8b75d9dcff6a48c35a46656192adf019?family=FSP+DEMO+-+PODIUM+Sharp+4.11">
 </head>
 
 <body class="project is-preload">
@@ -21,7 +29,7 @@
 	<div id="page-wrapper">
 
 		<!-- Header -->
-		<section id="headerChessRun" class="wrapper">
+		<section id="headerChessRun" class="wrapper" style="position: sticky; top: 0; ">
 
 			<!-- Logo -->
 			<div id="logo">
@@ -133,108 +141,148 @@
 		</nav>
 		<!-- Game Overview -->
 		<section id="gameOverview" class="wrapper style1">
-			<div id="gameOverviewTittle" class="title" data-section="gameOverviewTittle">Game Overview</div>
+			<!-- <div id="gameOverviewTittle" class="title" data-section="gameOverviewTittle">Game Overview</div> -->
 			<div class="container">
-				<header class="style1">
-					<Div id="featuresHP">
-						<h2 class="S3">Chess Run</h2>
-						<p class="S2">You are the last King standing — and the board never ends. <b>Chess Run</b> is a
+				<div class="intro2-grid">
+					<div class="intro2">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<rect x="2" y="6" width="20" height="12" rx="4" />
+								<line x1="6" y1="12" x2="10" y2="12" />
+								<line x1="8" y1="10" x2="8" y2="14" />
+								<circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none" />
+								<circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none" />
+							</svg>
+							<span>About the Game</span>
+						</div>
+						<h2 class="intro2-title"><span>Real chess rules.</span><span>Arcade <span class="vg-accent">chaos.</span></span></h2>
+						<p class="intro2-lead">You are the last King standing — and the board never ends. <b>Chess Run</b> is a
 							fast-paced arcade survival where every enemy piece threatens tiles exactly like it would on
 							a real chessboard. Knights leap in L-shapes. Bishops cut diagonals. Rooks own the lanes. One
 							wrong step and your reign is over. Slash through enemies in a single stroke, chain massive
 							combos, grab power-ups to transform into a Queen, Rook, Knight, or Bishop, and push deeper
 							into the chaos. Real chess rules. Arcade chaos. How long can your reign last?</p>
-					</Div>
-				</header>
-
-				<section id="features">
-					<div class="skill-chips">
-
-					<div class="skill-chip">
-						<div class="skill-chip-icon"><i class='bx bxs-crown'></i></div>
-						<span class="skill-chip-name">Last King Standing</span>
-						<span class="skill-chip-meta">Survive an endless board</span>
+						<div class="intro2-stats">
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">∞</div>
+								<div class="intro2-stat-label">Endless Board</div>
+							</div>
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">4</div>
+								<div class="intro2-stat-label">Transformations</div>
+							</div>
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">ARC</div>
+								<div class="intro2-stat-label">Arcade Survival</div>
+							</div>
+							<div class="intro2-stat">
+								<div class="intro2-stat-num">LIVE</div>
+								<div class="intro2-stat-label">On Google Play</div>
+							</div>
+						</div>
 					</div>
+					<aside class="intro2-collab">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M9 20l-5.5 3 1-6L0 12.5l6-1L9 6l3 5.5 6 1-4.5 4.5 1 6z" />
+								<path d="M18 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" />
+							</svg>
+							<span>Key Features</span>
+						</div>
+						<h3 class="intro2-collab-title">What's waiting on the board</h3>
+						<div class="intro2-collab-row">
+						<div class="skill-chips">
 
-					<div class="skill-chip">
-						<div class="skill-chip-icon"><i class='bx bxs-chess'></i></div>
-						<span class="skill-chip-name">Real Chess Rules</span>
-						<span class="skill-chip-meta">Threatened tiles end runs</span>
-					</div>
-
-					<div class="skill-chip">
-						<div class="skill-chip-icon"><i class='bx bxs-zap'></i></div>
-						<span class="skill-chip-name">Combo Slashes</span>
-						<span class="skill-chip-meta">Chain pieces, multiply scores</span>
-					</div>
-
-					<div class="skill-chip">
-						<div class="skill-chip-icon"><i class='bx bxs-trophy'></i></div>
-						<span class="skill-chip-name">Global Leaderboard</span>
-						<span class="skill-chip-meta">Claim the crown worldwide</span>
-					</div>
-
-			</div>
-
-			<ul class="actions special">
-				<li><a href="https://play.google.com/store/apps/details?id=com.PixelDreams.Studio.ChessRunPlayTest"
-						target="_blank" class="button style3 large">Download Now</a></li>
-				<li><a href="index.html" class="button style7">Back to Home</a></li>
-				<li><br></li>
-			</ul>
-
-		</section>
-	</div>
-	</section>
-
-	<!-- Screenshots Gallery -->
-	<section id="ScreenshotGallery" class="wrapper style1">
-		<div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">Gallery</div>
-		<div class="container"><br>
-			<header class="style1">
-				<div id="featuresHP">
-					<span class="feature-tag">Trailer</span>
-					<h2 class="S1">Chess Run — A Rougelike Endless Runner</h2>
-					<p class="S2">Real chess rules meet arcade chaos. Slash combos, transform into legendary pieces, and
-						survive an infinite board where every move could be your last.</p>
-				</div>
-			</header>
-			<!-- Full-width featured card -->
-			<div class="row aln-center">
-				<div class="col-12 col-12-medium">
-					<section class="highlight">
-						<div class="game-card game-card-wide video-banner" id="snatchVideoBanner"
-							style="padding: 0rem;">
-
-							<!-- Thumbnail view (shown initially) -->
-							<div class="video-banner-poster" onclick="playLocalVideo('snatchVideoBanner')">
-								<div class="game-card-cover" style="aspect-ratio: auto; position: relative;">
-
-									<img src="images/ChessRun/Trailer-Thumbnail.jpg" alt="Chess Run trailer"
-										class="video-banner-img">
-
-									<span class="play-badge" aria-hidden="true">
-										<svg class="play-badge-ring" viewBox="0 0 200 200">
-											<defs>
-												<path id="play-badge-path"
-													d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
-											</defs>
-											<text>
-												<textPath href="#play-badge-path" startOffset="0">
-													· Watch the Video · Watch the Video
-												</textPath>
-											</text>
-										</svg>
-										<span class="play-badge-icon">
-											<i class='bx bx-play'></i>
-										</span>
-									</span>
-
-								</div>
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-crown'></i></div>
+								<span class="skill-chip-name">Last King Standing</span>
+								<span class="skill-chip-meta">Survive an endless board</span>
 							</div>
 
-							<!-- Video view (shown after click, hidden initially) -->
-							<video class="video-banner-player"
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-chess'></i></div>
+								<span class="skill-chip-name">Real Chess Rules</span>
+								<span class="skill-chip-meta">Threatened tiles end runs</span>
+							</div>
+
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-zap'></i></div>
+								<span class="skill-chip-name">Combo Slashes</span>
+								<span class="skill-chip-meta">Chain pieces, multiply scores</span>
+							</div>
+
+							<div class="skill-chip">
+								<div class="skill-chip-icon"><i class='bx bxs-trophy'></i></div>
+								<span class="skill-chip-name">Global Leaderboard</span>
+								<span class="skill-chip-meta">Claim the crown worldwide</span>
+							</div>
+
+						</div>
+						<a class="hl-btn hl-btn--primary hl-btn--vertical"
+							href="https://play.google.com/store/apps/details?id=com.PixelDreams.Studio.ChessRunPlayTest"
+							target="_blank">Download Now <span class="arrow">→</span></a>
+						</div>
+					</aside>
+				</div>
+			</div>
+		</section>
+
+		<!-- Screenshots Gallery -->
+		<section id="ScreenshotGallery" class="wrapper style1">
+			<!-- <div id="ScreenshotGalleryTittle" class="title" data-section="ScreenshotGalleryTittle">Gallery</div> -->
+			<div class="container">
+				<header class="craft-head intro2-grid">
+					<div class="craft-head-lead">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+								<circle cx="12" cy="13" r="4" />
+							</svg>
+							<span>Gallery · On Google Play</span>
+						</div>
+						<h2 class="intro2-title"><span>On</span><span>the <span class="vg-accent">board.</span></span></h2>
+					</div>
+					<aside class="craft-head-copy">
+						<p class="intro2-lead">Real chess rules meet arcade chaos. Slash combos, transform into
+							legendary pieces, and survive an infinite board where every move could be your last.</p>
+					</aside>
+				</header>
+				<!-- Full-width featured card -->
+				<div class="row aln-center">
+					<div class="col-12 col-12-medium">
+						<section class="highlight">
+							<div class="game-card game-card-wide video-banner" id="ChessRunVideoBanner"
+								style="padding: 0rem;">
+
+								<!-- Thumbnail view (shown initially) -->
+								<div class="video-banner-poster" onclick="playLocalVideo('ChessRunVideoBanner')">
+									<div class="game-card-cover" style="aspect-ratio: auto; position: relative;">
+
+										<img src="images/ChessRun/Trailer-Thumbnail.jpg" alt="Chess Run trailer"
+											class="video-banner-img">
+
+										<span class="play-badge" aria-hidden="true">
+											<svg class="play-badge-ring" viewBox="0 0 200 200">
+												<defs>
+													<path id="play-badge-path"
+														d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
+												</defs>
+												<text>
+													<textPath href="#play-badge-path" startOffset="0">
+														· Watch the Video · Watch the Video
+													</textPath>
+												</text>
+											</svg>
+											<span class="play-badge-icon">
+												<i class='bx bx-play'></i>
+											</span>
+										</span>
+
+									</div>
+								</div>
+
+								<!-- Video view (shown after click, hidden initially) -->
+<video class="video-banner-player"
     controls
     controlsList="nodownload noremoteplayback"
     disablePictureInPicture
@@ -242,230 +290,144 @@
     playsinline
     preload="none"
     poster="images/ChessRun/Trailer-Thumbnail.jpg">
-								<source src="videos/Trailer-ChessRun.mp4" type="video/mp4">
-								Your browser doesn't support HTML5 video.
-							</video>
+									<source src="videos/Trailer-ChessRun.mp4" type="video/mp4">
+									Your browser doesn't support HTML5 video.
+								</video>
 
-						</div>
-					</section>
-				</div>
-			</div>
-			</br></br></br></br>
-
-			<!-- Line -->
-			<div class="col-12 col-12-medium">
-				<header class="style1">
-					<div id="featuresHP">
-						<hr style="opacity: 0.28;">
-					</div>
-				</header>
-			</div>
-			<!-- <div class="row aln-center">
-					<div class="col-9 col-12-medium">
-						<section class="highlight">
-							<div class="box" style="padding: 3%;">
-								<img class="image3" src="images/ChessRun-Banner.jpg" alt="Chess Run Banner">
-								<div class="btn-row">
-									<a href="javascript:void(0)" class="button style6S ChessRunVideo"
-										onclick="openModal('https://www.youtube.com/embed/Y_DfEkHM2_c?si=qgCYoJh9U76cS0NU?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Watch
-										The Trailer</a>
-									<a href="https://linktr.ee/ChessRun" target="_blank"
-										class="button style6S">LinkTree</a>
-								</div>
 							</div>
 						</section>
-					</div> -->
-			<div class="row aln-center">
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-1.jpg" alt="">
-						</div>
-					</section>
+					</div>
 				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-2.jpg" alt="">
-						</div>
-					</section>
+				<div class="shot-grid">
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-1.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-2.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-3.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-4.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-5.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-6.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-7.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-8.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-9.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-10.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
+					<span class="shot" >
+						<img src="images/ChessRun/ScreenShot-11.jpg" alt="Chess Run screenshot" loading="lazy">
+					</span>
 				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-3.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-4.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-5.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-6.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-7.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-8.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-9.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-10.jpg" alt="">
-						</div>
-					</section>
-				</div>
-				<div class="col-6 col-12-medium">
-					<section class="highlight">
-						<div class="box">
-							<img class="image2" src="images/ChessRun/ScreenShot-11.jpg" alt="">
-						</div>
-					</section>
+				<div class="skills-toolkit-header">
+					<div class="intro2-eyebrow middle">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+							<polyline points="16 17 21 12 16 7" />
+							<line x1="21" y1="12" x2="9" y2="12" />
+						</svg>
+						<span>Out Now on Google Play</span>
+					</div>
+					<h3 class="intro2-collab-title">Think you can hold the crown in <span class="vg-accent">Chess Run?</span></h3>
+					<div class="hl-btn-split">
+						<a class="hl-btn back-to-home" href="index.html">Back to Home</a>
+						<a class="hl-btn hl-btn--primary"
+							href="https://play.google.com/store/apps/details?id=com.PixelDreams.Studio.ChessRunPlayTest"
+							target="_blank">Play Now <span class="arrow">→</span></a>
+					</div>
 				</div>
 			</div>
-
-			<br>
-			<br>
-			<div class="line2">
-				<br>
-			</div><br>
-			<header class="style1">
-				<Div id="featuresHP">
-					<h2 class="S1"><b>Think you can hold the crown?</b><br>Every move counts in Chess Run.</h2>
-					<ul class="actions special">
-						<li><a href="https://play.google.com/store/apps/details?id=com.PixelDreams.Studio.ChessRunPlayTest" target="_blank" class="button style6 large">Play
-								Now</a></li>
-					</ul>
-				</Div>
-
-				<Div id="featuresHP">
-					<ul class="actions special">
-						<li><a href="index.html" class="button style4 back-to-home">Wanna go back to Home?</a></li>
-					</ul>
-				</Div>
-			</header>
-		</div>
-	</section>
+		</section>
 
 
-	<!-- Footer -->
-	<section id="footer" class="wrapper">
-		<div id="footerTittle" class="title" data-section="footerTittle">Get in Touch</div>
-		<div class="container">
-			<header class="style1">
-				<h2>Let's turn your Fantacy into Reality!</h2>
-				<p>
-					If you're interested in collaborating, have a project in mind, or just want to say hi, feel free to
-					reach out!
-				</p>
-			</header>
-			<div class="row">
-				<div class="col-6 col-12-medium">
+		<!-- Footer -->
+		<section id="footer" class="wrapper">
+			<div id="footerTittle" data-section="footerTittle" aria-hidden="true"></div>
+			<div class="container">
+				<header class="craft-head intro2-grid contact-head">
+					<div class="craft-head-lead">
+						<div class="intro2-eyebrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+							<span>Get in Touch</span>
+						</div>
+						<h2 class="intro2-title"><span>Let’s turn ideas</span><span>into <span class="vg-accent">reality.</span></span></h2>
+					</div>
+					<aside class="craft-head-copy">
+						<p class="intro2-lead">Got a project, a wild idea, or just want to talk games? My inbox is open —
+							drop a line and I'll get back to you.</p>
+					</aside>
+				</header>
+				<div class="row">
+					<div class="col-6 col-12-medium">
 
-					<!-- Contact Form -->
-					<section>
-						<form method="post" action="https://api.web3forms.com/submit">
-							<div class="row gtr-50">
-								<input type="hidden" name="access_key" value="809ad9bd-34e9-4f9e-8ece-bc34d48f18b1">
+						<!-- Contact Form -->
+						<section>
+							<form method="post" action="https://api.web3forms.com/submit">
+								<div class="row gtr-50">
+									<input type="hidden" name="access_key" value="809ad9bd-34e9-4f9e-8ece-bc34d48f18b1">
 
-								<div class="col-6 col-12-small">
-									<input type="text" name="name" id="contact-name" placeholder="Name" />
+									<div class="col-6 col-12-small">
+										<input type="text" name="name" id="contact-name" placeholder="Name" required />
+									</div>
+									<div class="col-6 col-12-small">
+										<input type="text" name="email" id="contact-email" placeholder="Email"
+											required />
+									</div>
+									<div class="col-12">
+										<textarea name="message" id="contact-message" placeholder="Message" rows="4"
+											required style="resize: none;"></textarea>
+									</div>
+									<div class="col-12">
+										<div class="hl-btn-split">
+											<input type="submit" class="hl-btn hl-btn--primary" value="Send" />
+											<input type="reset" class="hl-btn" value="Reset" />
+										</div>
+									</div>
 								</div>
-								<div class="col-6 col-12-small">
-									<input type="text" name="email" id="contact-email" placeholder="Email" />
+							</form>
+						</section>
+
+					</div>
+					<div class="col-6 col-12-medium">
+
+
+						<!-- Contact -->
+						<section class="feature-list small">
+							<div class="row">
+								<div class="col-12 col-12-small">
+									<section>
+										<h3 class="icon solid fa-envelope">Email</h3>
+										<p>
+											<a href="mailto:SyedSaadanKaleem@gmail.com">SyedSaadanKaleem@gmail.com</a>
+										</p>
+									</section>
 								</div>
-								<div class="col-12">
-									<textarea name="message" id="contact-message" placeholder="Message"
-										rows="4"></textarea>
+								<br>
+								<div class="col-12 col-12-small">
+									<section>
+										<h3 class="icon solid fa-phone">Phone</h3>
+										<p>
+											+92 313 8557610
+										</p>
+									</section>
 								</div>
-								<div class="col-12">
-									<ul class="actions">
-										<li><a><input type="submit" class="style1" value="Send" /></a></li>
-										<li><a><input type="reset" class="style4" value="Reset" /></a></li>
-									</ul>
-								</div>
-							</div>
-						</form>
-					</section>
+								<br>
 
-				</div>
-				<div class="col-6 col-12-medium">
-
-
-					<!-- Contact -->
-					<section class="feature-list small">
-						<div class="row">
-							<!--<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-home">Mailing Address</h3>
-													<p>
-														Untitled Corp<br />
-														1234 Somewhere Rd<br />
-														Nashville, TN 00000
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-comment">Social</h3>
-													<p>
-														<a href="#">@untitled-corp</a><br />
-														<a href="#">linkedin.com/untitled</a><br />
-														<a href="#">facebook.com/untitled</a>
-													</p>
-												</section>
-											</div>-->
-							<div class="col-12 col-12-small">
-								<section>
-									<h3 class="icon solid fa-envelope">Email</h3>
-									<p>
-										<a href="mailto:SyedSaadanKaleem@gmail.com">SyedSaadanKaleem@gmail.com</a>
-									</p>
-								</section>
-							</div>
-							<br>
-							<div class="col-12 col-12-small">
-								<section>
-									<h3 class="icon solid fa-phone">Phone</h3>
-									<p>
-										+92 313 8557610
-									</p>
-								</section>
-							</div>
-							<br>
-
-							<div class="col-12 col-12-small">
+								<div class="col-12 col-12-small">
 									<section style="padding-left: 0;">
 										<ul class="contact-socials">
 											<li><a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share"
@@ -483,18 +445,17 @@
 										</ul>
 									</section>
 								</div>
-					</section>
+						</section>
 
+					</div>
+				</div>
+				<div id="copyright">
+					<ul>
+						<li>&copy; Syed Saadan Bin Kaleem</a></li>
+					</ul>
 				</div>
 			</div>
-			<div id="copyright">
-				<ul>
-					<li>&copy; Syed Saadan Bin Kaleem</a></li>
-				</ul>
-			</div>
-		</div>
-	</section>
-
+		</section>
 	</div>
 
 	<div class="cursor">
@@ -534,6 +495,7 @@
 	<script src="assets/js/script.js"></script>
 	<script src="assets/js/cursors.js"></script>
 	<script src="assets/js/sounds.js"></script>
+	<script src="assets/js/gallery.js"></script>
 
 
 	<script>
@@ -551,21 +513,23 @@
 				// ============================================
 				const fadeSelectors = [
 					// Game Overview section
-					'#gameOverview .S3',
-					'#gameOverview .S2',
+					'#gameOverview .intro2-title',
+					'#gameOverview .intro2-lead',
+					'#gameOverview .intro2-stat',
+					'#gameOverview .intro2-collab-title',
 					'#gameOverview .skill-chip',
 					'#gameOverview .actions',
 
 					// Screenshot Gallery section
-					'#ScreenshotGallery .highlight .box',
+					'#ScreenshotGallery .shot',
 					'#ScreenshotGallery .S1',
-					'#ScreenshotGallery header.style1',
+					'#ScreenshotGallery .craft-head',
+					'#ScreenshotGallery .skills-toolkit-header',
 					'#ScreenshotGallery .actions',
 					'#ScreenshotGallery .line2',
 					'#ScreenshotGallery .highlight',
-
 					// Footer
-					'#footer header.style1',
+					'#footer .craft-head',
 					'#footer .feature-list',
 					'#footer form'
 				];
@@ -574,6 +538,11 @@
 					document.querySelectorAll(sel).forEach(el => {
 						el.classList.add('fade-on-scroll');
 					});
+				});
+
+				// Overview right column reveals late — only after it's scrolled well into view
+				document.querySelectorAll('#gameOverview .intro2-collab').forEach(el => {
+					el.classList.add('fade-on-scroll', 'fade-late');
 				});
 
 				// ============================================
@@ -589,11 +558,13 @@
 					elements.forEach(el => {
 						const rect = el.getBoundingClientRect();
 						const elCenter = rect.top + rect.height / 2;
+						// fade-late elements need to be scrolled deeper before revealing
+						const bottomLimit = el.classList.contains('fade-late') ? viewportH * 0.8 : fadeZoneBottom;
 
 						if (rect.bottom < 0 || rect.top > viewportH) {
 							// Fully out of viewport
 							el.classList.remove('is-visible', 'is-leaving');
-						} else if (elCenter < fadeZoneTop || elCenter > fadeZoneBottom) {
+						} else if (elCenter < fadeZoneTop || elCenter > bottomLimit) {
 							// In edge zones (top or bottom)
 							el.classList.add('is-leaving');
 							el.classList.remove('is-visible');
@@ -628,6 +599,74 @@
 				}
 				window.addEventListener('load', checkVisibility);
 			})();
+	</script>
+	<script>
+		// ===== Section reveal-stack (same behavior as the home page) =====
+		// Every section pins when its bottom meets the viewport bottom — sticky with a
+		// negative top of -(height - viewport) — then the next section slides over it.
+		// A wheel hard-stop lands scrolling exactly on each pin point.
+		(function () {
+			var sections = Array.prototype.slice.call(document.querySelectorAll('#page-wrapper > section'));
+			if (sections.length < 2) return;
+			var stops = sections.slice(0, -1); // last section (footer) is the top cover, never pins
+			sections.forEach(function (s, i) {
+				s.style.zIndex = i + 1;
+				s.style.position = i < sections.length - 1 ? 'sticky' : 'relative';
+			});
+			function sync() {
+				stops.forEach(function (s) {
+					var over = s.offsetHeight - window.innerHeight;
+					s.style.top = (over > 0 ? -over : 0) + 'px';
+				});
+			}
+			sync();
+			window.addEventListener('resize', sync);
+			window.addEventListener('load', sync);
+			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduce) return;
+			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+			// The pin point: where the section's bottom meets the viewport bottom. Computed
+			// from the NEXT section's top — offsetTop on a stuck sticky element reports its
+			// displaced position, which would inflate the stop and let fast flings slip past.
+			function stopYOf(s) {
+				var next = s.nextElementSibling;
+				while (next && next.tagName !== 'SECTION') next = next.nextElementSibling;
+				var top = next ? topOf(next) : topOf(s) + s.offsetHeight;
+				return top - window.innerHeight;
+			}
+			var locked = false, goT = 0, lastWheelT = 0, lastY = -1, still = 0, pollT = null;
+			var prevY = window.pageYOffset, lastUserT = 0;
+			function release() { locked = false; clearTimeout(pollT); pollT = null; }
+			function poll() {
+				var now = performance.now(), y = window.pageYOffset;
+				if (y === lastY) still++; else still = 0;
+				lastY = y;
+				if ((now - lastWheelT >= 200 && now - goT >= 420 && still >= 2) || now - goT >= 1200) { release(); return; }
+				pollT = setTimeout(poll, 50);
+			}
+			function hardStop(sy) {
+				locked = true; goT = lastWheelT = performance.now(); lastY = -1; still = 0;
+				window.scrollTo({ top: Math.round(sy), behavior: 'instant' });
+				clearTimeout(pollT); pollT = setTimeout(poll, 50);
+			}
+			// While locked, swallow the momentum tail so it can't push past the stop.
+			window.addEventListener('wheel', function (e) {
+				lastUserT = performance.now();
+				if (locked) { e.preventDefault(); lastWheelT = performance.now(); }
+			}, { passive: false });
+			// Crossing a pin point downward on a genuine user wheel clamps to it — once per
+			// approach. Nav-link smooth scrolls fire no wheel events and are never grabbed.
+			window.addEventListener('scroll', function () {
+				var y = window.pageYOffset;
+				if (!locked && y > prevY && performance.now() - lastUserT < 250) {
+					for (var i = 0; i < stops.length; i++) {
+						var sy = stopYOf(stops[i]);
+						if (prevY < sy - 2 && y >= sy) { hardStop(sy); break; }
+					}
+				}
+				prevY = y;
+			}, { passive: true });
+		})();
 	</script>
 	<script>
 		function playLocalVideo(bannerId) {

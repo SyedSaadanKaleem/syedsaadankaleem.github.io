@@ -6356,6 +6356,52 @@ margin-top: -2em;}
 			color: rgba(255, 255, 255, 0.5);
 		}
 
+		/* Vertical Download CTA hugging the right edge of the feature cards */
+		.intro2-collab-row {
+			display: flex;
+			align-items: stretch;
+			gap: 0.85rem;
+		}
+
+		.intro2-collab-row .skill-chips {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.hl-btn--vertical {
+			writing-mode: vertical-rl;
+			justify-content: center;
+			font-size: 0.8rem;
+			padding: 1.6em 0.9em;
+			margin-top: 1.6rem; /* align with the chips' own top margin */
+		}
+
+		@media screen and (max-width: 736px) {
+			.intro2-collab-row {
+				flex-direction: column;
+			}
+
+			.hl-btn--vertical {
+				writing-mode: horizontal-tb;
+				padding: 0.95em 1.7em;
+				margin-top: 0;
+			}
+		}
+
+		/* CTA slotted into the stats row: fifth column, stretched to box height */
+		.intro2-stats:has(.hl-slide-actions) {
+			grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+		}
+
+		.intro2-stats .hl-slide-actions {
+			margin-top: 0;
+		}
+
+		.intro2-stats .hl-btn {
+			align-self: stretch;
+			height: 100%;
+		}
+
 		/* Collaborations column with logo grid */
 		.intro2-collab {
 			margin: 0;
@@ -6427,9 +6473,15 @@ margin-top: -2em;}
 
 		/* Narrow left column -> stats to two-up */
 		@media (max-width: 900px) {
-			.intro2-stats {
+			.intro2-stats,
+			.intro2-stats:has(.hl-slide-actions) {
 				grid-template-columns: repeat(2, 1fr);
 				gap: 1.1rem 1rem;
+			}
+
+			.intro2-stats .hl-slide-actions {
+				grid-column: 1 / -1;
+				margin-top: 0.5rem;
 			}
 		}
 
@@ -6531,6 +6583,9 @@ margin-top: -2em;}
 			margin-top: -100dvh;
 			background: #0b0b0b;
 			border-top: 3px solid #ee2b2b;
+			/* Trim .wrapper's 9em bottom padding: #main pins bottom-aligned, so the
+			   toolkit chips otherwise sit high with dead space below while pinned. */
+			padding-bottom: 6.1em;
 		}
 
 		/* Reveal-stack between sections: #main and #Certification pin at their end
@@ -6583,6 +6638,8 @@ margin-top: -2em;}
 			border-radius: 14px;
 			overflow: hidden;
 			transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+			text-decoration: none;
+			color: inherit;
 		}
 
 		@media (max-width: 1280px) {
@@ -6928,6 +6985,65 @@ margin-top: -2em;}
 			transform: translateX(3px);
 		}
 
+		/* Split pill: one capsule holding two hl-btn actions */
+		.hl-btn-split {
+			display: inline-flex;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			border-radius: 8px;
+			overflow: hidden;
+			background: rgba(255, 255, 255, 0.04);
+		}
+
+		.hl-btn-split .hl-btn {
+			border: 0;
+			border-radius: 0;
+		}
+
+		.hl-btn-split .hl-btn + .hl-btn {
+			border-left: 1px solid rgba(255, 255, 255, 0.15);
+		}
+
+		/* Form inputs inside the split: shed the template's chunky button defaults.
+		   #footer prefix needed to outrank the template's #footer input[type=...] rules */
+		.hl-btn-split input.hl-btn,
+		#footer .hl-btn-split input.hl-btn {
+			min-width: 0;
+			height: auto;
+			line-height: inherit;
+			box-shadow: none;
+			font-weight: 400;
+			background: transparent;
+			padding: 0.8em 1.3em;
+			font-size: 0.72rem;
+			letter-spacing: 0.1em;
+			border-radius: 0;
+		}
+
+		#footer .hl-btn-split input.hl-btn:hover {
+			box-shadow: none;
+			background: rgba(238, 43, 43, 0.14);
+		}
+
+		#footer .hl-btn-split input.hl-btn--primary {
+			background: #ee2b2b;
+		}
+
+		#footer .hl-btn-split input.hl-btn--primary:hover {
+			background: #c81f1f;
+		}
+
+		/* Contact form: capsule spans the full form width, segments split it 50/50 */
+		#footer .hl-btn-split {
+			display: flex;
+			width: 100%;
+		}
+
+		#footer .hl-btn-split .hl-btn {
+			flex: 1;
+			justify-content: center;
+			text-align: center;
+		}
+
 		.hl-slide--intro {
 			background: #0e0e0e;
 		}
@@ -7138,20 +7254,32 @@ margin-top: -2em;}
 			max-width: 64em;
 		}
 		/* Toolkit header: eyebrow + title on the left, CTA button on the right */
-		#main .skills-toolkit-header {
+		#main .skills-toolkit-header,
+		#ScreenshotGallery .skills-toolkit-header {
 			display: grid;
 			grid-template-columns: 1fr auto;
 			grid-template-rows: auto auto;
 			align-items: center;
 			column-gap: 2rem;
 		}
-		#main .skills-toolkit-header .intro2-eyebrow { grid-column: 1; grid-row: 1; }
-		#main .skills-toolkit-header .intro2-collab-title { grid-column: 1; grid-row: 2; margin-top: 0.3rem; }
-		#main .skills-toolkit-header .hl-btn { grid-column: 2; grid-row: 1 / span 2; justify-self: end; flex: none; }
+		#main .skills-toolkit-header .intro2-eyebrow,
+		#ScreenshotGallery .skills-toolkit-header .intro2-eyebrow { grid-column: 1; grid-row: 1; }
+		#main .skills-toolkit-header .intro2-collab-title,
+		#ScreenshotGallery .skills-toolkit-header .intro2-collab-title { grid-column: 1; grid-row: 2; margin-top: 0.3rem; }
+		#main .skills-toolkit-header > .hl-btn,
+		#ScreenshotGallery .skills-toolkit-header > .hl-btn,
+		#main .skills-toolkit-header .hl-btn-split,
+		#ScreenshotGallery .skills-toolkit-header .hl-btn-split { grid-column: 2; grid-row: 1 / span 2; justify-self: end; flex: none; }
 		@media (max-width: 640px) {
-			#main .skills-toolkit-header { grid-template-columns: 1fr; }
-			#main .skills-toolkit-header .hl-btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 1.2rem; }
+			#main .skills-toolkit-header,
+			#ScreenshotGallery .skills-toolkit-header { grid-template-columns: 1fr; }
+			#main .skills-toolkit-header > .hl-btn,
+			#ScreenshotGallery .skills-toolkit-header > .hl-btn,
+			#main .skills-toolkit-header .hl-btn-split,
+			#ScreenshotGallery .skills-toolkit-header .hl-btn-split { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 1.2rem; }
 		}
+		/* Gallery ending line: space it off the shot grid and center in the container */
+		#ScreenshotGallery .skills-toolkit-header { margin: 3.5rem auto 0; }
 
 		#Certification .craft-head .intro2-title .vg-accent {
 			display: inline;
@@ -7449,6 +7577,8 @@ margin-top: -2em;}
 			background: rgba(255,255,255,0.05);
 			border-color: rgba(238,43,43,0.6);
 			box-shadow: none;
+			outline: 2px solid rgba(238, 43, 43, 0.6);
+			outline-offset: 0;
 		}
 		#footer form ::placeholder { color: rgba(255,255,255,0.4); }
 		/* Send / Reset as hero buttons */

@@ -968,10 +968,10 @@
 											required style="resize: none;"></textarea>
 									</div>
 									<div class="col-12">
-										<ul class="actions">
-											<li><a><input type="submit" class="style1" value="Send" /></a></li>
-											<li><a><input type="reset" class="style4" value="Reset" /></a></li>
-										</ul>
+										<div class="hl-btn-split">
+											<input type="submit" class="hl-btn hl-btn--primary" value="Send" />
+											<input type="reset" class="hl-btn" value="Reset" />
+										</div>
 									</div>
 								</div>
 							</form>
@@ -1032,8 +1032,8 @@
 				</div>
 			</div>
 		</section>
-
 	</div>
+
 
 	<div class="cursor">
 		<div></div>
@@ -1330,11 +1330,17 @@
 				var tagEl = content && content.querySelector('.hl-tag');
 				var sub = subEl ? subEl.textContent.trim() : '';
 				var tag = tagEl ? tagEl.textContent.trim() : '';
-				bg.style.backgroundImage = '';
-				bg.removeAttribute('role');
-				bg.removeAttribute('aria-label');
-				bg.setAttribute('data-carded', '1');
-				bg.innerHTML =
+				// Card is a real <a> to the same project page as the slide's Explore button,
+				// so middle-click / ctrl+click / keyboard all work natively.
+				var explore = content && content.querySelector('a.hl-btn--primary[href$=".html"]');
+				var card = document.createElement(explore ? 'a' : 'div');
+				card.className = bg.className;
+				card.setAttribute('data-carded', '1');
+				if (explore) {
+					card.href = explore.getAttribute('href');
+					card.setAttribute('aria-label', 'Open ' + name);
+				}
+				card.innerHTML =
 					'<div class="hl-gc-banner" style="background-image:url(\'' + src + '\')"></div>' +
 					'<div class="hl-gc-foot">' +
 					'<img class="hl-gc-logo" src="' + folder + '/Logo.png" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
@@ -1343,6 +1349,7 @@
 					(sub ? '<span class="hl-gc-sub">' + sub + '</span>' : '') +
 					'</div>' +
 					'</div>';
+				slide.replaceChild(card, bg);
 			});
 			if (overlays) {
 				var so = new IntersectionObserver(function (entries) {
