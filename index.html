@@ -1461,6 +1461,7 @@
 			// --- Wheel: hard lock, exactly one card per gesture; release at the ends ---
 			window.addEventListener("wheel", function (e) {
 				lastUserScrollT = performance.now();   // timestamp EVERY wheel so the entry-catch can distinguish real user scroll from programmatic
+				window.__navGlideUntil = 0;            // user wheel takes over: re-arm the scroll grabs immediately
 				if (reduce) return;
 				if (!inSlider()) {
 					engaged = false;
@@ -1521,7 +1522,7 @@
 			//     intro top. Only reacts to genuine user wheel (not nav-link smooth scrolls). ---
 			window.addEventListener("scroll", function () {
 				var y = window.pageYOffset;
-				if (!reduce && !engaged && !locked && performance.now() - lastUserScrollT < 250) {
+				if (!reduce && !engaged && !locked && performance.now() >= (window.__navGlideUntil || 0) && performance.now() - lastUserScrollT < 250) {
 					var t0 = slideTop(0), tLast = slideTop(slides.length - 1);
 					// Crossing an end slide's rest point clamps to that slide. Downward -> intro.
 					// Upward -> the last slide, but ONLY at its exact rest point (the moment it is
@@ -1562,6 +1563,47 @@
 				ty = null;
 				goTo(idx + dir);
 			}, { passive: true });
+			// --- Nav links: suspend every scroll grab (slider entry-catch + reveal-stack
+			//     hard-stops, via window.__navGlideUntil), glide to the target, re-arm after.
+			//     Slide targets go through goTo() so the lock/veil machinery stays coherent;
+			//     section targets get their static top summed from sibling heights, because
+			//     offsetTop on stuck sticky sections reports the displaced position. ---
+			var pw = document.getElementById('page-wrapper');
+			var navSections = Array.prototype.slice.call(pw ? pw.querySelectorAll(':scope > section') : []);
+			function staticTopOf(el) {
+				var sec = el.closest && el.closest('section');
+				while (sec && navSections.indexOf(sec) === -1) sec = sec.parentElement && sec.parentElement.closest('section');
+				if (!sec) return 0;   // #page-wrapper itself -> top of page
+				// Sum heights AND margins: #main overlaps the slider with a -100vh margin-top.
+				var t = topOf(pw);
+				for (var i = 0; i < navSections.length; i++) {
+					var cs = getComputedStyle(navSections[i]);
+					t += parseFloat(cs.marginTop) || 0;
+					if (navSections[i] === sec) return t;
+					t += navSections[i].offsetHeight + (parseFloat(cs.marginBottom) || 0);
+				}
+				return t;
+			}
+			document.addEventListener('click', function (e) {
+				var a = e.target.closest && e.target.closest('a[href^="#"]');
+				if (!a || a.getAttribute('href').length < 2) return;
+				var el = document.getElementById(a.getAttribute('href').slice(1));
+				if (!el) return;
+				e.preventDefault();
+				history.replaceState(null, '', a.getAttribute('href'));
+				window.__navGlideUntil = performance.now() + 1600;
+				var slideEl = el.closest('.hl-slide');
+				var i = slideEl ? slides.indexOf(slideEl) : -1;
+				if (i >= 0) {
+					engaged = true;
+					if (i === 0 && window.pageYOffset < slideTop(0)) setVeil('down');   // entering from above: no card flash
+					goTo(i);
+					return;
+				}
+				engaged = false;
+				setVeil('none');
+				window.scrollTo({ top: Math.round(staticTopOf(el)), behavior: reduce ? 'auto' : 'smooth' });
+			});
 		})();
 	</script>
 
@@ -1616,6 +1658,7 @@
 			// While locked, swallow the momentum tail so it can't push past the stop.
 			window.addEventListener('wheel', function (e) {
 				lastUserT = performance.now();
+				window.__navGlideUntil = 0;   // user wheel takes over: re-arm the hard-stops immediately
 				if (locked) { e.preventDefault(); lastWheelT = performance.now(); }
 			}, { passive: false });
 			// Crossing a pin point downward on a genuine user wheel clamps to it —
@@ -1624,7 +1667,7 @@
 			// smooth scrolls fire no wheel events and are never grabbed.
 			window.addEventListener('scroll', function () {
 				var y = window.pageYOffset;
-				if (!locked && y > prevY && performance.now() - lastUserT < 250) {
+				if (!locked && y > prevY && performance.now() >= (window.__navGlideUntil || 0) && performance.now() - lastUserT < 250) {
 					for (var i = 0; i < stops.length; i++) {
 						var sy = stopYOf(stops[i]);
 						if (prevY < sy - 2 && y >= sy) { hardStop(sy); break; }
