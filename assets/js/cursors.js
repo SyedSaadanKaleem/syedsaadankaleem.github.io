@@ -94,11 +94,12 @@
   // });
 
  // Delegated so links/buttons added after load (e.g. the slider's game cards) get it too.
+ const HOVER_TARGETS = 'a, button, .toggle-btn, input[type="submit"], input[type="reset"], input[type="button"]';
  document.addEventListener('mouseover', (e) => {
-   if (e.target.closest('a, button, .toggle-btn')) startClickAnimationLoop();
+   if (e.target.closest(HOVER_TARGETS)) startClickAnimationLoop();
  });
  document.addEventListener('mouseout', (e) => {
-   const el = e.target.closest('a, button, .toggle-btn');
+   const el = e.target.closest(HOVER_TARGETS);
    if (el && !el.contains(e.relatedTarget)) stopClickAnimationLoop();
  });
 
