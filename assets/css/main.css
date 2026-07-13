@@ -6738,6 +6738,35 @@ margin-top: -2em;}
 			padding-bottom: 6.1em;
 		}
 
+		/* Chess art strip at the top of #main — contained, card-styled (same 16px
+		   radius / faint border as .skill-chip), slim and letterboxed to stay quiet. */
+		.chess-divider {
+			position: relative;
+			overflow: hidden;
+			border-radius: 16px;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			margin-bottom: clamp(2.5em, 5vw, 4em);
+			height: clamp(140px, 22vw, 260px);
+		}
+
+		/* Natural aspect height (~2.03:1, far taller than the window): the scroll
+		   parallax sweeps the FULL image — top edge at the viewport's top, bottom
+		   edge at the viewport's bottom. */
+		.chess-divider img {
+			display: block;
+			width: 100%;
+			height: auto;
+			will-change: transform;
+		}
+
+		.chess-divider::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(to bottom, rgba(11, 11, 11, 0.25), rgba(11, 11, 11, 0.45));
+			pointer-events: none;
+		}
+
 		/* Reveal-stack between sections: #main and #Certification pin at their end
 		   (JS sets the negative sticky top), then the next section — with a higher
 		   z-index and an opaque background — scrolls over the pinned one.
