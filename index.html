@@ -1127,6 +1127,109 @@
 	</script>
 
 	<script>
+		/* Slide glows vs. the pointer (a black hole), trapped inside the slide (the box).
+		   Each glow: springs back to its home post (its duty), flees the pointer, repels
+		   the other glow, bounces off the box walls, and when squeezed between the
+		   pointer and a wall it squashes flat and squirts out sideways to get free. */
+		(function () {
+			var HOME = [[15, 20], [85, 100]];
+			var RADIUS = 45;     // % distance at which the black hole is felt
+			var FEAR = 0.6;      // pointer repulsion strength
+			var SEP = 50;        // personal-space distance between the two glows
+			var REPEL = 0.25;    // glow-glow repulsion strength
+			var SPRING = 0.004;  // pull back toward home
+			var DAMP = 0.86;     // velocity damping
+			var BOUNCE = 0.6;    // wall restitution
+			var VMAX = 4;        // speed cap, % per frame
+			/* Slides get rebuilt by the slider script after this one runs, so re-query
+			   each frame and key per-glow state off the live element. */
+			var states = new WeakMap();
+			var mx = -1e4, my = -1e4;
+			document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
+			document.addEventListener('mouseleave', function () { mx = -1e4; my = -1e4; });
+			(function tick() {
+				document.querySelectorAll('.hl-slide').forEach(function (el) {
+					var r = el.getBoundingClientRect();
+					if (r.bottom < 0 || r.top > innerHeight || !r.width) return;
+					var gs = states.get(el);
+					if (!gs) {
+						gs = HOME.map(function (h) { return { x: h[0], y: h[1], vx: 0, vy: 0, sx: 1, sy: 1, st: 0 }; });
+						states.set(el, gs);
+					}
+					var px = (mx - r.left) / r.width * 100;
+					var py = (my - r.top) / r.height * 100;
+					gs.forEach(function (g, i) {
+						// duty: a spring always pulls the glow back to its post
+						var ax = (HOME[i][0] - g.x) * SPRING;
+						var ay = (HOME[i][1] - g.y) * SPRING;
+						// the black hole: repulsion that grows as it closes in
+						var dx = g.x - px, dy = g.y - py;
+						var d = Math.hypot(dx, dy) || 0.01;
+						var fear = 0, fearX = 0, fearY = 0;
+						if (d < RADIUS) {
+							fear = FEAR * (RADIUS - d) / RADIUS;
+							fearX = dx / d * fear;
+							fearY = dy / d * fear;
+							ax += fearX;
+							ay += fearY;
+						}
+						// personal space: the two glows push each other apart
+						var o = gs[1 - i];
+						var ox = g.x - o.x, oy = g.y - o.y;
+						var od = Math.hypot(ox, oy) || 0.01;
+						if (od < SEP) {
+							var rep = REPEL * (SEP - od) / SEP;
+							ax += ox / od * rep;
+							ay += oy / od * rep;
+						}
+						g.vx = Math.max(-VMAX, Math.min(VMAX, (g.vx + ax) * DAMP));
+						g.vy = Math.max(-VMAX, Math.min(VMAX, (g.vy + ay) * DAMP));
+						g.x += g.vx;
+						g.y += g.vy;
+						// box walls: bounce off, never leave. Squeezed against a wall by the
+						// pointer -> squash flat and squirt out sideways (watermelon seed).
+						var sqx = 0, sqy = 0;
+						if (g.x <= 0 || g.x >= 100) {
+							g.x = g.x <= 0 ? 0 : 100;
+							if ((g.x === 0 && g.vx < 0) || (g.x === 100 && g.vx > 0)) g.vx = -g.vx * BOUNCE;
+							if ((g.x === 0 && fearX < -0.05) || (g.x === 100 && fearX > 0.05)) {
+								sqx = Math.min(1, Math.abs(fearX) / FEAR);
+								g.vy += Math.abs(fearX) * 1.2 * (Math.abs(dy) > 1 ? (dy > 0 ? 1 : -1) : (g.y < 50 ? 1 : -1));
+							}
+						}
+						if (g.y <= 0 || g.y >= 100) {
+							g.y = g.y <= 0 ? 0 : 100;
+							if ((g.y === 0 && g.vy < 0) || (g.y === 100 && g.vy > 0)) g.vy = -g.vy * BOUNCE;
+							if ((g.y === 0 && fearY < -0.05) || (g.y === 100 && fearY > 0.05)) {
+								sqy = Math.min(1, Math.abs(fearY) / FEAR);
+								g.vx += Math.abs(fearY) * 1.2 * (Math.abs(dx) > 1 ? (dx > 0 ? 1 : -1) : (g.x < 50 ? 1 : -1));
+							}
+						}
+						// squash: compress on the squeezed axis, bulge on the other
+						g.sx += (1 - 0.45 * sqx + 0.25 * sqy - g.sx) * 0.18;
+						g.sy += (1 - 0.45 * sqy + 0.25 * sqx - g.sy) * 0.18;
+						// stress: squeezed against a wall, or the black hole breathing down
+						// its neck -> shiver. Render-time jitter only, physics stays clean.
+						var stress = Math.min(1, Math.max(sqx, sqy) + Math.max(0, 1 - d / 18));
+						g.st += (stress - g.st) * 0.2;
+						var jx = (Math.random() - 0.5) * 3 * g.st;
+						var jy = (Math.random() - 0.5) * 3 * g.st;
+						// pressure dims it in flickers; calm = full brightness
+						var b = 1 - g.st * (0.15 + 0.45 * Math.random());
+						var p = '--g' + (i + 1);
+						el.style.setProperty(p + 'x', Math.max(0, Math.min(100, g.x + jx)).toFixed(2) + '%');
+						el.style.setProperty(p + 'y', Math.max(0, Math.min(100, g.y + jy)).toFixed(2) + '%');
+						el.style.setProperty(p + 'b', (b * 100).toFixed(1) + '%');
+						el.style.setProperty(p + 'sx', g.sx.toFixed(3));
+						el.style.setProperty(p + 'sy', g.sy.toFixed(3));
+					});
+				});
+				requestAnimationFrame(tick);
+			})();
+		})();
+	</script>
+
+	<script>
 
 		const closeBtn = document.querySelector('.modal-close');
 

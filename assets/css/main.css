@@ -6651,7 +6651,7 @@ margin-top: -2em;}
 			display: flex;
 			align-items: center;
 			overflow: hidden;
-			background: radial-gradient(120% 90% at 15% 20%, var(--slide-glow, rgba(238, 43, 43, 0.18)), transparent 60%), radial-gradient(110% 80% at 85% 100%, var(--slide-glow-2, var(--slide-glow, rgba(238, 43, 43, 0.18))), transparent 60%), #0b0b0b;
+			background: radial-gradient(calc(120% * var(--g1sx, 1)) calc(90% * var(--g1sy, 1)) at var(--g1x, 15%) var(--g1y, 20%), color-mix(in srgb, var(--slide-glow, rgba(238, 43, 43, 0.18)) var(--g1b, 100%), transparent), transparent 60%), radial-gradient(calc(110% * var(--g2sx, 1)) calc(80% * var(--g2sy, 1)) at var(--g2x, 85%) var(--g2y, 100%), color-mix(in srgb, var(--slide-glow-2, var(--slide-glow, rgba(238, 43, 43, 0.18))) var(--g2b, 100%), transparent), transparent 60%), #0b0b0b;
 			transition: box-shadow 0.28s ease;
 		}
 
