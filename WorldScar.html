@@ -356,10 +356,13 @@
 						<h2 class="intro2-title"><span>Let’s turn ideas</span><span>into <span class="vg-accent">reality.</span></span></h2>
 					</div>
 					<aside class="craft-head-copy">
-						<p class="intro2-lead">Got a project, a wild idea, or just want to talk games? My inbox is open  
-							drop a line and I'll get back to you.</p>
+						<p class="intro2-lead">Got a project, a wild idea, or just want to talk games?<br>
+							My inbox is open drop a line and I'll get back to you.</p>
 					</aside>
 				</header>
+				<div class="chess-divider" aria-hidden="true">
+					<img src="images/chess-divider.jpg" alt="" loading="lazy">
+				</div>
 				<div class="row">
 					<div class="col-6 col-12-medium">
 
@@ -486,7 +489,31 @@
 	<script src="assets/js/sounds.js"></script>
 	<script src="assets/js/gallery.js"></script>
 
-
+<!-- Chess divider parallax: the img keeps its natural aspect height inside the
+	     short clipped window; the card's viewport position sweeps the full image —
+	     image top when the card is at the screen's top, image bottom at the bottom. -->
+	<script>
+		(function () {
+			var wrap = document.querySelector('.chess-divider');
+			if (!wrap || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			var img = wrap.querySelector('img');
+			var ticking = false;
+			function update() {
+				ticking = false;
+				var r = wrap.getBoundingClientRect();
+				if (r.bottom < 0 || r.top > innerHeight) return;
+				var overflow = img.offsetHeight - r.height;
+				if (overflow <= 0) return;
+				// Card center in the viewport: 0 = top of screen, 1 = bottom.
+				var t = Math.max(0, Math.min(1, (r.top + r.height / 2) / innerHeight));
+				img.style.transform = 'translateY(' + (-t * overflow).toFixed(1) + 'px)';
+			}
+			function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+			addEventListener('scroll', onScroll, { passive: true });
+			addEventListener('resize', onScroll, { passive: true });
+			update();
+		})();
+	</script>
 	<script>
 		var loader = document.getElementById("preloader");
 
