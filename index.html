@@ -1702,7 +1702,8 @@
 					return;
 				}
 				engaged = false;
-				setVeil('none');
+				targetIdx = null;   // defuse any pending slide snap so release() can't yank us back
+				release();
 				window.scrollTo({ top: Math.round(staticTopOf(el)), behavior: reduce ? 'auto' : 'smooth' });
 			});
 		})();

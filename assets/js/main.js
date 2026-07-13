@@ -102,11 +102,16 @@ function createProjectNavigation() {
     });
 
     var navItems = [
-        { href: startHref,                     iconClass: 'bx bxs-home',       text: 'Start' },
-        { href: '#gameOverviewTittle',         iconClass: 'bx bxs-notepad',    text: 'Overview' },
-        { href: '#ScreenshotGalleryTittle',    iconClass: 'bx bxs-camera',     text: 'Gallery' },
-        { href: '#footerTittle',               iconClass: 'bx bxs-phone-call', text: 'Contact' }
+        { href: startHref,             iconClass: 'bx bxs-home',       text: 'Start' },
+        { href: '#gameOverview',       iconClass: 'bx bxs-notepad',    text: 'Overview' },
+        { href: '#ScreenshotGallery',  iconClass: 'bx bxs-camera',     text: 'Gallery' },
+        { href: '#footerTittle',       iconClass: 'bx bxs-phone-call', text: 'Contact' }
     ];
+
+    // Drop links whose target section doesn't exist on this page (e.g. Oneiros has no gallery)
+    navItems = navItems.filter(function(item) {
+        return document.getElementById(item.href.slice(1));
+    });
 
     $.each(navItems, function(index, item) {
         var $li = $('<li>', { class: 'list' });
