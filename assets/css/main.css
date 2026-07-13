@@ -6480,6 +6480,14 @@ margin-top: -2em;}
 				flex-direction: column;
 			}
 
+			/* .skill-chips' global `margin: 0 auto` blocks the flex cross-axis
+			   stretch, leaving the chips narrower than the full-width button.
+			   Zero the side margins so chips and button share the same width. */
+			.intro2-collab-row .skill-chips {
+				margin-left: 0;
+				margin-right: 0;
+			}
+
 			.hl-btn--vertical {
 				writing-mode: horizontal-tb;
 				padding: 0.95em 1.7em;
