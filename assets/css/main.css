@@ -7712,3 +7712,23 @@ margin-top: -2em;}
 			#footer .actions { flex-direction: column; align-items: stretch; }
 			#footer .actions a, #footer .actions input { width: 100%; }
 		}
+
+/* ==================================================================
+   Fixed bottom nav clearance (must stay LAST in this file: earlier
+   #main / #footer padding rules would otherwise win the cascade).
+   The JS-injected #navigationDivContainer is ~100px tall and shown
+   at <=1280px, permanently covering the bottom of the viewport.
+   #main and #Certification pin bottom-aligned (sticky reveal-stack),
+   so their last rows must end above that band; #footer/#copyright is
+   the resting end of the page. */
+@media screen and (max-width: 1280px) {
+	#main,
+	#Certification,
+	#gameOverview,
+	#ScreenshotGallery {
+		padding-bottom: 145px;
+	}
+	#footer {
+		padding-bottom: 150px;
+	}
+}
