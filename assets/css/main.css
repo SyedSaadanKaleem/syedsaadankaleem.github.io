@@ -4542,11 +4542,54 @@ margin-top: -2em;}
 
 
 	#preloader{
-		background: #121212 url(../../images/Hero-BG.mp4) no-repeat center center;
-		height: 100vh;
-		width: 100%;
+		background: #121212;
 		position: fixed;
+		inset: 0;
 		z-index: 100;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		transition: opacity 0.4s ease;
+	}
+
+	#preloader.done{
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	#preloader .preloader-title{
+		font-family: 'Podium Sharp', 'Inter', sans-serif;
+		text-transform: uppercase;
+		letter-spacing: 0.15em;
+		font-size: clamp(1.6rem, 5vw, 2.6rem);
+		line-height: 1;
+		color: #eee;
+	}
+
+	#preloader .preloader-title .accent{
+		color: #ee2b2b;
+	}
+
+	#preloader .preloader-bar{
+		width: min(220px, 50vw);
+		height: 2px;
+		background: rgba(255, 255, 255, 0.12);
+		overflow: hidden;
+	}
+
+	#preloader .preloader-bar span{
+		display: block;
+		height: 100%;
+		width: 40%;
+		background: #ee2b2b;
+		animation: preloader-slide 1s ease-in-out infinite;
+	}
+
+	@keyframes preloader-slide{
+		from { transform: translateX(-250%); }
+		to { transform: translateX(250%); }
 	}
 	
 

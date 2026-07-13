@@ -7,7 +7,7 @@
 <html>
 
 <head>
-	<link rel="shortcut icon" type="image/png" href="images/Profile1.png" />
+	<link rel="shortcut icon" type="image/png" href="images/favicon-red.jpg"/>
 	<title>Saadan's Portfolio</title>
 
 	<meta charset="utf-8" />
@@ -27,7 +27,10 @@
 </head>
 
 <body class="homepage is-preload">
-	<div id="preloader"></div>
+	<div id="preloader">
+		<div class="preloader-title"><span class="accent">Saadan</span> Kaleem</div>
+		<div class="preloader-bar"><span></span></div>
+	</div>
 	<div id="page-wrapper">
 
 		<!-- Header / Hero -->
@@ -1076,7 +1079,10 @@
 		(function () {
 			var loader = document.getElementById("preloader");
 			function hidePreloader() {
-				if (loader) loader.style.display = "none";
+				if (loader) {
+					loader.classList.add("done");
+					setTimeout(function () { loader.style.display = "none"; }, 450);
+				}
 				document.body.classList.remove("is-preload");
 			}
 			window.addEventListener("load", hidePreloader);
