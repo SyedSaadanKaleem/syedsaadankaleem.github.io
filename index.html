@@ -1650,20 +1650,30 @@
 				if ((e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") && idx < slides.length - 1 && !moreToSee(idx, 1)) { e.preventDefault(); goTo(idx + 1); }
 				else if ((e.key === "ArrowUp" || e.key === "PageUp") && idx > 0 && !moreToSee(idx, -1)) { e.preventDefault(); goTo(idx - 1); }
 			});
-			// --- Touch swipe (mobile) ---
+			// --- Touch swipe (mobile): hard lock, one card per swipe. Non-passive so
+			//     preventDefault kills native scroll + fling momentum inside the slider;
+			//     without it the smooth goTo() loses to the fling and cards free-scroll. ---
 			var ty = null;
 			window.addEventListener("touchstart", function (e) { ty = inSlider() ? e.touches[0].clientY : null; }, { passive: true });
 			window.addEventListener("touchmove", function (e) {
-				if (ty === null || locked || !inSlider()) return;
+				lastUserScrollT = performance.now();   // arm the entry-catch for touch flings too
+				window.__navGlideUntil = 0;
+				if (reduce || !inSlider()) return;
+				if (locked) { e.preventDefault(); lastWheelT = performance.now(); return; }   // swallow the rest of the gesture while snapping
+				if (ty === null) return;
 				var dy = ty - e.touches[0].clientY;
-				if (Math.abs(dy) < 45) return;
 				var idx = currentIndex(), dir = dy > 0 ? 1 : -1;
 				if (moreToSee(idx, dir)) return;   // tall slide: native touch scroll through it
 				if (dir > 0 && idx >= slides.length - 1) return;
 				if (dir < 0 && idx <= 0) return;
+				e.preventDefault();                // hard stop: no native movement, the snap does all the travel
+				if (Math.abs(dy) < 45) return;
 				ty = null;
+				engaged = true;
+				lastWheelT = performance.now();
 				goTo(idx + dir);
-			}, { passive: true });
+			}, { passive: false });
+			window.addEventListener("touchend", function () { ty = null; }, { passive: true });
 			// --- Nav links: suspend every scroll grab (slider entry-catch + reveal-stack
 			//     hard-stops, via window.__navGlideUntil), glide to the target, re-arm after.
 			//     Slide targets go through goTo() so the lock/veil machinery stays coherent;
