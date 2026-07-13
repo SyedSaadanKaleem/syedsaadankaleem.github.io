@@ -94,7 +94,7 @@
   // });
 
  // Delegated so links/buttons added after load (e.g. the slider's game cards) get it too.
- const HOVER_TARGETS = 'a, button, .toggle-btn, input[type="submit"], input[type="reset"], input[type="button"]';
+ const HOVER_TARGETS = 'a, button, .toggle-btn, input[type="submit"], input[type="reset"], input[type="button"], .cert-card, .venture-card:has(a[href])';
  document.addEventListener('mouseover', (e) => {
    if (e.target.closest(HOVER_TARGETS)) startClickAnimationLoop();
  });

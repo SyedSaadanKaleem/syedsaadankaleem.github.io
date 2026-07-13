@@ -1779,6 +1779,16 @@
 		})();
 	</script>
 
+	<!-- Cert cards & venture cards act as their inner link -->
+	<script>
+		document.addEventListener('click', function (e) {
+			var card = e.target.closest('.cert-card, .venture-card');
+			if (!card || e.target.closest('a')) return;
+			var link = card.querySelector('a[href]');
+			if (link) link.click();
+		});
+	</script>
+
 </body>
 
 </html>
