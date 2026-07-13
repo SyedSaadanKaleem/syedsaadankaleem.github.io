@@ -6935,7 +6935,7 @@ margin-top: -2em;}
 				grid-column: 1;
 				grid-row: 2;
 				align-self: start;
-				justify-self: start;
+				justify-self: end;
 				width: 100%;
 				max-width: 560px;
 				margin-bottom: 0;
