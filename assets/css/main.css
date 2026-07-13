@@ -3162,7 +3162,6 @@ color: rgba(0, 0, 0, 0);
 }
 #highlightsTittle{
 	font-family: 'Podium Sharp', sans-serif;
-	background: #181818;
 	color:#eee;
 }
 
@@ -6652,7 +6651,7 @@ margin-top: -2em;}
 			display: flex;
 			align-items: center;
 			overflow: hidden;
-			background: radial-gradient(120% 90% at 15% 20%, rgba(238, 43, 43, 0.18), transparent 60%), #0b0b0b;
+			background: radial-gradient(120% 90% at 15% 20%, var(--slide-glow, rgba(238, 43, 43, 0.18)), transparent 60%), radial-gradient(110% 80% at 85% 100%, var(--slide-glow-2, var(--slide-glow, rgba(238, 43, 43, 0.18))), transparent 60%), #0b0b0b;
 			transition: box-shadow 0.28s ease;
 		}
 
