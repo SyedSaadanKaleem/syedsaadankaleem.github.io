@@ -6475,7 +6475,7 @@ margin-top: -2em;}
 			margin-top: 1.6rem; /* align with the chips' own top margin */
 		}
 
-		@media screen and (max-width: 736px) {
+		@media screen and (max-width: 1000px) {
 			.intro2-collab-row {
 				flex-direction: column;
 			}
