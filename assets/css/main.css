@@ -8009,6 +8009,13 @@ margin-top: -2em;}
 			#footer .actions a, #footer .actions input { width: 100%; }
 		}
 
+/* >1280px: no fixed bottom nav, so trim the space below #copyright */
+@media screen and (min-width: 1281px) {
+	#footer {
+		padding-bottom: 2.5em;
+	}
+}
+
 /* ==================================================================
    Fixed bottom nav clearance (must stay LAST in this file: earlier
    #main / #footer padding rules would otherwise win the cascade).
