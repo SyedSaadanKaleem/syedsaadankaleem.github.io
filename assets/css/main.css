@@ -2447,7 +2447,7 @@ color: rgba(0, 0, 0, 0);
 				display: block;
 				color: #fff;
 				background: rgb(167, 42, 42) url("images/overlay.png");
-				border-radius: 2.5em;
+				border-radius: 0.5em;
 				text-align: center;
 				width: 2.5em;
 				height: 2.5em;
@@ -5308,7 +5308,7 @@ margin-top: -2em;}
 				margin-bottom: 0.8em;
 				padding: 0.3em 0.9em;
 				border: 1px solid rgba(255, 255, 255, 0.2);
-				border-radius: 999px;
+				border-radius: 0.6em;
 			}
 			.journey-detail p {
 				color: rgba(255, 255, 255, 0.78);
@@ -7739,6 +7739,14 @@ margin-top: -2em;}
 		#footer header.craft-head { border-bottom: 0; padding-bottom: 0; }
 		#footer .container > .row,
 		#footer #copyright { max-width: 64em; margin-left: auto; margin-right: auto; }
+		/* margin:auto above kills the grid's negative-margin gutter trick, which
+		   left the columns' 50px left/top padding uncompensated (form inset vs the
+		   chess-divider). Use flex gap for the gutter instead. */
+		#footer .container > .row { gap: 50px; margin-top: 0; }
+		#footer .container > .row > * { padding-left: 0; padding-top: 0; }
+		@media screen and (min-width: 981px) {
+			#footer .container > .row > .col-6 { width: calc(50% - 25px); }
+		}
 		/* Dark hairline inputs with red focus */
 		#footer form input[type="text"],
 		#footer form input[type="email"],
