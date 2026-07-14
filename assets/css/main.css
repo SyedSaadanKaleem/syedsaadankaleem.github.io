@@ -5270,7 +5270,10 @@ margin-top: -2em;}
 				min-height: 7em;
 			}
 			.journey-row:last-child { border-bottom: none; min-height: 7em;}
-			.journey-row:hover { background: rgba(255, 255, 255, 0.03); }
+			@media (hover: hover) {
+				.journey-row:hover { background: rgba(255, 255, 255, 0.03); }
+			}
+			.journey-row.is-open { background: rgba(255, 255, 255, 0.03); }
 
 			.journey-num {
 				position: absolute;
