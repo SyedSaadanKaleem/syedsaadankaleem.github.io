@@ -5321,38 +5321,19 @@ margin-top: -2em;}
 				font-size: 0.95em;
 			}
 
-			/* Hover-expand */
-			.journey-row:hover .journey-num {
+			/* Hover-expand (tap toggles .is-open on touch) */
+			.journey-row:hover .journey-num,
+			.journey-row.is-open .journey-num {
 				color: #ee2b2b;
 				text-shadow: 0 0 35px rgba(238, 43, 43, 0.5);
 			}
-			.journey-row:hover h3 { color: #fff !important; }
-			.journey-row:hover .journey-detail {
+			.journey-row:hover h3,
+			.journey-row.is-open h3 { color: #fff !important; }
+			.journey-row:hover .journey-detail,
+			.journey-row.is-open .journey-detail {
 				max-height: 20em;
 				opacity: 1;
 				margin-top: 0.8em;
-			}
-
-			@media screen and (max-width: 736px) {
-				.journey-row {
-					padding: 1.5em 1.4em 1.5em 6em;
-					min-height: 5em;
-				}
-				.journey-num {
-					font-size: 3.5em;
-					left: 0.3em;
-				}
-				.journey-row h3 { font-size: 1.05em; }
-				/* On touch devices show all expanded since hover isn't reliable */
-				.journey-detail {
-					max-height: 20em;
-					opacity: 1;
-					margin-top: 0.6em;
-				}
-				.journey-num {
-					color: #ee2b2b;
-				}
-				.journey-row h3 { color: #fff !important; }
 			}
 
 			/* === Worldscar feature label === */

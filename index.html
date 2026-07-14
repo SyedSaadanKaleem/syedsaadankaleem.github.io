@@ -1354,6 +1354,27 @@
 				checkVisibility();
 			}
 			window.addEventListener('load', checkVisibility);
+
+			// ============================================
+			// Journey rows: tap toggles open on touch-only
+			// devices (computers use hover); tapping outside
+			// the steps box closes any open row
+			// ============================================
+			if (window.matchMedia('(hover: none)').matches) {
+				const closeOpenRows = () => document.querySelectorAll('.journey-row.is-open').forEach(r => r.classList.remove('is-open'));
+				document.querySelectorAll('.journey-row').forEach(row => {
+					row.addEventListener('click', e => {
+						if (e.pointerType === 'mouse') return; // mouse users get hover, never click-pinning
+						const wasOpen = row.classList.contains('is-open');
+						closeOpenRows();
+						if (!wasOpen) row.classList.add('is-open');
+					});
+				});
+				document.addEventListener('click', e => {
+					if (!e.target.closest('.journey-list')) closeOpenRows();
+				});
+				window.addEventListener('scroll', closeOpenRows, { passive: true });
+			}
 		})();
 	</script>
 
