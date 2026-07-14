@@ -5355,21 +5355,27 @@ margin-top: -2em;}
 			@media screen and (max-width: 736px) and (orientation: portrait) {
 				.journey-detail {
 					margin-left: -7.25em; /* row padding-left 9.75em - 2.5em right-side inset */
+					/* one duration for every animated part so the row grows as a
+					   single eased motion (JS sets max-height to the exact content
+					   height, keeping the easing true to the visible movement) */
+					transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
 				}
 				/* open rows: title block reaches past the number so the
 				   full-width description clears the digits; heading and
 				   number bottom-align on the same line */
-				.journey-row.is-open h3 {
-					min-height: 3.5em;
+				.journey-row h3 {
 					display: flex;
 					align-items: flex-end;
+					min-height: 0;
+					transition: color 0.4s ease, min-height 0.5s ease;
 				}
+				.journey-row.is-open h3 { min-height: 3.5em; }
 				/* anchor the number by its bottom so wrapped headings
 				   (taller rows) never change its cropped position */
 				.journey-num {
 					top: auto;
 					bottom: -0.18em; /* same crop as a single-line row anchored by top */
-					transition: color 0.5s ease, text-shadow 0.5s ease, bottom 0.4s ease;
+					transition: color 0.5s ease, text-shadow 0.5s ease, bottom 0.5s ease;
 				}
 			}
 

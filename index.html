@@ -1364,6 +1364,7 @@
 				const closeOpenRows = () => document.querySelectorAll('.journey-row.is-open').forEach(r => {
 					r.classList.remove('is-open');
 					r.querySelector('.journey-num').style.bottom = '';
+					r.querySelector('.journey-detail').style.maxHeight = '';
 				});
 				document.querySelectorAll('.journey-row').forEach(row => {
 					row.addEventListener('click', e => {
@@ -1380,6 +1381,8 @@
 								const n = row.querySelector('.journey-num'), d = row.querySelector('.journey-detail');
 								const rf = parseFloat(getComputedStyle(row).fontSize);
 								n.style.bottom = (2.2 * rf + d.scrollHeight + 0.8 * rf) + 'px';
+								// exact target height so the max-height easing matches the visible motion
+								d.style.maxHeight = d.scrollHeight + 'px';
 							}
 						}
 					});
