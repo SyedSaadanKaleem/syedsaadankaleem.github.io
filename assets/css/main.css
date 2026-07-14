@@ -6746,6 +6746,37 @@ margin-top: -2em;}
 			visibility: hidden !important;
 		}
 
+		/* === Slide entrance/exit (scroll-driven, NOT the site's .fade-on-scroll) ===
+		   --enter (0→1): the slide rising into view — the game card swings up from a
+		   3D floor tilt while the copy drifts in from the left and the title's
+		   tracking settles. --exit (0→1): the next card covering this one — its
+		   content is pressed back into the deck (scaled, dimmed). Both variables are
+		   written per-frame by the slider script; the defaults below are neutral, so
+		   reduced-motion (script never runs) renders everything at rest.
+		   NOTE: hover is untouched — .hl-slide-bg:hover appears LATER in this file
+		   with equal specificity, so the stock hover lift wins while hovered. */
+		.hl-slide {
+			--enter: 1;
+			--exit: 0;
+		}
+
+		.hl-slide .hl-slide-content {
+			transform: translateX(calc((1 - var(--enter)) * -2.5rem)) scale(calc(1 - 0.06 * var(--exit)));
+			transform-origin: 0 25%;
+			opacity: calc(1 - 0.85 * var(--exit));
+		}
+
+		.hl-slide .hl-slide-title {
+			letter-spacing: calc(-0.01em + (1 - var(--enter)) * 0.12em);
+		}
+
+		.hl-slide > .hl-slide-bg {
+			transform: perspective(1100px) rotateX(calc((1 - var(--enter)) * 26deg)) translateY(calc((1 - var(--enter)) * 3.5rem)) scale(calc(1 - 0.07 * var(--exit)));
+			transform-origin: 50% 100%;
+			opacity: calc(1 - 0.8 * var(--exit));
+			filter: brightness(calc(1 - 0.35 * var(--exit)));
+		}
+
 		/* Last-slide pin range: a full-viewport spacer at the end of the sticky stack keeps
 		   the last slide fixed while the Skills section (pulled up + above it) scrolls over
 		   it — the same reveal-stack feel the other cards get. #main must be opaque so it

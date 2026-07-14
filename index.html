@@ -1545,6 +1545,34 @@
 			syncStickyTops();
 			window.addEventListener('resize', syncStickyTops);
 			window.addEventListener('load', syncStickyTops);
+			// Scroll-driven entrance/exit: write --enter/--exit onto each slide every
+			// frame. --enter tracks the slide's own rise (viewport bottom -> pinned);
+			// --exit tracks how far the NEXT card (or #main, for the last slide) has
+			// covered it. All the visuals live in CSS calc()s off these two variables.
+			if (!reduce) {
+				var fxMain = document.getElementById('main');
+				var fxQueued = false;
+				var slideFx = function () {
+					fxQueued = false;
+					var vh = window.innerHeight || 1;   // pre-render can report 0 -> NaN in the calc
+					for (var i = 0; i < slides.length; i++) {
+						// Intro slide gets no entrance (it's the section opener); exit still applies.
+						var eIn = i === 0 ? 1 : 1 - Math.min(Math.max(slides[i].getBoundingClientRect().top / vh, 0), 1);
+						// Remap the rise so the entrance plays in its VISIBLE last 60%: the card sits
+						// low in the slide, so anything animated during the first 40% happens below
+						// the fold and reads as "no entrance" even though it ran.
+						eIn = Math.min(Math.max((eIn - 0.4) / 0.6, 0), 1);
+						var cover = slides[i + 1] || fxMain;
+						var eOut = cover ? 1 - Math.min(Math.max(cover.getBoundingClientRect().top / vh, 0), 1) : 0;
+						slides[i].style.setProperty('--enter', (1 - (1 - eIn) * (1 - eIn)).toFixed(4));   // ease-out: the swing settles softly
+						slides[i].style.setProperty('--exit', (eOut * eOut).toFixed(4));                  // ease-in: the push-back starts gently
+					}
+				};
+				window.addEventListener('scroll', function () { if (!fxQueued) { fxQueued = true; requestAnimationFrame(slideFx); } }, { passive: true });
+				window.addEventListener('resize', slideFx);
+				window.addEventListener('load', slideFx);
+				slideFx();
+			}
 			// True while more of slide idx lies beyond the viewport in the scroll
 			// direction — gestures then scroll natively instead of snapping past content.
 			function moreToSee(idx, dir) {
