@@ -5321,19 +5321,50 @@ margin-top: -2em;}
 				font-size: 0.95em;
 			}
 
-			/* Hover-expand (tap toggles .is-open on touch) */
-			.journey-row:hover .journey-num,
+			/* Hover-expand — real hover devices only, so touch browsers'
+			   emulated sticky :hover can't hold a tapped row open */
+			@media (hover: hover) {
+				.journey-row:hover .journey-num {
+					color: #ee2b2b;
+					text-shadow: 0 0 35px rgba(238, 43, 43, 0.5);
+				}
+				.journey-row:hover h3 { color: #fff !important; }
+				.journey-row:hover .journey-detail {
+					max-height: 20em;
+					opacity: 1;
+					margin-top: 0.8em;
+				}
+			}
+			/* Tap-open state (touch devices) */
 			.journey-row.is-open .journey-num {
 				color: #ee2b2b;
 				text-shadow: 0 0 35px rgba(238, 43, 43, 0.5);
 			}
-			.journey-row:hover h3,
 			.journey-row.is-open h3 { color: #fff !important; }
-			.journey-row:hover .journey-detail,
 			.journey-row.is-open .journey-detail {
 				max-height: 20em;
 				opacity: 1;
 				margin-top: 0.8em;
+			}
+
+			/* Mobile portrait: description uses the full row width, wrapping
+			   under the number (only the title stays beside it) */
+			@media screen and (max-width: 736px) and (orientation: portrait) {
+				.journey-detail {
+					margin-left: -7.25em; /* row padding-left 9.75em - 2.5em right-side inset */
+				}
+				/* open rows: title block reaches past the number so the
+				   full-width description clears the digits; heading and
+				   number bottom-align on the same line */
+				.journey-row.is-open h3 {
+					min-height: 3.5em;
+					display: flex;
+					align-items: flex-end;
+				}
+				.journey-row.is-open .journey-num { top: 0.5em; }
+				.journey-num {
+					transition: color 0.5s ease, text-shadow 0.5s ease, top 0.4s ease;
+				}
 			}
 
 			/* === Worldscar feature label === */
