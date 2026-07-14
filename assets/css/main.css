@@ -5160,6 +5160,9 @@ margin-top: -2em;}
     transition: opacity 1.4s ease-in-out, transform 1.4s ease-in-out;
     transform: translateY(24px);
 }
+#Certification .journey.fade-on-scroll.is-visible {
+    transform: translateY(0);
+}
 #Certification .journey.fade-on-scroll.is-leaving {
     transform: translateY(-14px);
 }
@@ -5260,13 +5263,13 @@ margin-top: -2em;}
 			}
 			.journey-row {
 				position: relative;
-				padding: 2.2em 2.5em 2.2em 9em;
+				padding: 2.2em 2.5em 2.2em 9.75em;
 				border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 				transition: background 0.4s ease;
 				overflow: hidden;
 				min-height: 7em;
 			}
-			.journey-row:last-child { border-bottom: none; }
+			.journey-row:last-child { border-bottom: none; min-height: 7em;}
 			.journey-row:hover { background: rgba(255, 255, 255, 0.03); }
 
 			.journey-num {
@@ -5274,6 +5277,7 @@ margin-top: -2em;}
 				top: 0.6em;
 				left: 0.3em;
 				font-family: 'Inter', system-ui, sans-serif;
+				font-variant-numeric: tabular-nums;
 				font-size: 5.5em;
 				line-height: 0.85;
 				color: rgba(255, 255, 255, 0.12);
@@ -5331,7 +5335,7 @@ margin-top: -2em;}
 
 			@media screen and (max-width: 736px) {
 				.journey-row {
-					padding: 1.5em 1.4em 1.5em 5.5em;
+					padding: 1.5em 1.4em 1.5em 6em;
 					min-height: 5em;
 				}
 				.journey-num {
@@ -7797,6 +7801,179 @@ margin-top: -2em;}
 		#footer .feature-list h3.icon { color: #fff; }
 		#footer .feature-list a { color: rgba(255,255,255,0.7); transition: color .25s; }
 		#footer .feature-list a:hover { color: #ee2b2b; }
+
+		/* ===== Contact info redesign (all widths): email/phone become skill-chip
+		   style cards, socials become labeled pills (hover tooltips are useless on
+		   touch; the pill bar itself is hidden above 1280px). ===== */
+		@media screen {
+			#footer .feature-list { top: 0; }
+			#footer .feature-list .row { margin-top: -14px; }
+			#footer .feature-list .row > * { padding-top: 14px; }
+			#footer .feature-list .row br { display: none; }
+
+			#footer .feature-list section {
+				border-top: 0;
+				padding: 0;
+			}
+
+			/* Email / phone cards (the socials section has no h3) */
+			#footer .feature-list section:has(> h3) {
+				background: rgba(255, 255, 255, 0.03);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				border-radius: 16px;
+				padding: 18px 20px 18px 78px;
+			}
+
+			#footer .feature-list h3 {
+				color: rgba(255, 255, 255, 0.5) !important;
+				font-size: 0.68em;
+				letter-spacing: 0.22em;
+				text-transform: uppercase;
+				margin: 0 0 0.45em 0;
+			}
+
+			#footer .feature-list h3:before {
+				font-size: 1.2rem;
+				width: 44px;
+				height: 44px;
+				line-height: 44px;
+				border-radius: 12px;
+				background: rgba(238, 43, 43, 0.12);
+				border: 1px solid rgba(238, 43, 43, 0.35);
+				color: #ee2b2b;
+				left: 16px;
+				top: 50%;
+				transform: translateY(-50%);
+				margin-top: 0;
+			}
+
+			#footer .feature-list section p {
+				margin: 0;
+				color: #fff;
+			}
+
+			/* Socials: pill buttons with the label always visible, one row
+			   spanning the same width as the email/phone cards above */
+			/* width 100%: the li size-containers have no intrinsic width, so
+			   without it the ul shrink-to-fits to zero inside flex parents. */
+			#footer .contact-socials { gap: 10px; flex-wrap: nowrap; width: 100%; }
+
+			#footer .contact-socials li {
+				flex: 1;
+				min-width: 0;
+				container-type: inline-size;
+			}
+
+			/* Icon, label, gap and padding are all em-based, so scaling the
+			   font with the pill's own width (cqi) shrinks the whole content
+			   in step with the button on narrow screens. */
+			#footer .contact-socials a {
+				width: 100%;
+				height: auto;
+				padding: 0.75em 0.5em;
+				gap: 0.6em;
+				border-radius: 12px;
+				font-size: clamp(8px, 16cqi, 1em);
+			}
+
+			#footer .contact-socials i { font-size: 1.3em; }
+
+			#footer .contact-socials a::after {
+				position: static;
+				transform: none;
+				opacity: 1;
+				transition: none;
+				background: none;
+				border: 0;
+				padding: 0;
+				font-size: 0.62em;
+				letter-spacing: 0.2em;
+				color: rgba(255, 255, 255, 0.75);
+			}
+
+			#footer .contact-socials a:hover::after { transform: none; }
+		}
+
+		/* >980px, two columns side by side: stretch the contact column so the
+		   card stack fills the same height as the contact form. */
+		@media screen and (min-width: 981px) {
+			#footer .container > .row > div > section {
+				height: 100%;
+				margin-bottom: 0;
+			}
+
+			#footer .feature-list .row {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				margin-top: 0;
+				gap: 14px;
+			}
+
+			#footer .feature-list .row > div {
+				flex: 1;
+				padding-top: 0;
+				display: flex;
+			}
+
+			/* Pills row stays content-sized; the leftover column height goes
+			   into the two cards, keeping every gap at 14px. */
+			#footer .feature-list .row > div:has(.contact-socials) { flex: 0 0 auto; }
+
+			#footer .feature-list .row > div > section {
+				width: 100%;
+			}
+
+			#footer .feature-list section:has(> h3) {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+
+			#footer .feature-list section:not(:has(> h3)) {
+				display: flex;
+				align-items: flex-end;
+			}
+		}
+
+		/* >1280px: the social pill bar is hidden (drop its empty slot); email &
+		   phone are slim row cards anchored to the bottom of the form area. */
+		@media screen and (min-width: 1281px) {
+			#footer .feature-list .row > div:has(.contact-socials) { display: none; }
+
+			#footer .feature-list .row { justify-content: flex-end; }
+
+			#footer .feature-list .row > div { flex: 0 0 auto; }
+
+			#footer .feature-list section:has(> h3) {
+				padding-top: 12px;
+				padding-bottom: 12px;
+			}
+		}
+		/* ≤980px (stacked layout): flex gap replaces the grid gutter so card
+		   spacing matches the social pills (10px). */
+		@media screen and (max-width: 980px) {
+			#footer .feature-list .row {
+				margin-top: 0;
+				margin-left: 0;
+				gap: 14px 10px;
+			}
+
+			#footer .feature-list .row > * { padding: 0; }
+
+			#footer .feature-list .row > div:has(h3) { display: flex; }
+
+			#footer .feature-list .row > div:has(h3) > section { width: 100%; }
+
+			#footer .feature-list section p { overflow-wrap: anywhere; }
+		}
+
+		/* Email & phone side by side, but only where a half-width card still
+		   fits the address — below 700px they stack full-width again. */
+		@media screen and (min-width: 701px) and (max-width: 980px) {
+			#footer .feature-list .row > div:has(h3) { width: calc(50% - 5px); }
+		}
+
 		@media (max-width: 480px) {
 			#footer .actions { flex-direction: column; align-items: stretch; }
 			#footer .actions a, #footer .actions input { width: 100%; }
