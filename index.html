@@ -1361,13 +1361,27 @@
 			// the steps box closes any open row
 			// ============================================
 			if (window.matchMedia('(hover: none)').matches) {
-				const closeOpenRows = () => document.querySelectorAll('.journey-row.is-open').forEach(r => r.classList.remove('is-open'));
+				const closeOpenRows = () => document.querySelectorAll('.journey-row.is-open').forEach(r => {
+					r.classList.remove('is-open');
+					r.querySelector('.journey-num').style.bottom = '';
+				});
 				document.querySelectorAll('.journey-row').forEach(row => {
 					row.addEventListener('click', e => {
 						if (e.pointerType === 'mouse') return; // mouse users get hover, never click-pinning
 						const wasOpen = row.classList.contains('is-open');
 						closeOpenRows();
-						if (!wasOpen) row.classList.add('is-open');
+						if (!wasOpen) {
+							row.classList.add('is-open');
+							// portrait: keep the number bottom-aligned with the heading
+							// even when the heading wraps past the reserved title block.
+							// Distance from the row's (post-expand) bottom up to the heading
+							// bottom = padding-bottom (2.2em) + detail content + its 0.8em margin.
+							if (window.matchMedia('(max-width: 736px) and (orientation: portrait)').matches) {
+								const n = row.querySelector('.journey-num'), d = row.querySelector('.journey-detail');
+								const rf = parseFloat(getComputedStyle(row).fontSize);
+								n.style.bottom = (2.2 * rf + d.scrollHeight + 0.8 * rf) + 'px';
+							}
+						}
 					});
 				});
 				document.addEventListener('click', e => {

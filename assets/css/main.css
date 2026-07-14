@@ -5361,9 +5361,12 @@ margin-top: -2em;}
 					display: flex;
 					align-items: flex-end;
 				}
-				.journey-row.is-open .journey-num { top: 0.5em; }
+				/* anchor the number by its bottom so wrapped headings
+				   (taller rows) never change its cropped position */
 				.journey-num {
-					transition: color 0.5s ease, text-shadow 0.5s ease, top 0.4s ease;
+					top: auto;
+					bottom: -0.18em; /* same crop as a single-line row anchored by top */
+					transition: color 0.5s ease, text-shadow 0.5s ease, bottom 0.4s ease;
 				}
 			}
 
