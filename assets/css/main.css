@@ -6772,6 +6772,36 @@ margin-top: -2em;}
 			pointer-events: none;
 		}
 
+		/* >1280px: stepped silhouette for the footer divider — the left ~half
+		   keeps the original 260px depth with its 64px gap to the form; the
+		   right half drops 136px lower, reaching into the empty space above
+		   the bottom-anchored email card with that same 64px gap to it
+		   (S-curve at the transition, all 16px-rounded). Height grows by the
+		   step and the negative margin pulls the row back up, so the form
+		   below doesn't move. Browsers without shape() support keep the
+		   plain rounded rectangle. */
+		@media screen and (min-width: 1281px) {
+			#footer .chess-divider {
+				height: 396px;
+				margin-bottom: -72px;
+				clip-path: shape(
+					from 16px 0,
+					hline to calc(100% - 16px),
+					curve to 100% 16px with 100% 0,
+					vline to calc(100% - 16px),
+					curve to calc(100% - 16px) 100% with 100% 100%,
+					hline to calc(52% + 24px),
+					curve to 52% calc(100% - 24px) with 52% 100%,
+					vline to calc(100% - 112px),
+					curve to calc(52% - 24px) calc(100% - 136px) with 52% calc(100% - 136px),
+					hline to 16px,
+					curve to 0 calc(100% - 152px) with 0 calc(100% - 136px),
+					vline to 16px,
+					curve to 16px 0 with 0 0
+				);
+			}
+		}
+
 		/* Reveal-stack between sections: #main and #Certification pin at their end
 		   (JS sets the negative sticky top), then the next section — with a higher
 		   z-index and an opaque background — scrolls over the pinned one.
