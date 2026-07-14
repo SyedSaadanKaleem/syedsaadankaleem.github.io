@@ -6777,6 +6777,16 @@ margin-top: -2em;}
 			filter: brightness(calc(1 - 0.35 * var(--exit)));
 		}
 
+		/* Last (Cobweb) slide: no swing-in — its card enters the same way cards
+		   exit, un-pressing from the deck (scale + dim + fade), by folding the
+		   entrance into the same press amount the exit uses. Still earlier in the
+		   file than .hl-slide-bg:hover, so hover stays stock. */
+		.hl-slide--cobweb > .hl-slide-bg {
+			transform: scale(calc(1 - 0.07 * ((1 - var(--enter)) + var(--exit))));
+			opacity: calc(1 - 0.8 * ((1 - var(--enter)) + var(--exit)));
+			filter: brightness(calc(1 - 0.35 * ((1 - var(--enter)) + var(--exit))));
+		}
+
 		/* Last-slide pin range: a full-viewport spacer at the end of the sticky stack keeps
 		   the last slide fixed while the Skills section (pulled up + above it) scrolls over
 		   it — the same reveal-stack feel the other cards get. #main must be opaque so it
