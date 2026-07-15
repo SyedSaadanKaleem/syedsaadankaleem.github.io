@@ -1506,6 +1506,10 @@
 				so.observe(section);
 			}
 			var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+				// Touch devices scroll natively: JS snapping (preventDefault + programmatic
+				// scrollTo) fights the browser's fling momentum and reads as jitter. The
+				// sticky reveal-stack + scroll-driven fx still run; only the snap grabs are off.
+				var noSnap = reduce || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
 			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
 			// Sticky slides report their *stuck* offsetTop once pinned, so derive layout
 			// positions from the (non-sticky) container top + cumulative slide heights.
@@ -1638,7 +1642,7 @@
 			window.addEventListener("wheel", function (e) {
 				lastUserScrollT = performance.now();   // timestamp EVERY wheel so the entry-catch can distinguish real user scroll from programmatic
 				window.__navGlideUntil = 0;            // user wheel takes over: re-arm the scroll grabs immediately
-				if (reduce) return;
+				if (noSnap) return;
 				if (!inSlider()) {
 					engaged = false;
 					var t0o = slideTop(0);
@@ -1698,7 +1702,7 @@
 			//     intro top. Only reacts to genuine user wheel (not nav-link smooth scrolls). ---
 			window.addEventListener("scroll", function () {
 				var y = window.pageYOffset;
-				if (!reduce && !engaged && !locked && performance.now() >= (window.__navGlideUntil || 0) && performance.now() - lastUserScrollT < 250) {
+				if (!noSnap && !engaged && !locked && performance.now() >= (window.__navGlideUntil || 0) && performance.now() - lastUserScrollT < 250) {
 					var t0 = slideTop(0), tLast = slideTop(slides.length - 1);
 					// Crossing an end slide's rest point clamps to that slide. Downward -> intro.
 					// Upward -> the last slide, but ONLY at its exact rest point (the moment it is
@@ -1733,7 +1737,7 @@
 			window.addEventListener("touchmove", function (e) {
 				lastUserScrollT = performance.now();   // arm the entry-catch for touch flings too
 				window.__navGlideUntil = 0;
-				if (reduce || !inSlider()) return;
+				if (noSnap || !inSlider()) return;
 				if (locked) { e.preventDefault(); lastWheelT = performance.now(); return; }   // swallow the rest of the gesture while snapping
 				if (ty === null) return;
 				var dy = ty - e.touches[0].clientY;
@@ -1782,6 +1786,8 @@
 				var i = slideEl ? slides.indexOf(slideEl) : -1;
 				if (i >= 0) {
 					engaged = true;
+					// Touch: plain glide, no lock/veil — a swipe mid-glide must win, not get yanked back by release()
+					if (noSnap) { window.scrollTo({ top: Math.round(slideTop(i)), behavior: reduce ? 'auto' : 'smooth' }); return; }
 					if (i === 0 && window.pageYOffset < slideTop(0)) setVeil('down');   // entering from above: no card flash
 					goTo(i);
 					return;
