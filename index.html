@@ -1506,6 +1506,7 @@
 				so.observe(section);
 			}
 			var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+				var coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
 				// Stable viewport height for layout math. window.innerHeight changes as the
 				// mobile URL bar hides/shows; feeding that into sticky-top sync rewrites pin
 				// offsets mid-scroll (jitter). 100lvh — the large viewport, what 100vh means
@@ -1712,7 +1713,7 @@
 			//     intro top. Only reacts to genuine user wheel (not nav-link smooth scrolls). ---
 			window.addEventListener("scroll", function () {
 				var y = window.pageYOffset;
-				if (!reduce && !engaged && !locked && performance.now() >= (window.__navGlideUntil || 0) && performance.now() - lastUserScrollT < 250) {
+				if (!reduce && !coarse && !engaged && !locked && performance.now() >= (window.__navGlideUntil || 0) && performance.now() - lastUserScrollT < 250) {
 					var t0 = slideTop(0), tLast = slideTop(slides.length - 1);
 					// Crossing an end slide's rest point clamps to that slide. Downward -> intro.
 					// Upward -> the last slide, but ONLY at its exact rest point (the moment it is
@@ -1747,7 +1748,7 @@
 			window.addEventListener("touchmove", function (e) {
 				lastUserScrollT = performance.now();   // arm the entry-catch for touch flings too
 				window.__navGlideUntil = 0;
-				if (reduce || !inSlider()) return;
+				if (reduce || coarse || !inSlider()) return;   // coarse pointers use the settle-snap below instead of gesture hijack
 				if (locked) { e.preventDefault(); lastWheelT = performance.now(); return; }   // swallow the rest of the gesture while snapping
 				if (ty === null) return;
 				var dy = ty - e.touches[0].clientY;
@@ -1763,6 +1764,33 @@
 				goTo(idx + dir);
 			}, { passive: false });
 			window.addEventListener("touchend", function () { ty = null; }, { passive: true });
+			// --- Touch devices (coarse pointer): NO gesture hijack — swipes and flings run
+			//     natively (grabbing them mid-gesture is what read as glitchy). Instead, once
+			//     the scroll settles inside the deck, the incoming card either commits
+			//     (>= 50% risen into view) or retreats fully behind the current card. ---
+			if (coarse && !reduce) {
+				var touching = false, settleT = null;
+				var SETTLE_MS = 120;   // scroll silence that counts as "the fling has ended"
+				var settleSnap = function () {
+					if (touching || locked) return;
+					if (performance.now() < (window.__navGlideUntil || 0)) return;   // nav glide owns the scroll
+					var y = window.pageYOffset, tops = slideTops(), vh = window.__vh || 1;
+					if (y <= tops[0] + 1 || y >= tops[tops.length - 1] - 1) return;   // outside the card-over-card zone: stay native
+					var i = 0;
+					for (var k = 0; k < tops.length; k++) { if (y >= tops[k]) i = k; }
+					// Fraction of the NEXT card already risen into view. A card travels exactly
+					// one viewport to cover; taller slides hit this zone only in their last viewport.
+					var f = (y + vh - tops[i + 1]) / vh;
+					if (f <= 0) return;   // still inside a tall card's own content: never yank
+					var target = f >= 0.5 ? tops[i + 1] : tops[i + 1] - vh;   // commit : hide (== this card's rest for viewport-tall cards)
+					if (Math.abs(y - target) < 2) return;   // already at rest
+					window.scrollTo({ top: Math.round(target), behavior: 'smooth' });
+				};
+				var armSettle = function () { clearTimeout(settleT); settleT = setTimeout(settleSnap, SETTLE_MS); };
+				window.addEventListener('touchstart', function () { touching = true; clearTimeout(settleT); }, { passive: true });
+				window.addEventListener('touchend', function () { touching = false; armSettle(); }, { passive: true });
+				window.addEventListener('scroll', armSettle, { passive: true });
+			}
 			// --- Nav links: suspend every scroll grab (slider entry-catch + reveal-stack
 			//     hard-stops, via window.__navGlideUntil), glide to the target, re-arm after.
 			//     Slide targets go through goTo() so the lock/veil machinery stays coherent;
