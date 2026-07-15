@@ -1510,6 +1510,20 @@
 				// scrollTo) fights the browser's fling momentum and reads as jitter. The
 				// sticky reveal-stack + scroll-driven fx still run; only the snap grabs are off.
 				var noSnap = reduce || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+				// Stable viewport height for layout math. window.innerHeight changes as the
+				// mobile URL bar hides/shows; feeding that into sticky-top sync rewrites pin
+				// offsets mid-scroll (jitter). 100lvh — the large viewport, what 100vh means
+				// on mobile — is fixed per orientation; probe it and refresh on real resizes.
+				// Browsers without lvh fall back to innerHeight (their vh is stable anyway).
+				function measureVH() {
+					var d = document.createElement('div');
+					d.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:100lvh;visibility:hidden;pointer-events:none;';
+					document.body.appendChild(d);
+					window.__vh = d.offsetHeight || window.innerHeight || 1;
+					d.parentNode.removeChild(d);
+				}
+				measureVH();
+				window.addEventListener('resize', measureVH);   // registered FIRST, so later resize handlers see the fresh value
 			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
 			// Sticky slides report their *stuck* offsetTop once pinned, so derive layout
 			// positions from the (non-sticky) container top + cumulative slide heights.
@@ -1542,7 +1556,7 @@
 			// it scroll through, then pin bottom-aligned while the next card covers it.
 			function syncStickyTops() {
 				for (var i = 0; i < slides.length; i++) {
-					var over = slides[i].getBoundingClientRect().height - window.innerHeight;
+					var over = slides[i].getBoundingClientRect().height - window.__vh;
 					slides[i].style.top = over > 0 ? (-over) + 'px' : '';
 				}
 			}
@@ -1558,7 +1572,7 @@
 				var fxQueued = false;
 				var slideFx = function () {
 					fxQueued = false;
-					var vh = window.innerHeight || 1;   // pre-render can report 0 -> NaN in the calc
+					var vh = window.__vh || 1;   // stable height: a URL-bar toggle must not rescale the fx mid-scroll
 					for (var i = 0; i < slides.length; i++) {
 						// Intro slide gets no entrance (it's the section opener); exit still applies.
 						var eIn = i === 0 ? 1 : 1 - Math.min(Math.max(slides[i].getBoundingClientRect().top / vh, 0), 1);
@@ -1814,7 +1828,7 @@
 			// Sticky top sync (same pattern as the slider's syncStickyTops)
 			function sync() {
 				stops.forEach(function (s) {
-					var over = s.offsetHeight - window.innerHeight;
+					var over = s.offsetHeight - (window.__vh || window.innerHeight);
 					s.style.top = (over > 0 ? -over : 0) + 'px';
 				});
 			}

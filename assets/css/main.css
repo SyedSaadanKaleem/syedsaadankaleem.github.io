@@ -6031,7 +6031,6 @@ margin-top: -2em;}
 			display: block;
 			position: relative;
 			height: 100vh;
-			height: 100dvh;
 			min-height: 100vh;
 			width: 100%;
 			margin: 0;
@@ -6402,8 +6401,6 @@ margin-top: -2em;}
 
 			#header.vg-hero {
 				height: 100vh;
-				height: 100dvh;
-				min-height: 100dvh;
 			}
 		}
 
@@ -6725,8 +6722,9 @@ margin-top: -2em;}
 		.hl-slide {
 			position: sticky;
 			top: 0;
+			/* 100vh (the LARGE viewport on mobile), never dvh: dvh resizes as the URL bar
+			   hides/shows, which reflows every slide mid-scroll and reads as jitter. */
 			height: 100vh;
-			height: 100dvh;
 			display: flex;
 			align-items: center;
 			overflow: hidden;
@@ -6793,13 +6791,11 @@ margin-top: -2em;}
 		   actually covers the pinned slide. */
 		.hl-stack-tail {
 			height: 100vh;
-			height: 100dvh;
 			pointer-events: none;
 		}
 
 		#main {
 			margin-top: -100vh;
-			margin-top: -100dvh;
 			background: #0b0b0b;
 			border-top: 3px solid #ee2b2b;
 			/* Trim .wrapper's 9em bottom padding: #main pins bottom-aligned, so the
@@ -7091,7 +7087,6 @@ margin-top: -2em;}
 				padding-right: 6vw;
 				height: auto;
 				min-height: 100vh;
-				min-height: 100dvh;
 				padding-top: clamp(3.5rem, 8vh, 6rem);
 				padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 			}
@@ -7330,7 +7325,6 @@ margin-top: -2em;}
 		.hl-slide--intro {
 			height: auto;
 			min-height: 100vh;
-			min-height: 100dvh;
 		}
 
 		.hl-slide--intro .hl-slide-content {
