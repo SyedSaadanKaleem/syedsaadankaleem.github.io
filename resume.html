@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Syed Saadan Kaleem — Resume</title>
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico?v=2" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+		rel="stylesheet">
+	<style>
+		:root {
+			--accent: #ee2b2b;
+			--accent-deep: #a22929;
+			--ink: #16171a;
+			--ink-soft: #4a4d55;
+			--ink-faint: #7c8089;
+			--rule: #dcdee4;
+			--wash: #f1f2f5;
+			--display: 'Chakra Petch', 'Inter', sans-serif;
+			--body: 'Inter', sans-serif;
+			--mono: 'JetBrains Mono', monospace;
+
+			/* one spacing scale, used everywhere */
+			--sp-section: 7mm;
+			--sp-item: 6mm;
+			--sp-head: 3.5mm;
+			--sp-card: 4.5mm;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			background: #121212;
+			color: var(--ink);
+			font-family: var(--body);
+			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
+		}
+
+		.sheet {
+			position: relative;
+			width: 210mm;
+			height: 297mm;
+			margin: 12mm auto;
+			padding: 16mm 16mm 14mm;
+			background: #fff;
+			box-shadow: 0 12px 48px rgba(0, 0, 0, .55);
+			overflow: hidden;
+		}
+
+		.sheet+.sheet {
+			break-before: page;
+			page-break-before: always;
+		}
+
+		/* ---------- Header ---------- */
+		.head {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			gap: 12mm;
+			padding-bottom: 6mm;
+			border-bottom: 2.5px solid var(--ink);
+		}
+
+		.name {
+			font-family: var(--display);
+			font-weight: 700;
+			font-size: 34pt;
+			line-height: .95;
+			letter-spacing: -.015em;
+			text-transform: uppercase;
+			margin: 0;
+		}
+
+		.name .accent {
+			color: var(--accent);
+		}
+
+		.role {
+			font-family: var(--mono);
+			font-size: 8.5pt;
+			letter-spacing: .18em;
+			text-transform: uppercase;
+			color: var(--ink-soft);
+			margin-top: 4mm;
+		}
+
+		.contact {
+			font-size: 9pt;
+			line-height: 2;
+			text-align: right;
+			color: var(--ink-soft);
+			white-space: nowrap;
+		}
+
+		.contact a {
+			color: var(--ink-soft);
+			text-decoration: none;
+		}
+
+		.contact strong {
+			color: var(--ink);
+			font-weight: 600;
+		}
+
+		/* running header on page 2+ */
+		.head-mini {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			padding-bottom: 4mm;
+			border-bottom: 2.5px solid var(--ink);
+			margin-bottom: var(--sp-section);
+		}
+
+		.head-mini .nm {
+			font-family: var(--display);
+			font-weight: 700;
+			font-size: 14pt;
+			text-transform: uppercase;
+			letter-spacing: .01em;
+		}
+
+		.head-mini .nm .accent {
+			color: var(--accent);
+		}
+
+		.head-mini .pg {
+			font-family: var(--mono);
+			font-size: 8pt;
+			letter-spacing: .14em;
+			text-transform: uppercase;
+			color: var(--ink-faint);
+		}
+
+		/* ---------- Sections ---------- */
+		section {
+			margin-bottom: var(--sp-section);
+		}
+
+		.lead-block {
+			margin-top: var(--sp-section);
+		}
+
+		section:last-child {
+			margin-bottom: 0;
+		}
+
+		h2 {
+			font-family: var(--display);
+			font-size: 12pt;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .12em;
+			margin: 0 0 var(--sp-head);
+			padding-bottom: 2.2mm;
+			border-bottom: 1px solid var(--rule);
+		}
+
+		h2::before {
+			content: "";
+			display: inline-block;
+			width: 3.2mm;
+			height: 3.2mm;
+			margin-right: 3mm;
+			background: var(--accent);
+			transform: translateY(.2mm) rotate(45deg);
+		}
+
+		p {
+			margin: 0;
+			font-size: 10pt;
+			line-height: 1.75;
+			color: var(--ink-soft);
+		}
+
+		.lead {
+			font-size: 10.5pt;
+			line-height: 1.8;
+		}
+
+		.lead strong {
+			color: var(--ink);
+			font-weight: 600;
+		}
+
+		/* ---------- Stat strip ---------- */
+		.stat-strip {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: var(--sp-item);
+			margin-top: var(--sp-section);
+			padding: var(--sp-item) 0;
+			border-top: 1px solid var(--rule);
+			border-bottom: 1px solid var(--rule);
+		}
+
+		.stat-num {
+			font-family: var(--display);
+			font-size: 26pt;
+			font-weight: 700;
+			line-height: 1;
+			color: var(--accent);
+		}
+
+		.stat-label {
+			font-family: var(--mono);
+			font-size: 7.5pt;
+			text-transform: uppercase;
+			letter-spacing: .12em;
+			color: var(--ink-faint);
+			margin-top: 2.5mm;
+		}
+
+		/* ---------- Experience ---------- */
+		.job {
+			position: relative;
+			padding-left: 9mm;
+			padding-bottom: var(--sp-item);
+			break-inside: avoid;
+		}
+
+		.job:last-child {
+			padding-bottom: 0;
+		}
+
+		.job::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 2.2mm;
+			width: 2.4mm;
+			height: 2.4mm;
+			background: var(--accent);
+			border-radius: 50%;
+		}
+
+		.job::after {
+			content: "";
+			position: absolute;
+			left: 1.1mm;
+			top: 6mm;
+			bottom: 0;
+			width: .25mm;
+			background: var(--rule);
+		}
+
+		.job:last-child::after {
+			display: none;
+		}
+
+		.job-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			gap: 6mm;
+		}
+
+		.job h3 {
+			font-family: var(--display);
+			font-size: 13pt;
+			font-weight: 600;
+			margin: 0;
+			color: var(--ink);
+		}
+
+		.job h3 span {
+			color: var(--accent-deep);
+			font-weight: 500;
+		}
+
+		.date {
+			font-family: var(--mono);
+			font-size: 8pt;
+			color: var(--ink-faint);
+			white-space: nowrap;
+		}
+
+		.job p {
+			margin-top: 2.5mm;
+		}
+
+
+
+
+
+		/* ---------- Two-up ---------- */
+		.two-up {
+			display: grid;
+			grid-template-columns: 1fr 69mm;
+			gap: var(--sp-item);
+			align-items: start;
+			margin-bottom: var(--sp-section);
+		}
+
+		.pair {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: var(--sp-item);
+		}
+
+		/* ---------- Chips ---------- */
+		.chips {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 2.6mm;
+		}
+
+		.chips--tight {
+			gap: 2.3mm;
+		}
+
+		.chips--tight .chip {
+			font-size: 8pt;
+			padding: 1.6mm 2.4mm;
+		}
+
+		.chip {
+			font-size: 8.6pt;
+			font-weight: 500;
+			padding: 1.9mm 3mm;
+			border: 1px solid var(--rule);
+			border-left: 2.5px solid var(--accent);
+			background: var(--wash);
+			color: var(--ink);
+		}
+
+		/* ---------- Cards ---------- */
+		.card {
+			padding: var(--sp-card);
+			border: 1px solid var(--rule);
+			border-top: 2.5px solid var(--accent);
+			background: var(--wash);
+			break-inside: avoid;
+		}
+
+		.card h4 {
+			font-family: var(--display);
+			font-size: 11.5pt;
+			font-weight: 600;
+			margin: 0 0 1.5mm;
+			color: var(--ink);
+		}
+
+		.meta {
+			font-family: var(--mono);
+			font-size: 7.5pt;
+			text-transform: uppercase;
+			letter-spacing: .1em;
+			color: var(--ink-faint);
+			display: block;
+			margin-bottom: 2.5mm;
+		}
+
+		.card p {
+			font-size: 9.2pt;
+			line-height: 1.55;
+		}
+
+		.card a {
+			display: inline-block;
+			margin-top: 3mm;
+			font-size: 8.5pt;
+			color: var(--accent-deep);
+			text-decoration: none;
+			font-weight: 600;
+			letter-spacing: .02em;
+		}
+
+		/* ---------- Award photo ---------- */
+		.photo-card {
+			margin: 0;
+			border: 1px solid var(--rule);
+			background: var(--wash);
+			padding: 2.5mm;
+		}
+
+		.photo-card img {
+			display: block;
+			width: 100%;
+			height: auto;
+			border: 1px solid var(--rule);
+		}
+
+		.photo-card figcaption {
+			font-family: var(--mono);
+			font-size: 6.9pt;
+			line-height: 1.5;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			color: var(--ink-faint);
+			margin-top: 3mm;
+		}
+
+		.photo-card figcaption b {
+			display: block;
+			color: var(--accent-deep);
+			font-weight: 600;
+			margin-bottom: 1mm;
+		}
+
+		/* ---------- Footer note ---------- */
+		.sheet-foot {
+			position: absolute;
+			left: 16mm;
+			right: 16mm;
+			bottom: 3.5mm;
+			display: flex;
+			justify-content: space-between;
+			font-family: var(--mono);
+			font-size: 7pt;
+			letter-spacing: .12em;
+			text-transform: uppercase;
+			color: var(--ink-faint);
+			border-top: 1px solid var(--rule);
+			padding-top: 3mm;
+		}
+
+		.sheet-foot a {
+			color: var(--ink-faint);
+			text-decoration: none;
+		}
+
+		/* ---------- Work cards ---------- */
+		.work-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: var(--sp-item);
+		}
+
+		a.work,
+		a.mini {
+			display: block;
+			color: inherit;
+			text-decoration: none;
+		}
+
+		a.work .work-title h4::after,
+		a.mini h5::after {
+			content: ' \2197';
+			font-size: .78em;
+			color: var(--accent-deep);
+		}
+
+		.work {
+			border: 1px solid var(--rule);
+			background: var(--wash);
+			break-inside: avoid;
+		}
+
+		.work-cover {
+			position: relative;
+			display: block;
+			aspect-ratio: 2.4 / 1;
+			overflow: hidden;
+			border-bottom: 2.5px solid var(--accent);
+		}
+
+		.work-cover img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		.work-status {
+			font-family: var(--mono);
+			font-size: 6.6pt;
+			font-weight: 500;
+			letter-spacing: .1em;
+			text-transform: uppercase;
+			color: #fff;
+			background: var(--accent-deep);
+			padding: 1.2mm 2.4mm;
+			white-space: nowrap;
+		}
+
+		.work-title {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 3mm;
+			margin-bottom: 1.2mm;
+		}
+
+		.work-title h4 {
+			margin: 0;
+		}
+
+		.work-body {
+			padding: var(--sp-card);
+		}
+
+		.work-body h4 {
+			font-family: var(--display);
+			font-size: 12pt;
+			font-weight: 700;
+			margin: 0 0 1.2mm;
+			color: var(--ink);
+		}
+
+		.work-body p {
+			font-size: 8.8pt;
+			line-height: 1.6;
+		}
+
+		.work-role {
+			margin-top: 2.5mm;
+			padding-top: 2.5mm;
+			border-top: 1px dotted var(--rule);
+		}
+
+		.work-role b {
+			font-family: var(--mono);
+			font-size: 7pt;
+			letter-spacing: .12em;
+			text-transform: uppercase;
+			color: var(--accent-deep);
+			display: block;
+			margin-bottom: 1mm;
+		}
+
+		/* ---------- Mini work cards ---------- */
+		.mini-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: var(--sp-item);
+		}
+
+		.mini {
+			border: 1px solid var(--rule);
+			background: var(--wash);
+			break-inside: avoid;
+		}
+
+		.mini img {
+			width: 100%;
+			aspect-ratio: 2 / 1;
+			object-fit: cover;
+			display: block;
+			border-bottom: 2px solid var(--accent);
+		}
+
+		.mini-body {
+			padding: var(--sp-card);
+		}
+
+		.mini-body h5 {
+			font-family: var(--display);
+			font-size: 10pt;
+			font-weight: 600;
+			margin: 0 0 1mm;
+			color: var(--ink);
+		}
+
+		.mini-body p {
+			font-size: 8.2pt;
+			line-height: 1.55;
+		}
+
+		.section-note {
+			font-family: var(--mono);
+			font-size: 7.5pt;
+			letter-spacing: .1em;
+			text-transform: uppercase;
+			color: var(--ink-faint);
+			margin: -1mm 0 var(--sp-head);
+		}
+
+		/* ---------- Process steps ---------- */
+		.steps {
+			grid-template-columns: repeat(3, 1fr);
+			gap: var(--sp-item);
+		}
+
+		.step {
+			position: relative;
+			padding-left: 12mm;
+			break-inside: avoid;
+		}
+
+		.step-num {
+			position: absolute;
+			left: 0;
+			top: -1mm;
+			font-family: var(--display);
+			font-size: 15pt;
+			font-weight: 700;
+			color: var(--accent);
+			opacity: .85;
+		}
+
+		.step h4 {
+			font-family: var(--display);
+			font-size: 11.5pt;
+			font-weight: 600;
+			margin: 0 0 1.5mm;
+			color: var(--ink);
+		}
+
+		.step p {
+			font-size: 9.2pt;
+			line-height: 1.55;
+		}
+
+		/* ---------- Print ---------- */
+		@page {
+			size: A4;
+			margin: 0;
+		}
+
+		@media print {
+			body {
+				background: #fff;
+			}
+
+			.sheet {
+				margin: 0;
+				box-shadow: none;
+			}
+
+			.no-print {
+				display: none !important;
+			}
+		}
+
+		/* ---------- Screen-only: scale the sheets up on bigger displays ----------
+		   print is untouched, the paper is still A4 ---------- */
+		@media screen and (min-width: 1100px) {
+			body {
+				zoom: 1.15;
+			}
+		}
+
+		@media screen and (min-width: 1400px) {
+			body {
+				zoom: 1.35;
+			}
+		}
+
+		@media screen and (min-width: 1700px) {
+			body {
+				zoom: 1.55;
+			}
+		}
+
+		/* ---------- Screen-only download button ---------- */
+		.no-print {
+			position: fixed;
+			right: 20px;
+			bottom: 20px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			padding: 12px 20px;
+			background: var(--accent-deep);
+			color: #fff;
+			font-family: var(--display);
+			font-size: 13px;
+			font-weight: 600;
+			letter-spacing: .08em;
+			text-transform: uppercase;
+			text-decoration: none;
+			border-radius: .35em;
+			border: 0;
+			outline: 0;
+			cursor: pointer;
+			transition: all .25s ease-in-out;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+		}
+
+		.no-print:hover {
+			background: #721717;
+		}
+
+		@media screen and (max-width: 880px) {
+			.sheet {
+				width: auto;
+				height: auto;
+				margin: 0 0 6mm;
+				padding: 9mm 7mm;
+			}
+
+			.two-up,
+			.pair,
+			.work-grid,
+			.mini-grid,
+			.steps,
+			.stat-strip {
+				grid-template-columns: 1fr;
+				gap: 6mm;
+			}
+
+			.head {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 5mm;
+			}
+
+			.contact {
+				text-align: left;
+			}
+
+			.sheet-foot {
+				position: static;
+				margin-top: 8mm;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- ============================ PAGE 1 ============================ -->
+	<div class="sheet">
+
+		<header class="head">
+			<div>
+				<h1 class="name"><span class="accent">Saadan</span> Kaleem</h1>
+				<div class="role">Game Developer · Studio Founder · Storyteller</div>
+			</div>
+			<div class="contact">
+				<div><strong>SyedSaadanKaleem@gmail.com</strong></div>
+				<div>+92 313 8557610</div>
+				<div><a href="https://syedsaadankaleem.github.io">syedsaadankaleem.github.io</a></div>
+				<div><a href="https://linkedin.com/in/syed-saadan-kaleem">linkedin.com/in/syed-saadan-kaleem</a></div>
+				<div><a href="https://github.com/SyedSaadanKaleem">github.com/SyedSaadanKaleem</a></div>
+			</div>
+		</header>
+
+		<section class="lead-block">
+			<p class="lead">Game developer, technical leader, and creative entrepreneur specializing in immersive games
+				and interactive experiences. Co-founder &amp; CTO of <strong>Designfull</strong> and co-founder of
+				<strong>Pixel Dreams Studio</strong>, pairing engineering with creative vision to ship products with
+				innovative gameplay, striking visuals, and polished experiences. In the industry since 2019 and in games
+				since 2021 — <strong>10+ games built, 7 titles launched</strong> on Google Play and Steam.
+			</p>
+
+			<div class="stat-strip">
+				<div>
+					<div class="stat-num">7</div>
+					<div class="stat-label">Games Live</div>
+				</div>
+				<div>
+					<div class="stat-num">10+</div>
+					<div class="stat-label">Games Built</div>
+				</div>
+				<div>
+					<div class="stat-num">6+</div>
+					<div class="stat-label">Years Building</div>
+				</div>
+				<div>
+					<div class="stat-num">2</div>
+					<div class="stat-label">Studios Founded</div>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2>Experience</h2>
+
+			<div class="job">
+				<div class="job-row">
+					<h3>Co-Founder <span>· Pixel Dreams Studio</span></h3>
+					<div class="date">Jan 2025 — Present</div>
+				</div>
+				<p>Co-founded an independent game studio focused on premium games, XR applications, and interactive
+					experiences using Unity and Unreal Engine. Senior Developer on <b>Chess Run</b> (live on Google Play); founder of <b>Worldscar</b> in
+					Unreal Engine 5 — from GDD planning to a functioning demo, all crafted solo.</p>
+			</div>
+
+			<div class="job">
+				<div class="job-row">
+					<h3>Co-Founder &amp; CTO <span>· Designfull</span></h3>
+					<div class="date">Feb 2023 — Jan 2026</div>
+				</div>
+				<p>Led the technical development of web, mobile, and digital products while overseeing architecture,
+					development workflows, and product execution across the client roster.</p>
+			</div>
+
+			<div class="job">
+				<div class="job-row">
+					<h3>Game Developer <span>· CobWeb Games</span></h3>
+					<div class="date">Aug 2023 — Sep 2024</div>
+				</div>
+				<p>Unity Developer contributing to over ten mobile games and successfully launching six titles on the
+					Google Play Store, with a focus on gameplay systems, optimization, and publishing.</p>
+			</div>
+
+			<div class="job">
+				<div class="job-row">
+					<h3>Freelance Game Developer</h3>
+					<div class="date">May 2019 — Jul 2023</div>
+				</div>
+				<p>Delivered websites, applications, and interactive digital solutions for clients across multiple
+					industries, building a strong foundation in software development, design, and project management.</p>
+			</div>
+		</section>
+
+		<div class="sheet-foot">
+			<span>Syed Saadan Kaleem · Resume</span>
+			<a href="https://syedsaadankaleem.github.io">syedsaadankaleem.github.io</a>
+			<span>Page 1 / 4</span>
+		</div>
+	</div>
+
+	<!-- ============================ PAGE 2 ============================ -->
+	<div class="sheet">
+
+		<div class="head-mini">
+			<div class="nm"><span class="accent">Saadan</span> Kaleem</div>
+			<div class="pg">Toolkit · Award · How I Build · Credentials</div>
+		</div>
+
+		<div class="two-up">
+			<div>
+				<section>
+					<h2>Toolkit</h2>
+					<div class="chips">
+						<span class="chip">Unity</span>
+						<span class="chip">Unreal Engine 5</span>
+						<span class="chip">C#</span>
+						<span class="chip">Blueprints</span>
+						<span class="chip">Spatial.io</span>
+						<span class="chip">XR / VR</span>
+						<span class="chip">3D &amp; 2D</span>
+						<span class="chip">Android &amp; iOS</span>
+						<span class="chip">Google Play</span>
+						<span class="chip">Steam Publishing</span>
+						<span class="chip">Git</span>
+						<span class="chip">Performance &amp; Optimization</span>
+						<span class="chip">Game Design</span>
+						<span class="chip">Rapid Prototyping</span>
+						<span class="chip">Player Engagement</span>
+						<span class="chip">Team Leadership</span>
+					</div>
+				</section>
+
+				<section>
+					<h2>Clients &amp; Collaborations</h2>
+					<div class="chips chips--tight">
+						<span class="chip">Canvas Digital</span>
+						<span class="chip">Khareed-o-Mobile</span>
+						<span class="chip">LiftOnHai</span>
+						<span class="chip">ShotSpire</span>
+					</div>
+				</section>
+			</div>
+
+			<section>
+				<h2>Award</h2>
+				<figure class="photo-card">
+					<img src="images/resume/award.jpg"
+						alt="Receiving the Future Play Investor Summit award for Pixel Dreams Studio" />
+					<figcaption>
+						<b>Future Play Investor Summit ’26</b>
+						Award · CEGA — recognized for Pixel Dreams Studio
+					</figcaption>
+				</figure>
+			</section>
+		</div>
+
+		<section>
+			<h2>How I Build</h2>
+			<div class="pair steps">
+				<div class="step">
+					<div class="step-num">01</div>
+					<h4>Start with the Spark</h4>
+					<p>What should this feel like to play? I sketch the core loop on paper before opening the engine.</p>
+				</div>
+				<div class="step">
+					<div class="step-num">02</div>
+					<h4>Prototype Fast</h4>
+					<p>A playable build in days. If it isn't fun with grey boxes, no amount of art will save it.</p>
+				</div>
+				<div class="step">
+					<div class="step-num">03</div>
+					<h4>Design the Loop</h4>
+					<p>Pacing, progression, tension and relief — the loop players can't stop playing.</p>
+				</div>
+				<div class="step">
+					<div class="step-num">04</div>
+					<h4>Build It Right</h4>
+					<p>Clean C# in Unity, Blueprints in Unreal. Component-based, readable, no surprises.</p>
+				</div>
+				<div class="step">
+					<div class="step-num">05</div>
+					<h4>Test &amp; Iterate</h4>
+					<p>Builds in real players' hands early. Their first reaction beats a month of polish.</p>
+				</div>
+				<div class="step">
+					<div class="step-num">06</div>
+					<h4>Ship It Smooth</h4>
+					<p>Profiling, bug hunting, store assets, trailers — the last 10% that makes it a product.</p>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2>Certifications</h2>
+			<div class="pair">
+				<div class="card">
+					<h4>Unity Essentials Pathway</h4>
+					<span class="meta">Unity · Credential</span>
+					<p>Real-time production in the Unity Editor — 3D scene navigation, Scenes, GameObjects, and Prefabs
+						through to a published project.</p>
+					<a href="https://www.credly.com/go/y61Zpr3x">Verify on Credly →</a>
+				</div>
+				<div class="card">
+					<h4>Unity Junior Programmer</h4>
+					<span class="meta">Unity · Credential</span>
+					<p>Verified skill writing C# scripts inside the Unity Editor and building interactive experiences
+						with Unity's tools.</p>
+					<a href="https://www.credly.com/go/T2ZadnH1">Verify on Credly →</a>
+				</div>
+			</div>
+		</section>
+
+
+		<div class="sheet-foot">
+			<span>Syed Saadan Kaleem · Resume</span>
+			<a href="https://syedsaadankaleem.github.io">syedsaadankaleem.github.io</a>
+			<span>Page 2 / 4</span>
+		</div>
+	</div>
+
+	<!-- ============================ PAGE 3 ============================ -->
+	<div class="sheet">
+
+		<div class="head-mini">
+			<div class="nm"><span class="accent">Saadan</span> Kaleem</div>
+			<div class="pg">Selected Work</div>
+		</div>
+
+		<section>
+			<h2>Selected Work</h2>
+			<p class="section-note">Featured titles — Pixel Dreams Studio &amp; client projects</p>
+			<div class="work-grid">
+
+				<a class="work" href="https://play.google.com/store/apps/details?id=com.PixelDreams.Studio.ChessRunPlayTest" target="_blank" rel="noopener">
+					<div class="work-cover">
+						<img src="images/resume/chessrun.jpg" alt="Chess Run" />
+					</div>
+					<div class="work-body">
+						<div class="work-title">
+							<h4>Chess Run</h4>
+							<span class="work-status">Live · Google Play</span>
+						</div>
+						<span class="meta">Pixel Dreams Studio · Unity · Roguelike Endless Runner</span>
+						<p>Arcade survival on an endless chessboard where every enemy piece threatens tiles exactly as it
+							would in real chess. Slash pieces in a single stroke, chain combos, and transform into a Queen,
+							Rook, Knight, or Bishop.</p>
+						<p class="work-role"><b>My Role</b>Senior Developer — gameplay systems and the Google Play
+							release build.</p>
+					</div>
+				</a>
+
+				<article class="work">
+					<div class="work-cover">
+						<img src="images/resume/worldscar.jpg" alt="Worldscar" />
+					</div>
+					<div class="work-body">
+						<div class="work-title">
+							<h4>Worldscar</h4>
+							<span class="work-status">In Development</span>
+						</div>
+						<span class="meta">Pixel Dreams Studio · Unreal Engine 5 · PC &amp; Console</span>
+						<p>First-person horror escape room set in an abandoned bio-lab that rewrites itself as you move.
+							Find the keycards, unlock the doors, and get out before the layout closes around you.</p>
+						<p class="work-role"><b>My Role</b>Founder — from GDD planning to a functioning demo, all crafted
+							solo.</p>
+					</div>
+				</article>
+
+				<article class="work">
+					<div class="work-cover">
+						<img src="images/resume/oneiros.jpg" alt="Oneiros" />
+					</div>
+					<div class="work-body">
+						<div class="work-title">
+							<h4>Oneiros</h4>
+							<span class="work-status">Delivered · Client</span>
+						</div>
+						<span class="meta">Client Project · XR · Meta Quest</span>
+						<p>An XR eyewear showroom where every frame is a real object: pick one up, inspect it from any
+							angle, pinch to scale, recolor to preview each finish, and snap it back with one action.</p>
+						<p class="work-role"><b>My Role</b>Senior Developer — owned the interaction design and core XR
+							systems.</p>
+					</div>
+				</article>
+
+				<a class="work" href="https://store.steampowered.com/app/3630900/Snatch/" target="_blank" rel="noopener">
+					<div class="work-cover">
+						<img src="images/resume/snatch.jpg" alt="Snatch" />
+					</div>
+					<div class="work-body">
+						<div class="work-title">
+							<h4>Snatch</h4>
+							<span class="work-status">Coming Soon · Steam</span>
+						</div>
+						<span class="meta">Re-Vision · Unity · Competitive Arcade</span>
+						<p>Pong reinvented — speed, a wild arsenal of abilities, and cunning AI rivals. Quick, punchy
+							matches in 1v1 duels or 1v3 chaos, built so one more round turns into ten.</p>
+						<p class="work-role"><b>My Role</b>Senior Developer — gameplay and systems programming through
+							to the Steam build.</p>
+					</div>
+				</a>
+
+			</div>
+		</section>
+
+		<div class="sheet-foot">
+			<span>Syed Saadan Kaleem · Resume</span>
+			<a href="https://syedsaadankaleem.github.io">syedsaadankaleem.github.io</a>
+			<span>Page 3 / 4</span>
+		</div>
+	</div>
+
+	<!-- ============================ PAGE 4 ============================ -->
+	<div class="sheet">
+
+		<div class="head-mini">
+			<div class="nm"><span class="accent">Saadan</span> Kaleem</div>
+			<div class="pg">Shipped Titles · Ventures</div>
+		</div>
+
+		<section>
+			<h2>Also Shipped</h2>
+			<p class="section-note">Unity Developer · Cobweb Games · Six titles launched on Google Play</p>
+			<div class="mini-grid">
+
+				<a class="mini" href="https://play.google.com/store/apps/details?id=com.CobwebGames.CastleInvader" target="_blank" rel="noopener">
+					<img src="images/resume/castle-invader.jpg" alt="Castle Invader" />
+					<div class="mini-body">
+						<h5>Castle Invader</h5>
+						<p>Red Light, Green Light in a cartoon castle — move on green, freeze on red, one mistimed step
+							ends the run.</p>
+					</div>
+				</a>
+
+				<a class="mini" href="https://play.google.com/store/apps/details?id=com.CobwebGames.PenguinPinnacle" target="_blank" rel="noopener">
+					<img src="images/resume/penguin-pinnacle.jpg" alt="Penguin Pinnacle" />
+					<div class="mini-body">
+						<h5>Penguin Pinnacle</h5>
+						<p>A 2D platformer across four distinct worlds of obstacles, enemies, power-ups, and hidden
+							secrets.</p>
+					</div>
+				</a>
+
+				<a class="mini" href="https://play.google.com/store/apps/details?id=com.CobwebGames.SwiftBeat" target="_blank" rel="noopener">
+					<img src="images/resume/swift-beat.jpg" alt="Swift Beat" />
+					<div class="mini-body">
+						<h5>Swift Beat</h5>
+						<p>Rhythm platformer — guide a ball through hurdles in sync with the beat of each track.</p>
+					</div>
+				</a>
+
+				<a class="mini" href="https://play.google.com/store/apps/details?id=com.CobwebGames.SlimeysAdventure" target="_blank" rel="noopener">
+					<img src="images/resume/slimey-adventure.jpg" alt="Slimey Adventure" />
+					<div class="mini-body">
+						<h5>Slimey Adventure</h5>
+						<p>A Flappy-inspired endless runner that swaps pipes for enemies and power-ups.</p>
+					</div>
+				</a>
+
+				<a class="mini" href="https://play.google.com/store/apps/details?id=com.CobwebGames.EggiPeggi" target="_blank" rel="noopener">
+					<img src="images/resume/eggi-peggi.jpg" alt="Eggi Peggi" />
+					<div class="mini-body">
+						<h5>Eggi Peggi</h5>
+						<p>Keep a fragile egg airborne by bouncing it off a determined chicken's head — endless, and
+							score-chasing.</p>
+					</div>
+				</a>
+
+				<a class="mini" href="https://play.google.com/store/apps/details?id=com.CobwebGames.MeteorChase" target="_blank" rel="noopener">
+					<img src="images/resume/meteor-chase.jpg" alt="Meteor Chase" />
+					<div class="mini-body">
+						<h5>Meteor Chase</h5>
+						<p>An astronaut dodging meteors across a Tic-Tac-Toe arena, built around reflexes and quick
+							thinking.</p>
+					</div>
+				</a>
+
+			</div>
+		</section>
+
+
+		<section>
+			<h2>Ventures</h2>
+			<div class="pair">
+				<div class="card">
+					<h4>Pixel Dreams Studio</h4>
+					<span class="meta">Co-founder · 2025—Present · Games, XR &amp; Interactive</span>
+					<p>Independent studio building premium games, XR applications, and interactive experiences in Unity
+						and Unreal Engine.</p>
+					<a href="https://pixeldreams.studio/">pixeldreams.studio →</a>
+				</div>
+				<div class="card">
+					<h4>Designfull</h4>
+					<span class="meta">Co-founder &amp; CTO · 2023—2026 · Web, Mobile &amp; Interactive</span>
+					<p>Product studio delivering web, mobile, and interactive builds across a multi-industry client
+						roster.</p>
+				</div>
+			</div>
+		</section>
+
+		<div class="sheet-foot">
+			<span>Syed Saadan Kaleem · Resume</span>
+			<a href="mailto:SyedSaadanKaleem@gmail.com">SyedSaadanKaleem@gmail.com</a>
+			<span>Page 4 / 4</span>
+		</div>
+	</div>
+
+	<a class="no-print" href="Syed-Saadan-Kaleem-Resume.pdf" download>
+		<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+			stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+			<polyline points="7 10 12 15 17 10" />
+			<line x1="12" y1="15" x2="12" y2="3" />
+		</svg>
+		Download PDF
+	</a>
+</body>
+
+</html>

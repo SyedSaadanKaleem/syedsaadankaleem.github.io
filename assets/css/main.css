@@ -6286,6 +6286,11 @@ margin-top: -2em;}
 			margin-right: 0;
 		}
 
+		.vg-hero__resume {
+			gap: 0.6em;
+		}
+
+
 		.vg-hero__cta {
 			display: inline-flex;
 			align-items: center;
