@@ -8301,3 +8301,9 @@ margin-top: -2em;}
 		margin-top: 0.35rem;
 	}
 }
+
+
+/* === Right sidebar: resume link, set apart from the socials === */
+#rightSidebar .list .list-item--resume {
+	margin-top: 42px;
+}
