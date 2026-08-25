@@ -634,25 +634,75 @@
 			}
 		}
 
-		/* ---------- Screen-only: scale the sheets up on bigger displays ----------
-		   print is untouched, the paper is still A4 ---------- */
+		/* ---------- Screen-only: the page never reflows, it only scales.
+		   Ordered ascending so the largest matching step wins.
+		   Print is untouched: the paper stays A4. ---------- */
+
+		.pages {
+			zoom: .33;
+		}
+
+		@media screen and (min-width: 360px) {
+			.pages {
+				zoom: 0.4;
+			}
+		}
+
+		@media screen and (min-width: 430px) {
+			.pages {
+				zoom: 0.48;
+			}
+		}
+
+		@media screen and (min-width: 520px) {
+			.pages {
+				zoom: 0.58;
+			}
+		}
+
+		@media screen and (min-width: 620px) {
+			.pages {
+				zoom: 0.7;
+			}
+		}
+
+		@media screen and (min-width: 720px) {
+			.pages {
+				zoom: 0.82;
+			}
+		}
+
+		@media screen and (min-width: 820px) {
+			.pages {
+				zoom: 0.92;
+			}
+		}
+
+		@media screen and (min-width: 900px) {
+			.pages {
+				zoom: 1.0;
+			}
+		}
+
 		@media screen and (min-width: 1100px) {
-			body {
+			.pages {
 				zoom: 1.15;
 			}
 		}
 
 		@media screen and (min-width: 1400px) {
-			body {
+			.pages {
 				zoom: 1.35;
 			}
 		}
 
 		@media screen and (min-width: 1700px) {
-			body {
+			.pages {
 				zoom: 1.55;
 			}
 		}
+
+
 
 		/* ---------- Screen-only download button ---------- */
 		.no-print {
@@ -666,10 +716,10 @@
 			padding: 12px 20px;
 			background: var(--accent-deep);
 			color: #fff;
-			font-family: var(--display);
-			font-size: 13px;
-			font-weight: 600;
-			letter-spacing: .08em;
+			font-family: var(--body);
+			font-size: 13.2px;
+			font-weight: 100;
+			letter-spacing: .25em;
 			text-transform: uppercase;
 			text-decoration: none;
 			border-radius: .35em;
@@ -684,43 +734,29 @@
 			background: #721717;
 		}
 
-		@media screen and (max-width: 880px) {
-			.sheet {
-				width: auto;
-				height: auto;
-				margin: 0 0 6mm;
-				padding: 9mm 7mm;
+		/* the button is chrome, not the page - keep it in proportion on phones */
+		@media screen and (max-width: 620px) {
+			.no-print {
+				right: 12px;
+				bottom: 12px;
+				gap: 6px;
+				padding: 9px 14px;
+				font-size: 11px;
+				letter-spacing: .18em;
 			}
 
-			.two-up,
-			.pair,
-			.work-grid,
-			.mini-grid,
-			.steps,
-			.stat-strip {
-				grid-template-columns: 1fr;
-				gap: 6mm;
-			}
-
-			.head {
-				flex-direction: column;
-				align-items: flex-start;
-				gap: 5mm;
-			}
-
-			.contact {
-				text-align: left;
-			}
-
-			.sheet-foot {
-				position: static;
-				margin-top: 8mm;
+			.no-print svg {
+				width: 12px;
+				height: 12px;
 			}
 		}
+
 	</style>
 </head>
 
 <body>
+
+	<div class="pages">
 
 	<!-- ============================ PAGE 1 ============================ -->
 	<div class="sheet">
@@ -1122,6 +1158,8 @@
 		</div>
 	</div>
 
+	</div>
+
 	<a class="no-print" href="Syed-Saadan-Kaleem-Resume.pdf" download>
 		<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
 			stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1129,7 +1167,7 @@
 			<polyline points="7 10 12 15 17 10" />
 			<line x1="12" y1="15" x2="12" y2="3" />
 		</svg>
-		Download PDF
+		Download
 	</a>
 </body>
 
