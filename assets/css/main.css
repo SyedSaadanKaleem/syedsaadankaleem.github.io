@@ -8897,6 +8897,13 @@ margin-top: -2em;}
   --span: calc(1 / var(--n));
   min-height: 0;
   overflow: hidden;
+  /* .hl-slide carries a 56px bottom margin - it is what spaces the deck's slides
+     down the page. Here every beat shares one grid cell, so that margin made each
+     one's margin box 56px taller than the cell and place-items: center lifted it
+     by half: every beat sat 28px above the pin, which on a phone put slide two's
+     eyebrow off the top of the screen. It also made panel-relative overflow
+     checks read clean while content was genuinely cut. */
+  margin-bottom: 0;
   /* Grid items refuse to shrink past min-content by default, which was pushing
      the work beats 32px wider than the stage and letting the pin clip them. */
   max-width: 100%;
@@ -9020,18 +9027,18 @@ margin-top: -2em;}
   max-width: 46rem;
 }
 
-/* A short phone cannot hold this beat at the standing rhythm. At 667 the stats
-   row finished 89px past the bottom, which on a phone is behind the nav bar -
-   the 112px the content reserves at the bottom is exactly that bar, so the room
-   has to come off the top instead. 12vh of panel plus 8vh of content is 133px
-   of lead-in at 667; this makes it 40 and buys back 93. The opening move is
+/* A phone cannot hold this beat at the standing rhythm, whatever its height. The
+   nav bar is fixed over the last 100px of the screen and the content reserves
+   112px for it, but when the beat is taller than the pin that reservation is
+   what gets clipped, so the copy ends up under the bar. The room has to come off
+   the top instead: 162px of lead-in at 375x812 becomes 40. The opening move is
    measured, not computed, so it re-centres on the new padding by itself. */
-@media (max-height: 700px) {
-  #reel .reel-panel--title {
+@media (max-height: 700px), (max-width: 720px) {
+  #reel .reel-panel--intro {
     padding-top: clamp(1rem, 3vh, 2.5rem);
   }
 
-  #reel .reel-panel--title .hl-slide-content {
+  #reel .reel-panel--intro .hl-slide-content {
     padding-top: clamp(1rem, 3vh, 2.5rem);
   }
 }
@@ -9111,6 +9118,71 @@ margin-top: -2em;}
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.4rem, 3vh, 2.4rem) clamp(1.5rem, 3vw, 3rem);
   align-self: center;
+}
+
+/* ===========================================================================
+   SLIDE TWO - COLLABORATIONS
+
+   The copy moved into the left track in the markup; it used to sit inside the
+   aside, which left the 1.3fr column empty and squeezed the photo and the four
+   logos into the 1fr one. Here the wide track is the wrong way round: the copy
+   is an eyebrow and one short line, and the media is the thing worth the room,
+   so the ratio is flipped. Only where there are two tracks - below 721 the grid
+   is a single column and must stay that way. */
+@media (min-width: 721px) {
+  #reel .reel-panel--collab .intro2-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  }
+}
+
+/* The photo is capped at 340px by design, so everything the aside gains beyond
+   that goes to the logo column beside it. That is the point at 1024, where the
+   logos were down to about 45px, but past ~1450 it turns into four very wide
+   boxes around 3rem of artwork. Cap the aside at the measure the rest of the
+   page uses and let the track keep the slack. */
+#reel .reel-panel--collab .intro2-collab {
+  max-width: 46rem;
+}
+
+/* A short screen cannot take the photo at full height. The card is
+   width-constrained and the image keeps its own ratio, so tying the width to
+   the viewport's height scales the whole thing down in proportion - no cropping
+   a photo of someone being handed an award. */
+@media (max-height: 700px) and (min-width: 721px) {
+  #reel .reel-panel--collab .intro2-photo-card {
+    max-width: min(100%, 44vh);
+  }
+}
+
+/* Stacked at any height, the photo has to leave room for the heading above it
+   and the logos below. At 375x812 - an ordinary phone, not a small one - the
+   full-column photo put it 10px over, and 32vh is what also gets the last logo
+   row out from under the nav bar. Ordered before the short-screen rule below,
+   which is the same specificity and tightens this further. */
+@media (max-width: 720px) {
+  #reel .reel-panel--collab .intro2-photo-card {
+    max-width: min(100%, 32vh);
+  }
+}
+
+/* Stacked AND short is the tight one: the heading, the photo, its caption and a
+   2x2 of logos all in one column, with 112px of it already reserved for the nav
+   bar. At 667 that ran 99px off the TOP - the panel centres, so an overlong
+   slide loses its opening, not its end, which is why a bottom-edge check said it
+   was fine and the heading was gone. 535px of room for 751px of content; this
+   takes the photo to 29vh and halves the logo padding to get inside it. */
+@media (max-height: 700px) and (max-width: 720px) {
+  #reel .reel-panel--collab .intro2-photo-card {
+    max-width: min(100%, 26vh);
+  }
+
+  #reel .reel-panel--collab .intro2-media-row .intro2-logo {
+    padding: 0.55rem 0.7rem;
+  }
+
+  #reel .reel-panel--collab .intro2-media-row .intro2-logo img {
+    max-height: 2rem;
+  }
 }
 
 /* No script / reduced motion: everything at rest. */
