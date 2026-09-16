@@ -8849,6 +8849,8 @@ margin-top: -2em;}
   --p: 0;
   --n: 18;
   position: relative;
+  /* Same rule the other sections carry. */
+  border-top: 3px solid #ee2b2b;
   z-index: 3;
   height: calc(100vh + var(--n) * 32vh);
   background: #0b0b0b;
@@ -8879,13 +8881,23 @@ margin-top: -2em;}
 
 #reel .reel-stage {
   display: grid;
+  /* All 18 beats share one cell. Without an explicit track the column is sized
+     by the widest beat's min-content, which ran 32px past the stage and shifted
+     every other beat right along with it. */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   height: 100%;
-  padding: 0 clamp(1.5rem, 6vw, 6rem);
+  /* Bottom padding clears the playhead and the fixed bottom nav. */
+  padding: clamp(2rem, 6vh, 4rem) clamp(1.5rem, 6vw, 6rem) clamp(7rem, 16vh, 9rem);
 }
 
 #reel .reel-panel {
   --span: calc(1 / var(--n));
+  /* Grid items refuse to shrink past min-content by default, which was pushing
+     the work beats 32px wider than the stage and letting the pin clip them. */
+  max-width: 100%;
+  min-width: 0;
+  justify-self: stretch;
   --tp: clamp(0, calc((var(--p) - var(--i) * var(--span)) / var(--span)), 1);
   --in: clamp(0, calc(var(--tp) / 0.3), 1);
   --out: clamp(0, calc((var(--tp) - 0.7) / 0.3), 1);
@@ -8928,21 +8940,67 @@ margin-top: -2em;}
    has to be restated, because that selector needs a .hl-slide. */
 #reel .reel-panel--work {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(320px, 42vw, 720px);
-  grid-template-rows: 1fr;
-  gap: clamp(1.5rem, 3.5vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) clamp(280px, 36vw, 600px);
+  grid-template-rows: auto;
+  gap: clamp(2rem, 5vw, 5.5rem);
   align-items: center;
-  width: min(78rem, 100%);
+  width: min(76rem, 100%);
   text-align: left;
 }
 
+/* Column 1, NOT 1 / -1. The deck spans its content across both columns and lets
+   the card sit on top at z-index 2 - that overlap is deliberate up there, but
+   here it just ran the title under the card with no gutter. Confining the
+   content to its own column makes the grid gap do the spacing. */
 #reel .reel-panel--work .hl-slide-content {
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 1;
   align-self: center;
-  max-width: min(34rem, 60%);
+  max-width: none;
   min-width: 0;
   padding: 0;
+}
+
+/* minmax(0, 1fr) lets the column shrink, so the title wraps instead of pushing
+   out of its track. */
+#reel .reel-panel--work .hl-slide-title {
+  margin-bottom: 0.4rem;
+  overflow-wrap: break-word;
+}
+
+#reel .reel-panel--work .hl-slide-sub { margin-bottom: 1.1rem; }
+#reel .reel-panel--work .hl-slide-desc { margin-bottom: 2rem; max-width: 34rem; }
+#reel .reel-panel--work .hl-tag { margin-bottom: 1.2rem; }
+
+/* Two columns need roughly 900px before the text track starts being crushed -
+   below that it collapsed to 15px and set the title one letter per line, 456px
+   tall, overflowing the pinned viewport. Stack instead: card first, copy under. */
+@media (max-width: 900px) {
+  #reel .reel-panel--work {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: clamp(1.2rem, 3.5vh, 2rem);
+    width: 100%;
+  }
+
+  /* .reel-panel doubled in to outrank the base rule below, which declares
+     grid-column: 2 at the same specificity and later in the file. */
+  #reel .reel-panel.reel-panel--work .hl-slide-bg {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  #reel .reel-panel.reel-panel--work .hl-slide-content {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #reel .reel-panel--work .hl-slide-title { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+  #reel .reel-panel--work .hl-slide-desc { margin-bottom: 1.2rem; max-width: none; }
+  #reel .reel-panel--work .hl-slide-sub { margin-bottom: 0.7rem; }
+  #reel .reel-panel--work .hl-tag { margin-bottom: 0.8rem; }
 }
 
 /* The deck's cards take their height from children the slider script injects
@@ -9067,25 +9125,6 @@ margin-top: -2em;}
   white-space: nowrap;
 }
 
-/* --- the playhead ------------------------------------------------------------ */
-#reel .reel-rail {
-  position: absolute;
-  left: clamp(1.5rem, 6vw, 6rem);
-  right: clamp(1.5rem, 6vw, 6rem);
-  /* Clear of #navigationDivContainer, which is fixed to the bottom. */
-  bottom: clamp(5.5rem, 13vh, 7.5rem);
-  height: 2px;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-#reel .reel-rail-fill {
-  display: block;
-  height: 100%;
-  background: #ee2b2b;
-  transform: scaleX(var(--p));
-  transform-origin: 0 50%;
-}
-
 /* Reduced motion / no script: no sequence, just every beat stacked and readable.
    index.html adds .reel-static and never writes --p. */
 #page-wrapper > section#reel.reel-static {
@@ -9105,4 +9144,3 @@ margin-top: -2em;}
   pointer-events: auto;
 }
 
-#reel.reel-static .reel-rail { display: none; }
