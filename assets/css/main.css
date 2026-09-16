@@ -8954,6 +8954,27 @@ margin-top: -2em;}
   text-align: left;
 }
 
+/* Opening title card: nothing else is on the slide, so the heading takes the
+   site's hero scale rather than the intro's in-column one. Both already exist -
+   .vg-hero__title is clamp(2.8rem, 8vw, 7rem), .intro2-title is
+   clamp(2rem, 4.4vw, 3.8rem) - and a full-slide title belongs nearer the former. */
+#reel .reel-panel--title .intro2-title {
+  font-size: clamp(2.4rem, 6.4vw, 5.6rem);
+  margin-bottom: 0;
+}
+
+/* There is no collaborations aside on this slide, so the grid must not keep
+   reserving its second column - and .intro2's 46rem cap does not apply to a
+   heading that is the whole slide. Both were breaking the title onto a third
+   line. */
+#reel .reel-panel--title .intro2-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#reel .reel-panel--title .intro2 {
+  max-width: none;
+}
+
 /* .hl-slide paints its own glow from its --slide-glow pair, which each beat
    carries inline - so the pin no longer needs a gradient or a palette handed up
    to it from JS. */
