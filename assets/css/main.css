@@ -8980,6 +8980,13 @@ margin-top: -2em;}
      pad plus the content's, which is why it is not simply 50vh. Clamped so a
      short viewport cannot drive it negative. */
   --rise: clamp(0px, calc(27vh - 41px - 50%), 40vh);
+
+  /* Three slots instead of one. The sub-timeline has five phases to get
+     through and one slot was about three notches of the wheel, so they landed
+     on top of each other. --i in the markup skips from 0 to 3 to match, and
+     everything inside is a fraction of --tp, so the whole sequence stretches
+     with it rather than needing retiming. */
+  --span: calc(3 / var(--n));
   align-items: flex-start;
   padding-top: clamp(4rem, 12vh, 9rem);
   /* The sub-timeline is the entrance, so the panel skips its own --in envelope
