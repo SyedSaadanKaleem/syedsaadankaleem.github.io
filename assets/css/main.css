@@ -8320,10 +8320,6 @@ margin-top: -2em;}
   opacity: 1 !important;
   transform: none !important;
 }
-.hl-slide {
-  --enter: 1 !important;
-  --exit: 0 !important;
-}
 .chess-divider img {
   transform: none !important;
 }
@@ -8758,6 +8754,62 @@ margin-top: -2em;}
   }
 
   .cursor::after {
+    transition: none !important;
+  }
+}
+
+/* ===========================================================================
+   INTRO SLIDE SEQUENCE
+
+   Slide 0 has no .hl-slide-bg and no .hl-slide-title, so the deck's own
+   choreography gives it only the whole-block drift its .hl-slide-content gets.
+   These are its 18 pieces landing in reading order.
+
+   NOT driven off --enter: slide 0 is the first slide, so it is already in place
+   when the deck starts and its --enter sits pinned at 1.00 the whole way down.
+   Measured - only --exit ever ramps for it. The site's own .fade-on-scroll
+   observer is still running, so these ride that instead: no new script, and a
+   transition-delay stagger costs nothing per frame where reading a scrubbed
+   variable on 18 children would have cost a style recalc on every one.
+
+   Scoped to #introTittle (1,1,0) so it outranks the NO MOTION block's
+   .fade-on-scroll pin (0,2,0) without unfreezing the other 32 site-wide.
+   =========================================================================== */
+#introTittle .intro-fx {
+  opacity: 0 !important;
+  transform: translateY(1.1rem) !important;
+  transition:
+    opacity 520ms var(--ease-out),
+    transform 520ms var(--ease-out) !important;
+}
+
+#introTittle .intro-fx.is-in {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+#introTittle .intro2-eyebrow { transition-delay: 20ms !important; }
+#introTittle .intro2-title { transition-delay: 90ms !important; }
+#introTittle .intro2-lead { transition-delay: 170ms !important; }
+
+#introTittle .intro2-stat:nth-child(1) { transition-delay: 250ms !important; }
+#introTittle .intro2-stat:nth-child(2) { transition-delay: 300ms !important; }
+#introTittle .intro2-stat:nth-child(3) { transition-delay: 350ms !important; }
+#introTittle .intro2-stat:nth-child(4) { transition-delay: 400ms !important; }
+
+#introTittle .intro2-collab-title { transition-delay: 210ms !important; }
+#introTittle .intro2-photo-card { transition-delay: 260ms !important; }
+
+#introTittle .intro2-logo:nth-child(1) { transition-delay: 330ms !important; }
+#introTittle .intro2-logo:nth-child(2) { transition-delay: 375ms !important; }
+#introTittle .intro2-logo:nth-child(3) { transition-delay: 420ms !important; }
+#introTittle .intro2-logo:nth-child(4) { transition-delay: 465ms !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  #introTittle .intro-fx,
+  #introTittle .intro-fx.is-in {
+    opacity: 1 !important;
+    transform: none !important;
     transition: none !important;
   }
 }

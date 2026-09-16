@@ -223,7 +223,7 @@
 					<div class="hl-slide-content">
 						<div class="intro2-grid">
 							<div class="intro2">
-								<div class="intro2-eyebrow">
+								<div class="intro2-eyebrow intro-fx">
 									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
 										stroke="currentColor" stroke-width="2" stroke-linecap="round"
 										stroke-linejoin="round">
@@ -235,41 +235,41 @@
 									</svg>
 									<span>Who I Am</span>
 								</div>
-								<h2 class="intro2-title"><span>Crafting worlds</span><span>worth <span
+								<h2 class="intro2-title intro-fx"><span>Crafting worlds</span><span>worth <span
 											class="vg-accent">playing.</span></span></h2>
-								<p class="intro2-lead">I’m a game developer, technical leader, and creative entrepreneur
+								<p class="intro2-lead intro-fx">I’m a game developer, technical leader, and creative entrepreneur
 									specializing in immersive games and interactive experiences. As Co-founder &amp; CTO
 									of <strong style="color: #ee2b2b;">Designfull</strong> and Co-founder of <strong style="color: #ee2b2b;">Pixel Dreams Studio</strong>, I pair engineering with
 									creative vision shipping products with innovative gameplay, striking visuals, and
 									polished experiences. Since 2019 in the industry and 2021 in games, I’ve worked on
 									10+ games and launched 7 titles on Google Play.</p>
 								<div class="intro2-stats">
-									<div class="intro2-stat">
+									<div class="intro2-stat intro-fx">
 										<div class="intro2-stat-num">7</div>
 										<div class="intro2-stat-label">Games Live</div>
 									</div>
-									<div class="intro2-stat">
+									<div class="intro2-stat intro-fx">
 										<div class="intro2-stat-num">2</div>
 										<div class="intro2-stat-label">In Development</div>
 									</div>
-									<div class="intro2-stat">
+									<div class="intro2-stat intro-fx">
 										<div class="intro2-stat-num">6+</div>
 										<div class="intro2-stat-label">Years Building</div>
 									</div>
-									<div class="intro2-stat">
+									<div class="intro2-stat intro-fx">
 										<div class="intro2-stat-num">2</div>
 										<div class="intro2-stat-label">Studios Founded</div>
 									</div>
 								</div>
 								<div class="intro2-logos intro2-logos--left">
-									<div class="intro2-logo"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
-									<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
-									<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-									<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
+									<div class="intro2-logo intro-fx"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
+									<div class="intro2-logo intro-fx"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
+									<div class="intro2-logo intro-fx"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
+									<div class="intro2-logo intro-fx"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
 								</div>
 							</div>
 							<aside class="intro2-collab">
-								<div class="intro2-eyebrow">
+								<div class="intro2-eyebrow intro-fx">
 									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
 										stroke="currentColor" stroke-width="2" stroke-linecap="round"
 										stroke-linejoin="round">
@@ -279,20 +279,20 @@
 									</svg>
 									<span>Collaborations</span>
 								</div>
-								<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
+								<h3 class="intro2-collab-title intro-fx">A few names that let me play in their sandbox</h3>
 								<div class="intro2-media-row">
-									<figure class="intro2-photo-card">
+									<figure class="intro2-photo-card intro-fx">
 										<img src="images/CEGA Summit Award.jpeg"
 											alt="Receiving the Future Play Investor Summit award for Pixel Dream Studios" />
 										<figcaption>Future Play Investor Summit ’26 · Award · CEGA</figcaption>
 									</figure>
 									<div class="intro2-logos">
-										<div class="intro2-logo"><img src="./logos/CanvasDigital.svg"
+										<div class="intro2-logo intro-fx"><img src="./logos/CanvasDigital.svg"
 												alt="Canvas Digital" /></div>
-										<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg"
+										<div class="intro2-logo intro-fx"><img src="./logos/Khareed-o-Mobile.svg"
 												alt="Khareed-o-Mobile" /></div>
-										<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-										<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
+										<div class="intro2-logo intro-fx"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
+										<div class="intro2-logo intro-fx"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
 									</div>
 								</div>
 							</aside>
@@ -1190,6 +1190,27 @@
 			}
 		})();
 	</script>
+
+	<script>
+		// Intro slide reveal. Deliberately NOT the site's .fade-on-scroll observer:
+		// that one un-reveals anything scrolling above the fold, and this slide is
+		// pinned, so its copy would land and then fade back out while still on
+		// screen. One-way - once a piece is in, it stays in.
+		(function () {
+			var els = document.querySelectorAll('#introTittle .intro-fx');
+			if (!els.length) return;
+			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			var io = new IntersectionObserver(function (entries) {
+				entries.forEach(function (e) {
+					if (!e.isIntersecting) return;
+					e.target.classList.add('is-in');
+					io.unobserve(e.target);
+				});
+			}, { threshold: 0.2 });
+			els.forEach(function (el) { io.observe(el); });
+		})();
+	</script>
+
 
 	<div id="videoModal">
 		<div class="modal-content">
