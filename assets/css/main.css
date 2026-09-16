@@ -8898,7 +8898,9 @@ margin-top: -2em;}
      the work beats 32px wider than the stage and letting the pin clip them. */
   max-width: 100%;
   min-width: 0;
-  justify-self: stretch;
+  /* NOT stretch: these carry an explicit width, so stretch left-aligns them in
+     the track and the intro beats sat 176px off centre. */
+  justify-self: center;
   --tp: clamp(0, calc((var(--p) - var(--i) * var(--span)) / var(--span)), 1);
   --in: clamp(0, calc(var(--tp) / 0.3), 1);
   --out: clamp(0, calc((var(--tp) - 0.7) / 0.3), 1);
@@ -8990,6 +8992,9 @@ margin-top: -2em;}
     grid-column: 1;
     grid-row: 1;
     width: 100%;
+  }
+
+  #reel .reel-panel.reel-panel--work .hl-gc-banner {
     aspect-ratio: 16 / 10;
     background-size: cover;
     background-position: center;
@@ -9018,6 +9023,13 @@ margin-top: -2em;}
   grid-row: 1;
   align-self: center;
   margin-bottom: 0;
+  justify-self: end;
+  width: 100%;
+}
+
+/* The banner carries the ratio now that the card also holds a foot. cover and
+   center are declared because stock only sets them under max-width: 1280px. */
+#reel .reel-panel--work .hl-gc-banner {
   aspect-ratio: 16 / 10;
   background-size: cover;
   background-position: center;
