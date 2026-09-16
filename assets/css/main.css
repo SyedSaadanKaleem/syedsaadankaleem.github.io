@@ -8854,11 +8854,27 @@ margin-top: -2em;}
   background: #0b0b0b;
 }
 
+/* Same glow stack the deck slides use, driven by the same script (index.html
+   now queries '.hl-slide, #reel .reel-pin'), so the pointer pushes the two
+   lights around in here exactly as it does up there. Per-beat --slide-glow /
+   --slide-glow-2 come off each work panel. */
 #reel .reel-pin {
   position: sticky;
   top: 0;
   height: 100vh;
   overflow: hidden;
+  background:
+    radial-gradient(calc(120% * var(--g1sx, 1)) calc(90% * var(--g1sy, 1)) at var(--g1x, 15%) var(--g1y, 20%),
+      color-mix(in srgb, var(--slide-glow, rgba(238, 43, 43, 0.18)) var(--g1b, 100%), transparent), transparent 60%),
+    radial-gradient(calc(110% * var(--g2sx, 1)) calc(80% * var(--g2sy, 1)) at var(--g2x, 85%) var(--g2y, 100%),
+      color-mix(in srgb, var(--slide-glow-2, var(--slide-glow, rgba(238, 43, 43, 0.18))) var(--g2b, 100%), transparent), transparent 60%),
+    #0b0b0b;
+}
+
+/* The active beat publishes its colours to the pin, so the glow takes on each
+   game's palette as it comes through. */
+#reel .reel-panel.is-live {
+  --live-glow: 1;
 }
 
 #reel .reel-stage {
@@ -8905,8 +8921,39 @@ margin-top: -2em;}
   font-size: clamp(2rem, 4.4vw, 3.8rem);
 }
 
-#reel .reel-panel--work .reel-h {
-  font-size: clamp(2.4rem, 7vw, 5.6rem);
+/* Work beats reuse the deck's own card: .hl-slide-bg, .hl-tag, .hl-slide-title,
+   .hl-slide-sub, .hl-slide-desc, .hl-slide-actions and .hl-btn are all declared
+   unscoped in this file, so the card is the same object here as up there rather
+   than a lookalike. Only the grid that .hl-slide:has(> .hl-slide-bg) provides
+   has to be restated, because that selector needs a .hl-slide. */
+#reel .reel-panel--work {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(320px, 42vw, 720px);
+  grid-template-rows: 1fr;
+  gap: clamp(1.5rem, 3.5vw, 4rem);
+  align-items: center;
+  width: min(78rem, 100%);
+  text-align: left;
+}
+
+#reel .reel-panel--work .hl-slide-content {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-self: center;
+  max-width: min(34rem, 60%);
+  min-width: 0;
+  padding: 0;
+}
+
+/* The deck's cards take their height from children the slider script injects
+   into them (logo, name, meta). These are the bare banner, so they need a ratio
+   of their own or they collapse to 2px. */
+#reel .reel-panel--work .hl-slide-bg {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin-bottom: 0;
+  aspect-ratio: 16 / 9;
 }
 
 /* .vg-accent is only ever declared scoped (.vg-hero__title .vg-accent,
