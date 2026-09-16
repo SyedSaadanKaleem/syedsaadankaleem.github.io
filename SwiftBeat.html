@@ -668,7 +668,7 @@
 				release();
 				navUntil = performance.now() + 1600;
 				history.replaceState(null, '', a.getAttribute('href'));
-				window.scrollTo({ top: staticTopOf(sec), behavior: 'smooth' });
+				window.scrollTo({ top: staticTopOf(sec), behavior: 'auto' });
 			});
 		})();
 	</script>

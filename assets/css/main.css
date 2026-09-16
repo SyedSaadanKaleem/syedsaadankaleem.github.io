@@ -8307,3 +8307,257 @@ margin-top: -2em;}
 #rightSidebar .list .list-item--resume {
 	margin-top: 42px;
 }
+
+/* === NO MOTION (hero-rework baseline): every transition/animation off; reveals, hero, deck and parallax at rest === */
+*, *::before, *::after {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+.fade-on-scroll,
+.fade-on-scroll.is-visible,
+.fade-on-scroll.is-leaving {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.hl-slide {
+  --enter: 1 !important;
+  --exit: 0 !important;
+}
+.chess-divider img {
+  transform: none !important;
+}
+.cursor.ring {
+  width: 30px !important;
+  height: 30px !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+/* ===========================================================================
+   HERO MOTION — the one deliberate motion on this branch.
+
+   .hero-in  : the name plate packs shut right-to-left, ignites red, then the
+               frame assembles around it in the same direction.
+   .hero-out : the whole thing un-builds, fastest part first, name last, and
+               stays put (fill: forwards) until it is re-entered.
+
+   Both classes are driven from index.html. The hero is position:sticky, so it
+   never leaves the viewport geometrically; scroll position against its own
+   height is the only honest measure of whether it is on screen.
+
+   Curve hierarchy: the playful back-curve belongs to the name letters on the
+   way IN and nothing else. Supporting parts use the clean ease-out, and the
+   exit never overshoots — a bounce on the way out reads as indecision.
+   =========================================================================== */
+
+#header.vg-hero {
+  --hero-ease: cubic-bezier(0.23, 1, 0.32, 1);    /* strong ease-out (motion catalog) */
+  --hero-back: cubic-bezier(0.34, 1.56, 0.64, 1); /* easeOutBack (easings.net) */
+  --hero-t0: 260ms;                               /* loader fades 400ms; start under the thinning veil */
+  --hs: 1;                                        /* entrance speed; .hero-replay drops it to 0.65 */
+}
+
+/* --- entrance keyframes --------------------------------------------------- */
+@keyframes vgLetterLock {
+  from {
+    transform:
+      translate3d(calc(0.1em + var(--i) * 0.15em), 0.14em, 0)
+      rotate(calc(-4deg - var(--i) * 1.1deg));
+  }
+}
+
+@keyframes vgHeroInk {
+  from { opacity: 0; }
+}
+
+@keyframes vgAccentIgnite {
+  from { color: #fff; }
+}
+
+@keyframes vgHeroIn {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--fx, 0.9rem), 0, 0);
+  }
+}
+
+@keyframes vgBoltIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0.6rem, 0, 0) rotate(-15deg);
+  }
+}
+
+@keyframes vgBloom {
+  from { color: rgba(255, 255, 255, 0.72); }
+}
+
+/* --- exit keyframes: back the way they came, smaller and quicker ---------- */
+@keyframes vgLetterOut {
+  to {
+    opacity: 0;
+    transform:
+      translate3d(calc(0.05em + var(--i) * 0.08em), 0.06em, 0)
+      rotate(calc(-2deg - var(--i) * 0.5deg));
+  }
+}
+
+@keyframes vgHeroOut {
+  to {
+    opacity: 0;
+    transform: translate3d(var(--fx-out, 0.5rem), 0, 0);
+  }
+}
+
+/* Containers never animate — their children do, so transforms never compound. */
+#header.vg-hero .vg-hero__title,
+#header.vg-hero .vg-hero__eyebrow,
+#header.vg-hero .vg-hero__actions,
+#header.vg-hero .vg-hero__stats {
+  opacity: 1;
+  animation: none !important;
+}
+
+/* Letters are inline-block so they can transform; the shared entrance list
+   lives here so the accent rule can extend it rather than restate it. */
+#header.vg-hero .vg-ltr {
+  display: inline-block;
+  transform-origin: 0% 100%;
+  --d: calc((var(--lag) + var(--i) * 42ms) * var(--hs));
+  --ltr: vgLetterLock calc(620ms * var(--hs)) var(--hero-back) var(--d) backwards,
+         vgHeroInk calc(280ms * var(--hs)) var(--hero-ease) var(--d) backwards;
+}
+
+#header.vg-hero .vg-line {
+  --lag: var(--hero-t0);
+}
+
+#header.vg-hero .vg-line + .vg-line {
+  --lag: calc(var(--hero-t0) + 180ms);
+}
+
+/* ========================= ENTRANCE (.hero-in) ============================ */
+/* Every letter travels (the anchor too, via the 0.1em base), later ones travel
+   further and start later, so the word compresses right-to-left into place.
+   The tail rotates further out than the head, so it whips rather than glides. */
+#header.vg-hero.hero-in .vg-ltr {
+  animation: var(--ltr) !important;
+}
+
+/* The red runs through "Saadan" letter by letter behind the landing, rather
+   than the whole line flipping colour at once. */
+#header.vg-hero.hero-in .vg-accent .vg-ltr {
+  animation:
+    var(--ltr),
+    vgAccentIgnite calc(240ms * var(--hs)) ease calc((var(--lag) + 520ms + var(--i) * 32ms) * var(--hs)) backwards !important;
+}
+
+#header.vg-hero.hero-in .vg-hero__eyebrow svg {
+  animation: vgBoltIn calc(380ms * var(--hs)) var(--hero-ease) calc((var(--hero-t0) + 430ms) * var(--hs)) backwards !important;
+}
+
+#header.vg-hero.hero-in .vg-role {
+  animation: vgHeroIn calc(420ms * var(--hs)) var(--hero-ease) calc((var(--hero-t0) + 470ms + var(--i) * 70ms) * var(--hs)) backwards !important;
+}
+
+#header.vg-hero.hero-in .vg-hero__lead {
+  animation: vgHeroIn calc(460ms * var(--hs)) var(--hero-ease) calc((var(--hero-t0) + 640ms) * var(--hs)) backwards !important;
+}
+
+/* The two emphasised phrases bloom to white a beat after the sentence lands,
+   so the eye is walked to them instead of arriving everywhere at once. */
+#header.vg-hero.hero-in .vg-hero__lead strong {
+  animation: vgBloom calc(300ms * var(--hs)) ease calc((var(--hero-t0) + 860ms + var(--i) * 80ms) * var(--hs)) backwards !important;
+}
+
+#header.vg-hero.hero-in .vg-hero__resume {
+  animation: vgHeroIn calc(440ms * var(--hs)) var(--hero-ease) calc((var(--hero-t0) + 720ms) * var(--hs)) backwards !important;
+}
+
+#header.vg-hero.hero-in .vg-hero__badge {
+  animation: vgHeroIn calc(440ms * var(--hs)) var(--hero-ease) calc((var(--hero-t0) + 790ms) * var(--hs)) backwards !important;
+}
+
+/* Scoreboard: the three columns tally in, each number a beat ahead of its label. */
+#header.vg-hero.hero-in .vg-hero__stat-num {
+  animation: vgHeroIn calc(420ms * var(--hs)) var(--hero-ease) calc((var(--hero-t0) + 800ms + var(--i) * 60ms) * var(--hs)) backwards !important;
+}
+
+#header.vg-hero.hero-in .vg-hero__stat-label {
+  animation: vgHeroIn calc(420ms * var(--hs)) var(--hero-ease) calc((var(--hero-t0) + 840ms + var(--i) * 60ms) * var(--hs)) backwards !important;
+}
+
+/* =========================== EXIT (.hero-out) ============================= */
+/* Reverse order throughout: the parts that arrived last leave first, and the
+   name goes last so it is the final thing on screen. Roughly a third of the
+   entrance's length — nobody should wait on an exit. */
+#header.vg-hero.hero-out .vg-ltr,
+#header.vg-hero.hero-out .vg-accent .vg-ltr {
+  animation: vgLetterOut 280ms var(--hero-ease) calc(110ms + (5 - var(--i)) * 20ms) forwards !important;
+}
+
+#header.vg-hero.hero-out .vg-hero__eyebrow svg {
+  --fx-out: 0.35rem;
+  animation: vgHeroOut 260ms var(--hero-ease) 85ms forwards !important;
+}
+
+#header.vg-hero.hero-out .vg-role {
+  animation: vgHeroOut 260ms var(--hero-ease) calc(85ms + (2 - var(--i)) * 14ms) forwards !important;
+}
+
+#header.vg-hero.hero-out .vg-hero__lead {
+  animation: vgHeroOut 260ms var(--hero-ease) 60ms forwards !important;
+}
+
+#header.vg-hero.hero-out .vg-hero__resume {
+  animation: vgHeroOut 260ms var(--hero-ease) 30ms forwards !important;
+}
+
+#header.vg-hero.hero-out .vg-hero__badge {
+  animation: vgHeroOut 260ms var(--hero-ease) 55ms forwards !important;
+}
+
+#header.vg-hero.hero-out .vg-hero__stat-num,
+#header.vg-hero.hero-out .vg-hero__stat-label {
+  animation: vgHeroOut 260ms var(--hero-ease) calc((2 - var(--i)) * 16ms) forwards !important;
+}
+
+/* Per-element travel and index bookkeeping, shared by both directions. */
+#header.vg-hero .vg-role { display: inline-block; --fx: 0.8rem; --fx-out: 0.4rem; }
+#header.vg-hero .vg-hero__lead { opacity: 1; --fx: 0.9rem; --fx-out: 0.5rem; }
+#header.vg-hero .vg-hero__resume,
+#header.vg-hero .vg-hero__badge { --fx: 0.9rem; --fx-out: 0.5rem; }
+#header.vg-hero .vg-hero__stat-num,
+#header.vg-hero .vg-hero__stat-label { --fx: 0.7rem; --fx-out: 0.4rem; }
+
+#header.vg-hero .vg-hero__lead strong:nth-of-type(1) { --i: 0; }
+#header.vg-hero .vg-hero__lead strong:nth-of-type(2) { --i: 1; }
+#header.vg-hero .vg-hero__stat:nth-child(1) { --i: 0; }
+#header.vg-hero .vg-hero__stat:nth-child(2) { --i: 1; }
+#header.vg-hero .vg-hero__stat:nth-child(3) { --i: 2; }
+
+/* Every entrance after the first runs the same choreography at 65%. Watching
+   the full 1.6s version again on each scroll-to-top is a cost, not a gift. */
+#header.vg-hero.hero-replay {
+  --hs: 0.65;
+}
+
+/* Landing already scrolled past the hero must not play the exit as a show.
+   Needs (1,4,1) to outrank the accent-letter rule's (1,4,0). */
+#header.vg-hero.hero-noanim.hero-out * {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+}
+
+/* A hero entrance is pure delight with nothing to comprehend, so reduced
+   motion gets none of it rather than a gentler version. index.html also
+   refuses to add the classes at all, so the hero can never be left hidden. */
+@media (prefers-reduced-motion: reduce) {
+  #header.vg-hero.hero-in *,
+  #header.vg-hero.hero-out * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

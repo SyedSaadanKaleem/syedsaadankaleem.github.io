@@ -52,17 +52,17 @@
 							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
 						</svg>
-						<span>Game Developer · Studio Founder · Storyteller</span>
+						<span><span class="vg-role" style="--i:0">Game Developer</span><span class="vg-role" style="--i:1"> · Studio Founder</span><span class="vg-role" style="--i:2"> · Storyteller</span></span>
 					</div>
 
-					<h1 class="vg-hero__title vg-anim vg-anim-1">
+					<h1 class="vg-hero__title vg-anim vg-anim-1" aria-label="Saadan Kaleem">
 						<!-- <span>Syed</span> -->
-						<span class="vg-accent">Saadan</span>
-						<span>Kaleem</span>
+						<span class="vg-accent vg-line"><span class="vg-ltr" style="--i:0">S</span><span class="vg-ltr" style="--i:1">a</span><span class="vg-ltr" style="--i:2">a</span><span class="vg-ltr" style="--i:3">d</span><span class="vg-ltr" style="--i:4">a</span><span class="vg-ltr" style="--i:5">n</span></span>
+						<span class="vg-line"><span class="vg-ltr" style="--i:0">K</span><span class="vg-ltr" style="--i:1">a</span><span class="vg-ltr" style="--i:2">l</span><span class="vg-ltr" style="--i:3">e</span><span class="vg-ltr" style="--i:4">e</span><span class="vg-ltr" style="--i:5">m</span></span>
 					</h1>
 
 					<p class="vg-hero__lead vg-anim vg-anim-2">
-						I transform ideas into <strong>digital experiences</strong> that breaks the <strong>boundry of
+						I transform ideas into <strong>digital experiences</strong> that break the <strong>boundary of
 							imagination</strong>.
 					</p>
 
@@ -1114,6 +1114,83 @@
 		})();
 	</script>
 
+	<script>
+		// Hero motion. Replays the entrance every time the hero comes back into
+		// view and runs the exit as it is covered.
+		//
+		// The hero is position:sticky at top:0 with the following sections
+		// scrolling OVER it, so it never leaves the viewport geometrically — an
+		// IntersectionObserver on it reports 100% visible at every scroll depth.
+		// Scroll offset against the hero's own height is the only honest measure.
+		(function () {
+			var hero = document.getElementById("header");
+			if (!hero || !hero.classList.contains("vg-hero")) return;
+			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+			var EXIT_AT = 0.30;   // ~30% covered: play the exit while it can still be seen
+			var ENTER_AT = 0.15;  // hysteresis, so a nudge at the boundary cannot flip it back and forth
+
+			var shown = null, ready = false, queued = false, seenIn = false;
+
+			function vh() { return window.__vh || window.innerHeight || 1; }
+			function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+			function apply(next) {
+				shown = next;
+				hero.classList.remove("hero-in", "hero-out");
+				void hero.offsetWidth;   // forces the restart; re-adding a class in the same frame is otherwise a no-op
+				if (next) {
+					// Second time onward runs at 65%. You have already watched the full
+					// version; it should not cost the same 1.6s on every scroll back up.
+					if (seenIn) hero.classList.add("hero-replay");
+					seenIn = true;
+				}
+				hero.classList.add(next ? "hero-in" : "hero-out");
+			}
+
+			function update() {
+				if (!ready) return;
+				var y = scrollY(), h = vh();
+				if (shown === null) {
+					// First decision. Landing already scrolled past the hero should
+					// arrive in the exited state, not perform the exit.
+					shown = y < h * EXIT_AT;
+					if (shown) { hero.classList.add("hero-in"); seenIn = true; }
+					else {
+						hero.classList.add("hero-noanim", "hero-out");
+						requestAnimationFrame(function () { hero.classList.remove("hero-noanim"); });
+					}
+					return;
+				}
+				if (shown && y > h * EXIT_AT) apply(false);
+				else if (!shown && y < h * ENTER_AT) apply(true);
+			}
+
+			function onScroll() {
+				if (queued) return;
+				queued = true;
+				requestAnimationFrame(function () { queued = false; update(); });
+			}
+
+			function start() {
+				if (ready) return;
+				ready = true;
+				update();
+			}
+
+			window.addEventListener("scroll", onScroll, { passive: true });
+			window.addEventListener("resize", onScroll);
+
+			// Mirror the preloader's own triggers so the entrance begins exactly as
+			// the loader dismisses, never behind it.
+			if (!document.body.classList.contains("is-preload")) start();
+			else {
+				window.addEventListener("load", start);
+				setTimeout(start, 1500);
+			}
+		})();
+	</script>
+
 	<div id="videoModal">
 		<div class="modal-content">
 			<div class="iframe-wrapper" style="position:relative; width:100%; height:100%;">
@@ -1161,6 +1238,7 @@
 		   the other glow, bounces off the box walls, and when squeezed between the
 		   pointer and a wall it squashes flat and squirts out sideways to get free. */
 		(function () {
+			return; // no-motion baseline: the slide glows stay at rest
 			var HOME = [[15, 20], [85, 100]];
 			var RADIUS = 45;     // % distance at which the black hole is felt
 			var FEAR = 0.6;      // pointer repulsion strength
@@ -1666,7 +1744,7 @@
 				lastWheelT = goToT = performance.now();
 				lastY = -1; stillCount = 0;
 				if (wrap) wrap.classList.add('hl-animating');
-				window.scrollTo({ top: Math.round(slideTop(i)), behavior: (reduce || instant) ? 'auto' : 'smooth' });
+				window.scrollTo({ top: Math.round(slideTop(i)), behavior: 'auto' });
 				clearTimeout(pollT); pollT = setTimeout(poll, 50);
 			}
 			// --- Wheel: hard lock, exactly one card per gesture; release at the ends ---
@@ -1804,7 +1882,7 @@
 					if (f <= 0) return;   // still inside a tall card's own content: never yank
 					var target = f >= 0.5 ? tops[i + 1] : tops[i + 1] - vh;   // commit : hide (== this card's rest for viewport-tall cards)
 					if (Math.abs(y - target) < 2) return;   // already at rest
-					window.scrollTo({ top: Math.round(target), behavior: 'smooth' });
+					window.scrollTo({ top: Math.round(target), behavior: 'auto' });
 				};
 				var armSettle = function () { clearTimeout(settleT); settleT = setTimeout(settleSnap, SETTLE_MS); };
 				window.addEventListener('touchstart', function () { touching = true; clearTimeout(settleT); }, { passive: true });
@@ -1851,7 +1929,7 @@
 				engaged = false;
 				targetIdx = null;   // defuse any pending slide snap so release() can't yank us back
 				release();
-				window.scrollTo({ top: Math.round(staticTopOf(el)), behavior: reduce ? 'auto' : 'smooth' });
+				window.scrollTo({ top: Math.round(staticTopOf(el)), behavior: 'auto' });
 			});
 		})();
 	</script>
