@@ -8591,9 +8591,28 @@ margin-top: -2em;}
 /* The dot: solid, and it stays solid. On main nothing about the dot changes on
    hover and that is right — the pulse is the signal, and a dot that also grows
    and fades competes with it. */
+
+/* The outline ring. ::before was the one element on the cursor still spare, and
+   an always-present ring is what it is for. 28px against the 9px dot is the
+   classic proportion, and a 1px stroke stays a hairline because nothing scales
+   it — the ring never animates its own size, it only contracts on press.
+   It paints below the children, so the trail passes in front of it. */
 .cursor::before {
-  opacity: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  background-color: transparent;
+  opacity: 1;
   animation: none !important;
+  transition: transform 140ms var(--ease-out) !important;
+}
+
+/* Contracts with the dot rather than ignoring the press while everything else
+   reacts. Same 90ms down / 140ms back as .cursor::after. */
+.cursor.press::before {
+  transform: translate(-50%, -50%) scale(0.88);
+  transition-duration: 90ms !important;
 }
 
 /* The catalog --ease-out is deliberately NOT used on the two emitter keyframes.
@@ -8712,7 +8731,13 @@ margin-top: -2em;}
     transform: none !important;
   }
 
-  .cursor::after {
+  .cursor::after,
+  .cursor::before {
     transition: none !important;
+  }
+
+  /* The ring itself stays: it is an affordance, not an animation. */
+  .cursor.press::before {
+    transform: translate(-50%, -50%);
   }
 }
