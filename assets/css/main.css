@@ -8972,6 +8972,14 @@ margin-top: -2em;}
    through the shrink instead of drifting in from the middle.
    =========================================================================== */
 #reel .reel-panel--title {
+  /* How far the heading starts below its settled spot, sized so it begins on
+     the slide's vertical centre. The 50% is the heading's own half-height -
+     translate resolves it against the element itself, so a heading that wraps
+     to three or four lines in a narrow column corrects for itself instead of
+     being 62px out. What is left tracks viewport height: the panel's own 12vh
+     pad plus the content's, which is why it is not simply 50vh. Clamped so a
+     short viewport cannot drive it negative. */
+  --rise: clamp(0px, calc(27vh - 41px - 50%), 40vh);
   align-items: flex-start;
   padding-top: clamp(4rem, 12vh, 9rem);
   /* The sub-timeline is the entrance, so the panel skips its own --in envelope
@@ -8980,36 +8988,43 @@ margin-top: -2em;}
   transform: none;
 }
 
-#reel .reel-panel--title .intro2-lead {
-  max-width: 46rem;
+/* Past 1200px tall the panel's 12vh pad hits its 9rem cap, so the rise stops
+   tracking viewport height at the same rate and becomes half the viewport minus
+   a constant. Without this the heading starts 61px low at 1440 and 227px low at
+   2160. Same 50% self-correction. */
+@media (min-height: 1200px) {
+  #reel .reel-panel--title {
+    --rise: calc(50vh - 308px - 50%);
+  }
 }
 
 #reel .reel-panel--title .intro2-title {
-  --appear: clamp(0, calc(var(--tp) / 0.1), 1);
-  --settle: clamp(0, calc((var(--tp) - 0.12) / 0.2), 1);
-  margin-bottom: 0;
+  --appear: clamp(0, calc(var(--tp) / 0.08), 1);
+  --settle: clamp(0, calc((var(--tp) - 0.1) / 0.16), 1);
   transform-origin: 0% 50%;
   opacity: var(--appear);
   transform:
-    translate3d(0, calc((1 - var(--settle)) * 26vh), 0)
+    translate3d(0, calc((1 - var(--settle)) * var(--rise)), 0)
     scale(calc(1 + 0.7 * (1 - var(--settle))));
 }
 
-/* The eyebrow rides with the heading until it settles, then stays put. */
+/* The eyebrow fades in as the heading lands. It used to ride up with it, but
+   --rise now carries a percentage of the heading's own height, which would
+   resolve against the eyebrow instead and pull the two apart by the width of a
+   wrapped line. Arriving on the landing reads as one move either way. */
 #reel .reel-panel--title .intro2-eyebrow {
-  --settle: clamp(0, calc((var(--tp) - 0.12) / 0.2), 1);
-  opacity: calc(clamp(0, calc((var(--tp) - 0.16) / 0.12), 1));
-  transform: translate3d(0, calc((1 - var(--settle)) * 26vh), 0);
+  opacity: clamp(0, calc((var(--tp) - 0.22) / 0.08), 1);
+  transform: none;
 }
 
 #reel .reel-panel--title .intro2-lead {
-  --show: clamp(0, calc((var(--tp) - 0.34) / 0.1), 1);
+  --show: clamp(0, calc((var(--tp) - 0.28) / 0.08), 1);
   opacity: var(--show);
   transform: translate3d(0, calc((1 - var(--show)) * 1.2rem), 0);
 }
 
 #reel .reel-panel--title .intro2-stat {
-  --show: clamp(0, calc((var(--tp) - 0.46 - var(--n-stat) * 0.045) / 0.08), 1);
+  --show: clamp(0, calc((var(--tp) - 0.38 - var(--n-stat) * 0.035) / 0.07), 1);
   opacity: var(--show);
   transform: translate3d(0, calc((1 - var(--show)) * 1rem), 0);
 }
@@ -9018,6 +9033,19 @@ margin-top: -2em;}
 #reel .reel-panel--title .intro2-stat:nth-child(2) { --n-stat: 1; }
 #reel .reel-panel--title .intro2-stat:nth-child(3) { --n-stat: 2; }
 #reel .reel-panel--title .intro2-stat:nth-child(4) { --n-stat: 3; }
+
+/* Who I Am is its own slide, so the stats move out of the copy column and take
+   the grid's second track - the same two columns the original intro uses, just
+   with the stats in the right-hand one instead of the collaborations, which now
+   has a slide to itself. Four across would be ~120px each in a 556px track, so
+   they go two by two. Centred against the copy rather than pinned to the top:
+   the copy column's height moves with how the lead wraps, and align-self needs
+   no constant to track it. */
+#reel .reel-panel--title .intro2-grid > .intro2-stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.4rem, 3vh, 2.4rem) clamp(1.5rem, 3vw, 3rem);
+  align-self: center;
+}
 
 /* No script / reduced motion: everything at rest. */
 @media (prefers-reduced-motion: reduce) {
