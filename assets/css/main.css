@@ -8975,6 +8975,20 @@ margin-top: -2em;}
   max-width: none;
 }
 
+/* Heading sits at the top of the slide with the lead and stats under it, rather
+   than the whole block floating on the centre line. .hl-slide is flex with
+   align-items: center, so this is the override. */
+#reel .reel-panel--title {
+  align-items: flex-start;
+  padding-top: clamp(4rem, 12vh, 9rem);
+}
+
+/* The lead is prose, not a full-bleed heading - it keeps the intro's own
+   measure even though the title beside it spans. */
+#reel .reel-panel--title .intro2-lead {
+  max-width: 46rem;
+}
+
 /* .hl-slide paints its own glow from its --slide-glow pair, which each beat
    carries inline - so the pin no longer needs a gradient or a palette handed up
    to it from JS. */
