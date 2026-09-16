@@ -2325,10 +2325,19 @@
 			function write() {
 				queued = false;
 				var r = reel.getBoundingClientRect();
-				var travel = reel.offsetHeight - (window.__vh || innerHeight);
+				var vh = window.__vh || innerHeight;
+				var travel = reel.offsetHeight - vh;
 				var p = travel > 0 ? -r.top / travel : 0;
 				p = p < 0 ? 0 : p > 1 ? 1 : p;
 				reel.style.setProperty("--p", p.toFixed(4));
+
+				// --p cannot start before the section is pinned, so anything that should
+				// already be in place ON arrival rides this instead: 0 when the section's
+				// top edge is at the bottom of the viewport, 1 once it fills it. That is
+				// the same instant --p starts, so the two hand over without a seam.
+				var arrive = (vh - r.top) / vh;
+				arrive = arrive < 0 ? 0 : arrive > 1 ? 1 : arrive;
+				reel.style.setProperty("--arrive", arrive.toFixed(4));
 
 				// Panels are stacked, so the ones that are not on screen would still
 				// swallow clicks meant for the one that is. Mark the current beat and

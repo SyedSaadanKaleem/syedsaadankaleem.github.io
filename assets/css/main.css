@@ -9052,14 +9052,25 @@ margin-top: -2em;}
   transform: translateX(calc(var(--grow) * -50%));
 }
 
-/* WHO I AM is there from the first frame, sitting on the centred heading. It is
-   not scaled, so to stay over the heading's centre its own centre has to track
-   where the scale puts the heading's: s * 50% of the track, hence the --s in
-   the margin. Without it the two would only line up at the very start and drift
+/* WHO I AM arrives before the sequence does. It fades in on --arrive, which the
+   driver writes across the section's approach, so it reaches full strength at
+   the exact frame the section fills the viewport and --p starts - then the
+   heading appears under it and the rest follows. Falls back to 1, because with
+   no script (or reduced motion) --arrive is never written and the eyebrow must
+   not be stuck invisible.
+
+   The first 0.3 of the approach is dropped because the eyebrow is still under
+   the fold for it - it sits about a third of a viewport below the section's top
+   edge, so on a straight ramp it would cross into view already at 30% and read
+   as a pop. Measured 0.30 at 720 and 900 tall, 0.35 at 1080.
+
+   It is not scaled, so to stay over the heading's centre its own centre has to
+   track where the scale puts the heading's: s * 50% of the track, hence the --s
+   in the margin. Without it the two line up only at the very start and drift
    apart across the move. */
 #reel .reel-panel--title .intro2-eyebrow {
   width: max-content;
-  opacity: var(--appear);
+  opacity: clamp(0, calc((var(--arrive, 1) - 0.3) / 0.7), 1);
   margin-left: calc(var(--grow) * var(--s) * 50%);
   transform: translateX(calc(var(--grow) * -50%));
 }
