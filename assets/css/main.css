@@ -8887,8 +8887,9 @@ margin-top: -2em;}
   grid-template-columns: minmax(0, 1fr);
   place-items: center;
   height: 100%;
-  /* Bottom padding clears the playhead and the fixed bottom nav. */
-  padding: clamp(2rem, 6vh, 4rem) clamp(1.5rem, 6vw, 6rem) clamp(7rem, 16vh, 9rem);
+  /* Only the fixed bottom nav to clear now the playhead is gone, so the beat
+     sits on the true centre line instead of being pushed up into the top third. */
+  padding: clamp(2rem, 5vh, 3.5rem) clamp(1.5rem, 5vw, 5rem) clamp(4.5rem, 10vh, 6rem);
 }
 
 #reel .reel-panel {
@@ -8940,11 +8941,11 @@ margin-top: -2em;}
    has to be restated, because that selector needs a .hl-slide. */
 #reel .reel-panel--work {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(280px, 36vw, 600px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   grid-template-rows: auto;
-  gap: clamp(2rem, 5vw, 5.5rem);
+  gap: clamp(2rem, 4.5vw, 5rem);
   align-items: center;
-  width: min(76rem, 100%);
+  width: min(88rem, 100%);
   text-align: left;
 }
 
@@ -8989,7 +8990,9 @@ margin-top: -2em;}
     grid-column: 1;
     grid-row: 1;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 10;
+    background-size: cover;
+    background-position: center;
   }
 
   #reel .reel-panel.reel-panel--work .hl-slide-content {
@@ -9005,13 +9008,19 @@ margin-top: -2em;}
 
 /* The deck's cards take their height from children the slider script injects
    into them (logo, name, meta). These are the bare banner, so they need a ratio
-   of their own or they collapse to 2px. */
+   of their own or they collapse to 2px.
+
+   cover/center are set here because stock only declares them inside
+   @media (max-width: 1280px) - above that the background fell back to auto /
+   0% 0% and the card showed the raw top-left corner of a large image. */
 #reel .reel-panel--work .hl-slide-bg {
   grid-column: 2;
   grid-row: 1;
   align-self: center;
   margin-bottom: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 10;
+  background-size: cover;
+  background-position: center;
 }
 
 /* .vg-accent is only ever declared scoped (.vg-hero__title .vg-accent,
