@@ -8663,7 +8663,9 @@ margin-top: -2em;}
    it, and no layout is touched. The rim rides the press scale with the dot
    because a shadow is painted before the transform is applied. */
 .cursor::after {
-  box-shadow: 0 0 0 2px #ee2b2b;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 0 0 3px #ee2b2b;
   transition: transform 140ms var(--ease-out) !important;
 }
 
