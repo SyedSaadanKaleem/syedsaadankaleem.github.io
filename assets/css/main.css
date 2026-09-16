@@ -8977,15 +8977,12 @@ margin-top: -2em;}
   /* 1 while the heading is still big and centred, 0 once it has settled.
      Everything in the opening phase is written against this. */
   --grow: calc(1 - var(--settle));
-  --s: calc(1 + 0.7 * var(--grow));
+  /* How far the heading grows at the top of the move. The driver caps it to what
+     the longest line can actually fit in, so a narrow screen gets a smaller
+     opening instead of a heading running off both edges - 1.7 where there is
+     room, down to about 1.2 at 320. Falls back to 1.7. */
+  --s: calc(1 + (var(--s-peak, 1.7) - 1) * var(--grow));
 
-  /* How far the copy column starts below its settled spot, sized so the heading
-     begins on the slide's vertical centre. It moves the whole column, not the
-     heading alone, because the WHO I AM eyebrow has to arrive sitting on top of
-     the heading rather than at the column's resting top. Tracks viewport height
-     because the settled position is the panel's own 12vh pad plus the
-     content's, which is why it is not simply 50vh. Measured, see below. */
-  --rise: clamp(0px, calc(27vh - 139px), 40vh);
 
   /* Three slots instead of one. The sub-timeline has five phases to get
      through and one slot was about three notches of the wheel, so they landed
@@ -9001,16 +8998,6 @@ margin-top: -2em;}
   transform: none;
 }
 
-/* Past 1200px tall the panel's 12vh pad hits its 9rem cap, so the rise stops
-   tracking viewport height at the same rate and becomes half the viewport minus
-   a constant. Without this the heading starts 61px low at 1440 and 227px low at
-   2160. */
-@media (min-height: 1200px) {
-  #reel .reel-panel--title {
-    --rise: calc(50vh - 406px);
-  }
-}
-
 /* The copy column carries the opening move, so the eyebrow and the heading
    travel as one piece. The heading takes the whole track here - capping the
    column at 46rem would shrink the box it is centred inside and pull it off the
@@ -9018,23 +9005,46 @@ margin-top: -2em;}
    where it was doing the work anyway. */
 #reel .reel-panel--title .intro2 {
   max-width: none;
-  /* The 3.3vw nudges the pair from the copy column's centre to the slide's. The
-     heading centres inside its own track, and that track is 1.3fr of two plus a
-     gap, so its middle sits a little left of the slide's - 45px at 1280 through
-     115px at 3840, which is 3.0-3.5vw the whole way. Measured at five widths. */
-  transform: translate3d(calc(var(--grow) * 3.3vw), calc(var(--grow) * var(--rise)), 0);
+  /* --rise and --nudge are not written here. Every term that decides where the
+     heading has to start - the panel's pad, the content's pad, the eyebrow's
+     block, the type scale - changes at its own breakpoint, and between 1600 and
+     760 wide they move by 58px, 26px, 12px and 64px respectively. A formula
+     fitted to one width was 84px out at another. The driver measures the real
+     thing instead and publishes both, so every breakpoint is accounted for by
+     definition rather than by arithmetic. 0 until it has, which just means no
+     opening move. */
+  transform: translate3d(calc(var(--grow) * var(--nudge, 0px)), calc(var(--grow) * var(--rise, 0px)), 0);
 }
 
 #reel .reel-panel--title .intro2-lead {
   max-width: 46rem;
 }
 
+/* A short phone cannot hold this beat at the standing rhythm. At 667 the stats
+   row finished 89px past the bottom, which on a phone is behind the nav bar -
+   the 112px the content reserves at the bottom is exactly that bar, so the room
+   has to come off the top instead. 12vh of panel plus 8vh of content is 133px
+   of lead-in at 667; this makes it 40 and buys back 93. The opening move is
+   measured, not computed, so it re-centres on the new padding by itself. */
+@media (max-height: 700px) {
+  #reel .reel-panel--title {
+    padding-top: clamp(1rem, 3vh, 2.5rem);
+  }
+
+  #reel .reel-panel--title .hl-slide-content {
+    padding-top: clamp(1rem, 3vh, 2.5rem);
+  }
+}
+
 
 /* Growing from the top-left rather than the left edge's middle: the heading's
    top stays put as it scales, so the eyebrow keeps its gap instead of being
    overlapped by 18px of oversized type. */
+/* Growing from the top of its own centre: the top stays put so the eyebrow keeps
+   its gap, and the middle stays put so the eyebrow can track it with a plain
+   half-column at every width. Whatever that leaves is corrected by --nudge. */
 #reel .reel-panel--title .intro2-title {
-  transform-origin: 0 0;
+  transform-origin: 50% 0;
   opacity: var(--appear);
   transform: scale(var(--s));
 }
@@ -9064,45 +9074,13 @@ margin-top: -2em;}
    edge, so on a straight ramp it would cross into view already at 30% and read
    as a pop. Measured 0.30 at 720 and 900 tall, 0.35 at 1080.
 
-   It is not scaled, so to stay over the heading's centre its own centre has to
-   track where the scale puts the heading's: s * 50% of the track, hence the --s
-   in the margin. Without it the two line up only at the very start and drift
-   apart across the move. */
+   It is not scaled, but it does not need to be: the heading grows about its own
+   centre, so that centre does not move and a plain half-column tracks it. */
 #reel .reel-panel--title .intro2-eyebrow {
   width: max-content;
   opacity: clamp(0, calc((var(--arrive, 1) - 0.3) / 0.7), 1);
-  margin-left: calc(var(--grow) * var(--s) * 50%);
+  margin-left: calc(var(--grow) * 50%);
   transform: translateX(calc(var(--grow) * -50%));
-}
-
-/* Below 720px the grid stacks, so the copy column IS the slide and none of the
-   two-column geometry above holds. Growing from the left edge would put the
-   heading's middle at s * half the slide instead of half, which threw it 124px
-   right and ran 208px of it off the edge. Growing from its own centre keeps the
-   middle where it already is, the sideways nudge goes (there is no second track
-   to lean away from), and 1.25 is as large as the type gets before the longest
-   line stops fitting. */
-@media (max-width: 720px) {
-  #reel .reel-panel--title {
-    --s: calc(1 + 0.25 * var(--grow));
-    /* Its own rise too: the heading is 32px here and wraps differently, so the
-       desktop constant leaves it 82px high. Measured at 667/812/896. */
-    --rise: clamp(0px, calc(31vh - 90px), 40vh);
-  }
-
-  #reel .reel-panel--title .intro2 {
-    transform: translate3d(0, calc(var(--grow) * var(--rise)), 0);
-  }
-
-  #reel .reel-panel--title .intro2-title {
-    transform-origin: 50% 0;
-  }
-
-  /* Growing from its own centre means the heading's middle does not move, so the
-     eyebrow tracks a plain half-column here rather than s * half. */
-  #reel .reel-panel--title .intro2-eyebrow {
-    margin-left: calc(var(--grow) * 50%);
-  }
 }
 
 #reel .reel-panel--title .intro2-lead {

@@ -2322,6 +2322,43 @@
 			});
 			var live = -1;
 			var queued = false;
+
+			// Where slide one's heading has to start so it opens on the slide's centre.
+			// Every term that decides this - the panel's pad, the content's pad, the
+			// eyebrow's block, the type scale - changes at its own breakpoint, so rather
+			// than add up four clamps and be 84px out at some width, put the beat in its
+			// opening pose with no correction applied, see where the heading actually
+			// lands, and publish the offset that would centre it. Runs on resize, not
+			// per frame.
+			var titleBeat = reel.querySelector(".reel-panel--title");
+			var heading = titleBeat && titleBeat.querySelector(".intro2-title");
+			function calibrate() {
+				if (!heading) return;
+
+				// How big the opening heading can get before its longest line stops
+				// fitting. offsetWidth is the laid-out width, so it is the same whatever
+				// the sequence is doing to the transform. 1.7 on a roomy screen, less on
+				// a narrow one, never below its settled size.
+				var lines = heading.querySelectorAll(":scope > span");
+				var widest = 0;
+				for (var k = 0; k < lines.length; k++) {
+					if (lines[k].offsetWidth > widest) widest = lines[k].offsetWidth;
+				}
+				var room = titleBeat.clientWidth * 0.94;
+				var peak = widest > 0 ? Math.min(1.7, room / widest) : 1.7;
+				titleBeat.style.setProperty("--s-peak", (peak < 1 ? 1 : peak).toFixed(3));
+
+				titleBeat.style.setProperty("--grow", "1");
+				titleBeat.style.setProperty("--rise", "0px");
+				titleBeat.style.setProperty("--nudge", "0px");
+				var pr = titleBeat.getBoundingClientRect();
+				var hr = heading.getBoundingClientRect();   // forces layout, so this reads back
+				titleBeat.style.removeProperty("--grow");
+				titleBeat.style.setProperty("--rise",
+					(pr.height / 2 - (hr.top + hr.height / 2 - pr.top)).toFixed(1) + "px");
+				titleBeat.style.setProperty("--nudge",
+					(pr.width / 2 - (hr.left + hr.width / 2 - pr.left)).toFixed(1) + "px");
+			}
 			function write() {
 				queued = false;
 				var r = reel.getBoundingClientRect();
@@ -2354,7 +2391,11 @@
 			}
 			function onScroll() { if (!queued) { queued = true; requestAnimationFrame(write); } }
 			window.addEventListener("scroll", onScroll, { passive: true });
-			window.addEventListener("resize", onScroll);
+			window.addEventListener("resize", function () { calibrate(); onScroll(); });
+			calibrate();
+			// The heading is set in a webfont, so its size - and with it the whole
+			// measurement - changes when that font lands.
+			if (document.fonts && document.fonts.ready) document.fonts.ready.then(calibrate);
 			write();
 		})();
 	</script>
