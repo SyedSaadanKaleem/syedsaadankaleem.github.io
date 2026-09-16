@@ -8570,63 +8570,95 @@ margin-top: -2em;}
 }
 
 /* ===========================================================================
-   CURSOR STATES — carved out of the NO MOTION baseline above.
+   CURSOR STATES — matched to the pulse that is live on main, which has far
+   more presence than the restrained version that replaced it.
 
-   Two elements, two jobs, and they never swap:
+   main's numbers, measured off the running page: the pulse starts FULLY OPAQUE
+   at 9px and reaches 52.3px by 500ms, at which point a setInterval restarts the
+   same keyframes from scratch — so it snaps back from 52px/0.20 to 9px/1.0
+   twice a second and never reaches the 63px the keyframes actually describe.
 
-   .cursor::after is the DOT. It only ever transitions, because hover and press
-   are toggled faster than any animation could finish and a transition retargets
-   from wherever it currently is instead of restarting.
+   Same energy here, without the snap: two emitters half a cycle apart. A new
+   ripple still begins every 500ms, but each one completes its full 1s arc out
+   to 63px while the next is already starting, so the overlap does the work the
+   restart was faking. No setInterval, no cancelled keyframes.
 
-   .cursor::before is the EMITTER. It only ever runs keyframes, because a ping
-   and a click ring are discrete emissions that must restart from zero — a
-   transition would retarget them into one smeared blob.
-
-   Both emitter keyframes start and end at opacity 0, so when a click punches
-   through the hover loop and the loop resumes 300ms later, the seam is invisible.
+   The 22 empty divs inside .cursor were already in the markup on main — the
+   trail they were meant to drive never ran (its loop throws on the first frame,
+   see cursors.js on main), so three of them are put to work here instead.
    =========================================================================== */
 
-/* The emitter is invisible at rest. No !important on opacity: an important
-   declaration outranks the animation origin and the keyframes could never
-   move it. */
+/* The dot: solid, and it stays solid. On main nothing about the dot changes on
+   hover and that is right — the pulse is the signal, and a dot that also grows
+   and fades competes with it. */
 .cursor::before {
   opacity: 0;
+  animation: none !important;
 }
 
-/* The dot. Colour on `ease`, transform on the strong ease-out. */
-.cursor::after {
-  transition:
-    transform var(--dur-press) var(--ease-out),
-    background-color var(--dur-press) ease !important;
+/* The catalog --ease-out is deliberately NOT used on the two emitter keyframes.
+   It is a UI entrance curve and it front-loads far too hard here: the ripple
+   hits 35px in 125ms and then barely moves for the remaining 875ms, reading as
+   a flash followed by a static halo. Plain `ease` is what produces the steady
+   expanding wave on main, and matching that wave is the point. */
+
+/* Shared emitter geometry. Concentric with the dot: .cursor is the containing
+   block, so 50%/50% plus a -50% translate centres them on the pointer. */
+.cursor > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor > div:nth-child(1),
+.cursor > div:nth-child(2) {
+  width: 9px;
+  height: 9px;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.cursor > div:nth-child(3) {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.356);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  /* Hover: the dot opens up into a target ring's worth of area and softens,
-     so the pointer itself reads as "this is hittable". */
-  .cursor.hover::after {
-    transform: translate(-50%, -50%) scale(1.9);
-    background-color: rgba(255, 255, 255, 0.55);
+  .cursor.hover > div:nth-child(1),
+  .cursor.hover > div:nth-child(2) {
+    animation: cursorPulse 1000ms ease infinite !important;
   }
 
-  /* The ping. It sits under the pointer for as long as you are over a link, so
-     it is deliberately calm and stays inside the cursor's own 30px footprint:
-     9px * 3.2 = 28.8px. The previous one scaled that 9px dot to 63px in 1s. */
-  .cursor.hover::before {
-    animation: cursorPing 1600ms var(--ease-out) infinite !important;
+  /* Half a cycle in, so the pair emits on main's 500ms beat. */
+  .cursor.hover > div:nth-child(2) {
+    animation-delay: -500ms !important;
   }
 }
 
-/* Press. Faster going down (100ms) than coming back up (160ms, inherited from
-   the base rule): the dot should react instantly under the finger and return
-   unhurried once the system has taken over. */
+/* Click ring: 480ms so it finishes inside the 500ms the script now holds the
+   class for. On main the class is pulled at 300ms against a 500ms animation, so
+   the ring is yanked off screen at ~56px and 40% opacity mid-flight. */
+.cursor.ring > div:nth-child(3) {
+  animation: cursorRing 480ms ease forwards !important;
+}
+
+/* Press: the one thing main has no working version of (its handler targets a
+   null element and throws). Quick down, unhurried back. */
+.cursor::after {
+  transition: transform 140ms var(--ease-out) !important;
+}
+
 .cursor.press::after {
-  transform: translate(-50%, -50%) scale(1.25);
-  background-color: rgba(255, 255, 255, 0.95);
-  transition-duration: 100ms !important;
+  transform: translate(-50%, -50%) scale(0.72);
+  transition-duration: 90ms !important;
 }
 
-/* .ring is now only a state flag. The stock rule grew the box 30 -> 40px and
-   painted it, which is a layout change fired on a class toggle. */
+/* .ring stays a pure state flag; the stock rule grew the box 30 -> 40px, a
+   layout change fired on a class toggle. */
 .cursor.ring {
   width: 30px;
   height: 30px;
@@ -8635,64 +8667,40 @@ margin-top: -2em;}
   animation: none !important;
 }
 
-/* The click ring: one shot, and declared after the hover rule so it wins while
-   both classes are present. 280ms so it finishes inside the 300ms the script
-   holds the class for.
-
-   Sized to the cursor box rather than the dot: transform scales the border too,
-   so emitting a 9px element out to 4.6x would paint a 9px-thick donut instead
-   of a ring. At 30px and 0.35 -> 1.5 the stroke only travels 0.7px -> 3px. */
-.cursor.ring::before {
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  animation: cursorClickRing 280ms var(--ease-out) forwards !important;
-}
-
-@keyframes cursorPing {
-  0% {
-    opacity: 0;
+@keyframes cursorPulse {
+  from {
+    opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
-  30% {
-    opacity: 0.4;
-  }
-  100% {
+  to {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(3.2);
+    transform: translate(-50%, -50%) scale(7);
   }
 }
 
-@keyframes cursorClickRing {
-  0% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(0.35);
+/* 0.15 rather than main's scale(0): at a 40px base that is 6px, hidden behind
+   the 9px dot, so it looks identical while nothing has to appear from nothing. */
+@keyframes cursorRing {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.15);
   }
-  55% {
-    opacity: 0.5;
-  }
-  100% {
+  to {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5);
+    transform: translate(-50%, -50%) scale(2);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* The dot's state change stays — it is the only thing telling you the target
-     is interactive — but it snaps rather than travels, and both emissions go. */
-  .cursor::before,
-  .cursor.hover::before,
-  .cursor.ring::before {
+  .cursor > div,
+  .cursor.hover > div:nth-child(1),
+  .cursor.hover > div:nth-child(2),
+  .cursor.ring > div:nth-child(3) {
     animation: none !important;
     opacity: 0 !important;
   }
 
   .cursor::after {
-    transition: background-color 120ms ease !important;
-  }
-
-  .cursor.hover::after {
-    transform: translate(-50%, -50%) scale(1.4);
+    transition: none !important;
   }
 }

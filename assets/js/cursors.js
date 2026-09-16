@@ -37,9 +37,11 @@
   document.addEventListener('mousedown', function () { cursor.classList.add('press'); }, { passive: true });
   document.addEventListener('mouseup', function () { cursor.classList.remove('press'); }, { passive: true });
 
-  // Click ring: one shot per click, re-triggerable. Held 300ms, which outlasts
-  // the 280ms cursorClickRing in main.css; a timeout (not animationend) so the
-  // class also clears when reduced motion turns the animation off.
+  // Click ring: one shot per click, re-triggerable. Held 500ms, which outlasts
+  // the 480ms cursorRing in main.css so the ring completes instead of being
+  // yanked mid-flight the way main pulls it at 300ms against 500ms of keyframes.
+  // A timeout rather than animationend, so the class still clears when reduced
+  // motion turns the animation off.
   var ringT = null;
   window.addEventListener('click', function () {
     if (cursor.classList.contains('ring')) {
@@ -48,7 +50,7 @@
     }
     cursor.classList.add('ring');
     clearTimeout(ringT);
-    ringT = setTimeout(function () { cursor.classList.remove('ring'); }, 300);
+    ringT = setTimeout(function () { cursor.classList.remove('ring'); }, 500);
   });
 
   // Hover pulse: CSS loops it; JS only marks presence over an interactive target.
