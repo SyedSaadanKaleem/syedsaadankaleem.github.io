@@ -88,10 +88,14 @@
     for (var i = 0; i < LINKS && i < cursor.children.length; i++) {
       var k = i / (LINKS - 1);
       var el = cursor.children[i];
-      // White at the head, cooling to the site accent (#ee2b2b) down the tail.
+      // Accent red at the head, cooling to black down the tail, like an ember.
+      // The tail keeps a real opacity rather than fading to nothing, because
+      // black only reads as black where there is something behind it - over the
+      // hero artwork it registers, over the flat near-black sections it is the
+      // background, which is its own kind of fade-out.
       el.style.backgroundColor =
-        'rgb(' + Math.round(255 - 17 * k) + ',' + Math.round(255 - 212 * k) + ',' + Math.round(255 - 212 * k) + ')';
-      el.style.opacity = (0.6 * (1 - k) + 0.04).toFixed(3);
+        'rgb(' + Math.round(238 - 238 * k) + ',' + Math.round(43 - 43 * k) + ',' + Math.round(43 - 43 * k) + ')';
+      el.style.opacity = (0.62 * (1 - k) + 0.22).toFixed(3);
       trail.push({ el: el, x: 0, y: 0, s: (1 - 0.72 * k).toFixed(3) });
     }
 
