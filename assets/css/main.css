@@ -8628,7 +8628,10 @@ margin-top: -2em;}
 .cursor > div:nth-child(21) {
   width: 9px;
   height: 9px;
-  background-color: rgba(255, 255, 255, 0.4);
+  /* Accent red at the same 0.4 alpha the white carried. The keyframe animates
+     opacity on top of this, so the two multiply and the fade profile through
+     the loop is unchanged - only the hue moves. */
+  background-color: rgba(238, 43, 43, 0.4);
 }
 
 .cursor > div:nth-child(22) {
