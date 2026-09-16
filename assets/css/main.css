@@ -8632,7 +8632,7 @@ margin-top: -2em;}
      keyframe animates opacity on top of this, so the two multiply: raising the
      base lifts the whole wave, and the 65% keyframe below pulls the back of it
      down again so the end still fades out instead of riding brighter too. */
-  background-color: rgba(178, 32, 32, 0.55);
+  background-color: rgba(178, 32, 32, 0.75);
 }
 
 .cursor > div:nth-child(22) {
