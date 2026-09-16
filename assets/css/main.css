@@ -8954,39 +8954,80 @@ margin-top: -2em;}
   text-align: left;
 }
 
-/* Opening title card: nothing else is on the slide, so the heading takes the
-   site's hero scale rather than the intro's in-column one. Both already exist -
-   .vg-hero__title is clamp(2.8rem, 8vw, 7rem), .intro2-title is
-   clamp(2rem, 4.4vw, 3.8rem) - and a full-slide title belongs nearer the former. */
-#reel .reel-panel--title .intro2-title {
-  font-size: clamp(2.4rem, 6.4vw, 5.6rem);
-  margin-bottom: 0;
-}
+/* ===========================================================================
+   SLIDE ONE SUB-TIMELINE
 
-/* There is no collaborations aside on this slide, so the grid must not keep
-   reserving its second column - and .intro2's 46rem cap does not apply to a
-   heading that is the whole slide. Both were breaking the title onto a third
-   line. */
-#reel .reel-panel--title .intro2-grid {
-  grid-template-columns: minmax(0, 1fr);
-}
+   Everything here hangs off --tp, the beat's own 0-1 progress, which
+   .reel-panel already computes. The beat's slice ends with its exit ramp at
+   0.70, so the whole sequence has to finish before that:
 
-#reel .reel-panel--title .intro2 {
-  max-width: none;
-}
+     0.00-0.10  heading fades in, centred on the slide and oversized
+     0.12-0.32  it travels up and settles to .intro2-title's own size
+     0.34-0.44  the lead paragraph arrives
+     0.46-0.68  the four stats land one at a time
 
-/* Heading sits at the top of the slide with the lead and stats under it, rather
-   than the whole block floating on the centre line. .hl-slide is flex with
-   align-items: center, so this is the override. */
+   The heading scales rather than animating font-size: 1.7 -> 1 against the real
+   .intro2-title size, so the end state IS the site's heading size rather than a
+   number that happens to look like it. transform-origin keeps it left-aligned
+   through the shrink instead of drifting in from the middle.
+   =========================================================================== */
 #reel .reel-panel--title {
   align-items: flex-start;
   padding-top: clamp(4rem, 12vh, 9rem);
+  /* The sub-timeline is the entrance, so the panel skips its own --in envelope
+     and keeps only the exit. */
+  opacity: calc(1 - var(--out));
+  transform: none;
 }
 
-/* The lead is prose, not a full-bleed heading - it keeps the intro's own
-   measure even though the title beside it spans. */
 #reel .reel-panel--title .intro2-lead {
   max-width: 46rem;
+}
+
+#reel .reel-panel--title .intro2-title {
+  --appear: clamp(0, calc(var(--tp) / 0.1), 1);
+  --settle: clamp(0, calc((var(--tp) - 0.12) / 0.2), 1);
+  margin-bottom: 0;
+  transform-origin: 0% 50%;
+  opacity: var(--appear);
+  transform:
+    translate3d(0, calc((1 - var(--settle)) * 26vh), 0)
+    scale(calc(1 + 0.7 * (1 - var(--settle))));
+}
+
+/* The eyebrow rides with the heading until it settles, then stays put. */
+#reel .reel-panel--title .intro2-eyebrow {
+  --settle: clamp(0, calc((var(--tp) - 0.12) / 0.2), 1);
+  opacity: calc(clamp(0, calc((var(--tp) - 0.16) / 0.12), 1));
+  transform: translate3d(0, calc((1 - var(--settle)) * 26vh), 0);
+}
+
+#reel .reel-panel--title .intro2-lead {
+  --show: clamp(0, calc((var(--tp) - 0.34) / 0.1), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 1.2rem), 0);
+}
+
+#reel .reel-panel--title .intro2-stat {
+  --show: clamp(0, calc((var(--tp) - 0.46 - var(--n-stat) * 0.045) / 0.08), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 1rem), 0);
+}
+
+#reel .reel-panel--title .intro2-stat:nth-child(1) { --n-stat: 0; }
+#reel .reel-panel--title .intro2-stat:nth-child(2) { --n-stat: 1; }
+#reel .reel-panel--title .intro2-stat:nth-child(3) { --n-stat: 2; }
+#reel .reel-panel--title .intro2-stat:nth-child(4) { --n-stat: 3; }
+
+/* No script / reduced motion: everything at rest. */
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--title .intro2-title,
+  #reel .reel-panel--title .intro2-eyebrow,
+  #reel .reel-panel--title .intro2-lead,
+  #reel .reel-panel--title .intro2-stat {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* .hl-slide paints its own glow from its --slide-glow pair, which each beat
