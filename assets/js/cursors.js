@@ -26,10 +26,19 @@
   }, { passive: true });
 
   document.addEventListener('mouseenter', function () { cursor.style.display = 'block'; });
-  document.addEventListener('mouseleave', function () { cursor.style.display = 'none'; });
+  document.addEventListener('mouseleave', function () {
+    cursor.style.display = 'none';
+    cursor.classList.remove('press');   // a button released outside the window never fires mouseup here
+  });
 
-  // Click ring: one shot per click, re-triggerable. 300ms matches the CSS
-  // animation-duration appended to main.css; a timeout (not animationend) so the
+  // Press feedback on mousedown, the ring on release, so the two halves of a
+  // click read as one gesture: the dot reacts under the finger immediately,
+  // the ring is the system answering back.
+  document.addEventListener('mousedown', function () { cursor.classList.add('press'); }, { passive: true });
+  document.addEventListener('mouseup', function () { cursor.classList.remove('press'); }, { passive: true });
+
+  // Click ring: one shot per click, re-triggerable. Held 300ms, which outlasts
+  // the 280ms cursorClickRing in main.css; a timeout (not animationend) so the
   // class also clears when reduced motion turns the animation off.
   var ringT = null;
   window.addEventListener('click', function () {

@@ -8327,12 +8327,6 @@ margin-top: -2em;}
 .chess-divider img {
   transform: none !important;
 }
-.cursor.ring {
-  width: 30px !important;
-  height: 30px !important;
-  border: 0 !important;
-  background: transparent !important;
-}
 
 /* ===========================================================================
    HERO MOTION — the one deliberate motion on this branch.
@@ -8559,5 +8553,146 @@ margin-top: -2em;}
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* === Motion tokens (same values as the animation plans on update-animations,
+   so the two branches do not fork a parallel system) === */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);        /* entrances, exits, transforms */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);    /* on-screen movement */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);     /* drawers / sidebars */
+  --dur-press: 160ms;
+  --dur-hover: 200ms;
+  --dur-menu: 250ms;
+  --dur-modal: 300ms;
+  --dur-reveal: 400ms;
+}
+
+/* ===========================================================================
+   CURSOR STATES — carved out of the NO MOTION baseline above.
+
+   Two elements, two jobs, and they never swap:
+
+   .cursor::after is the DOT. It only ever transitions, because hover and press
+   are toggled faster than any animation could finish and a transition retargets
+   from wherever it currently is instead of restarting.
+
+   .cursor::before is the EMITTER. It only ever runs keyframes, because a ping
+   and a click ring are discrete emissions that must restart from zero — a
+   transition would retarget them into one smeared blob.
+
+   Both emitter keyframes start and end at opacity 0, so when a click punches
+   through the hover loop and the loop resumes 300ms later, the seam is invisible.
+   =========================================================================== */
+
+/* The emitter is invisible at rest. No !important on opacity: an important
+   declaration outranks the animation origin and the keyframes could never
+   move it. */
+.cursor::before {
+  opacity: 0;
+}
+
+/* The dot. Colour on `ease`, transform on the strong ease-out. */
+.cursor::after {
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-press) ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Hover: the dot opens up into a target ring's worth of area and softens,
+     so the pointer itself reads as "this is hittable". */
+  .cursor.hover::after {
+    transform: translate(-50%, -50%) scale(1.9);
+    background-color: rgba(255, 255, 255, 0.55);
+  }
+
+  /* The ping. It sits under the pointer for as long as you are over a link, so
+     it is deliberately calm and stays inside the cursor's own 30px footprint:
+     9px * 3.2 = 28.8px. The previous one scaled that 9px dot to 63px in 1s. */
+  .cursor.hover::before {
+    animation: cursorPing 1600ms var(--ease-out) infinite !important;
+  }
+}
+
+/* Press. Faster going down (100ms) than coming back up (160ms, inherited from
+   the base rule): the dot should react instantly under the finger and return
+   unhurried once the system has taken over. */
+.cursor.press::after {
+  transform: translate(-50%, -50%) scale(1.25);
+  background-color: rgba(255, 255, 255, 0.95);
+  transition-duration: 100ms !important;
+}
+
+/* .ring is now only a state flag. The stock rule grew the box 30 -> 40px and
+   painted it, which is a layout change fired on a class toggle. */
+.cursor.ring {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  animation: none !important;
+}
+
+/* The click ring: one shot, and declared after the hover rule so it wins while
+   both classes are present. 280ms so it finishes inside the 300ms the script
+   holds the class for.
+
+   Sized to the cursor box rather than the dot: transform scales the border too,
+   so emitting a 9px element out to 4.6x would paint a 9px-thick donut instead
+   of a ring. At 30px and 0.35 -> 1.5 the stroke only travels 0.7px -> 3px. */
+.cursor.ring::before {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  animation: cursorClickRing 280ms var(--ease-out) forwards !important;
+}
+
+@keyframes cursorPing {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  30% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(3.2);
+  }
+}
+
+@keyframes cursorClickRing {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  55% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The dot's state change stays — it is the only thing telling you the target
+     is interactive — but it snaps rather than travels, and both emissions go. */
+  .cursor::before,
+  .cursor.hover::before,
+  .cursor.ring::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .cursor::after {
+    transition: background-color 120ms ease !important;
+  }
+
+  .cursor.hover::after {
+    transform: translate(-50%, -50%) scale(1.4);
   }
 }
