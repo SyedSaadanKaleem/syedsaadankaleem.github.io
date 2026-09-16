@@ -63,4 +63,81 @@
     var el = e.target.closest(HOVER_TARGETS);
     if (el && !el.contains(e.relatedTarget)) cursor.classList.remove('hover');
   });
+  /* Trail. The 22 empty divs inside .cursor have been in the markup from the
+     start; the loop meant to drive them reads an undeclared `currenty` and
+     throws on its first frame, so not one of them has ever been positioned.
+     Nineteen become a chained comet here - each link eases toward the one ahead
+     of it rather than toward the pointer, which is what makes the tail bend
+     through a curve instead of smearing in a straight line. The last three stay
+     reserved for the two pulse emitters and the click ring.
+
+     This is the one part of the cursor that cannot be CSS: the positions come
+     out of pointer history, so there are no predetermined keyframes to write.
+     It is therefore rAF, but ONE loop for all nineteen rather than the twenty-two
+     the original started, transform-only so nothing touches layout, and it
+     switches itself off as soon as the pointer is still and every link has
+     caught up. */
+  var coarse = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!coarse && !reduce) {
+    var LINKS = 19;
+    var FOLLOW = 0.36;            // per-link easing; higher = shorter, snappier tail
+    var trail = [];
+
+    for (var i = 0; i < LINKS && i < cursor.children.length; i++) {
+      var k = i / (LINKS - 1);
+      var el = cursor.children[i];
+      // White at the head, cooling to the site accent (#ee2b2b) down the tail.
+      el.style.backgroundColor =
+        'rgb(' + Math.round(255 - 17 * k) + ',' + Math.round(255 - 212 * k) + ',' + Math.round(255 - 212 * k) + ')';
+      el.style.opacity = (0.6 * (1 - k) + 0.04).toFixed(3);
+      trail.push({ el: el, x: 0, y: 0, s: (1 - 0.72 * k).toFixed(3) });
+    }
+
+    var pointerX = 0, pointerY = 0, seeded = false, running = false;
+
+    function step() {
+      // .cursor is itself parked on the pointer, so each link is drawn as an
+      // offset from it. Read once per frame, never inside the loop.
+      var cx = parseFloat(cursor.style.left) || 0;
+      var cy = parseFloat(cursor.style.top) || 0;
+      var tx = pointerX, ty = pointerY, moving = false;
+
+      for (var i = 0; i < trail.length; i++) {
+        var t = trail[i];
+        var dx = tx - t.x, dy = ty - t.y;
+        if (dx > 0.1 || dx < -0.1 || dy > 0.1 || dy < -0.1) moving = true;
+        t.x += dx * FOLLOW;
+        t.y += dy * FOLLOW;
+        t.el.style.transform =
+          'translate3d(' + (t.x - cx).toFixed(2) + 'px,' + (t.y - cy).toFixed(2) + 'px,0) scale(' + t.s + ')';
+        tx = t.x; ty = t.y;
+      }
+
+      if (moving) requestAnimationFrame(step);
+      else running = false;
+    }
+
+    function wake() {
+      if (running) return;
+      running = true;
+      requestAnimationFrame(step);
+    }
+
+    window.addEventListener('mousemove', function (e) {
+      pointerX = e.pageX;
+      pointerY = e.pageY;
+      if (!seeded) {   // start collapsed on the pointer, not flying in from 0,0
+        seeded = true;
+        for (var i = 0; i < trail.length; i++) { trail[i].x = pointerX; trail[i].y = pointerY; }
+      }
+      wake();
+    }, { passive: true });
+
+    // Scrolling moves .cursor without moving the pointer, so every link's offset
+    // from it changes even though the links themselves have not moved.
+    window.addEventListener('scroll', wake, { passive: true });
+  }
+
 })();

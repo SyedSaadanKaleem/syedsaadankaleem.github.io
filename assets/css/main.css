@@ -8613,14 +8613,25 @@ margin-top: -2em;}
   pointer-events: none;
 }
 
-.cursor > div:nth-child(1),
-.cursor > div:nth-child(2) {
+/* Trail: the first nineteen. Sizes taper via a scale baked into the transform
+   cursors.js is already writing each frame, and the per-index opacity is set
+   there too - nineteen near-identical rules here would be worse. 10px head, so
+   at rest the whole collapsed stack hides under the 9px dot. */
+.cursor > div:nth-child(-n+19) {
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  background-color: #fff;
+}
+
+.cursor > div:nth-child(20),
+.cursor > div:nth-child(21) {
   width: 9px;
   height: 9px;
   background-color: rgba(255, 255, 255, 0.4);
 }
 
-.cursor > div:nth-child(3) {
+.cursor > div:nth-child(22) {
   width: 40px;
   height: 40px;
   border: 2px solid rgb(255, 255, 255);
@@ -8628,13 +8639,13 @@ margin-top: -2em;}
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .cursor.hover > div:nth-child(1),
-  .cursor.hover > div:nth-child(2) {
+  .cursor.hover > div:nth-child(20),
+  .cursor.hover > div:nth-child(21) {
     animation: cursorPulse 1000ms ease infinite !important;
   }
 
   /* Half a cycle in, so the pair emits on main's 500ms beat. */
-  .cursor.hover > div:nth-child(2) {
+  .cursor.hover > div:nth-child(21) {
     animation-delay: -500ms !important;
   }
 }
@@ -8642,7 +8653,7 @@ margin-top: -2em;}
 /* Click ring: 480ms so it finishes inside the 500ms the script now holds the
    class for. On main the class is pulled at 300ms against a 500ms animation, so
    the ring is yanked off screen at ~56px and 40% opacity mid-flight. */
-.cursor.ring > div:nth-child(3) {
+.cursor.ring > div:nth-child(22) {
   animation: cursorRing 480ms ease forwards !important;
 }
 
@@ -8693,11 +8704,12 @@ margin-top: -2em;}
 
 @media (prefers-reduced-motion: reduce) {
   .cursor > div,
-  .cursor.hover > div:nth-child(1),
-  .cursor.hover > div:nth-child(2),
-  .cursor.ring > div:nth-child(3) {
+  .cursor.hover > div:nth-child(20),
+  .cursor.hover > div:nth-child(21),
+  .cursor.ring > div:nth-child(22) {
     animation: none !important;
     opacity: 0 !important;
+    transform: none !important;
   }
 
   .cursor::after {
