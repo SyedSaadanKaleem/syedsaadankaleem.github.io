@@ -102,10 +102,14 @@
     var pointerX = 0, pointerY = 0, pointerCX = 0, pointerCY = 0, seeded = false, running = false;
 
     function step() {
-      // .cursor is itself parked on the pointer, so each link is drawn as an
-      // offset from it. Read once per frame, never inside the loop.
-      var cx = parseFloat(cursor.style.left) || 0;
-      var cy = parseFloat(cursor.style.top) || 0;
+      // Each link is drawn as an offset from .cursor, which is itself parked on
+      // the pointer - so the pointer's own page position IS the origin. Deriving
+      // it here rather than reading back cursor.style.left/top matters: the dot
+      // updates those from its own rAF-throttled scroll handler, and this loop
+      // could run first and measure the pre-scroll position, which put the whole
+      // trail a full scroll-delta away from the dot.
+      var cx = pointerX;
+      var cy = pointerY;
       var tx = pointerX, ty = pointerY, moving = false;
 
       for (var i = 0; i < trail.length; i++) {
@@ -142,14 +146,17 @@
     }, { passive: true });
 
     // Scrolling moves the pointer in PAGE space without firing a mousemove, so
-    // the stored page target goes stale and the trail converges on a point the
-    // pointer has already left - the tail visibly detaches from the dot as you
-    // scroll. Re-derive the target from the client position, which is exactly
-    // what the dot itself does on scroll, then let the loop run it in.
+    // the stored page target goes stale and every link keeps converging on a
+    // point the pointer has already left - that is the tail detaching from the
+    // dot mid-scroll. Re-derive the target from the client position, the way the
+    // dot does, and COLLAPSE the links onto it rather than easing them there:
+    // scrolling is not pointer movement, and a comet firing on every scroll is
+    // too much. One frame then repositions them all under the dot at zero offset.
     window.addEventListener('scroll', function () {
       if (seeded) {
         pointerX = pointerCX + window.scrollX;
         pointerY = pointerCY + window.scrollY;
+        for (var i = 0; i < trail.length; i++) { trail[i].x = pointerX; trail[i].y = pointerY; }
       }
       wake();
     }, { passive: true });
