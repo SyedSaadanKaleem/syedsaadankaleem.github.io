@@ -1,28 +1,22 @@
 /* Custom cursor: a dot that follows the pointer, pulses over interactive targets,
    and rings on click. Positioning uses left/top on purpose: the .ring keyframes
    animate this element's own transform, so a transform-based follow would be
-   overridden for the duration of every ring. The element is out-of-flow
-   (position: absolute) and 30px, so the per-move layout is trivial. */
+   overridden for the duration of every ring. The element is out-of-flow and
+   30px, so the per-move layout is trivial.
+
+   CLIENT coordinates, and .cursor is position: fixed (see main.css). It used to
+   be absolute in page coordinates, which meant scrolling moved it and a scroll
+   handler had to put it back - on an rAF, so for a frame or more the dot and the
+   trail both rendered a scroll-delta behind the page. Measured mid-scroll: the
+   page at y=3028 while the dot still sat at 2418 and the tail was 100px adrift.
+   Fixed positioning makes scroll a non-event: nothing has to chase it. */
 (function () {
   var cursor = document.querySelector('.cursor');
   if (!cursor) return;
 
-  var clientY = 0;
   window.addEventListener('mousemove', function (e) {
-    clientY = e.clientY;
-    cursor.style.left = e.pageX + 'px';
-    cursor.style.top = e.pageY + 'px';
-  }, { passive: true });
-
-  // Keep the dot under the pointer when the page scrolls without the mouse moving.
-  var scrollQueued = false;
-  window.addEventListener('scroll', function () {
-    if (scrollQueued) return;
-    scrollQueued = true;
-    requestAnimationFrame(function () {
-      scrollQueued = false;
-      cursor.style.top = (window.scrollY + clientY) + 'px';
-    });
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
   }, { passive: true });
 
   document.addEventListener('mouseenter', function () { cursor.style.display = 'block'; });
@@ -99,15 +93,12 @@
       trail.push({ el: el, x: 0, y: 0, s: (1 - 0.72 * k).toFixed(3) });
     }
 
-    var pointerX = 0, pointerY = 0, pointerCX = 0, pointerCY = 0, seeded = false, running = false;
+    var pointerX = 0, pointerY = 0, seeded = false, running = false;
 
     function step() {
       // Each link is drawn as an offset from .cursor, which is itself parked on
-      // the pointer - so the pointer's own page position IS the origin. Deriving
-      // it here rather than reading back cursor.style.left/top matters: the dot
-      // updates those from its own rAF-throttled scroll handler, and this loop
-      // could run first and measure the pre-scroll position, which put the whole
-      // trail a full scroll-delta away from the dot.
+      // the pointer, so the pointer position IS the origin. Same client space as
+      // the dot, so the two cannot drift apart.
       var cx = pointerX;
       var cy = pointerY;
       var tx = pointerX, ty = pointerY, moving = false;
@@ -134,10 +125,8 @@
     }
 
     window.addEventListener('mousemove', function (e) {
-      pointerCX = e.clientX;
-      pointerCY = e.clientY;
-      pointerX = e.pageX;
-      pointerY = e.pageY;
+      pointerX = e.clientX;
+      pointerY = e.clientY;
       if (!seeded) {   // start collapsed on the pointer, not flying in from 0,0
         seeded = true;
         for (var i = 0; i < trail.length; i++) { trail[i].x = pointerX; trail[i].y = pointerY; }
@@ -145,21 +134,10 @@
       wake();
     }, { passive: true });
 
-    // Scrolling moves the pointer in PAGE space without firing a mousemove, so
-    // the stored page target goes stale and every link keeps converging on a
-    // point the pointer has already left - that is the tail detaching from the
-    // dot mid-scroll. Re-derive the target from the client position, the way the
-    // dot does, and COLLAPSE the links onto it rather than easing them there:
-    // scrolling is not pointer movement, and a comet firing on every scroll is
-    // too much. One frame then repositions them all under the dot at zero offset.
-    window.addEventListener('scroll', function () {
-      if (seeded) {
-        pointerX = pointerCX + window.scrollX;
-        pointerY = pointerCY + window.scrollY;
-        for (var i = 0; i < trail.length; i++) { trail[i].x = pointerX; trail[i].y = pointerY; }
-      }
-      wake();
-    }, { passive: true });
+    // No scroll handling at all. In client space a scroll does not move the
+    // pointer, the dot or the links, so there is nothing to correct and nothing
+    // that can fall behind - which also means the trail no longer fires on
+    // scroll, only on actual pointer movement.
   }
 
 })();

@@ -8697,9 +8697,17 @@ margin-top: -2em;}
   transition-duration: 140ms, 0s !important;
 }
 
+/* Fixed rather than the stock absolute, and driven from client coordinates, so
+   scrolling cannot move the cursor and no handler has to chase it back. */
+.cursor {
+  position: fixed;
+}
+
 /* .ring stays a pure state flag; the stock rule grew the box 30 -> 40px, a
-   layout change fired on a class toggle. */
+   layout change fired on a class toggle - and re-declared position: absolute,
+   which would drop the cursor back into page space for the length of a click. */
 .cursor.ring {
+  position: fixed;
   width: 30px;
   height: 30px;
   border: 0;
