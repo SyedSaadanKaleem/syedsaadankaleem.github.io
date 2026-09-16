@@ -8628,10 +8628,11 @@ margin-top: -2em;}
 .cursor > div:nth-child(21) {
   width: 9px;
   height: 9px;
-  /* Accent red at the same 0.4 alpha the white carried. The keyframe animates
-     opacity on top of this, so the two multiply and the fade profile through
-     the loop is unchanged - only the hue moves. */
-  background-color: rgba(238, 43, 43, 0.4);
+  /* Dark red, and a little more alpha than the 0.4 the white carried. The
+     keyframe animates opacity on top of this, so the two multiply: raising the
+     base lifts the whole wave, and the 65% keyframe below pulls the back of it
+     down again so the end still fades out instead of riding brighter too. */
+  background-color: rgba(140, 24, 24, 0.55);
 }
 
 .cursor > div:nth-child(22) {
@@ -8688,11 +8689,19 @@ margin-top: -2em;}
 }
 
 @keyframes cursorPulse {
-  from {
+  0% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
-  to {
+  /* Bends the decay down so the last third of the expansion is essentially
+     gone. Without it the higher base alpha would make the tail linger. */
+  50% {
+    opacity: 0.09;
+  }
+  75% {
+    opacity: 0.015;
+  }
+  100% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(7);
   }
