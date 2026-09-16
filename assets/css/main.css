@@ -8635,11 +8635,19 @@ margin-top: -2em;}
   background-color: rgb(178, 32, 32);
 }
 
+/* The click ring is the dot's own red rim coming off and expanding, so it is
+   not merely sized like the rim - it is built the same way. Same 9px box, same
+   box-shadow pair, no fill, so at scale 1 it is pixel-for-pixel the rim sitting
+   on top of itself. (A 1.2px border was the obvious approach and is wrong:
+   Chrome snaps border widths to device pixels, so 1.2px rendered as 1px and the
+   inner radius landed at 5.2 instead of 5.0. box-shadow spread is not snapped.) */
 .cursor > div:nth-child(22) {
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgb(255, 255, 255);
-  background-color: rgba(255, 255, 255, 0.356);
+  width: 9px;
+  height: 9px;
+  background-color: transparent;
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.55),
+    0 0 0 1.7px #ee2b2b;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -8709,14 +8717,18 @@ margin-top: -2em;}
 
 /* 0.15 rather than main's scale(0): at a 40px base that is 6px, hidden behind
    the 9px dot, so it looks identical while nothing has to appear from nothing. */
+/* Starts at scale 1, i.e. exactly on the rim, and pushes out to 3.2 (12.4px ->
+   39.7px). The stroke scales with it, 1.2px -> 3.8px, which is what selling
+   "that ring got bigger" requires - a ring that expanded while staying a
+   hairline would read as a separate ripple, not as the same object. */
 @keyframes cursorRing {
   from {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(0.15);
+    transform: translate(-50%, -50%) scale(1);
   }
   to {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%) scale(3.2);
   }
 }
 
