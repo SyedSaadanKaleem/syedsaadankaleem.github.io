@@ -8665,7 +8665,7 @@ margin-top: -2em;}
 .cursor::after {
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.55),
-    0 0 0 2.5px #ee2b2b;
+    0 0 0 1.5px #ee2b2b;
   transition: transform 140ms var(--ease-out) !important;
 }
 
