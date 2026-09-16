@@ -776,6 +776,84 @@
 				</section>
 			</div>
 		</section>
+
+		<!-- ================================================== -->
+		<!-- SECTION 3.5: REEL (pinned sequence, no page travel) -->
+		<!-- ================================================== -->
+		<section id="reel" aria-label="Work reel">
+			<div class="reel-pin">
+				<div class="reel-stage">
+
+					<div class="reel-intro">
+						<span class="reel-line" style="--i:0">Six years in.</span>
+						<span class="reel-line" style="--i:1">Two studios founded.</span>
+						<span class="reel-line" style="--i:2">Ten titles built.</span>
+					</div>
+
+					<div class="reel-titles" aria-hidden="true">
+					<a class="reel-title" style="--i:0" href="ChessRun.html">
+						<span class="reel-title-num">01</span>
+						<span class="reel-title-name">Chess Run</span>
+					</a>
+					<a class="reel-title" style="--i:1" href="WorldScar.html">
+						<span class="reel-title-num">02</span>
+						<span class="reel-title-name">Worldscar</span>
+					</a>
+					<a class="reel-title" style="--i:2" href="Oneiros.html">
+						<span class="reel-title-num">03</span>
+						<span class="reel-title-name">Oneiros</span>
+					</a>
+					<a class="reel-title" style="--i:3" href="Snatch.html">
+						<span class="reel-title-num">04</span>
+						<span class="reel-title-name">Snatch</span>
+					</a>
+					<a class="reel-title" style="--i:4" href="SwiftBeat.html">
+						<span class="reel-title-num">05</span>
+						<span class="reel-title-name">Swift Beat</span>
+					</a>
+					<a class="reel-title" style="--i:5" href="CastleInvader.html">
+						<span class="reel-title-num">06</span>
+						<span class="reel-title-name">Castle Invader</span>
+					</a>
+					<a class="reel-title" style="--i:6" href="MeteorChase.html">
+						<span class="reel-title-num">07</span>
+						<span class="reel-title-name">Meteor Chase</span>
+					</a>
+					<a class="reel-title" style="--i:7" href="PenguinPinnacle.html">
+						<span class="reel-title-num">08</span>
+						<span class="reel-title-name">Penguin Pinnacle</span>
+					</a>
+					<a class="reel-title" style="--i:8" href="SlimeyAdventure.html">
+						<span class="reel-title-num">09</span>
+						<span class="reel-title-name">Slimey Adventure</span>
+					</a>
+					<a class="reel-title" style="--i:9" href="EggiPeggi.html">
+						<span class="reel-title-num">10</span>
+						<span class="reel-title-name">Eggi Peggi</span>
+					</a>
+					</div>
+
+					<div class="reel-roster">
+						<span class="reel-roster-label">The whole shelf</span>
+						<div class="reel-roster-grid">
+						<a class="reel-chip" style="--i:0" href="ChessRun.html">Chess Run</a>
+						<a class="reel-chip" style="--i:1" href="WorldScar.html">Worldscar</a>
+						<a class="reel-chip" style="--i:2" href="Oneiros.html">Oneiros</a>
+						<a class="reel-chip" style="--i:3" href="Snatch.html">Snatch</a>
+						<a class="reel-chip" style="--i:4" href="SwiftBeat.html">Swift Beat</a>
+						<a class="reel-chip" style="--i:5" href="CastleInvader.html">Castle Invader</a>
+						<a class="reel-chip" style="--i:6" href="MeteorChase.html">Meteor Chase</a>
+						<a class="reel-chip" style="--i:7" href="PenguinPinnacle.html">Penguin Pinnacle</a>
+						<a class="reel-chip" style="--i:8" href="SlimeyAdventure.html">Slimey Adventure</a>
+						<a class="reel-chip" style="--i:9" href="EggiPeggi.html">Eggi Peggi</a>
+						</div>
+					</div>
+
+					<div class="reel-rail" aria-hidden="true"><span class="reel-rail-fill"></span></div>
+
+				</div>
+			</div>
+		</section>
 		<!-- ================================================== -->
 		<!-- SECTION 4: JOURNEY (Experience + Certs + Studios)  -->
 		<!-- ================================================== -->
@@ -2059,6 +2137,33 @@
 			addEventListener('scroll', onScroll, { passive: true });
 			addEventListener('resize', onScroll, { passive: true });
 			update();
+		})();
+	</script>
+
+	<script>
+		// Reel: one pinned stage, one progress value, phases derived in CSS.
+		// Scroll drives the sequence rather than moving the page - nothing inside
+		// the stage travels, so there is no seam between beats to hide.
+		(function () {
+			var reel = document.getElementById("reel");
+			if (!reel) return;
+			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+				reel.style.setProperty("--p", "1");   // settled roster, no sequence
+				reel.classList.add("reel-static");
+				return;
+			}
+			var queued = false;
+			function write() {
+				queued = false;
+				var r = reel.getBoundingClientRect();
+				var travel = reel.offsetHeight - (window.__vh || innerHeight);
+				var p = travel > 0 ? -r.top / travel : 0;
+				reel.style.setProperty("--p", (p < 0 ? 0 : p > 1 ? 1 : p).toFixed(4));
+			}
+			function onScroll() { if (!queued) { queued = true; requestAnimationFrame(write); } }
+			window.addEventListener("scroll", onScroll, { passive: true });
+			window.addEventListener("resize", onScroll);
+			write();
 		})();
 	</script>
 

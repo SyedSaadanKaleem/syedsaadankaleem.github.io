@@ -8813,3 +8813,193 @@ margin-top: -2em;}
     transition: none !important;
   }
 }
+
+/* ===========================================================================
+   REEL — a pinned sequence, not a scrolling section.
+
+   One sticky stage, one progress value (--p, written per frame by index.html),
+   and every beat derived from it in CSS. Nothing inside the stage travels with
+   the page, so the beats butt against each other with no seam to hide: scroll
+   position is a playhead, not a position.
+
+   Beats:  0.00-0.26  three intro lines land, then clear
+           0.26-0.88  ten titles come through, one at a time
+           0.88-1.00  they settle into the full roster
+
+   The whole thing is transform/opacity arithmetic - no transitions, so it never
+   fights the NO MOTION baseline, and scrubbing backwards runs it in reverse.
+   =========================================================================== */
+/* Selector must match #page-wrapper > section:not(#header), which is (2,0,1)
+   because :not(#header) contributes an ID - a plain #reel at (1,0,0) loses to
+   it and the z-index below never applied. */
+#page-wrapper > section#reel {
+  --p: 0;
+  position: relative;
+  /* The page is a stacked sticky reveal: #highlights 1, #main 2, #Certification
+     3, #footer 4, each pinned while the next scrolls over it. At the stock
+     z-index 1 the pinned #main painted straight over this. 3 puts it above
+     #main; #Certification is also 3 but later in the DOM, so it still scrolls
+     over the reel exactly like every other section. */
+  z-index: 3;
+  height: 420vh;
+  background: #0b0b0b;
+}
+
+#reel .reel-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#reel .reel-stage {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(1.5rem, 6vw, 6rem);
+}
+
+/* --- beat 1: the intro lines ---------------------------------------------- */
+#reel .reel-intro {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.3rem, 1.2vw, 0.9rem);
+  text-align: center;
+}
+
+#reel .reel-line {
+  --in: clamp(0, calc((var(--p) - var(--i) * 0.025) / 0.07), 1);
+  --out: clamp(0, calc((var(--p) - 0.2 - var(--i) * 0.015) / 0.06), 1);
+  font-family: 'Podium Sharp', 'Chakra Petch', sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 4.4vw, 3.4rem);
+  line-height: 1.05;
+  color: #fff;
+  opacity: calc(var(--in) * (1 - var(--out)));
+  transform: translate3d(0, calc((1 - var(--in)) * 1.4rem + var(--out) * -1.4rem), 0);
+}
+
+#reel .reel-line:nth-child(3) { color: #ee2b2b; }
+
+/* --- beat 2: the titles ---------------------------------------------------- */
+#reel .reel-titles {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+#reel .reel-title {
+  --start: calc(0.26 + var(--i) * 0.062);
+  --tp: clamp(0, calc((var(--p) - var(--start)) / 0.062), 1);
+  --in: clamp(0, calc(var(--tp) / 0.34), 1);
+  --out: clamp(0, calc((var(--tp) - 0.62) / 0.38), 1);
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  opacity: calc(var(--in) * (1 - var(--out)));
+  transform:
+    translate3d(calc((1 - var(--in)) * 5rem + var(--out) * -5rem), 0, 0)
+    rotate(calc((1 - var(--in)) * 2.5deg + var(--out) * -2.5deg));
+}
+
+#reel .reel-title-num {
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  color: #ee2b2b;
+}
+
+#reel .reel-title-name {
+  font-family: 'Podium Sharp', 'Chakra Petch', sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 9vw, 7rem);
+  line-height: 0.95;
+  color: #fff;
+  text-align: center;
+}
+
+/* --- beat 3: the roster ---------------------------------------------------- */
+#reel .reel-roster {
+  --r: clamp(0, calc((var(--p) - 0.88) / 0.1), 1);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  opacity: var(--r);
+  pointer-events: none;
+}
+
+#reel .reel-roster-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+#reel .reel-roster-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.4vw, 1rem);
+  max-width: 54rem;
+}
+
+#reel .reel-chip {
+  --cp: clamp(0, calc((var(--r) - var(--i) * 0.05) / 0.5), 1);
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2rem;
+  font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: var(--cp);
+  transform: translate3d(0, calc((1 - var(--cp)) * 0.7rem), 0);
+}
+
+/* Only clickable once the roster has actually arrived. */
+#reel .reel-roster { pointer-events: none; }
+#reel[style*="--p: 0.9"] .reel-roster,
+#reel[style*="--p: 1"] .reel-roster,
+#reel.reel-static .reel-roster { pointer-events: auto; }
+
+/* --- the playhead ---------------------------------------------------------- */
+#reel .reel-rail {
+  position: absolute;
+  left: clamp(1.5rem, 6vw, 6rem);
+  right: clamp(1.5rem, 6vw, 6rem);
+  bottom: clamp(1.5rem, 5vh, 3rem);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+#reel .reel-rail-fill {
+  display: block;
+  height: 100%;
+  background: #ee2b2b;
+  transform: scaleX(var(--p));
+  transform-origin: 0 50%;
+}
+
+/* Reduced motion / no script: the sequence never runs, so the section is just
+   the roster. index.html pins --p at 1 and adds .reel-static. */
+#reel.reel-static {
+  height: auto;
+  min-height: 60vh;
+}
+
+#reel.reel-static .reel-pin { position: static; height: auto; padding: 5rem 0; }
+#reel.reel-static .reel-intro,
+#reel.reel-static .reel-titles,
+#reel.reel-static .reel-rail { display: none; }
+#reel.reel-static .reel-roster { position: static; opacity: 1; }
+#reel.reel-static .reel-chip { opacity: 1; transform: none; }
