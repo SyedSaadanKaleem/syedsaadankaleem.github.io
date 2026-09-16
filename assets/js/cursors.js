@@ -99,7 +99,7 @@
       trail.push({ el: el, x: 0, y: 0, s: (1 - 0.72 * k).toFixed(3) });
     }
 
-    var pointerX = 0, pointerY = 0, seeded = false, running = false;
+    var pointerX = 0, pointerY = 0, pointerCX = 0, pointerCY = 0, seeded = false, running = false;
 
     function step() {
       // .cursor is itself parked on the pointer, so each link is drawn as an
@@ -130,6 +130,8 @@
     }
 
     window.addEventListener('mousemove', function (e) {
+      pointerCX = e.clientX;
+      pointerCY = e.clientY;
       pointerX = e.pageX;
       pointerY = e.pageY;
       if (!seeded) {   // start collapsed on the pointer, not flying in from 0,0
@@ -139,9 +141,18 @@
       wake();
     }, { passive: true });
 
-    // Scrolling moves .cursor without moving the pointer, so every link's offset
-    // from it changes even though the links themselves have not moved.
-    window.addEventListener('scroll', wake, { passive: true });
+    // Scrolling moves the pointer in PAGE space without firing a mousemove, so
+    // the stored page target goes stale and the trail converges on a point the
+    // pointer has already left - the tail visibly detaches from the dot as you
+    // scroll. Re-derive the target from the client position, which is exactly
+    // what the dot itself does on scroll, then let the loop run it in.
+    window.addEventListener('scroll', function () {
+      if (seeded) {
+        pointerX = pointerCX + window.scrollX;
+        pointerY = pointerCY + window.scrollY;
+      }
+      wake();
+    }, { passive: true });
   }
 
 })();
