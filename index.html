@@ -2462,21 +2462,53 @@
 
 				// Panels are stacked, so the ones that are not on screen would still
 				// swallow clicks meant for the one that is. Mark the current beat and
-				// let CSS give only that one pointer-events.
+				// let CSS give only that one pointer-events. The same mark is what starts
+				// the beat's text: .is-live runs its entrance, .is-out runs its exit, and
+				// both play to the end on their own clock rather than tracking the thumb.
 				var slot = p * n;
-				var i = 0;
-				while (i + 1 < starts.length && slot >= starts[i + 1]) i++;
+				var i = -1;
+				// Nothing is live until the pin has actually engaged. Otherwise beat one
+				// would go live on page load - two screens above the fold - and play its
+				// entrance to an empty room, leaving nothing to arrive by the time anyone
+				// scrolled down to it.
+				if (arrive >= 1) {
+					i = 0;
+					while (i + 1 < starts.length && slot >= starts[i + 1]) i++;
+				}
 				if (i !== live) {
-					if (live0[live]) live0[live].classList.remove("is-live");
-					if (live0[i]) live0[i].classList.add("is-live");
+					if (live0[live]) {
+						live0[live].classList.remove("is-live");
+						// Scrolling back up out of the reel re-arms the beat instead of
+						// playing an exit at it; coming back down should be an arrival.
+						if (i >= 0) live0[live].classList.add("is-out");
+					}
+					if (i >= 0) {
+						live0[i].classList.remove("is-out", "is-done");
+						live0[i].classList.add("is-live");
+						// Landing part-way down the reel - a reload restores the scroll -
+						// must not play the beats above it as a show. They are simply
+						// already over, which is not the same thing as leaving.
+						for (var b = 0; b < i; b++) live0[b].classList.add("is-done");
+					} else {
+						clearBeats();
+					}
 					live = i;
 				}
 			}
 			function onScroll() { if (!queued) { queued = true; requestAnimationFrame(write); } }
 			window.addEventListener("scroll", onScroll, { passive: true });
+			// relayout() reset the index but left the marks on, so after a resize the old
+			// beat stayed live. That only cost it pointer-events before; now it would sit
+			// on screen with its text arrived.
+			function clearBeats() {
+				for (var b = 0; b < panels.length; b++) {
+					panels[b].classList.remove("is-live", "is-out", "is-done");
+				}
+			}
 			function relayout() {
 				placeSplits();
 				assignSlots();
+				clearBeats();
 				live = -1;          // the slot map changed; do not trust the old index
 				calibrate();
 				write();

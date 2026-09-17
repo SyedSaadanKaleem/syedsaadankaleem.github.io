@@ -9271,12 +9271,12 @@ margin-top: -2em;}
 /* Slide one: done by 0.18, and the plate only starts settling at 0.22 - the hero
    packs the name first, then assembles the frame around it. */
 #reel .reel-panel--title .rl-ltr {
-  --lp: clamp(0, calc((var(--tp) - var(--w) * 0.022 - var(--i) * 0.006) / 0.07), 1);
+  --lp: clamp(0, calc((var(--t) - var(--w) * 0.022 - var(--i) * 0.006) / 0.07), 1);
 }
 
 /* Slide two: ten words instead of four, so they follow each other faster. */
 #reel .reel-panel--collab .rl-ltr {
-  --lp: clamp(0, calc((var(--tp) - 0.20 - var(--w) * 0.018 - var(--i) * 0.005) / 0.07), 1);
+  --lp: clamp(0, calc((var(--t) - 0.03 - var(--w) * 0.018 - var(--i) * 0.005) / 0.07), 1);
 }
 
 /* The headings' own opacity now belongs to the letters, or the two would
@@ -9858,3 +9858,105 @@ margin-top: -2em;}
   pointer-events: auto;
 }
 
+
+
+/* ===========================================================================
+   THE BEAT CLOCK - two vocabularies, and which one each thing speaks
+
+   SCROLL BASED is the default here and stays the default: --tp, the beat's
+   share of scroll progress, drives the eyebrow, the paragraph, the stats, the
+   banners, the photo, the panel crossfades, and the heading's settle from
+   oversized-and-centred down into its place. Scrubbing those backwards runs
+   them backwards, which is the point.
+
+   ENTRANCE/EXIT is --t, the same 0-to-1 number on a clock instead of a
+   scrollbar. Only the headings use it. Their letters pack in from the right,
+   each one rotated further than the last, and a scrub head parked halfway
+   through that leaves the word overlapping itself - a state nobody should be
+   able to stop on. On a clock it starts when the beat goes live and finishes
+   whether the scrolling does or not.
+
+   --t needs @property to interpolate: an unregistered custom property animates
+   discretely, flipping at the halfway mark. Where that is unsupported the pack
+   snaps in one step rather than breaking, which is the right way round.
+   =========================================================================== */
+@property --t {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* 0.78 is where --go opens, so the entrance runs right up to the exit's door
+   and stops. `both` holds 0 before it starts and 0.78 after it ends, so a beat
+   that has finished arriving stays arrived. */
+@keyframes reelBeatIn {
+  from { --t: 0; }
+  to   { --t: 0.78; }
+}
+
+@keyframes reelBeatOut {
+  from { --t: 0.78; }
+  to   { --t: 1; }
+}
+
+/* The entrance is long because it is a sequence, not a fade: at 2.4s the
+   heading packs in 550ms, settles by 1.3s, and the last stat lands at 2.2s -
+   about the shape of the hero's, which takes 1.5s for fewer pieces. The exit is
+   a quarter of that; nobody should wait on an exit. */
+#reel .reel-panel--intro {
+  --beat-in: 2400ms;
+  --beat-out: 560ms;
+}
+
+/* !important because the branch's baseline turns every animation off at *, and
+   this is one of the carve-outs - same shape as the hero's .hero-in rules. */
+#reel .reel-panel--intro.is-live {
+  animation: reelBeatIn var(--beat-in) linear both !important;
+}
+
+#reel .reel-panel--intro.is-out {
+  animation: reelBeatOut var(--beat-out) linear both !important;
+}
+
+/* Over without having played - the end state, no animation. A reload parked on
+   a later beat would otherwise leave slide one at --t 0, which is its state on
+   the approach: panel lit and WHO I AM at full strength, on top of slide four. */
+#reel .reel-panel--intro.is-done {
+  --t: 1;
+}
+
+/* Only the heading reads the clock. Its exit is the same formula the rest of
+   the slide uses, over --t instead of --tp, so the pack that arrived on a timer
+   also leaves on one. Everything else below - the eyebrow, the paragraph, the
+   stats, the banners, the panel's own crossfade, and the heading's settle from
+   oversized-and-centred down to its place - stays tied to the scrollbar. */
+#reel .reel-panel--intro .intro2-title,
+#reel .reel-panel--intro .intro2-collab-title {
+  --go: clamp(0, calc((var(--t) - 0.78) / 0.2), 1);
+  --gone: clamp(0, calc((var(--go) - var(--eo, 0)) / 0.5), 1);
+}
+
+/* Slide two's heading slid in on --show at 0.20, which was its place in a
+   scroll sequence behind the eyebrow. On its own clock there is nothing to
+   queue behind, so it moves with its own letters. */
+#reel .reel-panel--collab .intro2-collab-title {
+  --show: clamp(0, calc((var(--t) - 0.03) / 0.30), 1);
+}
+
+/* No script and reduced motion both land here. 0.75 is past the last thing to
+   arrive and short of the first thing to leave, so a beat reads as settled.
+
+   --tp needs the same thing and was not getting it. The fallback sets --p: 1,
+   which is the END of the sequence, so every --tp clock computed 1 and --go
+   with it: measured at --p 1, the eyebrow, the paragraph, the four stats and
+   the banners were all at opacity 0. Reduced motion was being shown a
+   half-empty slide. One value at the source fixes every beat, work beats
+   included, because they all read --tp and nothing else. */
+#reel.reel-static .reel-panel {
+  --tp: 0.75;
+}
+
+#reel.reel-static .reel-panel--intro {
+  --t: 0.75;
+  animation: none !important;
+}
