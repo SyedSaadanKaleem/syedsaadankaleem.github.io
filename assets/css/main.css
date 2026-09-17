@@ -8943,7 +8943,13 @@ margin-top: -2em;}
   /* NOT stretch: these carry an explicit width, so stretch left-aligns them in
      the track and the intro beats sat 176px off centre. */
   justify-self: center;
-  --tp: clamp(0, calc((var(--p) - var(--i) * var(--span)) / var(--span)), 1);
+  /* From --d, not from --i * --span. --i is a SLOT index and --span is
+     slots-per-total, so multiplying them only lands on the beat's start when it
+     owns one slot, or when it happens to sit at slot 0. Slide one was correct by
+     luck - it is at 0 - and the moment slide two took two slots at slot 3 its
+     start computed as 0.6 instead of 0.3 and its whole timeline fell outside the
+     beat, so none of its content ever moved. */
+  --tp: clamp(0, calc(var(--d) / var(--slots, 1)), 1);
   /* The envelope runs off --d, not --tp, because --tp is clamped to this beat's
      own slot and a crossfade has to start before the slot does. --d is the same
      progress unclamped: slots past this beat's start, negative while the beat
@@ -9000,8 +9006,8 @@ margin-top: -2em;}
    through the shrink instead of drifting in from the middle.
    =========================================================================== */
 #reel .reel-panel--title {
-  --appear: clamp(0, calc(var(--tp) / 0.08), 1);
-  --settle: clamp(0, calc((var(--tp) - 0.1) / 0.16), 1);
+  --appear: clamp(0, calc(var(--tp) / 0.10), 1);
+  --settle: clamp(0, calc((var(--tp) - 0.12) / 0.26), 1);
   /* 1 while the heading is still big and centred, 0 once it has settled.
      Everything in the opening phase is written against this. */
   --grow: calc(1 - var(--settle));
@@ -9106,13 +9112,13 @@ margin-top: -2em;}
 }
 
 #reel .reel-panel--title .intro2-lead {
-  --show: clamp(0, calc((var(--tp) - 0.28) / 0.08), 1);
+  --show: clamp(0, calc((var(--tp) - 0.44) / 0.16), 1);
   opacity: var(--show);
   transform: translate3d(0, calc((1 - var(--show)) * 1.2rem), 0);
 }
 
 #reel .reel-panel--title .intro2-stat {
-  --show: clamp(0, calc((var(--tp) - 0.38 - var(--n-stat) * 0.035) / 0.07), 1);
+  --show: clamp(0, calc((var(--tp) - 0.60 - var(--n-stat) * 0.05) / 0.10), 1);
   opacity: var(--show);
   transform: translate3d(0, calc((1 - var(--show)) * 1rem), 0);
 }
@@ -9133,6 +9139,35 @@ margin-top: -2em;}
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.4rem, 3vh, 2.4rem) clamp(1.5rem, 3vw, 3rem);
   align-self: center;
+}
+
+/* Slide two's copy had no timeline at all. The eyebrow and the line under it sat
+   at opacity 1 with transform: none from the moment the reel pinned - three
+   beats before anyone could see them - and only the banners moved. They lead
+   now, and the banners follow rather than arriving first into a heading that was
+   already there.
+
+   The beat also takes two slots instead of one. At one, each of these would have
+   46px of scroll to travel in, which is half a wheel notch - animating over a
+   distance that short is indistinguishable from not animating. */
+#reel .reel-panel--collab .intro2-eyebrow {
+  --show: clamp(0, calc((var(--tp) - 0.10) / 0.16), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 0.9rem), 0);
+}
+
+#reel .reel-panel--collab .intro2-collab-title {
+  --show: clamp(0, calc((var(--tp) - 0.22) / 0.18), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 1.1rem), 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--collab .intro2-eyebrow,
+  #reel .reel-panel--collab .intro2-collab-title {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ===========================================================================
@@ -9338,7 +9373,7 @@ margin-top: -2em;}
 /* They arrive one after another once the beat is in, finishing well before its
    exit ramp at 0.70. */
 #reel .reel-panel--collab .intro2-logo {
-  --show: clamp(0, calc((var(--tp) - 0.18 - var(--n-card) * 0.07) / 0.14), 1);
+  --show: clamp(0, calc((var(--tp) - 0.40 - var(--n-card) * 0.07) / 0.14), 1);
   opacity: var(--show);
   transform: translate3d(calc((1 - var(--show)) * -1rem), 0, 0);
 }
