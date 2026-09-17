@@ -8813,6 +8813,32 @@ margin-top: -2em;}
 #introTittle .intro2-logo:nth-child(3) { transition-delay: 420ms !important; }
 #introTittle .intro2-logo:nth-child(4) { transition-delay: 465ms !important; }
 
+/* The headline arrives with its own weight. Every piece of this slide rises the
+   same 1.1rem on the same curve, which is right for a 0.7rem eyebrow and
+   underplays 60px of display type - the largest thing on the slide reading as
+   though it weighed the same as the smallest. A little more travel and a scale
+   that settles, which is the move slide one of the reel already makes on this
+   same heading.
+
+   Transform only, so it stays on the compositor - the letter-spacing tighten the
+   deck uses on .hl-slide-title would reflow the line on every frame, and this is
+   a paragraph-width headline, not a card title.
+
+   transform-origin at the left edge: centred, a 0.975 scale walks the first
+   letter sideways about 6px as it resolves, and the eye is on that letter.
+
+   Ordered before the reduced-motion block below so that block still wins. */
+#introTittle .intro2-title.intro-fx {
+  transform: translateY(1.6rem) scale(0.975) !important;
+  transform-origin: 0% 50%;
+}
+
+/* (1,3,0) - the shared .is-in rule is (1,2,0) and would lose to the rule above,
+   leaving the headline permanently offset. */
+#introTittle .intro2-title.intro-fx.is-in {
+  transform: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   #introTittle .intro-fx,
   #introTittle .intro-fx.is-in {
