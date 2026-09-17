@@ -8833,9 +8833,6 @@ margin-top: -2em;}
    whole timeline is that one rule, so adding or removing a beat is a markup
    change and nothing else.
 
-   Type is the site's own scale, not a parallel one: .reel-kicker matches
-   .intro2-eyebrow span, .reel-h matches .intro2-title, .reel-sub matches
-   .intro2-lead, and the stat pair matches .intro2-stat-num / -label.
 
    Transform/opacity arithmetic only - no transitions, so it never fights the NO
    MOTION baseline and scrubbing backwards runs it in reverse.
@@ -8927,27 +8924,6 @@ margin-top: -2em;}
 
 /* Only the beat on screen takes clicks; the rest are stacked underneath it. */
 #reel .reel-panel.is-live { pointer-events: auto; }
-
-/* --- type: the site's scale ------------------------------------------------ */
-#reel .reel-kicker {
-  display: block;
-  margin-bottom: 1.4rem;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-#reel .reel-h {
-  margin: 0 0 1.6rem;
-  font-family: 'Podium Sharp', 'Chakra Petch', sans-serif;
-  text-transform: uppercase;
-  color: #fff;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  font-size: clamp(2rem, 4.4vw, 3.8rem);
-}
 
 /* Work beats ARE .hl-slide elements, so every layout rule the deck already has
    applies to them unchanged - the two-column grid, the card frame, the copy
