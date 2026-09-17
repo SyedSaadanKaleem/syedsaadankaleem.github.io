@@ -8918,14 +8918,24 @@ margin-top: -2em;}
      the track and the intro beats sat 176px off centre. */
   justify-self: center;
   --tp: clamp(0, calc((var(--p) - var(--i) * var(--span)) / var(--span)), 1);
-  --in: clamp(0, calc(var(--tp) / 0.3), 1);
-  --out: clamp(0, calc((var(--tp) - 0.7) / 0.3), 1);
+  /* The envelope runs off --d, not --tp, because --tp is clamped to this beat's
+     own slot and a crossfade has to start before the slot does. --d is the same
+     progress unclamped: slots past this beat's start, negative while the beat
+     before it still holds the screen.
+
+     That matters. On --tp the outgoing beat reached 0 at exactly the frame the
+     incoming one left 0, so total opacity on screen ran 0.50, 0.27, 0.10, 0.00,
+     0.10, 0.27 - every slide change dipped through black. Sharing one 0.32-slot
+     window puts both at 0.5 across the boundary instead. */
+  --d: calc(var(--p) * var(--n) - var(--i));
+  --in: clamp(0, calc((var(--d) + 0.16) / 0.32), 1);
+  --out: clamp(0, calc((var(--d) - var(--slots, 1) + 0.16) / 0.32), 1);
   grid-area: 1 / 1;
   width: min(54rem, 100%);
   text-align: center;
   pointer-events: none;
   opacity: calc(var(--in) * (1 - var(--out)));
-  transform: translate3d(calc((1 - var(--in)) * 3.5rem + var(--out) * -3.5rem), 0, 0);
+  transform: translate3d(calc((1 - var(--in)) * 2rem + var(--out) * -2rem), 0, 0);
 }
 
 /* Only the beat on screen takes clicks; the rest are stacked underneath it. */
@@ -9522,6 +9532,64 @@ margin-top: -2em;}
   margin-top: -100vh;
 }
 
+/* ===========================================================================
+   CONTENT INSIDE THE GAME BEATS
+
+   The deck already owns this choreography and the reel was not switching it on.
+   .hl-slide > .hl-slide-bg presses in on a perspective rotateX, and
+   .hl-slide-title tightens its letter-spacing - both driven by --enter, which
+   sits at its neutral 1 in the reel because nothing writes it. Driving it off
+   the beat's own progress is the whole card animation, already written and
+   already matching the deck.
+
+   --exit stays 0 deliberately. It fades and dims the card and the copy, which
+   the panel's envelope is already doing - driving both fades the beat out twice
+   and the earlier one wins. */
+#reel .reel-panel--work {
+  --enter: clamp(0, calc((var(--tp) - 0.05) / 0.25), 1);
+}
+
+/* The copy column's own --enter slide is neutralised so it does not compound
+   with the line cascade below - two moves at once read as one sloppy one. */
+#reel .reel-panel--work > .hl-slide-content {
+  transform: none;
+}
+
+/* Lines arrive one after another rather than as a block: 0.07 of a slot apart,
+   0.14 to travel, so the last lands at 0.67 and the beat still holds before its
+   exit ramp opens at 0.84. */
+#reel .reel-panel--work .hl-tag,
+#reel .reel-panel--work .hl-slide-title,
+#reel .reel-panel--work .hl-slide-sub,
+#reel .reel-panel--work .hl-slide-desc,
+#reel .reel-panel--work .hl-slide-actions {
+  --show: clamp(0, calc((var(--tp) - 0.18 - var(--n-line) * 0.07) / 0.14), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 0.75rem), 0);
+}
+
+#reel .reel-panel--work .hl-tag { --n-line: 0; }
+#reel .reel-panel--work .hl-slide-title { --n-line: 1; }
+#reel .reel-panel--work .hl-slide-sub { --n-line: 2; }
+#reel .reel-panel--work .hl-slide-desc { --n-line: 3; }
+#reel .reel-panel--work .hl-slide-actions { --n-line: 4; }
+
+/* The mosaic reads as one object arriving, then six tiles landing across it.
+   Tighter than the copy - six items at 0.07 apart would still be going when the
+   beat starts to leave. */
+#reel .reel-panel--work .hl-cobweb-card .hl-mini {
+  --show: clamp(0, calc((var(--tp) - 0.26 - var(--n-tile) * 0.045) / 0.13), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 0.6rem), 0);
+}
+
+#reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(1) { --n-tile: 0; }
+#reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(2) { --n-tile: 1; }
+#reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(3) { --n-tile: 2; }
+#reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(4) { --n-tile: 3; }
+#reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(5) { --n-tile: 4; }
+#reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(6) { --n-tile: 5; }
+
 /* No script / reduced motion: everything at rest. */
 @media (prefers-reduced-motion: reduce) {
   #reel .reel-panel--title .intro2,
@@ -9529,10 +9597,21 @@ margin-top: -2em;}
   #reel .reel-panel--title .intro2-title > span,
   #reel .reel-panel--title .intro2-eyebrow,
   #reel .reel-panel--title .intro2-lead,
-  #reel .reel-panel--title .intro2-stat {
+  #reel .reel-panel--title .intro2-stat,
+  #reel .reel-panel--work .hl-tag,
+  #reel .reel-panel--work .hl-slide-title,
+  #reel .reel-panel--work .hl-slide-sub,
+  #reel .reel-panel--work .hl-slide-desc,
+  #reel .reel-panel--work .hl-slide-actions,
+  #reel .reel-panel--work .hl-cobweb-card .hl-mini {
     opacity: 1;
     transform: none;
     margin-left: 0;
+  }
+
+  /* The card's press is a transform too - hold it at rest. */
+  #reel .reel-panel--work {
+    --enter: 1;
   }
 }
 
