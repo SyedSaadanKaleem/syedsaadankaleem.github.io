@@ -852,10 +852,22 @@
 									</div>
 									<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
 									<div class="intro2-logos intro2-logos--left">
-										<div class="intro2-logo"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
-										<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
-										<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-										<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
+										<div class="intro2-logo">
+											<img src="./logos/CanvasDigital.svg" alt="" />
+											<span class="intro2-logo-name">Canvas Digital</span>
+										</div>
+										<div class="intro2-logo">
+											<img src="./logos/Khareed-o-Mobile.svg" alt="" />
+											<span class="intro2-logo-name">Khareed-o-Mobile</span>
+										</div>
+										<div class="intro2-logo">
+											<img src="./logos/LiftOnHai.svg" alt="" />
+											<span class="intro2-logo-name">LiftOnHai</span>
+										</div>
+										<div class="intro2-logo">
+											<img src="./logos/ShotSpire.svg" alt="" />
+											<span class="intro2-logo-name">ShotSpire</span>
+										</div>
 									</div>
 								</div>
 								<aside class="intro2-collab">
@@ -865,14 +877,6 @@
 												alt="Receiving the Future Play Investor Summit award for Pixel Dream Studios" />
 											<figcaption>Future Play Investor Summit ’26 · Award · CEGA</figcaption>
 										</figure>
-										<div class="intro2-logos">
-											<div class="intro2-logo"><img src="./logos/CanvasDigital.svg"
-													alt="Canvas Digital" /></div>
-											<div class="intro2-logo"><img src="./logos/Khareed-o-Mobile.svg"
-													alt="Khareed-o-Mobile" /></div>
-											<div class="intro2-logo"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-											<div class="intro2-logo"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
-										</div>
 									</div>
 								</aside>
 							</div>
@@ -2361,13 +2365,13 @@
 				".reel-panel--title .intro2-grid",
 				"(max-width: 900px) and (max-height: 700px)");
 
-			// The partner logos. Only once the layout has actually stacked: between 721
-			// and 900 these are display: none and a duplicate row in the left column
-			// shows instead, so moving them out of .intro2-media-row would un-hide them
-			// and the same four logos would appear twice.
-			defineSplit(".reel-panel--partners", ".intro2-collab .intro2-logos",
-				".reel-panel--collab .intro2-media-row",
-				"(max-width: 720px) and (max-height: 700px)");
+			// The partner banners. They live at the foot of slide two's left column and
+			// move out whole, names and all. On width alone, not width and height: four
+			// stacked banners are tall, so once the two columns collapse they push slide
+			// two past the nav bar on a phone of any height - 73px over at 375x812.
+			defineSplit(".reel-panel--partners", ".reel-panel--collab .intro2-logos--left",
+				".reel-panel--collab .intro2",
+				"(max-width: 900px)");
 
 			function placeSplits() {
 				for (var k = 0; k < splits.length; k++) {

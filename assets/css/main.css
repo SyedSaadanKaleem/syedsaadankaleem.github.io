@@ -9173,14 +9173,14 @@ margin-top: -2em;}
 }
 
 /* ===========================================================================
-   THE PARTNERS BEAT - stacked short phones only
+   THE PARTNERS BEAT - phone widths
 
    The other half of splitting slide two: with the photo, its caption and four
    logos in one column, 320x568 was 73px over. The logos take a beat of their
-   own, which also gives the photo back the room to be looked at. Same rule as
-   the numbers beat - the element moves, it is not duplicated - and the driver
-   only does it below 721px, because between 721 and 900 these logos are hidden
-   and a duplicate row in the left column shows instead. */
+   own, which also gives the photo back the room to be looked at. Four stacked
+   banners are tall, so this happens on width alone: once the two columns
+   collapse they push slide two past the nav bar on a phone of any height. Same
+   rule as the numbers beat - the element moves, it is not duplicated. */
 #reel .reel-panel--partners {
   display: none;
 }
@@ -9194,7 +9194,11 @@ margin-top: -2em;}
   display: none;
 }
 
-@media (max-width: 720px) and (max-height: 700px) {
+/* Must be the same condition the driver splits on. If the beat is hidden while
+   the driver has moved the banners into it, the partners disappear from the page
+   altogether - which is what happened at 375x812 when only one of the two was
+   widened. */
+@media (max-width: 900px) {
   #reel .reel-panel--partners {
     display: flex;
   }
@@ -9202,20 +9206,21 @@ margin-top: -2em;}
 
 #reel .reel-panel--partners .intro2-logos {
   width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* One column on a phone held upright, two when it is on its side - four
+     stacked banners do not fit the 275px a landscape phone has left once the nav
+     bar has its share, and that was 8px over. auto-fit works it out from the
+     width rather than needing a breakpoint for it. */
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  /* The 30rem cap the list carries for slide two comes with it when it moves;
+     here the beat is the whole screen, and leaving it on held auto-fit to one
+     column at 812 wide. */
+  max-width: none;
   grid-auto-rows: auto;
   height: auto;
-  gap: clamp(0.8rem, 3vh, 1.6rem);
+  gap: clamp(0.6rem, 2vh, 1.1rem);
   margin-top: 0;
 }
 
-#reel .reel-panel--partners .intro2-logo {
-  padding: clamp(0.9rem, 3vh, 1.5rem) 1rem;
-}
-
-#reel .reel-panel--partners .intro2-logo img {
-  max-height: clamp(2rem, 7vh, 3rem);
-}
 
 #reel .reel-panel--partners .intro2-logo {
   --show: clamp(0, calc((var(--tp) - 0.12 - var(--n-logo) * 0.08) / 0.16), 1);
@@ -9238,15 +9243,97 @@ margin-top: -2em;}
 /* ===========================================================================
    SLIDE TWO - COLLABORATIONS
 
-   The copy moved into the left track in the markup; it used to sit inside the
-   aside, which left the 1.3fr column empty and squeezed the photo and the four
-   logos into the 1fr one. Here the wide track is the wrong way round: the copy
-   is an eyebrow and one short line, and the media is the thing worth the room,
-   so the ratio is flipped. Only where there are two tracks - below 721 the grid
-   is a single column and must stay that way. */
-@media (min-width: 721px) {
-  #reel .reel-panel--collab .intro2-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+   The left track carries the whole list: eyebrow, line, and a banner per
+   partner. The right one is the photo. The ratio goes back to the intro's own
+   1.3fr / 1fr because the side with four banners on it is the side that needs
+   the width.
+
+   There is one list now. The markup had two - a set in the aside and a hidden
+   duplicate in the left column that stock swaps between at 721-900px - which
+   made sense when the logos belonged to the right-hand column. With them on the
+   left at every width the second copy has nothing to do, so it is gone and this
+   one is simply always shown. */
+#reel .intro2-logos--left {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(0.5rem, 1.4vh, 0.85rem);
+  margin-top: clamp(1rem, 3vh, 1.9rem);
+  width: 100%;
+  /* Capped rather than filling the 1.3fr track: with a mark and a name on it a
+     full-width banner is mostly empty to the right. If a line of copy is added
+     per partner later, raise this. */
+  max-width: min(100%, 30rem);
+}
+
+/* A banner rather than a tile: the mark at a fixed width on the left, a rule,
+   then the name. Fixing the mark's column is what makes four logos of different
+   proportions line up - centred tiles left every name starting somewhere else. */
+#reel .intro2-logos--left .intro2-logo {
+  display: grid;
+  grid-template-columns: clamp(4rem, 6vw, 5.5rem) 1px minmax(0, 1fr);
+  align-items: center;
+  justify-content: start;
+  gap: clamp(0.8rem, 1.6vw, 1.25rem);
+  padding: clamp(0.6rem, 1.6vh, 1rem) clamp(0.9rem, 1.8vw, 1.35rem);
+  text-align: left;
+}
+
+/* All three placed by hand. ::before is the first thing in the box tree, so on
+   auto-placement the rule took the logo's track and the image ended up in the
+   1px one - 1px wide and 0 tall. */
+#reel .intro2-logos--left .intro2-logo img {
+  grid-column: 1;
+}
+
+#reel .intro2-logos--left .intro2-logo::before {
+  content: "";
+  grid-column: 2;
+  align-self: stretch;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#reel .intro2-logos--left .intro2-logo-name {
+  grid-column: 3;
+}
+
+#reel .intro2-logos--left .intro2-logo img {
+  width: 100%;
+  max-width: 100%;
+  max-height: clamp(1.5rem, 3.4vh, 2.1rem);
+  object-fit: contain;
+  object-position: left center;
+}
+
+#reel .intro2-logos--left .intro2-logo-name {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(0.8rem, 0.95vw, 0.95rem);
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.78);
+  transition: color 0.3s ease;
+}
+
+#reel .intro2-logos--left .intro2-logo:hover .intro2-logo-name {
+  color: #fff;
+}
+
+/* They arrive one after another once the beat is in, finishing well before its
+   exit ramp at 0.70. */
+#reel .reel-panel--collab .intro2-logo {
+  --show: clamp(0, calc((var(--tp) - 0.18 - var(--n-card) * 0.07) / 0.14), 1);
+  opacity: var(--show);
+  transform: translate3d(calc((1 - var(--show)) * -1rem), 0, 0);
+}
+
+#reel .reel-panel--collab .intro2-logo:nth-child(1) { --n-card: 0; }
+#reel .reel-panel--collab .intro2-logo:nth-child(2) { --n-card: 1; }
+#reel .reel-panel--collab .intro2-logo:nth-child(3) { --n-card: 2; }
+#reel .reel-panel--collab .intro2-logo:nth-child(4) { --n-card: 3; }
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--collab .intro2-logo {
+    opacity: 1;
+    transform: none;
   }
 }
 
