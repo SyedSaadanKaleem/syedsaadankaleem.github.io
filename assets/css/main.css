@@ -9005,6 +9005,26 @@ margin-top: -2em;}
    number that happens to look like it. transform-origin keeps it left-aligned
    through the shrink instead of drifting in from the middle.
    =========================================================================== */
+/* The hero's exit, ported. #header.vg-hero.hero-out leaves in reverse order -
+   what arrived last goes first, the heading goes last so it is the final thing
+   on screen - and it travels back the side it came from at roughly 60% of the
+   entrance distance, never overshooting. --go is that exit's clock; --eo is
+   each piece's place in the reverse order. It opens at 0.78 rather than riding
+   the panel's own 0.16-slot envelope, which is 46px of scroll and far too short
+   to stagger anything across. */
+#reel .reel-panel--intro {
+  --go: clamp(0, calc((var(--tp) - 0.78) / 0.2), 1);
+}
+
+#reel .reel-panel--intro .intro2-eyebrow,
+#reel .reel-panel--intro .intro2-title,
+#reel .reel-panel--intro .intro2-lead,
+#reel .reel-panel--intro .intro2-stat,
+#reel .reel-panel--intro .intro2-collab-title,
+#reel .reel-panel--intro .intro2-logo {
+  --gone: clamp(0, calc((var(--go) - var(--eo, 0)) / 0.5), 1);
+}
+
 #reel .reel-panel--title {
   --appear: clamp(0, calc(var(--tp) / 0.10), 1);
   --settle: clamp(0, calc((var(--tp) - 0.12) / 0.26), 1);
@@ -9071,10 +9091,13 @@ margin-top: -2em;}
 /* Growing from the top of its own centre: the top stays put so the eyebrow keeps
    its gap, and the middle stays put so the eyebrow can track it with a plain
    half-column at every width. Whatever that leaves is corrected by --nudge. */
+/* The heading keeps the entrance you designed - centred, oversized, settling -
+   and only borrows the hero's exit. --eo 0.30 puts it last out. */
 #reel .reel-panel--title .intro2-title {
+  --eo: 0.30;
   transform-origin: 50% 0;
-  opacity: var(--appear);
-  transform: scale(var(--s));
+  opacity: calc(var(--appear) * (1 - var(--gone)));
+  transform: translate3d(calc(var(--gone) * 0.6rem), 0, 0) scale(var(--s));
 }
 
 /* Centring that can be scrubbed. text-align is not interpolable, so going from
@@ -9106,21 +9129,26 @@ margin-top: -2em;}
    centre, so that centre does not move and a plain half-column tracks it. */
 #reel .reel-panel--title .intro2-eyebrow {
   width: max-content;
-  opacity: clamp(0, calc((var(--arrive, 1) - 0.3) / 0.7), 1);
+  --eo: 0.10;
+  opacity: calc(clamp(0, calc((var(--arrive, 1) - 0.3) / 0.7), 1) * (1 - var(--gone)));
   margin-left: calc(var(--grow) * 50%);
-  transform: translateX(calc(var(--grow) * -50%));
+  transform: translateX(calc(var(--grow) * -50% + var(--gone) * 0.4rem));
 }
 
 #reel .reel-panel--title .intro2-lead {
+  --eo: 0.18;
   --show: clamp(0, calc((var(--tp) - 0.44) / 0.16), 1);
-  opacity: var(--show);
-  transform: translate3d(0, calc((1 - var(--show)) * 1.2rem), 0);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
 }
 
 #reel .reel-panel--title .intro2-stat {
-  --show: clamp(0, calc((var(--tp) - 0.60 - var(--n-stat) * 0.05) / 0.10), 1);
-  opacity: var(--show);
-  transform: translate3d(0, calc((1 - var(--show)) * 1rem), 0);
+  /* Arrived last, so they leave first - and within the row the reverse order
+     again, the way the hero's scoreboard does it with (2 - var(--i)). */
+  --eo: calc((3 - var(--n-stat)) * 0.03);
+  --show: clamp(0, calc((var(--tp) - 0.50 - var(--n-stat) * 0.04) / 0.09), 1);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.7rem + var(--gone) * 0.4rem), 0, 0);
 }
 
 #reel .reel-panel--title .intro2-stat:nth-child(1) { --n-stat: 0; }
@@ -9151,15 +9179,17 @@ margin-top: -2em;}
    46px of scroll to travel in, which is half a wheel notch - animating over a
    distance that short is indistinguishable from not animating. */
 #reel .reel-panel--collab .intro2-eyebrow {
+  --eo: 0.10;
   --show: clamp(0, calc((var(--tp) - 0.10) / 0.16), 1);
-  opacity: var(--show);
-  transform: translate3d(0, calc((1 - var(--show)) * 0.9rem), 0);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.8rem + var(--gone) * 0.4rem), 0, 0);
 }
 
 #reel .reel-panel--collab .intro2-collab-title {
+  --eo: 0.26;
   --show: clamp(0, calc((var(--tp) - 0.22) / 0.18), 1);
-  opacity: var(--show);
-  transform: translate3d(0, calc((1 - var(--show)) * 1.1rem), 0);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -9167,6 +9197,21 @@ margin-top: -2em;}
   #reel .reel-panel--collab .intro2-collab-title {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* A phone on its side has about 240px of stage, and the driver measures a 73px
+   rise to open the heading on its centre - which drops the whole copy group low
+   enough that the lead hangs 14px under the nav bar early in the beat. Half the
+   travel there. The heading no longer opens dead centre on a landscape phone,
+   which is the right thing to give up: it is the one screen with no room for the
+   move at all. */
+@media (max-height: 560px) {
+  #reel .reel-panel--title .intro2 {
+    transform: translate3d(
+      calc(var(--grow) * var(--nudge, 0px)),
+      calc(var(--grow) * var(--rise, 0px) * 0.45),
+      0);
   }
 }
 
@@ -9208,9 +9253,10 @@ margin-top: -2em;}
 /* Landing one at a time, like they do on the wide layout, and finished well
    before the beat's exit ramp at 0.70. */
 #reel .reel-panel--numbers .intro2-stat {
+  --eo: calc((3 - var(--n-stat)) * 0.03);
   --show: clamp(0, calc((var(--tp) - 0.12 - var(--n-stat) * 0.09) / 0.16), 1);
-  opacity: var(--show);
-  transform: translate3d(0, calc((1 - var(--show)) * 1.2rem), 0);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.7rem + var(--gone) * 0.4rem), 0, 0);
 }
 
 #reel .reel-panel--numbers .intro2-stat:nth-child(1) { --n-stat: 0; }
@@ -9276,9 +9322,10 @@ margin-top: -2em;}
 
 
 #reel .reel-panel--partners .intro2-logo {
+  --eo: calc((3 - var(--n-logo)) * 0.03);
   --show: clamp(0, calc((var(--tp) - 0.12 - var(--n-logo) * 0.08) / 0.16), 1);
-  opacity: var(--show);
-  transform: translate3d(0, calc((1 - var(--show)) * 1rem), 0);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
 }
 
 #reel .reel-panel--partners .intro2-logo:nth-child(1) { --n-logo: 0; }
@@ -9373,9 +9420,11 @@ margin-top: -2em;}
 /* They arrive one after another once the beat is in, finishing well before its
    exit ramp at 0.70. */
 #reel .reel-panel--collab .intro2-logo {
-  --show: clamp(0, calc((var(--tp) - 0.40 - var(--n-card) * 0.07) / 0.14), 1);
-  opacity: var(--show);
-  transform: translate3d(calc((1 - var(--show)) * -1rem), 0, 0);
+  /* From the right like everything in the hero, not the left. */
+  --eo: calc((3 - var(--n-card)) * 0.03);
+  --show: clamp(0, calc((var(--tp) - 0.34 - var(--n-card) * 0.06) / 0.13), 1);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
 }
 
 #reel .reel-panel--collab .intro2-logo:nth-child(1) { --n-card: 0; }
@@ -9556,6 +9605,7 @@ margin-top: -2em;}
   #reel .reel-panel--work .hl-cobweb-card .hl-mini-name {
     padding: 0.3rem 0.35rem 0.35rem;
   }
+
 }
 
 /* ===========================================================================
@@ -9650,6 +9700,28 @@ margin-top: -2em;}
 #reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(4) { --n-tile: 3; }
 #reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(5) { --n-tile: 4; }
 #reel .reel-panel--work .hl-cobweb-card .hl-mini:nth-child(6) { --n-tile: 5; }
+
+/* The mosaic clears the nav bar by a single pixel at rest on the tightest
+   phones, so the 0.6rem the tiles travel through on the way in overhangs it by
+   9px mid-entrance. They keep the staggered fade and lose the rise - the same
+   trade reduced motion makes, for the same reason: there is no room for the
+   movement. Must sit after the rule above, which it ties with on specificity. */
+@media (max-height: 700px) and (max-width: 700px) {
+  #reel .reel-panel--work .hl-cobweb-card .hl-mini,
+  #reel .reel-panel--work .hl-tag,
+  #reel .reel-panel--work .hl-slide-title,
+  #reel .reel-panel--work .hl-slide-sub,
+  #reel .reel-panel--work .hl-slide-desc,
+  #reel .reel-panel--work .hl-slide-actions {
+    transform: none;
+  }
+
+  /* And the card's press, which is the biggest mover of the lot: the deck's
+     entrance drops it 3.5rem - 56px - and there is nowhere for that to go here. */
+  #reel .reel-panel--work {
+    --enter: 1;
+  }
+}
 
 /* No script / reduced motion: everything at rest. */
 @media (prefers-reduced-motion: reduce) {
