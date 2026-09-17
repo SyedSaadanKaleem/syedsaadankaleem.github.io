@@ -2424,7 +2424,9 @@
 				queued = false;
 				var r = reel.getBoundingClientRect();
 				var vh = window.__vh || innerHeight;
-				var travel = reel.offsetHeight - vh;
+				// Minus TWO viewports: one the pin occupies, and one held at the end so
+				// the next section can ride up over the last beat while it stands still.
+				var travel = reel.offsetHeight - 2 * vh;
 				var p = travel > 0 ? -r.top / travel : 0;
 				p = p < 0 ? 0 : p > 1 ? 1 : p;
 				reel.style.setProperty("--p", p.toFixed(4));

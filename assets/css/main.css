@@ -8849,7 +8849,13 @@ margin-top: -2em;}
   /* Same rule the other sections carry. */
   border-top: 3px solid #ee2b2b;
   z-index: 3;
-  height: calc(100vh + var(--n) * 32vh);
+  /* 100vh for the pin, 32vh of scroll per slot, and a second 100vh at the end
+     that the scrub does not use. The pin is still stuck through it, holding the
+     last beat, and Certification's -100vh margin puts it exactly there - so it
+     rides up over a frame that is standing still. The driver divides by
+     offsetHeight - 2 * vh to keep --p reaching 1 at the start of that hold
+     rather than the end of the section. */
+  height: calc(200vh + var(--n) * 32vh);
   background: #0b0b0b;
   /* Full bleed. Sections inherit 112px of side padding, which narrowed the pin
      and then double-padded against the deck's own 128px slide padding, leaving
@@ -9479,6 +9485,41 @@ margin-top: -2em;}
   #reel .reel-panel--work .hl-cobweb-card .hl-mini-name {
     padding: 0.3rem 0.35rem 0.35rem;
   }
+}
+
+/* ===========================================================================
+   THE LAST BEAT, AND THE HANDOFF OUT OF THE REEL
+
+   Cobweb's copy and its mosaic sat at opposite corners. The deck's desktop
+   composition is deliberately diagonal - the card is align-self: end with a
+   72px bottom margin, and the copy spans both columns and overlaps it - but
+   Cobweb is the one slide whose copy stock pins to column 1, so there is no
+   overlap to read and the two just end up 311px apart with the bottom-left
+   corner empty. Centred against each other instead. */
+#reel .reel-panel--work.hl-slide--cobweb > .hl-slide-bg,
+#reel .reel-panel--work.hl-slide--cobweb > .hl-slide-content {
+  align-self: center;
+}
+
+#reel .reel-panel--work.hl-slide--cobweb > .hl-slide-bg {
+  margin-bottom: 0;
+}
+
+/* The last beat never exits. Every other one fades out over the last 30% of its
+   slot to make way for the next, but there is no next - what comes over it is
+   the following section, and it has to have something to come over. Without
+   this the reel's final screen is empty by the time Certification arrives. */
+#reel .reel-panel:last-child {
+  --out: 0;
+}
+
+/* Certification rides up over that held frame, the way #main already does over
+   the deck's pin. -100vh starts it exactly where the reel's own pin would
+   otherwise begin to scroll away. No z-index needed: stock already puts both at
+   3, and Certification is later in the document, so it paints on top where they
+   overlap. */
+#page-wrapper > section#Certification {
+  margin-top: -100vh;
 }
 
 /* No script / reduced motion: everything at rest. */
