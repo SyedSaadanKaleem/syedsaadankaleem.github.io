@@ -783,7 +783,7 @@
 		<section id="reel" aria-label="Intro and selected work" style="--n: 10">
 			<div class="reel-pin">
 				<div class="reel-stage">
-					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--title" style="--i:0">
+					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--title" data-slots="3" style="--i:0">
 						<div class="hl-slide-content">
 							<div class="intro2-grid">
 								<div class="intro2">
@@ -829,6 +829,13 @@
 							</div>
 						</div>
 					</article>
+					<!-- Short phones split slide one: the four stats move here, because the copy
+					     and the numbers together need more height than a pinned screen has once
+					     the nav bar has taken its 100px. Hidden at every other size; the driver
+					     moves the stats element itself, so there is one copy of them in the DOM. -->
+					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--numbers" style="--i:3">
+						<div class="hl-slide-content"></div>
+					</article>
 					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--collab" style="--i:3">
 						<div class="hl-slide-content">
 							<div class="intro2-grid">
@@ -870,6 +877,11 @@
 								</aside>
 							</div>
 						</div>
+					</article>
+					<!-- The second short-phone split: the partner logos leave the collaborations
+					     beat so the photo and its caption are not fighting them for height. -->
+					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--partners">
+						<div class="hl-slide-content"></div>
 					</article>
 					<article class="reel-panel reel-panel--work hl-slide" style="--i:4; --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18)">
 						<a class="hl-slide-bg" href="ChessRun.html" aria-label="Open Chess Run">
@@ -2311,15 +2323,76 @@
 				reel.classList.add("reel-static");
 				return;
 			}
-			var panels = reel.querySelectorAll(".reel-panel");
-			// Beats do not all claim one slot - slide one claims three, so its
-			// sub-timeline has the scroll to play out in. panels.length is no longer
-			// the slot count, but each beat's --i IS where its slot starts, so the
-			// boundaries are already in the markup.
-			var n = parseFloat(getComputedStyle(reel).getPropertyValue("--n")) || panels.length;
-			var starts = Array.prototype.map.call(panels, function (el) {
-				return parseFloat(el.style.getPropertyValue("--i")) || 0;
-			});
+			var panels = Array.prototype.slice.call(reel.querySelectorAll(".reel-panel"));
+
+			// Short phones get a layout the wide one does not have: slide one's copy and
+			// its four stats together need more height than a pinned screen has once the
+			// fixed nav bar has taken its 100px, so the stats become a beat of their own.
+			// That means the slot map cannot be baked into the markup - the number of
+			// beats changes with the viewport - so it is built from whichever panels are
+			// actually on screen. Beats may claim more than one slot: slide one claims
+			// three, because its sub-timeline has five phases and one slot is about three
+			// notches of the wheel.
+			var n = panels.length;
+			var starts = [];
+			var live0 = [];
+
+			// Each split is one element that lives in the wide layout and moves to a beat
+			// of its own when the screen is too short to hold both. The element itself
+			// moves - there is no phone copy and wide copy to keep in step - so it is
+			// captured here, before it is ever relocated, and the selector is never
+			// resolved against its new home.
+			var splits = [];
+			function defineSplit(beatSel, elSel, homeSel, query) {
+				var beat = reel.querySelector(beatSel);
+				var el = reel.querySelector(elSel);
+				var home = reel.querySelector(homeSel);
+				if (!beat || !el || !home || !window.matchMedia) return;
+				splits.push({
+					el: el, home: home,
+					away: beat.querySelector(".hl-slide-content"),
+					mq: window.matchMedia(query)
+				});
+			}
+
+			// Slide one's four stats. Its copy and its numbers together outrun a pinned
+			// screen once the nav bar has taken its 100px.
+			defineSplit(".reel-panel--numbers", ".intro2-stats",
+				".reel-panel--title .intro2-grid",
+				"(max-width: 900px) and (max-height: 700px)");
+
+			// The partner logos. Only once the layout has actually stacked: between 721
+			// and 900 these are display: none and a duplicate row in the left column
+			// shows instead, so moving them out of .intro2-media-row would un-hide them
+			// and the same four logos would appear twice.
+			defineSplit(".reel-panel--partners", ".intro2-collab .intro2-logos",
+				".reel-panel--collab .intro2-media-row",
+				"(max-width: 720px) and (max-height: 700px)");
+
+			function placeSplits() {
+				for (var k = 0; k < splits.length; k++) {
+					var sp = splits[k];
+					var want = sp.mq.matches ? sp.away : sp.home;
+					if (want && sp.el.parentNode !== want) want.appendChild(sp.el);
+				}
+			}
+
+			function assignSlots() {
+				starts = [];
+				live0 = [];
+				var total = 0;
+				for (var k = 0; k < panels.length; k++) {
+					if (getComputedStyle(panels[k]).display === "none") continue;
+					var slots = parseFloat(panels[k].getAttribute("data-slots")) || 1;
+					panels[k].style.setProperty("--i", total);
+					panels[k].style.setProperty("--slots", slots);
+					starts.push(total);
+					live0.push(panels[k]);
+					total += slots;
+				}
+				n = total || panels.length;
+				reel.style.setProperty("--n", n);
+			}
 			var live = -1;
 			var queued = false;
 
@@ -2383,20 +2456,28 @@
 				var i = 0;
 				while (i + 1 < starts.length && slot >= starts[i + 1]) i++;
 				if (i !== live) {
-					if (panels[live]) panels[live].classList.remove("is-live");
-					panels[i].classList.add("is-live");
+					if (live0[live]) live0[live].classList.remove("is-live");
+					if (live0[i]) live0[i].classList.add("is-live");
 					live = i;
-
 				}
 			}
 			function onScroll() { if (!queued) { queued = true; requestAnimationFrame(write); } }
 			window.addEventListener("scroll", onScroll, { passive: true });
-			window.addEventListener("resize", function () { calibrate(); onScroll(); });
-			calibrate();
+			function relayout() {
+				placeSplits();
+				assignSlots();
+				live = -1;          // the slot map changed; do not trust the old index
+				calibrate();
+				write();
+			}
+			window.addEventListener("resize", relayout);
+			for (var q = 0; q < splits.length; q++) {
+				if (splits[q].mq.addEventListener) splits[q].mq.addEventListener("change", relayout);
+			}
 			// The heading is set in a webfont, so its size - and with it the whole
 			// measurement - changes when that font lands.
 			if (document.fonts && document.fonts.ready) document.fonts.ready.then(calibrate);
-			write();
+			relayout();
 		})();
 	</script>
 

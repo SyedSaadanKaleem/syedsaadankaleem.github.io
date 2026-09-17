@@ -8894,7 +8894,10 @@ margin-top: -2em;}
 }
 
 #reel .reel-panel {
-  --span: calc(1 / var(--n));
+  /* How much of the scrub this beat owns. The driver publishes --slots and --i
+     from the panels that are actually on screen, because the short-phone layout
+     has a beat the wide one does not and the slot map cannot be baked in. */
+  --span: calc(var(--slots, 1) / var(--n));
   min-height: 0;
   overflow: hidden;
   /* .hl-slide carries a 56px bottom margin - it is what spaces the deck's slides
@@ -8991,12 +8994,6 @@ margin-top: -2em;}
   --s: calc(1 + (var(--s-peak, 1.7) - 1) * var(--grow));
 
 
-  /* Three slots instead of one. The sub-timeline has five phases to get
-     through and one slot was about three notches of the wheel, so they landed
-     on top of each other. --i in the markup skips from 0 to 3 to match, and
-     everything inside is a fraction of --tp, so the whole sequence stretches
-     with it rather than needing retiming. */
-  --span: calc(3 / var(--n));
   align-items: flex-start;
   padding-top: clamp(4rem, 12vh, 9rem);
   /* The sub-timeline is the entrance, so the panel skips its own --in envelope
@@ -9121,6 +9118,124 @@ margin-top: -2em;}
 }
 
 /* ===========================================================================
+   THE NUMBERS BEAT - short phones only
+
+   Slide one's copy and its four stats together need more height than a pinned
+   screen has once the nav bar has taken its 100px: at 375x667 the last row
+   finished 93px underneath it. Rather than shrink the type until it fits, the
+   stats get a beat of their own. They are the same element, moved by the driver
+   - there is one set of numbers in the document, not a phone copy and a wide
+   copy drifting apart.
+
+   No heading on it. Each stat already carries its own label, so four of them
+   filling a screen reads as a statement without one, and inventing a title for
+   a beat the wide layout does not have would put copy on the site that only
+   some visitors ever see. */
+#reel .reel-panel--numbers {
+  display: none;
+}
+
+@media (max-width: 900px) and (max-height: 700px) {
+  #reel .reel-panel--numbers {
+    display: flex;
+  }
+}
+
+/* With the screen to itself the 2x2 can breathe and the figures carry it. */
+#reel .reel-panel--numbers .intro2-stats {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.6rem, 6vh, 3.2rem) clamp(1.25rem, 6vw, 2.5rem);
+}
+
+#reel .reel-panel--numbers .intro2-stat-num {
+  font-size: clamp(2rem, 11vw, 3.2rem);
+}
+
+/* Landing one at a time, like they do on the wide layout, and finished well
+   before the beat's exit ramp at 0.70. */
+#reel .reel-panel--numbers .intro2-stat {
+  --show: clamp(0, calc((var(--tp) - 0.12 - var(--n-stat) * 0.09) / 0.16), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 1.2rem), 0);
+}
+
+#reel .reel-panel--numbers .intro2-stat:nth-child(1) { --n-stat: 0; }
+#reel .reel-panel--numbers .intro2-stat:nth-child(2) { --n-stat: 1; }
+#reel .reel-panel--numbers .intro2-stat:nth-child(3) { --n-stat: 2; }
+#reel .reel-panel--numbers .intro2-stat:nth-child(4) { --n-stat: 3; }
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--numbers .intro2-stat {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===========================================================================
+   THE PARTNERS BEAT - stacked short phones only
+
+   The other half of splitting slide two: with the photo, its caption and four
+   logos in one column, 320x568 was 73px over. The logos take a beat of their
+   own, which also gives the photo back the room to be looked at. Same rule as
+   the numbers beat - the element moves, it is not duplicated - and the driver
+   only does it below 721px, because between 721 and 900 these logos are hidden
+   and a duplicate row in the left column shows instead. */
+#reel .reel-panel--partners {
+  display: none;
+}
+
+/* Reduced motion returns before the driver ever moves anything, so the split
+   beats would stand there empty. Nothing is pinned in that mode - every beat is
+   stacked and the page scrolls - so the content has no reason to be split at
+   all and the two extra beats step aside. */
+#reel.reel-static .reel-panel--numbers,
+#reel.reel-static .reel-panel--partners {
+  display: none;
+}
+
+@media (max-width: 720px) and (max-height: 700px) {
+  #reel .reel-panel--partners {
+    display: flex;
+  }
+}
+
+#reel .reel-panel--partners .intro2-logos {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  height: auto;
+  gap: clamp(0.8rem, 3vh, 1.6rem);
+  margin-top: 0;
+}
+
+#reel .reel-panel--partners .intro2-logo {
+  padding: clamp(0.9rem, 3vh, 1.5rem) 1rem;
+}
+
+#reel .reel-panel--partners .intro2-logo img {
+  max-height: clamp(2rem, 7vh, 3rem);
+}
+
+#reel .reel-panel--partners .intro2-logo {
+  --show: clamp(0, calc((var(--tp) - 0.12 - var(--n-logo) * 0.08) / 0.16), 1);
+  opacity: var(--show);
+  transform: translate3d(0, calc((1 - var(--show)) * 1rem), 0);
+}
+
+#reel .reel-panel--partners .intro2-logo:nth-child(1) { --n-logo: 0; }
+#reel .reel-panel--partners .intro2-logo:nth-child(2) { --n-logo: 1; }
+#reel .reel-panel--partners .intro2-logo:nth-child(3) { --n-logo: 2; }
+#reel .reel-panel--partners .intro2-logo:nth-child(4) { --n-logo: 3; }
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--partners .intro2-logo {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===========================================================================
    SLIDE TWO - COLLABORATIONS
 
    The copy moved into the left track in the markup; it used to sit inside the
@@ -9156,12 +9271,12 @@ margin-top: -2em;}
 
 /* Stacked at any height, the photo has to leave room for the heading above it
    and the logos below. At 375x812 - an ordinary phone, not a small one - the
-   full-column photo put it 10px over, and 32vh is what also gets the last logo
+   full-column photo put it 10px over, and 29vh is what also gets the last logo
    row out from under the nav bar. Ordered before the short-screen rule below,
    which is the same specificity and tightens this further. */
 @media (max-width: 720px) {
   #reel .reel-panel--collab .intro2-photo-card {
-    max-width: min(100%, 32vh);
+    max-width: min(100%, 29vh);
   }
 }
 
