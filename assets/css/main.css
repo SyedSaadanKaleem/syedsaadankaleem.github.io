@@ -9337,53 +9337,62 @@ margin-top: -2em;}
   }
 }
 
-/* The photo is capped at 340px by design, so everything the aside gains beyond
-   that goes to the logo column beside it. That is the point at 1024, where the
-   logos were down to about 45px, but past ~1450 it turns into four very wide
-   boxes around 3rem of artwork. Cap the aside at the measure the rest of the
-   page uses and let the track keep the slack. */
-#reel .reel-panel--collab .intro2-collab {
-  max-width: 46rem;
+/* The aside is the photo and nothing else now - the logos moved to the left
+   column - so the media row is one track. It was still stock's two with the
+   second one empty, which is why the photo sat in 301px of a 556px column at
+   1600, and 209px of 389px at 1000. */
+#reel .reel-panel--collab .intro2-media-row {
+  grid-template-columns: minmax(0, 1fr);
 }
 
-/* A short screen cannot take the photo at full height. The card is
-   width-constrained and the image keeps its own ratio, so tying the width to
-   the viewport's height scales the whole thing down in proportion - no cropping
-   a photo of someone being handed an award. */
-@media (max-height: 700px) and (min-width: 721px) {
-  #reel .reel-panel--collab .intro2-photo-card {
-    max-width: min(100%, 44vh);
-  }
+/* Sized off viewport height rather than width. The photo is portrait - 843x1054
+   natural - so on a pinned slide its height is what runs out first: let it take
+   the column's full width and it would want 695px of a 590px budget at 1600x900.
+   Tying the width to vh lets it grow on a tall screen and shrink on a short one
+   at its own ratio, with nothing cropped. This replaces three separate caps -
+   44vh, 29vh and 26vh - that existed to keep the photo out of the logos' way
+   back when they shared the aside.
+
+   Centred in its track, not hugging the left of it: the height budget means
+   there is width left over at almost every size, and 214px of it dead on one
+   side reads as a mistake. */
+#reel .reel-panel--collab .intro2-photo-card {
+  max-width: min(100%, 38vh);
+  margin-inline: auto;
 }
 
-/* Stacked at any height, the photo has to leave room for the heading above it
-   and the logos below. At 375x812 - an ordinary phone, not a small one - the
-   full-column photo put it 10px over, and 29vh is what also gets the last logo
-   row out from under the nav bar. Ordered before the short-screen rule below,
-   which is the same specificity and tightens this further. */
-@media (max-width: 720px) {
-  #reel .reel-panel--collab .intro2-photo-card {
-    max-width: min(100%, 29vh);
-  }
-}
-
-/* Stacked AND short is the tight one: the heading, the photo, its caption and a
-   2x2 of logos all in one column, with 112px of it already reserved for the nav
-   bar. At 667 that ran 99px off the TOP - the panel centres, so an overlong
-   slide loses its opening, not its end, which is why a bottom-edge check said it
-   was fine and the heading was gone. 535px of room for 751px of content; this
-   takes the photo to 29vh and halves the logo padding to get inside it. */
+/* Stacked and short, the caption sits under the photo and the two together do
+   not get 38vh: at 320x568 that ran 20px under the nav bar. The sideways card
+   below covers the wide-and-short case, so this is only the narrow one. */
 @media (max-height: 700px) and (max-width: 720px) {
   #reel .reel-panel--collab .intro2-photo-card {
-    max-width: min(100%, 26vh);
+    max-width: min(100%, 32vh);
+  }
+}
+
+/* A phone on its side has about 240px to give once the nav bar has its share,
+   and a portrait photo with a caption stacked under it does not fit that. Stock
+   handles it by capping the image at calc(92vh - 260px) - 85px at 375 tall - so
+   contain letterboxes a small photo inside a wide empty card. Turning the card
+   on its side instead puts the caption beside the photo rather than below it, so
+   the height is the photo's alone and it can be three times the size. */
+@media (max-height: 560px) and (min-width: 560px) {
+  #reel .reel-panel--collab .intro2-photo-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    max-width: 100%;
   }
 
-  #reel .reel-panel--collab .intro2-media-row .intro2-logo {
-    padding: 0.55rem 0.7rem;
+  #reel .reel-panel--collab .intro2-photo-card img {
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: min(52vh, 15rem);
   }
 
-  #reel .reel-panel--collab .intro2-media-row .intro2-logo img {
-    max-height: 2rem;
+  #reel .reel-panel--collab .intro2-photo-card figcaption {
+    border-top: 0;
   }
 }
 
