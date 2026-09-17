@@ -9027,7 +9027,7 @@ margin-top: -2em;}
 
 #reel .reel-panel--title {
   --appear: clamp(0, calc(var(--tp) / 0.10), 1);
-  --settle: clamp(0, calc((var(--tp) - 0.12) / 0.26), 1);
+  --settle: clamp(0, calc((var(--tp) - 0.22) / 0.20), 1);
   /* 1 while the heading is still big and centred, 0 once it has settled.
      Everything in the opening phase is written against this. */
   --grow: calc(1 - var(--settle));
@@ -9137,7 +9137,7 @@ margin-top: -2em;}
 
 #reel .reel-panel--title .intro2-lead {
   --eo: 0.18;
-  --show: clamp(0, calc((var(--tp) - 0.44) / 0.16), 1);
+  --show: clamp(0, calc((var(--tp) - 0.44) / 0.14), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
   transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
 }
@@ -9146,7 +9146,7 @@ margin-top: -2em;}
   /* Arrived last, so they leave first - and within the row the reverse order
      again, the way the hero's scoreboard does it with (2 - var(--i)). */
   --eo: calc((3 - var(--n-stat)) * 0.03);
-  --show: clamp(0, calc((var(--tp) - 0.50 - var(--n-stat) * 0.04) / 0.09), 1);
+  --show: clamp(0, calc((var(--tp) - 0.58 - var(--n-stat) * 0.03) / 0.07), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
   transform: translate3d(calc((1 - var(--show)) * 0.7rem + var(--gone) * 0.4rem), 0, 0);
 }
@@ -9187,7 +9187,7 @@ margin-top: -2em;}
 
 #reel .reel-panel--collab .intro2-collab-title {
   --eo: 0.26;
-  --show: clamp(0, calc((var(--tp) - 0.22) / 0.18), 1);
+  --show: clamp(0, calc((var(--tp) - 0.20) / 0.30), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
   transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
 }
@@ -9212,6 +9212,89 @@ margin-top: -2em;}
       calc(var(--grow) * var(--nudge, 0px)),
       calc(var(--grow) * var(--rise, 0px) * 0.45),
       0);
+  }
+}
+
+/* ===========================================================================
+   HEADINGS: THE NAME PLATE'S LETTER PACK
+
+   The same move #header.vg-hero makes on SAADAN KALEEM. vgLetterLock starts
+   each letter out at translate3d(0.1em + i * 0.15em, 0.14em) rotated
+   -4deg - i * 1.1deg, so the later a letter sits in the word the further out
+   and the more turned it starts, and the word packs shut left to right. Same
+   em-relative offsets here, which is what makes it scale with the type instead
+   of needing a value per breakpoint.
+
+   The curve is the one difference. The hero rides easeOutBack over 620ms; this
+   is a scrub, so scroll position is the clock and a back-curve would need the
+   overshoot built into the arithmetic. The letters settle straight instead -
+   the packing order and the rotation are what read, not the overshoot.
+
+   Words stay whole and are separated by real spaces, so a heading that has to
+   wrap still can. The hero's name never wraps and did not need it. */
+/* inline-block is also what keeps a word whole: it shrink-to-fits to its
+   max-content width, so the letters inside can never be the thing that wraps.
+   The word box is the unit that wraps. */
+#reel .reel-panel--intro .rl-word {
+  display: inline-block;
+}
+
+/* Divided by --s because slide one's plate is blown up while the letters are
+   still travelling, and a 1.15em offset under a 1.7x plate renders as 2em - at
+   320 that put the last letter 16.5px past the panel, where overflow: hidden
+   cut it off mid-entrance. The hero's plate is not scaled, so dividing here is
+   what makes the travel on screen the same distance the hero's is. Slide two
+   has no --s and falls back to 1.
+
+   --pack is the driver's answer to how much of that travel the line has room
+   for - 1 wherever there is slack, less at 320 where the heading nearly fills
+   the width on its own. */
+#reel .reel-panel--intro .rl-ltr {
+  display: inline-block;
+  transform-origin: 0% 100%;
+  opacity: var(--lp);
+  transform:
+    translate3d(
+      calc((1 - var(--lp)) * (0.1em + var(--i) * 0.15em) * var(--pack, 1) / var(--s, 1)),
+      calc((1 - var(--lp)) * 0.14em / var(--s, 1)),
+      0)
+    rotate(calc((1 - var(--lp)) * (-4deg - var(--i) * 1.1deg)));
+}
+
+/* --i restarts inside each word and --w carries the sweep along the line. That
+   is the hero's arrangement - its lines ARE single words, so its index never
+   passes 5 and its last letter starts 0.85em out at -9.5deg. Running one index
+   along a whole sentence instead put slide two's last letter 5.3em out at
+   -42.5deg, which is not the same move, just the same formula pushed past where
+   it works. Capped per word, the worst case here is -11.7deg. */
+
+/* Slide one: done by 0.18, and the plate only starts settling at 0.22 - the hero
+   packs the name first, then assembles the frame around it. */
+#reel .reel-panel--title .rl-ltr {
+  --lp: clamp(0, calc((var(--tp) - var(--w) * 0.022 - var(--i) * 0.006) / 0.07), 1);
+}
+
+/* Slide two: ten words instead of four, so they follow each other faster. */
+#reel .reel-panel--collab .rl-ltr {
+  --lp: clamp(0, calc((var(--tp) - 0.20 - var(--w) * 0.018 - var(--i) * 0.005) / 0.07), 1);
+}
+
+/* The headings' own opacity now belongs to the letters, or the two would
+   multiply and the pack would fade in through a fade. The exit stays on the
+   heading as a block - that is the hero's vgHeroOut shape, which it already
+   has. */
+#reel .reel-panel--title .intro2-title {
+  opacity: calc(1 - var(--gone));
+}
+
+#reel .reel-panel--collab .intro2-collab-title {
+  opacity: calc(1 - var(--gone));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--intro .rl-ltr {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -9422,7 +9505,7 @@ margin-top: -2em;}
 #reel .reel-panel--collab .intro2-logo {
   /* From the right like everything in the hero, not the left. */
   --eo: calc((3 - var(--n-card)) * 0.03);
-  --show: clamp(0, calc((var(--tp) - 0.34 - var(--n-card) * 0.06) / 0.13), 1);
+  --show: clamp(0, calc((var(--tp) - 0.50 - var(--n-card) * 0.045) / 0.10), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
   transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
 }

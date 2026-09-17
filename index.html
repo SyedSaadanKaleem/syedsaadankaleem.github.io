@@ -799,8 +799,7 @@
 									</svg>
 									<span>Who I Am</span>
 								</div>
-								<h2 class="intro2-title"><span>Crafting worlds</span><span>worth <span
-											class="vg-accent">playing.</span></span></h2>
+								<h2 class="intro2-title" aria-label="Crafting worlds worth playing."><span><span class="rl-word" style="--w:0"><span class="rl-ltr" style="--i:0">C</span><span class="rl-ltr" style="--i:1">r</span><span class="rl-ltr" style="--i:2">a</span><span class="rl-ltr" style="--i:3">f</span><span class="rl-ltr" style="--i:4">t</span><span class="rl-ltr" style="--i:5">i</span><span class="rl-ltr" style="--i:6">n</span><span class="rl-ltr" style="--i:7">g</span></span> <span class="rl-word" style="--w:1"><span class="rl-ltr" style="--i:0">w</span><span class="rl-ltr" style="--i:1">o</span><span class="rl-ltr" style="--i:2">r</span><span class="rl-ltr" style="--i:3">l</span><span class="rl-ltr" style="--i:4">d</span><span class="rl-ltr" style="--i:5">s</span></span></span><span><span class="rl-word" style="--w:2"><span class="rl-ltr" style="--i:0">w</span><span class="rl-ltr" style="--i:1">o</span><span class="rl-ltr" style="--i:2">r</span><span class="rl-ltr" style="--i:3">t</span><span class="rl-ltr" style="--i:4">h</span></span> <span class="vg-accent"><span class="rl-word" style="--w:3"><span class="rl-ltr" style="--i:0">p</span><span class="rl-ltr" style="--i:1">l</span><span class="rl-ltr" style="--i:2">a</span><span class="rl-ltr" style="--i:3">y</span><span class="rl-ltr" style="--i:4">i</span><span class="rl-ltr" style="--i:5">n</span><span class="rl-ltr" style="--i:6">g</span><span class="rl-ltr" style="--i:7">.</span></span></span></span></h2>
 								<p class="intro2-lead">I’m a game developer, technical leader, and creative entrepreneur
 									specializing in immersive games and interactive experiences. As Co-founder &amp; CTO
 									of <strong style="color: #ee2b2b;">Designfull</strong> and Co-founder of <strong style="color: #ee2b2b;">Pixel Dreams Studio</strong>, I pair engineering with
@@ -850,7 +849,7 @@
 										</svg>
 										<span>Collaborations</span>
 									</div>
-									<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
+									<h3 class="intro2-collab-title" aria-label="A few names that let me play in their sandbox"><span class="rl-word" style="--w:0"><span class="rl-ltr" style="--i:0">A</span></span> <span class="rl-word" style="--w:1"><span class="rl-ltr" style="--i:0">f</span><span class="rl-ltr" style="--i:1">e</span><span class="rl-ltr" style="--i:2">w</span></span> <span class="rl-word" style="--w:2"><span class="rl-ltr" style="--i:0">n</span><span class="rl-ltr" style="--i:1">a</span><span class="rl-ltr" style="--i:2">m</span><span class="rl-ltr" style="--i:3">e</span><span class="rl-ltr" style="--i:4">s</span></span> <span class="rl-word" style="--w:3"><span class="rl-ltr" style="--i:0">t</span><span class="rl-ltr" style="--i:1">h</span><span class="rl-ltr" style="--i:2">a</span><span class="rl-ltr" style="--i:3">t</span></span> <span class="rl-word" style="--w:4"><span class="rl-ltr" style="--i:0">l</span><span class="rl-ltr" style="--i:1">e</span><span class="rl-ltr" style="--i:2">t</span></span> <span class="rl-word" style="--w:5"><span class="rl-ltr" style="--i:0">m</span><span class="rl-ltr" style="--i:1">e</span></span> <span class="rl-word" style="--w:6"><span class="rl-ltr" style="--i:0">p</span><span class="rl-ltr" style="--i:1">l</span><span class="rl-ltr" style="--i:2">a</span><span class="rl-ltr" style="--i:3">y</span></span> <span class="rl-word" style="--w:7"><span class="rl-ltr" style="--i:0">i</span><span class="rl-ltr" style="--i:1">n</span></span> <span class="rl-word" style="--w:8"><span class="rl-ltr" style="--i:0">t</span><span class="rl-ltr" style="--i:1">h</span><span class="rl-ltr" style="--i:2">e</span><span class="rl-ltr" style="--i:3">i</span><span class="rl-ltr" style="--i:4">r</span></span> <span class="rl-word" style="--w:9"><span class="rl-ltr" style="--i:0">s</span><span class="rl-ltr" style="--i:1">a</span><span class="rl-ltr" style="--i:2">n</span><span class="rl-ltr" style="--i:3">d</span><span class="rl-ltr" style="--i:4">b</span><span class="rl-ltr" style="--i:5">o</span><span class="rl-ltr" style="--i:6">x</span></span></h3>
 									<div class="intro2-logos intro2-logos--left">
 										<div class="intro2-logo">
 											<img src="./logos/CanvasDigital.svg" alt="" />
@@ -2405,9 +2404,31 @@
 				for (var k = 0; k < lines.length; k++) {
 					if (lines[k].offsetWidth > widest) widest = lines[k].offsetWidth;
 				}
-				var room = titleBeat.clientWidth * 0.94;
+				// The pack starts every letter to the right of where it lands, so the line
+				// needs that overhang as slack or the last letter is clipped at the panel
+				// edge on the way in. The CSS divides the travel by --s, so the cost is a
+				// flat number of pixels whatever the heading is scaled to.
+				var far = 0;
+				var ltr = heading.querySelectorAll(".rl-ltr");
+				for (var k = 0; k < ltr.length; k++) {
+					var idx = parseFloat(ltr[k].style.getPropertyValue("--i")) || 0;
+					if (idx > far) far = idx;
+				}
+				var over = (0.1 + far * 0.15) * parseFloat(getComputedStyle(heading).fontSize);
+				
+				// Growth gives way to the pack, not the other way round: on a narrow screen a
+				// heading that grows a little still reads, a pack with nowhere to go does not.
+				// One overhang, not two - reserving both sides took 375 from 1.28x to 1.01x,
+				// which is no growth at all, and --pack below covers whatever is still short.
+				var room = titleBeat.clientWidth * 0.94 - over;
 				var peak = widest > 0 ? Math.min(1.7, room / widest) : 1.7;
-				titleBeat.style.setProperty("--s-peak", (peak < 1 ? 1 : peak).toFixed(3));
+				peak = peak < 1 ? 1 : peak;
+				titleBeat.style.setProperty("--s-peak", peak.toFixed(3));
+				
+				// Whatever slack is left at that size is what the pack gets to travel.
+				var slack = (titleBeat.clientWidth - widest * peak) / 2;
+				titleBeat.style.setProperty("--pack",
+					(over > 0 ? Math.max(0, Math.min(1, slack / over)) : 1).toFixed(3));
 
 				titleBeat.style.setProperty("--grow", "1");
 				titleBeat.style.setProperty("--rise", "0px");
