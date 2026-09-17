@@ -9396,6 +9396,115 @@ margin-top: -2em;}
   }
 }
 
+/* ===========================================================================
+   WORK BEATS ON A SHORT SCREEN
+
+   Stock stacks the game slide below 1024px wide - copy above, card below - and
+   that is right when width is what ran out. In the reel the beat is pinned to
+   one screen, so on a short window it is height that runs out instead, and
+   stacking is exactly the wrong answer: at 1024x600 the copy is 274px and the
+   card 266px against about 500px of usable height, so the card finished 99px
+   under the nav bar. Side by side the beat is as tall as the taller of the two,
+   not their sum. Only where there is width for it - a narrow short screen has
+   to keep stacking.
+
+   The second condition is the 900-1024px band at any height. Stock stacks there
+   too, and the Cobweb beat cannot afford it: its six tiles plus the copy ran
+   26px under the nav at 1024x768, where there is width for two columns. */
+@media (max-height: 700px) and (min-width: 700px),
+       (min-width: 900px) and (max-width: 1024px) {
+  #reel .reel-panel--work.hl-slide:has(> .hl-slide-bg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: center;
+    align-content: center;
+    height: 100%;
+    min-height: 0;
+    padding-top: clamp(0.75rem, 2.5vh, 2rem);
+    padding-right: clamp(1rem, 4vw, 3rem);
+  }
+
+  #reel .reel-panel--work .hl-slide-content {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: none;
+    align-self: center;
+  }
+
+  #reel .reel-panel--work > .hl-slide-bg {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+    max-width: 100%;
+  }
+}
+
+/* The rhythm these beats are set to assumes a screen with room. On a short one
+   the fixed parts add up faster than the content does: 56px of top pad, a 20px
+   grid gap, and the card's foot at 90px were 166px of the 416px a 320x568 phone
+   has once the nav bar is out. Everything here is proportional to viewport
+   height, so it only tightens where it has to. */
+@media (max-height: 700px) {
+  #reel .reel-panel--work.hl-slide:has(> .hl-slide-bg) {
+    padding-top: clamp(0.5rem, 2vh, 1.5rem);
+    gap: clamp(0.5rem, 1.5vh, 1.2rem);
+  }
+
+  #reel .reel-panel--work .hl-tag {
+    margin-bottom: clamp(0.35rem, 1.2vh, 0.9rem);
+  }
+
+  #reel .reel-panel--work .hl-slide-desc {
+    margin: clamp(0.35rem, 1.2vh, 0.9rem) 0 clamp(0.5rem, 1.6vh, 1rem);
+  }
+
+  #reel .reel-panel--work .hl-gc-foot {
+    padding: clamp(0.45rem, 1.5vh, 0.9rem) 0.95rem;
+  }
+
+  #reel .reel-panel--work .hl-cobweb-inner {
+    padding-bottom: 0;
+  }
+
+  /* Stock drops the per-tile blurbs below 700px wide, for exactly the reason
+     they cannot stay here - six tiles with descriptions do not fit one screen.
+     It keys that off width alone, so at 812x375 they were still showing and each
+     tile was 180px tall against a 275px budget. Short counts too. */
+  #reel .reel-panel--work .hl-cobweb-card .hl-mini-desc {
+    display: none;
+  }
+
+  #reel .reel-panel--work .hl-cobweb-card .hl-mini-name {
+    font-size: 0.62rem;
+    line-height: 1.3;
+    padding: 0.35rem 0.45rem 0.45rem;
+  }
+
+  #reel .reel-panel--work .hl-cobweb-inner .hl-slide-desc {
+    margin: clamp(0.3rem, 1vh, 0.8rem) 0 clamp(0.4rem, 1.2vh, 0.9rem);
+  }
+}
+
+/* Stacked as well as short, the card is above the fold line too, so its banner
+   comes off the height as well - a 3:1 banner is a third of whatever width the
+   card is given. */
+@media (max-height: 700px) and (max-width: 700px) {
+  #reel .reel-panel--work > .hl-slide-bg {
+    max-width: min(100%, 36vh);
+  }
+
+  /* The last two pixels at 320x568: the mosaic's own gutters and its name
+     padding, doubled because there are two rows of them. */
+  #reel .reel-panel--work .hl-cobweb-card .hl-cobweb-grid {
+    gap: 0.3rem;
+  }
+
+  #reel .reel-panel--work .hl-cobweb-card .hl-mini-name {
+    padding: 0.3rem 0.35rem 0.35rem;
+  }
+}
+
 /* No script / reduced motion: everything at rest. */
 @media (prefers-reduced-motion: reduce) {
   #reel .reel-panel--title .intro2,
