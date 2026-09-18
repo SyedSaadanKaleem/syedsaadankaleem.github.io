@@ -9372,8 +9372,27 @@ margin-top: -2em;}
    stacked and the page scrolls - so the content has no reason to be split at
    all and the two extra beats step aside. */
 #reel.reel-static .reel-panel--numbers,
-#reel.reel-static .reel-panel--partners {
+#reel.reel-static .reel-panel--partners,
+#reel.reel-static .reel-panel--award {
   display: none;
+}
+
+#reel .reel-panel--award {
+  display: none;
+}
+
+/* Same condition the driver splits the photo on, to the character. */
+@media (max-height: 700px) and (max-width: 720px) {
+  #reel .reel-panel--award {
+    display: flex;
+  }
+
+  /* A screen to itself, so it is sized by that screen rather than by what the
+     heading left over. */
+  #reel .reel-panel--award .intro2-photo-card {
+    max-width: min(100%, 44vh);
+    margin-inline: auto;
+  }
 }
 
 /* Must be the same condition the driver splits on. If the beat is hidden while
@@ -9552,6 +9571,16 @@ margin-top: -2em;}
 @media (max-height: 700px) and (max-width: 720px) {
   #reel .reel-panel--collab .intro2-photo-card {
     max-width: min(100%, 32vh);
+  }
+}
+
+/* Too wide for the photo to take its own beat, short enough that the display
+   heading's extra line costs the difference: measured 2.9px of caption under
+   the nav bar at 1024x600. 34vh gives back 24px of card width, which is about
+   30px of height on a 843x1054 photo. */
+@media (max-height: 700px) and (min-width: 721px) {
+  #reel .reel-panel--collab .intro2-photo-card {
+    max-width: min(100%, 34vh);
   }
 }
 
@@ -10033,5 +10062,162 @@ html.lenis body {
   #reel .reel-panel.step-stats .intro2-stat {
     animation: none !important;
     --show: 1;
+  }
+}
+
+
+/* ===========================================================================
+   SPLIT-FLAP CELLS - the heading handover
+
+   Ported from the Solari board in the Taste Of India project. Two halves, a
+   seam, and a top leaf that rotates through -90deg carrying the outgoing glyph
+   while the face underneath already shows the next one.
+
+   The seam only exists while a board is walking. On a departure board it is
+   permanent because the board is the thing; here the flap is a transition, and
+   a hairline across every letter of a settled heading would be a new look
+   rather than a new move.
+   =========================================================================== */
+#reel .reel-panel--intro .rl-ltr.flap {
+  position: relative;
+  /* NOT hidden: a cell narrower than its glyph would clip the letterform and M
+     would read as N. The leaf does its own clipping. */
+  overflow: visible;
+  /* In em, not the original's 220px: these two headings are 32px and 16.8px, so
+     one pixel depth would hinge hard on one and barely on the other. */
+  perspective: 6em;
+}
+
+/* The strut is the only thing in the cell that takes part in layout: it holds
+   the final glyph, hidden, so the cell is always exactly as wide as where the
+   walk is going to land. The face and the leaf sit on top of it. */
+#reel .reel-panel--intro .flap-strut {
+  display: block;
+  visibility: hidden;
+}
+
+/* Centred, so a W passing through a cell an I will land in spills equally both
+   ways instead of piling onto the letter to its right. At rest the face and the
+   strut are the same glyph, so centring changes nothing there. */
+#reel .reel-panel--intro .flap-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  text-align: center;
+}
+
+#reel .reel-panel--intro .flap-leaf {
+  position: absolute;
+  inset: 0 0 50% 0;
+  overflow: hidden;
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+}
+
+#reel .reel-panel--intro .flap-leaf > span {
+  display: block;
+  text-align: center;
+}
+
+#reel .reel-panel--intro .is-flapping .flap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+/* Slide two arrives by flapping up from blank, so the letter pack is not its
+   entrance any more and must not also be fading its cells in. */
+#reel .reel-panel--collab .intro2-collab-title .rl-ltr {
+  opacity: 1;
+  transform: none;
+}
+
+/* Neither heading fades or slides across the handover any more - the flap is
+   the whole of it. Slide one had the hero's 0.6rem exit drift and a block fade;
+   slide two had a 0.9rem entrance slide on --show and the same fade on the way
+   out. Both are off. --s stays on slide one because that is the settle, which
+   happens a beat earlier and is not part of the transition. */
+#reel .reel-panel--title .intro2-title {
+  opacity: 1;
+  transform: scale(var(--s));
+}
+
+#reel .reel-panel--collab .intro2-collab-title {
+  opacity: 1;
+  transform: none;
+}
+
+/* A heading cannot opt out of its panel's opacity, and the panel crossfade was
+   taking it down to 0.59 at the boundary - measured - which is a fade over the
+   flap whatever the heading's own opacity says. The intro panels paint nothing
+   of their own (background-image computes to none on both), so they stop fading
+   and every piece inside carries its own arrival, which all of them already
+   did. */
+#reel .reel-panel--intro {
+  opacity: 1;
+}
+
+/* Except this one. The photo was the single thing in the intro beats with no
+   fade of its own - it was riding the panel's. It arrives with the banners it
+   sits beside, and on a phone, where it has a beat to itself, it arrives with
+   the beat. */
+#reel .reel-panel--collab .intro2-photo-card,
+#reel .reel-panel--award .intro2-photo-card {
+  --eo: 0.12;
+  --gone: clamp(0, calc((var(--go) - var(--eo, 0)) / 0.5), 1);
+  --show: clamp(0, calc((var(--tp) - 0.50) / 0.12), 1);
+  opacity: calc(var(--show) * (1 - var(--gone)));
+  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
+}
+
+#reel .reel-panel--award .intro2-photo-card {
+  --show: clamp(0, calc((var(--tp) - 0.12) / 0.16), 1);
+}
+
+
+/* ===========================================================================
+   ONE HEADING SLOT, TWO SENTENCES
+
+   The flap only reads as a handover if the board does not move between the two
+   beats. Slide two's heading was the section's small sub-head - 16.8px against
+   32px, its own line-height and its own tracking - so the letters were rolling
+   somewhere else at half the size. In the reel it borrows slide one's display
+   treatment exactly, including the 721-900 step-down, so the two occupy the
+   same slot. Everywhere else on the site .intro2-collab-title is untouched.
+   =========================================================================== */
+#reel .reel-panel--collab .intro2-collab-title {
+  font-size: clamp(2rem, 4.4vw, 3.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin: 0 0 1.6rem;
+}
+
+@media (min-width: 721px) and (max-width: 900px) and (max-height: 999px) {
+  #reel .reel-panel--collab .intro2-collab-title {
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    margin-bottom: 1rem;
+  }
+}
+
+/* Same slot means the same top, not just the same type. Slide two's content was
+   centred in the pin while slide one's is hung from a fixed lead-in, which put
+   the board 35px lower - a third of a line, which is exactly the kind of shift
+   the eye reads as the text jumping rather than rolling. This is slide one's
+   rule, restated, narrow override and all. */
+#reel .reel-panel--collab {
+  align-items: flex-start;
+  padding-top: clamp(4rem, 12vh, 9rem);
+}
+
+@media (max-height: 700px), (max-width: 720px) {
+  #reel .reel-panel--collab {
+    padding-top: clamp(1rem, 3vh, 2.5rem);
   }
 }

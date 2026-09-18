@@ -890,6 +890,14 @@
 					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--partners">
 						<div class="hl-slide-content"></div>
 					</article>
+					<!-- The third: the award photo. Slide two's heading is the display size now,
+					     so on a short phone it is three lines of it, and what is left under the
+					     nav bar is about 240px - measured, the card ran 119px past it at 320x568.
+					     Shrinking the photo to fit would have made it 104px wide. It gets its own
+					     screen instead. -->
+					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--award">
+						<div class="hl-slide-content"></div>
+					</article>
 					<article class="reel-panel reel-panel--work hl-slide" style="--i:4; --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18)">
 						<a class="hl-slide-bg" href="ChessRun.html" aria-label="Open Chess Run">
 							<div class="hl-gc-banner" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"></div>
@@ -2332,6 +2340,207 @@
 	</script>
 
 	<script>
+		// Split-flap headings, ported from the Solari board in the Taste Of India
+		// project (components/SplitFlap.tsx). A drum walks FORWARD through the
+		// charset to its target, one flap per step - that forward walk is why a
+		// board reads as mechanical rather than as a fade - and the face already
+		// shows the NEXT glyph while the leaf falls away carrying the current one,
+		// which is what makes the seam read as a hinge.
+		//
+		// Two differences from the original, both forced by what it is driving here.
+		//
+		// The original is one board: fixed cells, one type size, text swapped in
+		// place. These are two headings in two beats at two sizes - 32px over two
+		// lines against 16.8px over one - so a single board would mean redesigning
+		// both to the same grid. This runs the same mechanism as a handover
+		// instead: slide one walks every cell to blank on its way out while slide
+		// two walks up from blank on its way in, overlapping, in the same place.
+		//
+		// And the original's cells are all one width, so a glyph passing through is
+		// never wider than its cell. These are proportional, and a W passing through
+		// where an I will land would shove the line sideways every flap. Each cell
+		// keeps a hidden copy of its own final glyph, which is what sets the cell's
+		// width; the face and the leaf sit over that. Nothing is measured, so it
+		// survives a resize and a late font without being told.
+		(function () {
+			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+			var CHARSET = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,'&-/()";
+			var IDX = {};
+			for (var c = 0; c < CHARSET.length; c++) IDX[CHARSET[c]] = c;
+
+			// 46ms a flap is the original's. The stagger and the spin ceiling are
+			// tighter: this fires on a beat handover someone is scrolling through,
+			// not on a menu they are reading, and at the original's 24/620 the last
+			// of 36 cells would not land for 1.5s.
+			var STEP_MS = 46, STAGGER = 18, MIN_SPIN = 4, SPIN_BUDGET = 520;
+
+			var boards = [];
+
+			function build(heading) {
+				var cells = [];
+				var ltrs = heading.querySelectorAll(".rl-ltr");
+				for (var k = 0; k < ltrs.length; k++) {
+					var el = ltrs[k];
+					var ch = el.textContent;
+					var up = ch.toUpperCase();
+					if (!(up in IDX)) up = " ";
+
+					// The strut is the cell's width and nothing else - never written to.
+					var strut = document.createElement("span");
+					strut.className = "flap-strut";
+					strut.textContent = ch;
+
+					var face = document.createElement("span");
+					face.className = "flap-face";
+					face.textContent = ch;
+
+					var leafWrap = document.createElement("span");
+					leafWrap.className = "flap-leaf";
+					leafWrap.style.visibility = "hidden";
+					var leafFace = document.createElement("span");
+					leafFace.textContent = ch;
+					leafWrap.appendChild(leafFace);
+
+					el.textContent = "";
+					el.appendChild(strut);
+					el.appendChild(face);
+					el.appendChild(leafWrap);
+					el.classList.add("flap");
+
+					cells.push({
+						el: el, face: face, leafWrap: leafWrap, leafFace: leafFace,
+						home: ch,                  // the glyph as the markup spells it
+						idx: IDX[up],              // where that sits on the drum
+						glyph: IDX[up],            // where the drum is now
+						from: 0, steps: 0, stepMs: STEP_MS
+					});
+				}
+				return { heading: heading, cells: cells, raf: 0, t0: 0 };
+			}
+
+			function land(board, blank) {
+				cancelAnimationFrame(board.raf);
+				for (var k = 0; k < board.cells.length; k++) {
+					var cell = board.cells[k];
+					var ch = blank ? " " : cell.home;
+					cell.glyph = blank ? 0 : cell.idx;
+					cell.face.textContent = ch;
+					cell.leafFace.textContent = ch;
+					cell.leafWrap.style.transform = "rotateX(0deg)";
+					cell.leafWrap.style.visibility = "hidden";
+					cell.steps = 0;
+				}
+				board.heading.classList.remove("is-flapping");
+			}
+
+			function run(board, blank) {
+				cancelAnimationFrame(board.raf);
+				board.heading.classList.add("is-flapping");
+
+				var len = CHARSET.length, k, cell;
+				for (k = 0; k < board.cells.length; k++) {
+					cell = board.cells[k];
+					var to = blank ? 0 : cell.idx;
+					var raw = (to - cell.glyph + len) % len;
+					cell.from = cell.glyph;
+					// Floored, so a cell already sitting on its target still flaps
+					// rather than sitting the move out and breaking the row.
+					cell.steps = Math.max(raw, MIN_SPIN);
+					cell.stepMs = Math.min(STEP_MS, SPIN_BUDGET / cell.steps);
+				}
+
+				board.t0 = performance.now();
+				var tick = function (now) {
+					var running = false;
+					for (var j = 0; j < board.cells.length; j++) {
+						var cl = board.cells[j];
+						if (cl.steps === 0) continue;
+
+						var elapsed = now - board.t0 - j * STAGGER;
+						if (elapsed < 0) { running = true; continue; }
+
+						var step = Math.floor(elapsed / cl.stepMs);
+						if (step >= cl.steps) {
+							var done = blank ? " " : cl.home;
+							cl.glyph = blank ? 0 : cl.idx;
+							cl.face.textContent = done;
+							// At rest the leaf carries the same glyph as the face, so the
+							// seam disappears instead of stacking the last letter over it.
+							cl.leafFace.textContent = done;
+							cl.leafWrap.style.transform = "rotateX(0deg)";
+							cl.leafWrap.style.visibility = "hidden";
+							cl.steps = 0;
+							continue;
+						}
+
+						running = true;
+						var shown = (cl.from + step) % len;
+						var next = (shown + 1) % len;
+						var f = (elapsed % cl.stepMs) / cl.stepMs;
+						cl.face.textContent = CHARSET[next];
+						cl.leafFace.textContent = CHARSET[shown];
+						cl.leafWrap.style.visibility = "visible";
+						cl.leafWrap.style.transform = "rotateX(" + (-90 * f).toFixed(1) + "deg)";
+						cl.glyph = shown;
+					}
+					if (running) board.raf = requestAnimationFrame(tick);
+					else land(board, blank);
+				};
+				board.raf = requestAnimationFrame(tick);
+			}
+
+			function boardFor(panel, sel) {
+				var heading = panel && panel.querySelector(sel);
+				if (!heading) return null;
+				for (var k = 0; k < boards.length; k++) {
+					if (boards[k].heading === heading) return boards[k];
+				}
+				var made = build(heading);
+				boards.push(made);
+				return made;
+			}
+
+			// Each beat's board has a resting state it must be in BEFORE its beat is
+				// live, or the first thing the panel shows is the wrong one: slide one's
+				// home glyphs, because its entrance is still the letter pack, and slide
+				// two blank, because its entrance is the walk up from blank.
+			function park(panel) {
+				var one = boardFor(panel, ".intro2-title");
+				if (one) { land(one, false); return; }
+				var two = boardFor(panel, ".intro2-collab-title");
+				if (two) land(two, true);
+			}
+			
+			window.__flap = {
+				arm: park,
+				enter: function (panel) {
+					var one = boardFor(panel, ".intro2-title");
+					// Slide one's arrival is the pack, not a flap - it only needs its
+					// glyphs back, which matters when it is re-entered from below after
+					// having flapped itself blank on the way out.
+					if (one) { land(one, false); return; }
+					var two = boardFor(panel, ".intro2-collab-title");
+					// Blanked first every time: coming back to this beat the drums are
+					// already home, and walking from home is a four-step flutter rather
+					// than an arrival.
+					if (two) { land(two, true); run(two, false); }
+				},
+				leave: function (panel) {
+					// Both headings leave the same way now. Slide two used to be carried
+					// off by the panel's crossfade; with that gone it simply stayed on
+					// screen - measured, all 36 of its faces still painting at full
+					// strength over the game beats.
+					var one = boardFor(panel, ".intro2-title");
+					if (one) { run(one, true); return; }
+					var two = boardFor(panel, ".intro2-collab-title");
+					if (two) run(two, true);
+				}
+			};
+		})();
+	</script>
+
+	<script>
 		// Reel: one pinned stage, one progress value, phases derived in CSS.
 		// Scroll drives the sequence rather than moving the page - nothing inside
 		// the stage travels, so there is no seam between beats to hide.
@@ -2388,6 +2597,13 @@
 			defineSplit(".reel-panel--partners", ".reel-panel--collab .intro2-logos--left",
 				".reel-panel--collab .intro2",
 				"(max-width: 900px)");
+
+			// The award photo, once slide two's heading grew to the display size. Same
+			// condition as the CSS that shows the beat, exactly - split on one and show
+			// on the other and the photo moves into a hidden beat and leaves the page.
+			defineSplit(".reel-panel--award", ".reel-panel--collab .intro2-media-row",
+				".reel-panel--collab .intro2-collab",
+				"(max-height: 700px) and (max-width: 720px)");
 
 			// Steps: scroll position says WHEN a piece arrives, and the animation says
 			// how - the opposite of the scrub, where scroll position said how far in it
@@ -2539,10 +2755,14 @@
 						// Scrolling back up out of the reel re-arms the beat instead of
 						// playing an exit at it; coming back down should be an arrival.
 						if (i >= 0) live0[live].classList.add("is-out");
+						// The heading does not fade out: it flaps to blank while the next one
+						// flaps up from blank in the same place. One handover, not two fades.
+						if (window.__flap && i >= 0) window.__flap.leave(live0[live]);
 					}
 					if (i >= 0) {
 						live0[i].classList.remove("is-out", "is-done");
 						live0[i].classList.add("is-live");
+						if (window.__flap) window.__flap.enter(live0[i]);
 						// Landing part-way down the reel - a reload restores the scroll -
 						// must not play the beats above it as a show. They are simply
 						// already over, which is not the same thing as leaving.
@@ -2561,6 +2781,7 @@
 			function clearBeats() {
 				for (var b = 0; b < panels.length; b++) {
 					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats");
+					if (window.__flap) window.__flap.arm(panels[b]);
 				}
 			}
 			function relayout() {
