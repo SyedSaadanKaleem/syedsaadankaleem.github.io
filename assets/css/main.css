@@ -10341,7 +10341,7 @@ html.lenis body {
    because a cell that is mid-roll is not showing PLAYING. - it is showing
    whatever its drum is passing - so the driver overrides --ink inline for the
    length of the roll and the colour crosses over with the letter. */
-#reel .reel-panel--title .flap-board.is-a .flap[data-accent="a"] {
+#reel .reel-panel--title .flap-board.is-a .flap[data-accent-a] {
   --ink: #ee2b2b;
 }
 
@@ -10490,53 +10490,62 @@ html.lenis body {
   transform: none;
 }
 
-#reel .reel-panel--bridge {
-  --settle: clamp(0, calc((var(--tp) - 0.16) / 0.34), 1);
-  --grow: calc(1 - var(--settle));
-  --s: calc(1 + (var(--s-peak, 1.6) - 1) * var(--grow));
-}
+
 
 /* The column carries the move, so the kicker and the heading travel as one
    piece - which is what makes them land on the two the next beat already has.
    --rise and --nudge are written by the driver, 0 until it has, which just means
    no opening move rather than a broken one. */
-/* Two ends, interpolated by --grow: centred on the slide at 1, and standing
-   exactly on the next beat's heading at 0. --to-x and --to-y are that landing,
-   measured by the driver against the real Chess Run beat rather than matched by
-   construction - the work layout puts the copy in a row as tall as its card,
-   and this beat has no card, so 'the same grid' is not the same place. */
-#reel .reel-panel--bridge .hl-slide-content {
-  transform: translate3d(
-    calc(var(--grow) * var(--nudge, 0px) + (1 - var(--grow)) * var(--to-x, 0px)),
-    calc(var(--grow) * var(--rise, 0px) + (1 - var(--grow)) * var(--to-y, 0px)),
-    0);
-}
 
-/* Grows about the top of its own centre: the top stays put so the kicker keeps
-   its gap, and the middle stays put so --nudge is a straight half-column. */
-#reel .reel-panel--bridge .bridge-title {
-  transform-origin: 50% 0;
-  transform: scale(var(--s));
-}
 
-/* Centring that can be scrubbed. text-align is not interpolable, so going from
-   centred to left-aligned with it would snap the line sideways halfway through.
-   Each line hugs its own text instead, and margin-left 50% of the column plus
-   translateX -50% of the line centres it exactly - both ends animate, and at 0
-   it is the left-aligned heading again, unchanged. */
-#reel .reel-panel--bridge .bridge-title > span {
-  display: block;
-  width: max-content;
-  margin-left: calc(var(--grow) * 50%);
-  transform: translateX(calc(var(--grow) * -50%));
-}
-
+/* Its own box, so the transform above moves the label and not the column. */
 #reel .reel-panel--bridge .hl-tag {
   width: max-content;
-  margin-left: calc(var(--grow) * 50%);
-  transform: translateX(calc(var(--grow) * -50%));
 }
 
-#reel .reel-panel--bridge .vg-accent {
-  color: #ee2b2b;
+/* ===========================================================================
+   THE BRIDGE'S MOVE, ON THE BOARD
+
+   The heading here is slide two's, not a new one: the board walks to its third
+   sentence and then does slide one's opening backwards - out of its place, up
+   to the middle of the slide and bigger - before coming back down onto the next
+   beat's heading. --bg is the bridge's own progress, 0 at centred and grown, 1
+   at landed, and both ends are measured by the driver.
+
+   The board lives in slide one's panel, so the bridge's progress is published
+   on the section (--b-tp) rather than read off the beat.
+   =========================================================================== */
+#reel.at-bridge {
+  --bg: clamp(0, calc((var(--b-tp, 0) - 0.42) / 0.34), 1);
 }
+
+#reel.at-bridge .reel-panel--title .intro2-title.flap-board {
+  transform:
+    translate(
+      calc((1 - var(--bg)) * var(--bc-x, 0px) + var(--bg) * var(--bw-x, 0px)),
+      calc((1 - var(--bg)) * var(--bc-y, 0px) + var(--bg) * var(--bw-y, 0px)))
+    scale(calc(1 + (var(--bs-peak, 1.4) - 1) * (1 - var(--bg))));
+}
+
+/* The rows centre themselves inside the box while it is up in the middle, and
+   are left-aligned again by the time it lands - the same pair slide one uses,
+   driven from here instead of from --grow. */
+#reel.at-bridge .reel-panel--title .intro2-title.flap-board > span {
+  margin-left: calc((1 - var(--bg)) * 50%);
+  transform: translateX(calc((1 - var(--bg)) * -50%));
+}
+
+/* The kicker travels with the heading: centred above it while it is up in the
+   middle, and back on its own place - which is the next beat's - by the end. */
+#reel.at-bridge .reel-panel--bridge .hl-tag {
+  transform: translate(
+    calc((1 - var(--bg)) * var(--bt-x, 0px) + var(--bg) * var(--bl-x, 0px)),
+    calc((1 - var(--bg)) * var(--bt-y, 0px) + var(--bg) * var(--bl-y, 0px)));
+}
+
+/* GAMES and XR are the accent in the third sentence, the way PLAYING. is in the
+   first. Both are per-state, because a cell is only that word in one of them. */
+#reel .reel-panel--title .flap-board.is-c .flap[data-accent-c] {
+  --ink: #ee2b2b;
+}
+
