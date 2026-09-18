@@ -908,7 +908,7 @@
 					     position IS Chess Run's, to the pixel, without anything being measured or
 					     matched by hand. The opening move is slide one's: oversized and centred,
 					     settling onto that resting place as the beat runs. -->
-					<article class="reel-panel reel-panel--bridge hl-slide" data-slots="2">
+					<article class="reel-panel reel-panel--bridge hl-slide" data-slots="3">
 						<!-- Chess Run's card, standing on the beat that hands over to it. The whole
 						     work-beat layout - the grid, the column widths, the 128px gutter, every
 						     breakpoint of it - hangs off .hl-slide:has(> .hl-slide-bg), so this card
@@ -3216,20 +3216,24 @@
 					live = i;
 				}
 
-				// The roll is held while the heading is still on its way up - 0.34 is where
+				// The roll is held while the heading is still on its way up - 0.227 is where
 				// --bu reaches 1, the frame it is centred and at full size. This sits AFTER
 				// the beat switch on purpose: enter() holds as the bridge goes live, and the
 				// same frame has to be able to let go again. Reading it before meant the
 				// release needed another scroll event, so stopping just past the rise left
 				// the drums turning for good.
+				//
+				// Both numbers below are fractions of the beat, and the beat grew from two
+				// slots to three when the card was given a scroll of its own - so they are
+				// the old 0.34 and 0.86 times two thirds, the same scroll distance as before.
 				if (window.__flap) {
 					var onBridge = i >= 0 && live0[i] === bridgeEl;
 					// Once it has landed on the next beat's heading it rolls over to that
 					// beat's TITLE, so the two are the same words in the same place and the
-					// handover has nothing left to give away. 0.86 is just past --bg reaching
+					// handover has nothing left to give away. 0.575 is just past --bg reaching
 					// 1, which is where the landing finishes.
-					if (window.__flap.to && onBridge) window.__flap.to(reel, btp >= 0.86 ? "d" : "c");
-					if (window.__flap.hold) window.__flap.hold(reel, onBridge && btp < 0.34);
+					if (window.__flap.to && onBridge) window.__flap.to(reel, btp >= 0.575 ? "d" : "c");
+					if (window.__flap.hold) window.__flap.hold(reel, onBridge && btp < 0.227);
 					// The glow needs no mark of its own any more - it runs on --bg, straight off
 					// the scroll, for exactly as long as the heading is travelling.
 				}

@@ -10565,13 +10565,31 @@ html.lenis body {
    --bu is the leg up - from exactly where slide two left it to the middle of the
    slide - and --bg is the leg down onto the next beat's heading. They do not
    overlap, so the path is continuous and every part of it is scroll based. */
-/* Counted in notches rather than in decimals. This beat is two slots of 32vh,
-   so 576px at 900 tall, and a wheel notch is about 100px - 0.17 of it. Two
-   notches up, one standing still at full size, two back down, and what is left
-   is settled on the next beat's heading before the beat ends. */
+/* Counted in notches rather than in decimals. The beat is three slots now that
+   the card has a scroll of its own, and a wheel notch is about 0.113 of it. Two
+   notches up, one standing still at full size, two back down - the same scroll
+   distance the move had at two slots, which is why every number here is the old
+   one times two thirds. What is left over is the card's, below. */
 #reel.at-bridge {
-  --bu: clamp(0, calc(var(--b-tp, 0) / 0.34), 1);
-  --bg: clamp(0, calc((var(--b-tp, 0) - 0.51) / 0.34), 1);
+  --bu: clamp(0, calc(var(--b-tp, 0) / 0.227), 1);
+  --bg: clamp(0, calc((var(--b-tp, 0) - 0.34) / 0.227), 1);
+}
+
+/* The card waits. The heading lands at 0.567 and then nothing happens for a
+   notch - that pause IS the point, it is the screen of just the kicker and the
+   heading - and then the card takes a notch to arrive, leaving most of two more
+   with the composition whole before the next beat brings the copy.
+
+   Opacity and nothing else. The cards do not move, so this one does not move to
+   get here either; it is not there and then it is there. A hard cut would have
+   been less than an animation, but it would also snap, and this beat is
+   scrubbed - you can sit in the middle of it.
+
+   Same specificity as the rule that pins every other card to opacity 1, and
+   later in the file, which is what lets this through. Off the bridge that one
+   wins again and the card is solid - by then the beat itself is fading. */
+#reel.at-bridge .reel-panel--bridge > .hl-slide-bg {
+  opacity: clamp(0, calc((var(--b-tp, 0) - 0.68) / 0.113), 1);
 }
 
 /* Where slide two actually left the board, which is NOT always --c-settle: that
