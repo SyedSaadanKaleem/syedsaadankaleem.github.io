@@ -9132,14 +9132,27 @@ margin-top: -2em;}
   --eo: 0.10;
   opacity: calc(clamp(0, calc((var(--arrive, 1) - 0.3) / 0.7), 1) * (1 - var(--gone)));
   margin-left: calc(var(--grow) * 50%);
-  transform: translateX(calc(var(--grow) * -50% + var(--gone) * 0.4rem));
+  transform: translateX(calc(var(--grow) * -50% + var(--gone) * -0.4rem));
 }
 
+/* The paragraph itself no longer moves - its words do, so the lines can arrive
+   one after another instead of the block arriving as one piece. --eo stays here
+   because the exit is still the paragraph's, and --gone inherits down to the
+   words from it. */
 #reel .reel-panel--title .intro2-lead {
   --eo: 0.18;
   --show: clamp(0, calc((var(--tp) - 0.44) / 0.14), 1);
+}
+
+/* One word box per word, grouped into lines by the driver: --n-line is the line
+   it actually landed on at this width, read back from layout, so the stagger
+   follows the wrap instead of a line count baked into the markup. From the
+   LEFT - this is the left-hand column, and copy that arrives from the outside
+   edge reads as being dealt onto the slide rather than pushed in from the middle. */
+#reel .reel-panel--title .intro2-lead .lw {
+  display: inline-block;
   opacity: calc(var(--show) * (1 - var(--gone)));
-  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
+  transform: translate3d(calc((1 - var(--show)) * -0.9rem + var(--gone) * -0.5rem), 0, 0);
 }
 
 #reel .reel-panel--title .intro2-stat {
@@ -10051,8 +10064,8 @@ html.lenis body {
 
    The class goes on the beat rather than the element because short phones move
    the stats into their own beat, and the rule has to find them in either. */
-#reel .reel-panel.step-lead .intro2-lead {
-  animation: reelStepIn 460ms var(--ease-out) both !important;
+#reel .reel-panel.step-lead .intro2-lead .lw {
+  animation: reelStepIn 460ms var(--ease-out) calc(var(--n-line, 0) * var(--lw-step, 90ms)) both !important;
 }
 
 /* One by one, 70ms apart - the gap the hero's scoreboard uses. Four of them
@@ -10062,7 +10075,7 @@ html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #reel .reel-panel.step-lead .intro2-lead,
+  #reel .reel-panel.step-lead .intro2-lead .lw,
   #reel .reel-panel.step-stats .intro2-stat {
     animation: none !important;
     --show: 1;
@@ -10576,3 +10589,23 @@ html.lenis body {
   --ink: #ee2b2b;
 }
 
+
+
+/* Dropping a class must not be a cut. Scrolling back up out of the reel clears
+   .is-live and .step-lead in one frame, and both of the numbers behind them are
+   registered properties - so instead of falling to their resting value instantly,
+   they travel there. That is the whole of the fix for the heading and the
+   paragraph blinking out on the way up.
+
+   An animation outranks a transition while it is running, so this changes nothing
+   about any entrance; it only catches the moment the animation is taken away. */
+#reel .reel-panel--intro {
+  transition: --t 420ms var(--ease-out) !important;
+}
+
+#reel .reel-panel--title .intro2-lead .lw,
+#reel .reel-panel--title .intro2-stat,
+#reel .intro2-logo,
+#reel .reel-panel--collab .intro2-photo-card {
+  transition: --show 380ms var(--ease-out) !important;
+}

@@ -2908,6 +2908,54 @@
 			// slide two's own rather than one of its own. Two ends: centred on the slide
 			// and grown, and standing exactly on the next beat's heading. Slide one's
 			// opening, run the other way round.
+			// The paragraph arrives a line at a time, so each word is wrapped once and
+			// then told which LINE it ended up on. Wrapping is the only DOM change; where
+			// the lines fall is read back from layout, so it re-groups on its own at every
+			// width without the markup knowing anything about line breaks. Splitting the
+			// paragraph into line elements instead would have meant rebuilding it on every
+			// resize, and it has <strong> runs in it that would not survive that.
+			var leadEl = reel.querySelector(".reel-panel--title .intro2-lead");
+			function splitWords(root) {
+				if (!root || root.querySelector(".lw")) return;
+				var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+				var texts = [], node;
+				while ((node = walker.nextNode())) texts.push(node);
+				for (var i = 0; i < texts.length; i++) {
+					var t = texts[i];
+					if (!t.nodeValue.trim()) continue;
+					var frag = document.createDocumentFragment();
+					var parts = t.nodeValue.split(/(\s+)/);
+					for (var j = 0; j < parts.length; j++) {
+						if (!parts[j]) continue;
+						if (/^\s+$/.test(parts[j])) { frag.appendChild(document.createTextNode(parts[j])); continue; }
+						var w = document.createElement("span");
+						w.className = "lw";
+						w.textContent = parts[j];
+						frag.appendChild(w);
+					}
+					t.parentNode.replaceChild(frag, t);
+				}
+			}
+
+			function groupLines(root) {
+				if (!root) return;
+				var words = root.querySelectorAll(".lw");
+				var line = -1, prevTop = null;
+				for (var i = 0; i < words.length; i++) {
+					var top = words[i].offsetTop;
+					// A new line box, not a new word: offsetTop is layout, so it is unaffected
+					// by whatever transform the entrance has the word under at the time.
+					if (prevTop === null || top > prevTop + 2) { line++; prevTop = top; }
+					words[i].style.setProperty("--n-line", line);
+				}
+				// The gap between lines is whatever gets the last one moving by 600ms, up to
+				// the 90ms a roomy screen uses. Six lines at 1600 is 90ms; the same paragraph
+				// is twelve lines at 375, and 90ms each would have had it still arriving 1.45s
+				// in. The cascade should read as a cascade, not as a queue.
+				var step = line > 0 ? Math.min(90, 600 / line) : 90;
+				root.style.setProperty("--lw-step", step.toFixed(1) + "ms");
+			}
+
 			function calibrateBridge() {
 				if (!bridgeEl || !heading) return;
 				var rowEl = heading.querySelector(".flap-row");
@@ -3009,6 +3057,8 @@
 				}
 			}
 			function calibrate() {
+				splitWords(leadEl);
+				groupLines(leadEl);
 				calibrateCollab();
 				calibrateBridge();
 				if (!heading) return;
