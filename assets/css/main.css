@@ -10221,3 +10221,97 @@ html.lenis body {
     padding-top: clamp(1rem, 3vh, 2.5rem);
   }
 }
+
+
+/* ===========================================================================
+   THE BOARD - one fixed set of cells, two sentences
+
+   A cell is a place on the board, not a letter in a word, which is what lets a
+   letter become another letter WHERE IT STANDS. Each cell is as wide as the
+   wider of the two glyphs it can hold - two struts stacked in one grid area, so
+   the browser does the max() and nothing is measured - and the face and leaf
+   are painted over that. The original board is monospace and simply uses 1ch;
+   this keeps the condensed display face instead and pays for it with a little
+   air around the narrower of each pair.
+   =========================================================================== */
+#reel .reel-panel--title .intro2-title.flap-board {
+  position: relative;
+  /* Only as tall as the sentence currently on it. Rows past that overflow and
+     paint, which is what the third row does while it is filling. */
+  height: calc(var(--rows, 2) * 0.95em);
+  overflow: visible;
+}
+
+#reel .reel-panel--intro .flap-row {
+  display: block;
+  height: 0.95em;
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+#reel .reel-panel--intro .rl-ltr.flap {
+  display: inline-grid;
+  position: relative;
+  vertical-align: top;
+  /* NOT hidden: a glyph passing through wider than the cell would be clipped
+     and M would read as N. The leaf does its own clipping. */
+  overflow: visible;
+  /* In em, not the original's 220px, so the hinge is the same depth whatever
+     the heading has been scaled to. */
+  perspective: 6em;
+}
+
+#reel .reel-panel--intro .flap-strut {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+
+#reel .reel-panel--intro .flap-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  text-align: center;
+}
+
+#reel .reel-panel--intro .flap-leaf {
+  position: absolute;
+  inset: 0 0 50% 0;
+  overflow: hidden;
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+}
+
+#reel .reel-panel--intro .flap-leaf > span {
+  display: block;
+  text-align: center;
+}
+
+/* The seam only exists while the board is walking. On a departure board it is
+   permanent because the board IS the thing; here it is a transition, and a
+   hairline across every letter of a settled heading would be a new look rather
+   than a new move. */
+#reel .reel-panel--intro .is-flapping .flap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+/* PLAYING. is red in the first sentence and nothing in the second, so the
+   accent belongs to the state, not to the cell. */
+#reel .reel-panel--title .flap-board.is-a .flap[data-accent="a"] {
+  color: #ee2b2b;
+}
+
+/* Slide two's heading is now only a box. The board carries both sentences, so
+   painting this one too is what put the two on top of each other; it stays in
+   the markup because its height is what the banners and the photo sit under,
+   and because it is where the second sentence's wording lives. */
+#reel .reel-panel--collab .intro2-collab-title {
+  visibility: hidden;
+}
