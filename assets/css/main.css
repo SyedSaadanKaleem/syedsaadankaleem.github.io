@@ -10791,12 +10791,17 @@ html.lenis body {
   gap: 0.7rem;
 }
 
+/* One out, THEN the other in - not a crossfade. They are different lengths, so
+   any frame with both of them up is two labels printed over each other. Two legs
+   with a gap between them: the first is gone at 0.62, the second does not start
+   until 0.64, and in between there is no kicker at all. */
 #reel {
-  --bk: clamp(0, calc((var(--b-tp, 0) - 0.58) / 0.07), 1);
+  --bk-out: clamp(0, calc((var(--b-tp, 0) - 0.58) / 0.04), 1);
+  --bk-in: clamp(0, calc((var(--b-tp, 0) - 0.64) / 0.04), 1);
 }
 
-#reel .reel-panel--bridge .bridge-kick--from { opacity: calc(1 - var(--bk)); }
-#reel .reel-panel--bridge .bridge-kick--to { opacity: var(--bk); }
+#reel .reel-panel--bridge .bridge-kick--from { opacity: calc(1 - var(--bk-out)); }
+#reel .reel-panel--bridge .bridge-kick--to { opacity: var(--bk-in); }
 
 /* The heading's place, held open and not painted while this beat is running:
    the board is the visible heading here. It comes back for the handover, so the
