@@ -2394,10 +2394,12 @@
 
 			function build(el) {
 				var cells = [], nodes = el.querySelectorAll(".flap");
+				var rowEls = Array.prototype.slice.call(el.querySelectorAll(".flap-row"));
 				for (var k = 0; k < nodes.length; k++) {
 					var n = nodes[k];
 					cells.push({
 						el: n,
+						row: rowEls.indexOf(n.parentNode),
 						strut: n.querySelector(".flap-strut"),
 						face: n.querySelector(".flap-face"),
 						leafWrap: n.querySelector(".flap-leaf"),
@@ -2471,8 +2473,22 @@
 				b.el.classList.add("is-flapping");
 
 				var len = CHARSET.length, k, cell;
+				var keep = state === "blank" ? b.cells.length : b.rows[state];
 				for (k = 0; k < b.cells.length; k++) {
 					cell = b.cells[k];
+					// A row the destination does not use is not flapping its way out - it
+					// is off the board. Spinning it meant the third row was still turning
+					// over the paragraph on the way back to the first sentence, because the
+					// box had already shrunk to two rows underneath it.
+					if (cell.row >= keep) {
+						cell.glyph = 0;
+						cell.face.textContent = NB;
+						cell.leafFace.textContent = NB;
+						cell.leafWrap.style.transform = "rotateX(0deg)";
+						cell.leafWrap.style.visibility = "hidden";
+						cell.steps = 0;
+						continue;
+					}
 					var to = drum(targetOf(cell, state));
 					var raw = (to - cell.glyph + len) % len;
 					// Floored, so a cell whose letter is the same in both sentences

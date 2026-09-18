@@ -10282,10 +10282,18 @@ html.lenis body {
   text-align: center;
 }
 
+/* The leaf is a CARD, and opaque is the whole point of it. Transparent, it
+   showed its own glyph on top of the face's NEXT glyph - two letters printed
+   over each other in the top half of every cell - and its clip edge at mid-cell
+   drew the line across them. Opaque, the top half is the old letter and the
+   bottom half is the new one, which is what a flap actually looks like halfway
+   through. #0b0b0b is what is really behind the heading (.reel-pin, measured),
+   and the intro panels paint nothing over it, so a flat card matches exactly. */
 #reel .reel-panel--intro .flap-leaf {
   position: absolute;
   inset: 0 0 50% 0;
   overflow: hidden;
+  background: #0b0b0b;
   transform-origin: bottom center;
   backface-visibility: hidden;
 }
