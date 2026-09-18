@@ -9886,6 +9886,22 @@ margin-top: -2em;}
   initial-value: 0;
 }
 
+/* --show is every element's own 0-to-1 arrival, and every rule below already
+   reads it. Registering it changes nothing about those rules - it only makes
+   the number interpolable, so a piece can be handed its arrival by a keyframe
+   instead of by scroll position, without rewriting what it does with it.
+   inherits: true because that is what an unregistered property already did. */
+@property --show {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes reelStepIn {
+  from { --show: 0; }
+  to   { --show: 1; }
+}
+
 /* 0.78 is where --go opens, so the entrance runs right up to the exit's door
    and stops. `both` holds 0 before it starts and 0.78 after it ends, so a beat
    that has finished arriving stays arrived. */
@@ -9959,4 +9975,63 @@ margin-top: -2em;}
 #reel.reel-static .reel-panel--intro {
   --t: 0.75;
   animation: none !important;
+}
+
+
+/* Lenis' own stylesheet, the two rules that matter here. It measures the page
+   itself, so a fixed height on the scroller would cap how far it thinks it can
+   go. scroll-behavior has to stay auto or the browser's smooth scrolling and
+   Lenis' both animate the same scroll - the branch's baseline already forces
+   that at *, and this restates it where Lenis expects to find it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* Anything with its own scroller keeps it; Lenis must not steal the wheel
+   inside one, and the scroll must not chain out to the page at its ends. */
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+
+/* ===========================================================================
+   STEPS - the paragraph and the stats arrive on their own time
+
+   Both were scrubbed: the paragraph faded across 0.44 to 0.58 of the beat and
+   the four stats across 0.58 to 0.71, so where you stopped was how far in they
+   were. Now scroll position only says WHEN they start. The driver sets
+   .step-lead once the heading has finished settling, and .step-stats about a
+   notch of scroll later, and each animation finishes by itself.
+
+   The animation drives --show, not opacity, so the exit is untouched: opacity
+   is still --show times (1 - --gone), and --gone is still scroll based. They
+   arrive on a clock and leave with the slide.
+
+   The class goes on the beat rather than the element because short phones move
+   the stats into their own beat, and the rule has to find them in either. */
+#reel .reel-panel.step-lead .intro2-lead {
+  animation: reelStepIn 460ms var(--ease-out) both !important;
+}
+
+/* One by one, 70ms apart - the gap the hero's scoreboard uses. Four of them
+   land over 630ms. */
+#reel .reel-panel.step-stats .intro2-stat {
+  animation: reelStepIn 420ms var(--ease-out) calc(var(--n-stat, 0) * 70ms) both !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel.step-lead .intro2-lead,
+  #reel .reel-panel.step-stats .intro2-stat {
+    animation: none !important;
+    --show: 1;
+  }
 }

@@ -217,7 +217,11 @@
 		<!-- ================================================== -->
 		<!-- SECTION 2: GAMES (Worldscar + Shipped + In Dev)    -->
 		<!-- ================================================== -->
-		<section id="highlights" class="wrapper style3">
+		<!-- data-lenis-prevent-wheel: this section runs its own wheel hijack - it
+		     preventDefaults every notch and snaps to a slide itself. Lenis does not
+		     stop at another listener's preventDefault, so without this both would
+		     move the page for the same gesture. -->
+		<section id="highlights" class="wrapper style3" data-lenis-prevent-wheel>
 			<div class="hl-slides">
 				<div class="hl-slide hl-slide--intro" id="introTittle" data-index="0">
 					<div class="hl-slide-content">
@@ -1333,6 +1337,28 @@
 	<script src="assets/js/script.js"></script>
 	<script src="assets/js/cursors.js"></script>
 	<script src="assets/js/sounds.js"></script>
+	<script src="assets/js/lenis.min.js"></script>
+	<script>
+		// Lenis: the wheel drives a target and the page eases toward it, so the reel
+		// scrubs continuously instead of one 100px notch at a time. It scrolls the
+		// window for real - no transform on a wrapper - so the pin's position: sticky
+		// and every getBoundingClientRect the driver takes still mean what they say.
+		//
+		// The site's own scrollTo calls (the deck, the snap slider, the nav) all pass
+		// behavior: auto or instant and stay native. Lenis notices a scroll it did not
+		// cause and adopts the new position rather than easing back to its own, so
+		// those jumps land where they meant to.
+		(function () {
+			if (!window.Lenis) return;
+			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+			window.__lenis = new Lenis({
+				autoRaf: true,
+				// Touch is left alone. syncTouch fights the platform's own momentum and
+				// reads as lag on iOS; the wheel is where the notching actually hurts.
+				syncTouch: false
+			});
+		})();
+	</script>
 
 
 	<script>
@@ -1975,7 +2001,10 @@
 				// Snap to the EXACT slide top. Smooth scroll can stop a few px past the target,
 				// and in this sticky reveal-stack any overshoot exposes the next slide from the
 				// bottom. Forcing the precise resting position kills that peek in both directions.
-				if (targetIdx !== null) window.scrollTo({ top: Math.round(slideTop(targetIdx)), behavior: 'instant' });
+				if (targetIdx !== null) {
+					window.scrollTo({ top: Math.round(slideTop(targetIdx)), behavior: 'instant' });
+					if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
+				}
 				if (targetIdx === slides.length - 1) lastArmed = true;   // last slide has fully settled -> a fresh scroll may now exit to the next section
 				locked = false; targetIdx = null;
 				clearTimeout(pollT); pollT = null;
@@ -2002,6 +2031,7 @@
 				lastY = -1; stillCount = 0;
 				if (wrap) wrap.classList.add('hl-animating');
 				window.scrollTo({ top: Math.round(slideTop(i)), behavior: 'auto' });
+				if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
 				clearTimeout(pollT); pollT = setTimeout(poll, 50);
 			}
 			// --- Wheel: hard lock, exactly one card per gesture; release at the ends ---
@@ -2140,6 +2170,7 @@
 					var target = f >= 0.5 ? tops[i + 1] : tops[i + 1] - vh;   // commit : hide (== this card's rest for viewport-tall cards)
 					if (Math.abs(y - target) < 2) return;   // already at rest
 					window.scrollTo({ top: Math.round(target), behavior: 'auto' });
+					if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
 				};
 				var armSettle = function () { clearTimeout(settleT); settleT = setTimeout(settleSnap, SETTLE_MS); };
 				window.addEventListener('touchstart', function () { touching = true; clearTimeout(settleT); }, { passive: true });
@@ -2187,6 +2218,7 @@
 				targetIdx = null;   // defuse any pending slide snap so release() can't yank us back
 				release();
 				window.scrollTo({ top: Math.round(staticTopOf(el)), behavior: 'auto' });
+				if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
 			});
 		})();
 	</script>
@@ -2237,6 +2269,7 @@
 			function hardStop(sy) {
 				locked = true; goT = lastWheelT = performance.now(); lastY = -1; still = 0;
 				window.scrollTo({ top: Math.round(sy), behavior: 'instant' });
+				if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
 				clearTimeout(pollT); pollT = setTimeout(poll, 50);
 			}
 			// While locked, swallow the momentum tail so it can't push past the stop.
@@ -2356,6 +2389,23 @@
 				".reel-panel--collab .intro2",
 				"(max-width: 900px)");
 
+			// Steps: scroll position says WHEN a piece arrives, and the animation says
+			// how - the opposite of the scrub, where scroll position said how far in it
+			// was. Threshold is the beat's own 0-to-1 progress, so it holds whatever the
+			// beat is worth in slots and however tall the screen is.
+			var steps = [];
+			function defineStep(beatSel, at, cls) {
+				var beat = reel.querySelector(beatSel);
+				if (beat) steps.push({ el: beat, at: at, cls: cls });
+			}
+			// The paragraph the moment the heading has finished settling (0.42), the
+			// stats about one wheel notch further on - 100px of a 900-tall screen is
+			// 0.12 of this beat. Short phones keep their own numbers beat, where the
+			// stats have the slide to themselves and start early.
+			defineStep(".reel-panel--title", 0.42, "step-lead");
+			defineStep(".reel-panel--title", 0.54, "step-stats");
+			defineStep(".reel-panel--numbers", 0.12, "step-stats");
+			
 			function placeSplits() {
 				for (var k = 0; k < splits.length; k++) {
 					var sp = splits[k];
@@ -2465,6 +2515,14 @@
 				// let CSS give only that one pointer-events. The same mark is what starts
 				// the beat's text: .is-live runs its entrance, .is-out runs its exit, and
 				// both play to the end on their own clock rather than tracking the thumb.
+				for (var q = 0; q < steps.length; q++) {
+					var st = steps[q];
+					var si = parseFloat(st.el.style.getPropertyValue("--i")) || 0;
+					var ss = parseFloat(st.el.style.getPropertyValue("--slots")) || 1;
+					var sd = (p * n - si) / ss;
+					st.el.classList.toggle(st.cls, sd >= st.at);
+				}
+				
 				var slot = p * n;
 				var i = -1;
 				// Nothing is live until the pin has actually engaged. Otherwise beat one
@@ -2502,7 +2560,7 @@
 			// on screen with its text arrived.
 			function clearBeats() {
 				for (var b = 0; b < panels.length; b++) {
-					panels[b].classList.remove("is-live", "is-out", "is-done");
+					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats");
 				}
 			}
 			function relayout() {
