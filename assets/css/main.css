@@ -10799,27 +10799,22 @@ html.lenis body {
    same pair the heading's own rows use - margin-left half the cell, then back
    half its own width. At the two ends, where --bu and --bg are equal, both terms
    are 0 and it is the left-aligned kicker again, untouched. */
-/* --kick-center is 0 when the strip cannot hold one line in this column. The
-   centring below is a margin-left of 50%, which takes half the strip's own room
-   away - on a phone that made a strip which already wrapped wrap harder, three
-   lines instead of two, and the kicker grew down into the heading. Where it does
-   not fit, it stays left-aligned and simply travels. */
 #reel.at-bridge .reel-panel--bridge .hl-tag > .bridge-kick {
-  margin-left: calc((var(--bu) - var(--bg)) * var(--kick-center, 1) * 50%);
-  /* ...and back right by half of whatever the strip is not using, so what ends
-     up centred is the INKED part rather than the box. Every cell is sized for
-     the longer of the two sentences, so the shorter one leaves a tail of blank
-     cells on the right and sat left of the middle without this. The module
-     measures it per state and publishes --kick-slack. */
-  transform: translateX(calc((var(--bu) - var(--bg)) * var(--kick-center, 1) * (-50% + var(--kick-slack, 0px))));
+  margin-left: calc((var(--bu) - var(--bg)) * 50%);
+  transform: translateX(calc((var(--bu) - var(--bg)) * -50%));
 }
 
 /* One out, THEN the other in - not a crossfade. They are different lengths, so
    any frame with both of them up is two labels printed over each other. Two legs
    with a gap between them: the first is gone at 0.62, the second does not start
    until 0.64, and in between there is no kicker at all. */
-/* The two-label crossfade is gone - the kicker walks a drum now, like the
-   heading, so there is no second label to fade and nothing here to time. */
+#reel {
+  --bk-out: clamp(0, calc((var(--b-tp, 0) - 0.53) / 0.04), 1);
+  --bk-in: clamp(0, calc((var(--b-tp, 0) - 0.60) / 0.04), 1);
+}
+
+#reel .reel-panel--bridge .bridge-kick--from { opacity: calc(1 - var(--bk-out)); }
+#reel .reel-panel--bridge .bridge-kick--to { opacity: var(--bk-in); }
 
 /* The heading's place, held open and not painted while this beat is running:
    the board is the visible heading here. It comes back for the handover, so the
@@ -11089,72 +11084,4 @@ html.lenis body {
    painting but not yet live read 0 like everything else here. */
 #reel .reel-panel--bridge .hl-tag {
   opacity: clamp(0, calc((var(--b-tp, 0) - 0.17) / 0.05), 1);
-}
-
-/* ===========================================================================
-   THE KICKER'S OWN FLAP CELLS
-
-   The heading's cell rules are scoped to .reel-panel--intro, so this beat needs
-   its own. Same mechanism: the face already shows the NEXT glyph while an opaque
-   leaf falls through -90deg carrying the current one, which is what makes the
-   seam read as a hinge rather than a fade.
-   =========================================================================== */
-/* One line, always. The board is only built where it was measured to fit, so it
-   must never be allowed to wrap - capping its width and letting it reflow was the
-   mistake: centring it takes half its room away, so it wrapped exactly when it was
-   centred, grew a line, and pushed down into the heading. Where it does not fit,
-   there is no board at all and .is-plain below takes over. */
-#reel .reel-panel--bridge .kick-strip {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-/* The narrow fallback: the same two sentences as text, wrapping in the column the
-   way the kicker always did. */
-#reel .reel-panel--bridge .kick-strip.is-plain {
-  flex-wrap: wrap;
-  white-space: normal;
-  max-width: 100%;
-}
-
-/* Two struts stacked in one area size the cell to the wider of its own two
-   glyphs, so a W passing through where an I lands cannot move the line. */
-#reel .reel-panel--bridge .kick-cell {
-  position: relative;
-  display: inline-grid;
-  grid-template-areas: "c";
-  align-items: center;
-}
-
-#reel .reel-panel--bridge .kick-strut {
-  grid-area: c;
-  visibility: hidden;
-}
-
-#reel .reel-panel--bridge .kick-face {
-  grid-area: c;
-  position: absolute;
-  inset: 0;
-  text-align: center;
-}
-
-#reel .reel-panel--bridge .kick-leaf {
-  position: absolute;
-  inset: 0 0 50% 0;
-  overflow: hidden;
-  background: #0b0b0b;
-  transform-origin: bottom center;
-  backface-visibility: hidden;
-}
-
-#reel .reel-panel--bridge .kick-leaf > span {
-  display: block;
-  text-align: center;
-}
-
-/* .hl-tag's own 0.7rem gap sat between the icon and the text; the strip is one
-   child now, so the icon carries it. */
-#reel .reel-panel--bridge .kick-cell--icon {
-  margin-right: 0.7rem;
 }

@@ -255,23 +255,14 @@
 						     two beats are showing the same thing and the handover has nothing to give
 						     away. Duplicated copy - if the wording below changes, change it in both. -->
 						<div class="hl-slide-content">
-							<!-- The kicker turns over the way the heading does, a letter at a time, so the
-							     two halves of the handover are the same mechanism rather than a roll and a
-							     fade. One strip: the cells are built from data-a and data-b, each one as
-							     wide as the wider of ITS OWN two glyphs, so the line never reflows mid-walk
-							     and nothing has to be measured.
-							
-							     The icon is not decoration - .hl-tag is an inline-flex, so its baseline is
-							     its FIRST item's, and a text-only tag sat 2px off the one on the beat this
-							     hands over to. It flips with the letters: one flap rather than a walk,
-							     because it has two states and no alphabet to travel through. -->
+							<!-- The icon is not decoration: .hl-tag is an inline-flex, so its baseline is
+							     its FIRST item's, and a text-only tag sat 2px off the one on the beat
+							     this hands over to. Every work tag leads with one - so both of these do.
+							     One box, two labels stacked in it: the box is the width of the wider, so
+							     nothing reflows underneath as they cross. -->
 							<span class="hl-tag">
-								<span class="bridge-kick kick-strip" data-a="What I build" data-b="Recently Live &middot; Pixel Dreams">
-									<span class="kick-cell kick-cell--icon" data-icon-a="bx bxs-joystick" data-icon-b="bx bxl-play-store">
-										<span class="kick-face"><i class='bx bxs-joystick'></i></span>
-										<span class="kick-leaf"><span><i class='bx bxs-joystick'></i></span></span>
-									</span>
-								</span>
+								<span class="bridge-kick bridge-kick--from"><i class='bx bxs-joystick'></i> What I build</span>
+								<span class="bridge-kick bridge-kick--to" aria-hidden="true"><i class='bx bxl-play-store'></i> Recently Live &middot; Pixel Dreams</span>
 							</span>
 							<!-- Holds the heading's space and never paints - the board is the visible
 							     heading here. Without it the copy below would sit against the kicker
@@ -1327,7 +1318,6 @@
 	<script src="assets/js/cursors.js"></script>
 	<script src="assets/js/sounds.js"></script>
 	<script src="assets/js/lenis.min.js"></script>
-	<script src="assets/js/kickflap.js"></script>
 	<script>
 		// Lenis: the wheel drives a target and the page eases toward it, so the reel
 		// scrubs continuously instead of one 100px notch at a time. It scrolls the
@@ -3231,11 +3221,6 @@
 					// 1, which is where the landing finishes.
 					if (window.__flap.to && onBridge) window.__flap.to(reel, btp >= 0.52 ? "d" : "c");
 					if (window.__flap.hold) window.__flap.hold(reel, onBridge && btp < 0.17);
-					// The kicker turns over once the heading has - the roll to Chess Run fires at
-					// 0.52 and takes about half a second, so this is far enough past it that the
-					// two are sequential rather than on top of each other. Same call either way,
-					// so scrubbing back up walks it home instead of leaving it landed.
-					if (window.__kick) window.__kick.to(reel, btp >= 0.56 ? "b" : "a");
 					// Worldscar's beat opens on the heading the beat above it just had - set, not
 					// walked, see enter() - and rolls over to its own a notch in. Rolling back is
 					// the same call with the other target, so scrubbing up unrolls it.
