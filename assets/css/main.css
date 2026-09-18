@@ -10730,8 +10730,15 @@ html.lenis body {
   --slide-glow-2: color-mix(in srgb,
     rgba(0, 148, 198, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0.18));
 
-  --g1b: calc(100% - var(--gfw) * (0.52 * var(--gfo) + 0.34 * var(--gfo2)) * 100%);
-  --g2b: calc(100% - var(--gfw) * (0.34 * var(--gfo) + 0.52 * var(--gfo2)) * 100%);
+  /* The product is worked out as a plain number first and only then taken off
+     100%. Written as one expression - var * (group) * 100% - it never reached
+     the paint: color-mix took the fallback and the glow sat at a flat alpha
+     0.180392 from end to end. A literal, and var * 60%, both land; the group
+     multiplied by a percentage does not. */
+  --gfa: calc(var(--gfw) * (0.52 * var(--gfo) + 0.34 * var(--gfo2)));
+  --gfb: calc(var(--gfw) * (0.34 * var(--gfo) + 0.52 * var(--gfo2)));
+  --g1b: calc(100% - var(--gfa) * 100%);
+  --g2b: calc(100% - var(--gfb) * 100%);
 }
 /* CHESS RUN is the next beat's title, and that is plain white - no accent
    travels with it. */
@@ -10881,3 +10888,161 @@ html.lenis body {
 #reel.at-bridge .reel-panel--handover .hl-slide-title {
   visibility: hidden;
 }
+
+/* ===========================================================================
+   CHESS RUN TO WORLDSCAR
+
+   Same layout on both sides, so unlike the bridge there is nowhere for the
+   heading to travel to and nothing to grow - the whole transition is the roll.
+   That is why it lives inside Worldscar's own beat instead of a second bridge
+   panel: no duplicated column, and no crossfade in the middle of the sequence.
+
+   The beat is three slots. A notch is about 0.113 of it:
+     0    - 0.12  the beat above is still fading out, board reads CHESS RUN
+     0.12 - 0.40  the roll, and the glow flickering across to this beat's colour
+     0.40         board out, this beat's own heading in, same frame
+     0.45 - 0.65  the copy, a line at a time
+     0.66 - 0.86  the card, glitching in
+   =========================================================================== */
+
+/* The board stands where the bridge left it - --bw-x/--bw-y is the landing it
+   already measured onto a work beat's title, and Worldscar's title is in the
+   same place as Chess Run's - so nothing new has to be calibrated. It reads
+   CHESS RUN on the first frame because enter() lands rather than walks it.
+
+   --s-tp not --tp: the board is in slide one's panel and cannot see this beat's
+   own progress, which is the same reason the bridge publishes --b-tp. */
+#reel.at-scar .reel-panel--title .intro2-title.flap-board {
+  opacity: clamp(0, calc((0.4 - var(--s-tp, 0)) * 200), 1);
+  transform: translate(var(--bw-x, 0px), var(--bw-y, 0px));
+}
+
+/* WORLDSCAR is this beat's own title and it is plain white, like CHESS RUN -
+   the accents belong to the sentences the cells carry in the other states. */
+#reel .reel-panel--title .flap-board.is-e .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-e .flap[data-accent-c] {
+  --ink: #fff;
+}
+
+/* And the real heading takes over in the frame the board leaves, on the same
+   0.4 - one step function read from both sides, so there is no window where
+   both are up and none where neither is. It does not travel in from the left
+   with the rest of the column: it is already in place, the board was standing
+   on it. */
+#reel .reel-panel--scar .hl-slide-title {
+  opacity: clamp(0, calc((var(--tp, 1) - 0.4) * 200), 1);
+  transform: none;
+}
+
+/* The rest of the column waits for the roll to finish rather than arriving
+   under it. Same cascade every work beat has, just started later - the offsets
+   come off the --n-line the beat already carries. */
+#reel .reel-panel--scar .hl-tag,
+#reel .reel-panel--scar .hl-slide-sub,
+#reel .reel-panel--scar .hl-slide-desc,
+#reel .reel-panel--scar .hl-slide-actions {
+  --show: clamp(0, calc((var(--tp) - 0.45 - var(--n-line) * 0.03) / 0.08), 1);
+}
+
+/* The glow, on the roll and nothing else: it starts when the letters start and
+   is steady again when they land. Same shape as the bridge's - two sine waves
+   at unrelated frequencies so it never settles into a pulse, inside a window
+   that is 0 at both ends and 1 in the middle - and the colour crosses ONCE,
+   straight through, from Chess Run's pair to this beat's red. Brightness
+   gutters, hue does not. */
+/* The leg lives on the SECTION, like the bridge's --bg, not on the panel with
+   everything that reads it. --s-tp is already published there, and it is the
+   same number as this beat's --tp. */
+#reel.at-scar {
+  --sg: clamp(0, calc((var(--s-tp, 0) - 0.12) / 0.28), 1);
+}
+
+#reel.at-scar .reel-panel--scar {
+  --sfw: calc(4 * var(--sg) * (1 - var(--sg)));
+  --sfo: calc(0.5 + 0.5 * sin(var(--sg) * 47rad));
+  --sfo2: calc(0.5 + 0.5 * sin(var(--sg) * 113rad + 1.1rad));
+
+  --slide-glow: color-mix(in srgb,
+    rgba(238, 43, 43, 0.18) calc(var(--sg) * 100%), rgba(141, 53, 255, 0.18));
+  --slide-glow-2: color-mix(in srgb,
+    rgba(238, 43, 43, 0.18) calc(var(--sg) * 100%), rgba(0, 148, 198, 0.18));
+
+  --sfa: calc(var(--sfw) * (0.52 * var(--sfo) + 0.34 * var(--sfo2)));
+  --sfb: calc(var(--sfw) * (0.34 * var(--sfo) + 0.52 * var(--sfo2)));
+  --g1b: calc(100% - var(--sfa) * 100%);
+  --g2b: calc(100% - var(--sfb) * 100%);
+}
+
+/* The card does not fade in, it fails in. Three sine waves at frequencies that
+   do not divide into each other, inside the same 0-1-0 window the glow uses, so
+   the worst of it is mid-arrival and it is clean at both ends: the whole card
+   jumps sideways, the channels pull apart red one way and cyan the other, bands
+   get clipped off the top and bottom, and the opacity drops out from under it.
+   By --tp 0.86 every one of those terms is 0 and what is left is the card.
+
+   (1,3,0), over the rule that pins every other card to none/1/none, which is
+   also why this one has to restate the settled values rather than inherit them.
+   No :not(:hover) - this beat's card is being transitioned, not pointed at. */
+#reel .reel-panel--work.reel-panel--scar > .hl-slide-bg {
+  --ga: clamp(0, calc((var(--tp) - 0.66) / 0.2), 1);
+  --gw: calc(4 * var(--ga) * (1 - var(--ga)));
+  --g1: calc(0.5 + 0.5 * sin(var(--ga) * 97rad));
+  --g2: calc(0.5 + 0.5 * sin(var(--ga) * 53rad + 2.1rad));
+  --g3: calc(0.5 + 0.5 * sin(var(--ga) * 211rad + 0.7rad));
+
+  opacity: clamp(0, calc(var(--ga) * 2 - var(--gw) * var(--g3) * 1.1), 1);
+  transform: translate3d(calc(var(--gw) * (var(--g1) - 0.5) * 22px), 0, 0);
+  filter:
+    drop-shadow(calc(var(--gw) * var(--g1) * 7px) 0 rgba(255, 0, 72, 0.7))
+    drop-shadow(calc(var(--gw) * var(--g2) * -7px) 0 rgba(0, 246, 255, 0.65));
+  clip-path: inset(calc(var(--gw) * var(--g2) * 16%) 0 calc(var(--gw) * var(--g3) * 12%) 0);
+}
+
+/* Both of those are strobing, and the colour and the arrival are information -
+   so the windows collapse and what is left is a plain crossfade and a plain
+   fade, still on the scroll. */
+@media (prefers-reduced-motion: reduce) {
+  #reel.at-scar .reel-panel--scar {
+    --sfw: 0;
+  }
+
+  #reel .reel-panel--work.reel-panel--scar > .hl-slide-bg {
+    --gw: 0;
+  }
+}
+
+/* One heading at a time, at this handover too. The board comes up on CHESS RUN
+   so the word is continuous while the beat above it fades out - but that beat
+   is still painting its own CHESS RUN underneath, and the board's cell advances
+   are not the h2's: 174.9px against 166.5px, which ghosts exactly the way the
+   bridge did. The board wins the moment this beat is live, because it is the one
+   that is about to roll. */
+#reel.at-scar .reel-panel--handover .hl-slide-title {
+  opacity: 0;
+}
+
+/* The flicker never actually reached the paint. --g1b and --g2b are read as
+   color-mix(in srgb, <colour> var(--g1b, 100%), transparent), and an UNregistered
+   custom property substitutes as raw tokens - so the calc went into color-mix as
+   a token stream, color-mix would not take it, and the fallback 100% won every
+   time. Both the bridge and the Worldscar roll were painting a perfectly steady
+   glow at alpha 0.180392 from end to end while the colour crossed correctly.
+
+   Registering them means they compute to a real percentage before substitution,
+   so color-mix gets a value rather than an expression. inherits: false because
+   the panel that declares them is the panel that paints them. */
+/* Registering these as <percentage> made it WORSE, not better: any computed-value
+   failure lands silently on initial-value and you cannot tell the two apart. Left
+   unregistered, they substitute as tokens - which is fine now that what they are
+   built from is a registered number rather than another token stream. */
+
+/* And the intermediates have to be registered too, for the same reason --g1b
+   does: unregistered, they substitute into it as a token stream rather than as
+   a number, and the percentage it is multiplied by cannot type-check against
+   tokens. var(--sfw) * 60% lands because --sfw is only ever one hop; var(--sfa)
+   * 100% did not, because --sfa carried a whole calc of its own. Registered as
+   <number>, they arrive as values. */
+@property --gfa { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gfb { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --sfa { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --sfb { syntax: "<number>"; inherits: false; initial-value: 0; }
