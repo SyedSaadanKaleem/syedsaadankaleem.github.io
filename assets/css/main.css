@@ -10249,25 +10249,34 @@ html.lenis body {
   white-space: nowrap;
 }
 
-/* One pitch for every cell, which is what the original gets from being
-   monospace and using 1ch. Sizing each cell to the wider of its own two glyphs
-   held the positions but read as broken spacing, and in this face it had to:
-   measured at 32px, W is 26.9px and I is 8.5px, so a cell could be three times
-   its neighbour and a letter sat in the middle of whatever the OTHER sentence
-   needed there. 0.68em is a little under the widest cap, so W and M carry about
-   2.6px past their cell at 32px and everything else has air - a board, evenly
-   set, rather than two sentences fighting over one grid. */
+/* No fixed pitch and no shared cell width. Both were attempts to keep every
+   letter on one grid across two sentences, and in a face where W is 26.9px and
+   I is 8.5px at 32px neither can look right: sized to the wider of the two,
+   letters sat in holes meant for the other sentence; set to one pitch, every I
+   floated and W and M ran into their neighbours. The cell is simply as wide as
+   the glyph it is about to hold, so each sentence is set naturally, and the
+   strut is swapped to the destination's glyph the moment a walk begins - so the
+   row takes its new metrics once, under 43 cells that are all already spinning,
+   and then holds still for the whole move. */
 #reel .reel-panel--intro .rl-ltr.flap {
   display: inline-block;
   position: relative;
-  width: 0.68em;
   vertical-align: top;
-  /* NOT hidden: a glyph wider than its cell would be clipped and M would read
-     as N. The leaf does its own clipping. */
+  /* NOT hidden: a glyph passing through wider than the cell it is passing
+     through would be clipped, and M would read as N. */
   overflow: visible;
   /* In em, not the original's 220px, so the hinge is the same depth whatever
      the heading has been scaled to. */
   perspective: 6em;
+}
+
+/* In flow, and the only thing in the cell that is: it gives the cell its width
+   AND its height. Without it every cell was zero-tall, which left the leaf a
+   zero-height overflow: hidden box carrying a transform - and that clip edge is
+   what was drawing a hairline across the rows mid-walk. */
+#reel .reel-panel--intro .flap-strut {
+  display: block;
+  visibility: hidden;
 }
 
 #reel .reel-panel--intro .flap-face {
@@ -10309,14 +10318,7 @@ html.lenis body {
   visibility: hidden;
 }
 
-/* The clamp bottoms out at 2rem, which is set for proportional text. Thirteen
-   cells of fixed pitch need a little less than that on the narrowest screens or
-   the widest row runs past the column. */
-@media (max-width: 480px) {
-  #reel .reel-panel--title .intro2-title.flap-board {
-    font-size: clamp(1.5rem, 6.2vw, 2rem);
-  }
-}
+
 
 /* Scrolling back up into slide one is a RETURN, not an arrival. Its entrance
    choreography is written against --tp, so coming back in at the top of the
