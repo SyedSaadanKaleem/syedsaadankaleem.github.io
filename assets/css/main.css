@@ -10515,32 +10515,55 @@ html.lenis body {
    The board lives in slide one's panel, so the bridge's progress is published
    on the section (--b-tp) rather than read off the beat.
    =========================================================================== */
+/* Two legs, not one. --bg alone started at 0, which IS centred-and-grown, so
+   the board jumped there the instant the beat went live instead of travelling.
+   --bu is the leg up - from exactly where slide two left it to the middle of the
+   slide - and --bg is the leg down onto the next beat's heading. They do not
+   overlap, so the path is continuous and every part of it is scroll based. */
 #reel.at-bridge {
-  --bg: clamp(0, calc((var(--b-tp, 0) - 0.42) / 0.34), 1);
+  --bu: clamp(0, calc(var(--b-tp, 0) / 0.40), 1);
+  --bg: clamp(0, calc((var(--b-tp, 0) - 0.46) / 0.34), 1);
 }
 
+/* Where slide two actually left the board, which is NOT always --c-settle: that
+   centring is only applied above 900, where the logos share the beat. Below it
+   the board rests at 0, and starting the bridge from --c-settle jumped it 142px
+   at 320 - the very snap this leg exists to remove. */
+#reel {
+  --b-from-y: 0px;
+}
+
+@media (min-width: 901px) {
+  #reel {
+    --b-from-y: var(--c-settle, 0px);
+  }
+}
+
+/* Starts on --c-settle, which is where slide two's own step left it, so the
+   first frame of this beat is the last frame of that one. */
 #reel.at-bridge .reel-panel--title .intro2-title.flap-board {
   transform:
     translate(
-      calc((1 - var(--bg)) * var(--bc-x, 0px) + var(--bg) * var(--bw-x, 0px)),
-      calc((1 - var(--bg)) * var(--bc-y, 0px) + var(--bg) * var(--bw-y, 0px)))
-    scale(calc(1 + (var(--bs-peak, 1.4) - 1) * (1 - var(--bg))));
+      calc(var(--bu) * var(--bc-x, 0px) + var(--bg) * (var(--bw-x, 0px) - var(--bc-x, 0px))),
+      calc(var(--b-from-y, 0px) + var(--bu) * (var(--bc-y, 0px) - var(--b-from-y, 0px))
+           + var(--bg) * (var(--bw-y, 0px) - var(--bc-y, 0px))))
+    scale(calc(1 + (var(--bs-peak, 1.4) - 1) * (var(--bu) - var(--bg))));
 }
 
 /* The rows centre themselves inside the box while it is up in the middle, and
    are left-aligned again by the time it lands - the same pair slide one uses,
    driven from here instead of from --grow. */
 #reel.at-bridge .reel-panel--title .intro2-title.flap-board > span {
-  margin-left: calc((1 - var(--bg)) * 50%);
-  transform: translateX(calc((1 - var(--bg)) * -50%));
+  margin-left: calc((var(--bu) - var(--bg)) * 50%);
+  transform: translateX(calc((var(--bu) - var(--bg)) * -50%));
 }
 
 /* The kicker travels with the heading: centred above it while it is up in the
    middle, and back on its own place - which is the next beat's - by the end. */
 #reel.at-bridge .reel-panel--bridge .hl-tag {
   transform: translate(
-    calc((1 - var(--bg)) * var(--bt-x, 0px) + var(--bg) * var(--bl-x, 0px)),
-    calc((1 - var(--bg)) * var(--bt-y, 0px) + var(--bg) * var(--bl-y, 0px)));
+    calc(var(--bu) * var(--bt-x, 0px) + var(--bg) * (var(--bl-x, 0px) - var(--bt-x, 0px))),
+    calc(var(--bu) * var(--bt-y, 0px) + var(--bg) * (var(--bl-y, 0px) - var(--bt-y, 0px))));
 }
 
 /* GAMES and XR are the accent in the third sentence, the way PLAYING. is in the

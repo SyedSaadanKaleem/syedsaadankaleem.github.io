@@ -2562,13 +2562,18 @@
 				b.el.classList.remove("is-flapping");
 			}
 
-			function run(b, state) {
-				if (b.state === state) return;
+			// `hold` keeps the drums turning past their target instead of landing on it.
+			// The bridge uses it so the roll runs for as long as the heading is still
+			// travelling up and growing, however long that takes to scroll. Releasing
+			// re-enters the same state, which is why this no longer refuses to.
+			function run(b, state, hold) {
+				var same = (b.state === state);
 				cancelAnimationFrame(b.raf);
 				b.state = state;
+				b.hold = !!hold;
 				measureGlyphs(b.el);
 				measureTo(b, state);
-				frame(b, state);
+				if (!same) frame(b, state);
 				b.el.classList.add("is-flapping");
 
 				var len = CHARSET.length, k, cell;
@@ -2622,6 +2627,9 @@
 						if (elapsed < 0) { running = true; continue; }
 
 						var step = Math.floor(elapsed / cl.stepMs);
+						// Held: one more full turn of the drum rather than landing. It stays
+						// on the same clock, so the speed never changes.
+						if (step >= cl.steps && b.hold) { cl.steps += len; running = true; continue; }
 						if (step >= cl.steps) {
 							var done = targetOf(cl, state);
 							cl.glyph = drum(done);
@@ -2698,15 +2706,25 @@
 				// the screen to themselves.
 				enter: function (panel, reel) {
 					var b = ready(reel); if (!b) return;
-					run(b, panel.classList.contains("reel-panel--title") ? "a"
+					var st = panel.classList.contains("reel-panel--title") ? "a"
 						: panel.classList.contains("reel-panel--collab") ? "b"
-						: panel.classList.contains("reel-panel--bridge") ? "c" : "blank");
+						: panel.classList.contains("reel-panel--bridge") ? "c" : "blank";
+					run(b, st, st === "c");
 				},
 				// Back above the reel: the board is set, not walked, so the entrance
 				// that follows is slide one's letter pack rather than a flap.
 				arm: function (reel) {
 					var b = ready(reel); if (!b) return;
 					land(b, "a");
+				},
+				// Let go once the heading has finished travelling. The walk restarts from
+				// wherever each drum has got to, so they land within a few flaps rather
+				// than having to see out the lap they were on.
+				hold: function (reel, on) {
+					var b = ready(reel); if (!b) return;
+					if (!!b.hold === !!on) return;
+					if (on) { b.hold = true; return; }
+					run(b, b.state, false);
 				},
 				// For the driver's bridge sizing.
 				width: function (reel, state) {
@@ -2926,6 +2944,7 @@
 				reel.style.setProperty("--bt-y", "0px");
 
 				// Centred and grown: the box, with the rows centred inside it and the scale on.
+				reel.style.setProperty("--bu", "1");
 				reel.style.setProperty("--bg", "0");
 				var pr = bridgeEl.getBoundingClientRect();
 				var hr = heading.getBoundingClientRect();
@@ -2937,6 +2956,7 @@
 				var tagRest = tagEl ? tagEl.getBoundingClientRect() : null;
 
 				reel.style.removeProperty("--bg");
+				reel.style.removeProperty("--bu");
 				titleBeat.style.removeProperty("--grow");
 				if (!had) reel.classList.remove("at-bridge");
 
@@ -3073,10 +3093,11 @@
 				
 				// The board does the bridge's move, and the board lives in slide one's panel,
 				// so the bridge's own progress has to be published somewhere both can see.
+				var btp = 0;
 				if (bridgeEl) {
 					var bi = parseFloat(bridgeEl.style.getPropertyValue("--i")) || 0;
 					var bs = parseFloat(bridgeEl.style.getPropertyValue("--slots")) || 1;
-					var btp = (p * n - bi) / bs;
+					btp = (p * n - bi) / bs;
 					btp = btp < 0 ? 0 : btp > 1 ? 1 : btp;
 					reel.style.setProperty("--b-tp", btp.toFixed(4));
 				}
@@ -3119,6 +3140,16 @@
 						clearBeats();
 					}
 					live = i;
+				}
+
+				// The roll is held while the heading is still on its way up - 0.40 is where
+				// --bu reaches 1, the frame it is centred and at full size. This sits AFTER
+				// the beat switch on purpose: enter() holds as the bridge goes live, and the
+				// same frame has to be able to let go again. Reading it before meant the
+				// release needed another scroll event, so stopping just past the rise left
+				// the drums turning for good.
+				if (window.__flap && window.__flap.hold) {
+					window.__flap.hold(reel, i >= 0 && live0[i] === bridgeEl && btp < 0.40);
 				}
 			}
 			function onScroll() { if (!queued) { queued = true; requestAnimationFrame(write); } }
