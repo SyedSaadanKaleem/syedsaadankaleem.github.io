@@ -10119,17 +10119,13 @@ html.lenis body {
   text-align: center;
 }
 
-#reel .reel-panel--intro .is-flapping .flap::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.32;
-  pointer-events: none;
-}
+/* No seam. There were two copies of these cell styles and the seam was removed
+   from the one that was already being overridden, so a 1px white bar at 32% sat
+   at mid-cell on all 43 cells for the length of every walk - measured, during
+   .is-flapping: content "", height 1px, top 15.19px, background white. That was
+   the line, all along. The hinge is the leaf falling through -90deg; the seam
+   was only ever decoration on top of it, and at this type size it reads as a
+   strikethrough. */
 
 /* Slide two arrives by flapping up from blank, so the letter pack is not its
    entrance any more and must not also be fading its cells in. */
