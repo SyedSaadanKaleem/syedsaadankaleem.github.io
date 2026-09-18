@@ -10999,24 +10999,78 @@ html.lenis body {
 /* The leg lives on the SECTION, like the bridge's --bg, not on the panel with
    everything that reads it. --s-tp is already published there, and it is the
    same number as this beat's --tp. */
-#reel.at-scar {
-  --sg: clamp(0, calc((var(--s-tp, 0) - 0.12) / 0.28), 1);
+/* The glow is a TRANSITION here, played once when the beat opens, alongside the
+   heading's roll - not scrubbed like the bridge's.
+
+   And it is on --slide-glow itself rather than on --g1b. --g1b is read as
+   color-mix(in srgb, <colour> var(--g1b, 100%), transparent), and an unregistered
+   custom property substitutes there as a token stream that color-mix will not
+   take - the fallback won every time, which is why the bridge's flicker never
+   reached the paint however it was written. --slide-glow IS registered, as a
+   <color>, so keyframes interpolate it; and a colour carries its own alpha, so
+   one property holds both the gutter and the hue.
+
+   The hue crosses straight through, purple to red, while the alpha gutters at
+   stops that do not line up with it - so what flickers is the strength and the
+   colour only ever travels one way. */
+@keyframes scar-glow {
+  0%   { --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18); }
+  8%   { --slide-glow: rgba(149, 52, 238, 0.07); --slide-glow-2: rgba(19, 140, 186, 0.09); }
+  14%  { --slide-glow: rgba(155, 52, 225, 0.20); --slide-glow-2: rgba(33, 133, 176, 0.19); }
+  22%  { --slide-glow: rgba(162, 51, 208, 0.09); --slide-glow-2: rgba(52, 125, 164, 0.21); }
+  30%  { --slide-glow: rgba(170, 50, 191, 0.22); --slide-glow-2: rgba(71, 117, 151, 0.08); }
+  38%  { --slide-glow: rgba(178, 49, 174, 0.10); --slide-glow-2: rgba(90, 108, 139, 0.20); }
+  47%  { --slide-glow: rgba(187, 48, 155, 0.21); --slide-glow-2: rgba(112, 99, 125, 0.11); }
+  56%  { --slide-glow: rgba(195, 47, 136, 0.08); --slide-glow-2: rgba(133, 89, 111, 0.22); }
+  66%  { --slide-glow: rgba(205, 46, 115, 0.20); --slide-glow-2: rgba(157, 79, 96, 0.10); }
+  76%  { --slide-glow: rgba(215, 45, 94, 0.12); --slide-glow-2: rgba(181, 68, 80, 0.19); }
+  86%  { --slide-glow: rgba(224, 44, 73, 0.19); --slide-glow-2: rgba(205, 58, 65, 0.13); }
+  94%  { --slide-glow: rgba(232, 44, 56, 0.16); --slide-glow-2: rgba(224, 50, 53, 0.18); }
+  100% { --slide-glow: rgba(238, 43, 43, 0.18); --slide-glow-2: rgba(238, 43, 43, 0.18); }
 }
 
-#reel.at-scar .reel-panel--scar {
-  --sfw: calc(4 * var(--sg) * (1 - var(--sg)));
-  --sfo: calc(0.5 + 0.5 * sin(var(--sg) * 47rad));
-  --sfo2: calc(0.5 + 0.5 * sin(var(--sg) * 113rad + 1.1rad));
+/* 1100ms is what the board takes: 43 cells at a 14ms stagger, and the last of
+   them still has its own walk to run. So the two finish together.
 
-  --slide-glow: color-mix(in srgb,
-    rgba(238, 43, 43, 0.18) calc(var(--sg) * 100%), rgba(141, 53, 255, 0.18));
-  --slide-glow-2: color-mix(in srgb,
-    rgba(238, 43, 43, 0.18) calc(var(--sg) * 100%), rgba(0, 148, 198, 0.18));
+   !important on all three of these, and it is not a shortcut. This branch opens
+   with a NO MOTION baseline - *, *::before, *::after { animation: none !important }
+   - which is why everything else here is a scrubbed custom property rather than a
+   keyframe: the stock deck's motion had to be off before any of it could be
+   rebuilt. These rules are (1,2,0) against that rule's (0,0,0), so an important
+   declaration here outranks the important one there, and only these three opt
+   back in. */
+#reel .reel-panel--scar.is-live {
+  animation: scar-glow 1100ms linear both !important;
+}
 
-  --sfa: calc(var(--sfw) * (0.52 * var(--sfo) + 0.34 * var(--sfo2)));
-  --sfb: calc(var(--sfw) * (0.34 * var(--sfo) + 0.52 * var(--sfo2)));
-  --g1b: calc(100% - var(--sfa) * 100%);
-  --g2b: calc(100% - var(--sfb) * 100%);
+/* 2. The card, the moment the heading and the glow have both landed. */
+@keyframes scar-card-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+#reel .reel-panel--scar.is-live > .hl-slide-bg {
+  animation: scar-card-in 420ms ease 1100ms both !important;
+}
+
+/* 3. The kicker and the paragraph are the scroll after that, not part of the
+   transition - .step-scar-copy is put on by the driver at --tp 0.35. */
+#reel .reel-panel--scar .hl-tag,
+#reel .reel-panel--scar .hl-slide-desc {
+  opacity: 0;
+}
+
+@keyframes scar-copy-in {
+  from { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+#reel .reel-panel--scar.step-scar-copy .hl-tag {
+  animation: scar-copy-in 420ms ease both !important;
+}
+
+#reel .reel-panel--scar.step-scar-copy .hl-slide-desc {
+  animation: scar-copy-in 420ms ease 110ms both !important;
 }
 
 /* The card does not fade in, it fails in. Three sine waves at frequencies that
@@ -11037,8 +11091,11 @@ html.lenis body {
    so the windows collapse and what is left is a plain crossfade and a plain
    fade, still on the scroll. */
 @media (prefers-reduced-motion: reduce) {
-  #reel.at-scar .reel-panel--scar {
-    --sfw: 0;
+  /* The hue is information - where you are - so it still crosses. The gutter is
+     strobing, so it goes: one steady 0.18 all the way through. */
+  @keyframes scar-glow {
+    from { --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18); }
+    to   { --slide-glow: rgba(238, 43, 43, 0.18); --slide-glow-2: rgba(238, 43, 43, 0.18); }
   }
 
 }
