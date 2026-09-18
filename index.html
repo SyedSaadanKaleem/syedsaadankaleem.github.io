@@ -2989,14 +2989,20 @@
 
 				reel.style.setProperty("--bc-x",
 					(pr.width / 2 - (hr.left + hr.width / 2 - pr.left)).toFixed(1) + "px");
+				// The PAIR is what has to sit on the middle of the screen, not the heading
+				// on its own. The kicker rides above it, so centring the board alone leaves
+				// the two of them (kicker + gap) / 2 high - measured at 28px at 1900x930.
+				// Everything else here derives from --bc-y, so the kicker comes with it.
+				var kickAllow = (tagRest && h2Rest)
+					? (((h2Rest.top - tagRest.bottom) + tagRest.height) / 2) : 0;
 				reel.style.setProperty("--bc-y",
-					(pr.height / 2 - (hr.top + hr.height / 2 - pr.top)).toFixed(1) + "px");
+					(pr.height / 2 - (hr.top + hr.height / 2 - pr.top) + kickAllow).toFixed(1) + "px");
 
 				// The kicker rides with it rather than sitting still while the heading flies:
 				// centred on the slide, and holding the gap it already has above the heading
 				// at rest - measured off the two rather than guessed.
 				if (tagEl && tagRest) {
-					var bcy = pr.height / 2 - (hr.top + hr.height / 2 - pr.top);
+					var bcy = pr.height / 2 - (hr.top + hr.height / 2 - pr.top) + kickAllow;
 					var rowTopCentred = (rr0.top - pr.top) + bcy;
 					// The gap the kicker already has above the heading at rest. Taken off this
 					// beat's own h2, NOT off the flap row: --bw-x/--bw-y are still zeroed here,
@@ -3083,14 +3089,24 @@
 				titleBeat.style.setProperty("--pack",
 					(over > 0 ? Math.max(0, Math.min(1, slack / over)) : 1).toFixed(3));
 
-				titleBeat.style.setProperty("--grow", "1");
+				// The eyebrow's share, read at rest where the gap between the two is the
+				// real one - at --grow 1 the heading is scaled and can overlap it.
+				titleBeat.style.setProperty("--grow", "0");
 				titleBeat.style.setProperty("--rise", "0px");
 				titleBeat.style.setProperty("--nudge", "0px");
+				var ebEl = titleBeat.querySelector(".intro2-eyebrow");
+				var hrRest = heading.getBoundingClientRect();
+				var ebRest = ebEl ? ebEl.getBoundingClientRect() : null;
+				var ebAllow = ebRest ? (((hrRest.top - ebRest.bottom) + ebRest.height) / 2) : 0;
+				
+				titleBeat.style.setProperty("--grow", "1");
 				var pr = titleBeat.getBoundingClientRect();
 				var hr = heading.getBoundingClientRect();   // forces layout, so this reads back
 				titleBeat.style.removeProperty("--grow");
+				// Same as the bridge: centre the eyebrow and the heading together, not the
+				// heading by itself, or the pair opens 28px above the middle of the screen.
 				titleBeat.style.setProperty("--rise",
-					(pr.height / 2 - (hr.top + hr.height / 2 - pr.top)).toFixed(1) + "px");
+					(pr.height / 2 - (hr.top + hr.height / 2 - pr.top) + ebAllow).toFixed(1) + "px");
 				titleBeat.style.setProperty("--nudge",
 					(pr.width / 2 - (hr.left + hr.width / 2 - pr.left)).toFixed(1) + "px");
 			}
