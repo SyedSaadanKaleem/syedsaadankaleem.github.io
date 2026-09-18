@@ -10366,3 +10366,63 @@ html.lenis body {
 #reel .reel-panel--title.no-entrance .rl-ltr {
   --lp: 1;
 }
+
+
+/* ===========================================================================
+   SLIDE TWO'S SECOND HALF - the heading rises, the logos come in under it
+
+   The four logos hold the lower half of this beat from the moment it is laid
+   out - measured at 1600x900, the heading occupies 248 to 422 and they occupy
+   449 to 812 - so with them hidden the heading reads as stranded at the top of
+   an empty screen. It sits in the middle of the panel while it is alone, and
+   the step takes it back up to its place as they arrive.
+
+   Both halves have to move or they would come apart: the visible heading is the
+   board, which lives in slide one's panel, and the logos hang off slide two's
+   hidden spacer in slide two's. That is why the mark goes on the section.
+
+   Only where the logos are actually in this beat. At 900 and under the driver
+   moves them to a beat of their own, and there is nothing to make room for.
+   =========================================================================== */
+@media (min-width: 901px) {
+  /* The grid, not just the copy column, so the photo travels with it and the
+     two sides stay level with each other. */
+  #reel.at-collab .reel-panel--title .intro2-title.flap-board,
+  #reel.at-collab .reel-panel--collab .intro2-grid {
+    transition: transform 620ms var(--ease-out) !important;
+  }
+
+  /* The heading does not move until the step. It sits exactly where the board
+     left it - no opening offset of its own. */
+
+  /* Not back to 0 - past it. The beat hangs from a fixed lead-in so the heading
+     lands where the board is for the handover, which leaves the finished column
+     sitting low: 198px above it and 88px below at 1600x900. --c-settle is the
+     difference, so the step lands on a centred column rather than a top-hung
+     one. */
+  #reel.at-collab.step-logos .reel-panel--title .intro2-title.flap-board {
+    transform: translateY(var(--c-settle, 0px)) scale(var(--s, 1));
+  }
+
+  #reel.at-collab.step-logos .reel-panel--collab .intro2-grid {
+    transform: translateY(var(--c-settle, 0px));
+  }
+}
+
+/* One by one, 110ms apart - a beat slower than the stats, because these are
+   cards rather than numbers and there are four of them to read. The animation
+   drives --show, so the exit is untouched and still scroll based. */
+#reel.step-logos .reel-panel--collab .intro2-logo {
+  animation: reelStepIn 420ms var(--ease-out) calc(var(--n-card, 0) * 110ms) both !important;
+}
+
+#reel.step-logos .reel-panel--partners .intro2-logo {
+  animation: reelStepIn 420ms var(--ease-out) calc(var(--n-logo, 0) * 110ms) both !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel.step-logos .intro2-logo {
+    animation: none !important;
+    --show: 1;
+  }
+}

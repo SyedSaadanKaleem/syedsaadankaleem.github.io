@@ -2732,9 +2732,12 @@
 			// was. Threshold is the beat's own 0-to-1 progress, so it holds whatever the
 			// beat is worth in slots and however tall the screen is.
 			var steps = [];
-			function defineStep(beatSel, at, cls) {
+			// `onReel` puts the mark on the section instead of the beat. The logos step
+			// needs that: the heading it moves is the board, which lives in slide one's
+			// panel, so a class on slide two's panel cannot reach it.
+			function defineStep(beatSel, at, cls, onReel) {
 				var beat = reel.querySelector(beatSel);
-				if (beat) steps.push({ el: beat, at: at, cls: cls });
+				if (beat) steps.push({ el: beat, at: at, cls: cls, on: onReel ? reel : beat });
 			}
 			// The paragraph the moment the heading has finished settling (0.42), the
 			// stats about one wheel notch further on - 100px of a 900-tall screen is
@@ -2743,6 +2746,9 @@
 			defineStep(".reel-panel--title", 0.42, "step-lead");
 			defineStep(".reel-panel--title", 0.54, "step-stats");
 			defineStep(".reel-panel--numbers", 0.12, "step-stats");
+			// Slide two holds on the heading alone for half its beat, then the heading
+			// rises out of the middle and the logos come in under it.
+			defineStep(".reel-panel--collab", 0.45, "step-logos", true);
 			
 			function placeSplits() {
 				for (var k = 0; k < splits.length; k++) {
@@ -2779,8 +2785,38 @@
 			// lands, and publish the offset that would centre it. Runs on resize, not
 			// per frame.
 			var titleBeat = reel.querySelector(".reel-panel--title");
+			var collabEl = reel.querySelector(".reel-panel--collab");
 			var heading = titleBeat && titleBeat.querySelector(".intro2-title");
+			// How far the finished column has to come UP to sit centred. The beat hangs
+			// from a fixed lead-in so the heading lands exactly where the board is for the
+			// handover, and that leaves the column with the logos in it sitting low -
+			// measured 198px above it and 88px below at 1600x900. Measured rather than
+			// fitted, because the column is three rows of display type plus four cards at
+			// one size and a different shape at the next.
+			function calibrateCollab() {
+				if (!collabEl) return;
+
+				// Measured with the offset off, or it would fold into its own answer.
+				var had = reel.classList.contains("at-collab");
+				reel.classList.remove("at-collab");
+				var grid = collabEl.querySelector(".intro2-grid");
+				var pr = collabEl.getBoundingClientRect();
+				var gr = grid ? grid.getBoundingClientRect() : null;
+				if (had) reel.classList.add("at-collab");
+
+
+				// With the logos in, it is the whole column that should be centred, not the
+				// heading. The beat hangs from a fixed lead-in so the heading lands where the
+				// board is for the handover, and that leaves the finished column low - 198
+				// above and 88 below at 1600x900. This is what takes those two apart.
+				if (gr) {
+					var settle = (pr.height - gr.height) / 2 - (gr.top - pr.top);
+					reel.style.setProperty("--c-settle", settle.toFixed(1) + "px");
+				}
+			}
+
 			function calibrate() {
+				calibrateCollab();
 				if (!heading) return;
 
 				// How big the opening heading can get before its longest line stops
@@ -2858,7 +2894,7 @@
 					var si = parseFloat(st.el.style.getPropertyValue("--i")) || 0;
 					var ss = parseFloat(st.el.style.getPropertyValue("--slots")) || 1;
 					var sd = (p * n - si) / ss;
-					st.el.classList.toggle(st.cls, sd >= st.at);
+					st.on.classList.toggle(st.cls, sd >= st.at);
 				}
 				
 				var slot = p * n;
@@ -2886,6 +2922,9 @@
 						// Arriving from a LATER beat is a return, not an arrival: the beat's
 						// own entrance choreography stays settled and only the board moves.
 						live0[i].classList.toggle("no-entrance", live > i);
+						// The board has to know when it is standing on slide two, because that is
+						// where it sits low and then rises.
+						reel.classList.toggle("at-collab", live0[i] === collabEl);
 						if (window.__flap) window.__flap.enter(live0[i], reel);
 						// Landing part-way down the reel - a reload restores the scroll -
 						// must not play the beats above it as a show. They are simply
@@ -2903,6 +2942,7 @@
 			// beat stayed live. That only cost it pointer-events before; now it would sit
 			// on screen with its text arrived.
 			function clearBeats() {
+				reel.classList.remove("at-collab", "step-logos");
 				for (var b = 0; b < panels.length; b++) {
 					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "no-entrance");
 				}
