@@ -10520,9 +10520,13 @@ html.lenis body {
    --bu is the leg up - from exactly where slide two left it to the middle of the
    slide - and --bg is the leg down onto the next beat's heading. They do not
    overlap, so the path is continuous and every part of it is scroll based. */
+/* Counted in notches rather than in decimals. This beat is two slots of 32vh,
+   so 576px at 900 tall, and a wheel notch is about 100px - 0.17 of it. Two
+   notches up, one standing still at full size, two back down, and what is left
+   is settled on the next beat's heading before the beat ends. */
 #reel.at-bridge {
-  --bu: clamp(0, calc(var(--b-tp, 0) / 0.40), 1);
-  --bg: clamp(0, calc((var(--b-tp, 0) - 0.46) / 0.34), 1);
+  --bu: clamp(0, calc(var(--b-tp, 0) / 0.34), 1);
+  --bg: clamp(0, calc((var(--b-tp, 0) - 0.51) / 0.34), 1);
 }
 
 /* Where slide two actually left the board, which is NOT always --c-settle: that

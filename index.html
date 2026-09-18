@@ -3142,14 +3142,14 @@
 					live = i;
 				}
 
-				// The roll is held while the heading is still on its way up - 0.40 is where
+				// The roll is held while the heading is still on its way up - 0.34 is where
 				// --bu reaches 1, the frame it is centred and at full size. This sits AFTER
 				// the beat switch on purpose: enter() holds as the bridge goes live, and the
 				// same frame has to be able to let go again. Reading it before meant the
 				// release needed another scroll event, so stopping just past the rise left
 				// the drums turning for good.
 				if (window.__flap && window.__flap.hold) {
-					window.__flap.hold(reel, i >= 0 && live0[i] === bridgeEl && btp < 0.40);
+					window.__flap.hold(reel, i >= 0 && live0[i] === bridgeEl && btp < 0.34);
 				}
 			}
 			function onScroll() { if (!queued) { queued = true; requestAnimationFrame(write); } }
