@@ -10266,13 +10266,37 @@ html.lenis body {
   perspective: 6em;
 }
 
-/* In flow, and the only thing in the cell that is: it gives the cell its width
-   AND its height. Without it every cell was zero-tall, which left the leaf a
-   zero-height overflow: hidden box carrying a transform - and that clip edge is
-   what was drawing a hairline across the rows mid-walk. */
+/* In flow, and the only thing in the cell that is, so it is what gives the cell
+   its height. Without it every cell was zero-tall and the leaf became a
+   zero-height overflow: hidden box carrying a transform. Width is no longer its
+   job - the driver measures the advances and animates them. */
 #reel .reel-panel--intro .flap-strut {
   display: block;
   visibility: hidden;
+}
+
+/* One hidden probe, parented to the board so it inherits the face, the weight
+   and the tracking. Never visible, never in flow. */
+#reel .reel-panel--intro .flap-probe {
+  position: absolute;
+  visibility: hidden;
+  display: inline-block;
+  white-space: pre;
+  pointer-events: none;
+}
+
+/* The width travels with the letter. --fd and --fdl are the cell's own roll -
+   its duration and its place in the stagger - so the spacing arrives exactly
+   when the glyph does. !important because the branch's baseline turns every
+   transition off at *; 0ms is the resting value, so setting a width outside a
+   walk still lands instantly. */
+#reel .reel-panel--intro .rl-ltr.flap {
+  /* The cell's ink, so the accent can be switched from the driver by one inline
+     custom property rather than fighting the accent rule on specificity. */
+  color: var(--ink, #fff);
+  transition:
+    width var(--fd, 0ms) linear var(--fdl, 0ms),
+    color var(--cd, 0ms) linear var(--cdl, 0ms) !important;
 }
 
 #reel .reel-panel--intro .flap-face {
@@ -10309,9 +10333,12 @@ html.lenis body {
    -90deg is the mechanism - the line was only decoration on top of it. */
 
 /* PLAYING. is red in the first sentence and nothing in the second, so the
-   accent belongs to the state, not to the cell. */
+   accent belongs to the state, not to the cell. It sets --ink rather than color
+   because a cell that is mid-roll is not showing PLAYING. - it is showing
+   whatever its drum is passing - so the driver overrides --ink inline for the
+   length of the roll and the colour crosses over with the letter. */
 #reel .reel-panel--title .flap-board.is-a .flap[data-accent="a"] {
-  color: #ee2b2b;
+  --ink: #ee2b2b;
 }
 
 /* Slide two's heading is now only a box. The board carries both sentences, so
