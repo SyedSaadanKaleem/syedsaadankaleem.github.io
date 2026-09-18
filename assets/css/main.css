@@ -9660,7 +9660,8 @@ margin-top: -2em;}
     align-self: center;
   }
 
-  #reel .reel-panel--work > .hl-slide-bg {
+  #reel .reel-panel--work > .hl-slide-bg,
+  #reel .reel-panel--bridge > .hl-slide-bg {
     grid-column: 2;
     grid-row: 1;
     align-self: center;
@@ -9721,7 +9722,8 @@ margin-top: -2em;}
    comes off the height as well - a 3:1 banner is a third of whatever width the
    card is given. */
 @media (max-height: 700px) and (max-width: 700px) {
-  #reel .reel-panel--work > .hl-slide-bg {
+  #reel .reel-panel--work > .hl-slide-bg,
+  #reel .reel-panel--bridge > .hl-slide-bg {
     max-width: min(100%, 36vh);
   }
 
@@ -9799,11 +9801,9 @@ margin-top: -2em;}
    0.14 to travel, so the last lands at 0.67 and the beat still holds before its
    exit ramp opens at 0.84.
 
-   They come in from the LEFT, against the card coming in from the right. Stock
-   already slides this whole column from the left on --enter, but the reel turns
-   that off so it does not compound with the cascade - so the direction has to
-   live on the lines themselves. Copy from one side and the card from the other
-   is the layout arriving as two halves rather than as one drifting block. */
+   They come in from the LEFT. Stock already slides this whole column from the
+   left on --enter, but the reel turns that off so it does not compound with the
+   cascade - so the direction has to live on the lines themselves. */
 #reel .reel-panel--work .hl-tag,
 #reel .reel-panel--work .hl-slide-title,
 #reel .reel-panel--work .hl-slide-sub,
@@ -9814,17 +9814,25 @@ margin-top: -2em;}
   transform: translate3d(calc((1 - var(--show)) * -1.1rem), 0, 0);
 }
 
-/* And the card from the right. Stock swings it up from below on a 26deg tilt;
-   here it slides in level, so the two halves read as one movement in opposite
-   directions rather than one sliding and one hinging. The exit press is stock's
-   and is left alone.
+/* The cards themselves do not animate at all. Three things were moving them and
+   all three are off here: stock swings a card up from a 26deg floor tilt on
+   --enter, Cobweb's instead fades and dims up out of the deck on the same
+   number, and this file had been sliding the rest in from the right. The reel
+   drives --enter, so every one of them ran. The copy keeps its cascade - this is
+   the card only.
 
-   Not the Cobweb beat: its card deliberately un-presses from the deck instead of
-   arriving, and that is its whole entrance. */
-#reel .reel-panel--work:not(.hl-slide--cobweb) > .hl-slide-bg {
-  transform:
-    translateX(calc((1 - var(--enter)) * 3.5rem))
-    scale(calc(1 - 0.07 * var(--exit)));
+   :not(:hover) so the stock hover lift still wins while the pointer is on one.
+   Without it this sits at (1,3,0) against .hl-slide-bg:hover at (0,2,0) and
+   would hold the card down.
+
+   opacity and filter are here for Cobweb, whose entrance is those two rather
+   than a transform. --exit is 0 everywhere in the reel, so on every other card
+   they already resolve to exactly what this sets them to. */
+#reel .reel-panel--work > .hl-slide-bg:not(:hover),
+#reel .reel-panel--bridge > .hl-slide-bg:not(:hover) {
+  transform: none;
+  opacity: 1;
+  filter: none;
 }
 
 #reel .reel-panel--work .hl-tag { --n-line: 0; }
@@ -10504,10 +10512,16 @@ html.lenis body {
   background-color: transparent;
 }
 
-/* Present so :has() matches and the beat inherits the work layout, rendering
-   nothing because there is no card on this one. */
+/* Chess Run's card, on the beat that hands over to it, so the handover is the
+   copy appearing beside a card that was already standing there rather than a
+   second card arriving. It is also still what makes :has() match, which is what
+   gives this beat the work layout.
+
+   Not clickable: the real one is one beat down. aria-hidden keeps it out of the
+   accessibility tree, and this keeps the hover lift off a card that does not
+   respond to being hovered. */
 #reel .reel-panel--bridge > .hl-slide-bg {
-  display: none;
+  pointer-events: none;
 }
 
 /* The reel's own sizing for a beat that is neither work nor intro. transform is

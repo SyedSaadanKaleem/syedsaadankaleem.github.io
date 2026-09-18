@@ -909,12 +909,25 @@
 					     matched by hand. The opening move is slide one's: oversized and centred,
 					     settling onto that resting place as the beat runs. -->
 					<article class="reel-panel reel-panel--bridge hl-slide" data-slots="2">
-						<!-- Empty, and hidden in CSS. The whole work-beat layout - the grid, the
-						     column widths, the 128px gutter, every breakpoint of it - hangs off
-						     .hl-slide:has(> .hl-slide-bg), and :has() is structural, so a child that
-						     renders nothing still matches it. That is what puts this beat's copy on
-						     exactly the same grid as Chess Run's instead of restating it here. -->
-						<div class="hl-slide-bg" aria-hidden="true"></div>
+						<!-- Chess Run's card, standing on the beat that hands over to it. The whole
+						     work-beat layout - the grid, the column widths, the 128px gutter, every
+						     breakpoint of it - hangs off .hl-slide:has(> .hl-slide-bg), so this card
+						     is both what makes that match and what the match places, landing on the
+						     same spot the real one takes one beat down.
+						
+						     The same markup minus the link. aria-hidden because the beat below
+						     announces this game properly, and a second link to the same page is a
+						     second tab stop to nowhere. -->
+						<div class="hl-slide-bg" aria-hidden="true">
+							<div class="hl-gc-banner" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"></div>
+							<div class="hl-gc-foot">
+								<img class="hl-gc-logo" src="images/ChessRun/Logo.png" alt="" loading="lazy" onerror="this.style.display='none'">
+								<div class="hl-gc-meta">
+									<span class="hl-gc-name">Chess Run</span>
+									<span class="hl-gc-sub">A Roguelike Endless Runner</span>
+								</div>
+							</div>
+						</div>
 						<div class="hl-slide-content">
 							<!-- The icon is not decoration: .hl-tag is an inline-flex, so its baseline is
 							     its FIRST item's, and a text-only tag sat 2px off the one on the beat
