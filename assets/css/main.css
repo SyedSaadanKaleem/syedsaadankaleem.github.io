@@ -10799,9 +10799,14 @@ html.lenis body {
    same pair the heading's own rows use - margin-left half the cell, then back
    half its own width. At the two ends, where --bu and --bg are equal, both terms
    are 0 and it is the left-aligned kicker again, untouched. */
-#reel.at-bridge .reel-panel--bridge .hl-tag > .bridge-kick {
-  margin-left: calc((var(--bu) - var(--bg)) * 50%);
-  transform: translateX(calc((var(--bu) - var(--bg)) * -50%));
+/* Centred by a measured distance, NOT by margin-left 50% and half its own width
+   back. That pair centres anything, but the margin takes half the label's room
+   away - so the kicker wrapped to more lines exactly while it was centred, grew
+   downwards, and closed the gap under the heading to -43px. A transform moves it
+   without changing what it has to lay out in. --kick-off is the distance, worked
+   out once by the driver: half of what the box has spare. */
+#reel.at-bridge .reel-panel--bridge .hl-tag > .bridge-kick--from {
+  transform: translateX(calc((var(--bu) - var(--bg)) * var(--kick-off, 0px)));
 }
 
 /* One out, THEN the other in - not a crossfade. They are different lengths, so

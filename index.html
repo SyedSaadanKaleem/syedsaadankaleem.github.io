@@ -274,44 +274,6 @@
 							<div class="hl-slide-actions" aria-hidden="true"><a class="hl-btn hl-btn--primary" href="ChessRun.html" tabindex="-1">Explore <span class="arrow"></span></a><a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank" rel="noopener" tabindex="-1">LinkTree</a></div>
 						</div>
 					</article>
-					<article class="reel-panel reel-panel--work reel-panel--handover hl-slide" style="--i:4; --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18)">
-						<a class="hl-slide-bg" href="ChessRun.html" aria-label="Open Chess Run">
-							<div class="hl-gc-banner" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"></div>
-							<div class="hl-gc-foot">
-								<img class="hl-gc-logo" src="images/ChessRun/Logo.png" alt="" loading="lazy" onerror="this.style.display='none'">
-								<div class="hl-gc-meta">
-									<span class="hl-gc-name">Chess Run</span>
-									<span class="hl-gc-sub">A Roguelike Endless Runner</span>
-								</div>
-							</div>
-						</a>
-						<div class="hl-slide-content">
-							<span class="hl-tag"><i class='bx bxl-play-store'></i> Recently Live &middot; Pixel Dreams</span>
-							<h2 class="hl-slide-title">Chess Run</h2>
-							<p class="hl-slide-sub">A Roguelike Endless Runner</p>
-							<p class="hl-slide-desc">Play as a King, dodging or capturing enemy pieces on an infinite chessboard. Chess meets endless runner!</p>
-							<div class="hl-slide-actions"><a class="hl-btn hl-btn--primary" href="ChessRun.html">Explore <span class="arrow"></span></a><a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank" rel="noopener">LinkTree</a></div>
-						</div>
-					</article>
-					<article class="reel-panel reel-panel--work reel-panel--scar hl-slide" data-slots="3" style="--i:5">
-						<a class="hl-slide-bg" href="WorldScar.html" aria-label="Open Worldscar">
-							<div class="hl-gc-banner" style="background-image:url('images/WorldScar/WorldScar-Banner.jpg')"></div>
-							<div class="hl-gc-foot">
-								<img class="hl-gc-logo" src="images/WorldScar/Logo.png" alt="" loading="lazy" onerror="this.style.display='none'">
-								<div class="hl-gc-meta">
-									<span class="hl-gc-name">Worldscar</span>
-									<span class="hl-gc-sub">A Horror Escape Room</span>
-								</div>
-							</div>
-						</a>
-						<div class="hl-slide-content">
-							<span class="hl-tag"><span aria-hidden="true" style="display:inline-block;width:1.3em;height:1.3em;flex:none;background:#ee2b2b;-webkit-mask:url('images/Ghost.png') center/contain no-repeat;mask:url('images/Ghost.png') center/contain no-repeat"></span> In Development &middot; Pixel Dreams</span>
-							<h2 class="hl-slide-title">Worldscar</h2>
-							<p class="hl-slide-sub">A Horror Escape Room</p>
-							<p class="hl-slide-desc">Trapped inside an abandoned bio-lab, you need to escape the shifting environment. Collect cards, find doors, and escape.</p>
-							<div class="hl-slide-actions"><a class="hl-btn hl-btn--primary" href="WorldScar.html">Explore <span class="arrow"></span></a></div>
-						</div>
-					</article>
 
 				</div>
 			</div>
@@ -3015,11 +2977,22 @@
 						(pr.width / 2 - (tagRest.left + tagRest.width / 2 - pr.left)).toFixed(1) + "px");
 					reel.style.setProperty("--bt-y",
 						((rowTopCentred - gap - tagRest.height) - (tagRest.top - pr.top)).toFixed(1) + "px");
+					// The box holds two labels stacked and is as wide as the LONGER of them, so
+					// centring the box leaves the shorter one sitting left inside it. This is how
+					// far it has to move to sit in the middle of its own box - measured, because a
+					// percentage margin would change the width it has to wrap against.
+					var kickFrom = bridgeEl.querySelector(".bridge-kick--from");
+					if (kickFrom) {
+						reel.style.setProperty("--kick-off",
+							((tagRest.width - kickFrom.getBoundingClientRect().width) / 2).toFixed(1) + "px");
+					}
 				}
 
-				// The landing: the first row onto the next beat's heading, with that beat's
-				// own entrance slide taken back off so the target is where it comes to rest.
-				var work = reel.querySelector(".reel-panel--work");
+				// The landing: the first row onto the heading it comes to rest on. That used
+				// to be the NEXT beat's - this one handed over to a Chess Run slide that
+				// repeated everything it had just built. There is no next beat now, so it
+				// lands on this beat's own h2, which is the one holding the space for it.
+				var work = bridgeEl;
 				var wp2 = work ? work.getBoundingClientRect() : null;
 				var wt = work && work.querySelector(".hl-slide-title");
 				if (wt) {
