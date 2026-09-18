@@ -10599,7 +10599,7 @@ html.lenis body {
 #reel .reel-panel--bridge > .hl-slide-bg {
   transform: none;
   filter: none;
-  opacity: clamp(0, calc((var(--b-tp, 0) - 0.68) / 0.113), 1);
+  opacity: clamp(0, calc((var(--b-tp, 0) - 0.85) / 0.09), 1);
 }
 
 /* Where slide two actually left the board, which is NOT always --c-settle: that
@@ -10747,4 +10747,91 @@ html.lenis body {
   #reel.at-bridge .reel-panel--bridge {
     --gfw: 0;
   }
+}
+
+/* ===========================================================================
+   THE BRIDGE BUILDS THE NEXT BEAT
+
+   Three things arrive a notch apart once the heading has landed, and the
+   screen they arrive on is the one the next beat already has - same column,
+   same order, same places - so by the end of this beat the two are identical
+   and the handover between them is a crossfade between two copies of the same
+   picture. That is why they are staged here rather than on the beat that owns
+   the content: a beat boundary in the middle of the sequence would have put
+   three notches of dead scroll between the kicker turning over and the copy
+   arriving, and the ask was one scroll apart.
+
+   All of it on --b-tp, which the driver publishes every frame and clamps, so
+   none of it needs a class to gate it and none of it can be caught out by the
+   frames where this beat is painting but not yet live.
+   =========================================================================== */
+
+/* The kicker turns over on the spot. One box, two labels in one grid cell, so
+   the box is the width of the wider and nothing below it moves as they cross.
+   display: grid replaces .hl-tag's inline-flex, which is why each label carries
+   that rule's own align-items and 0.7rem gap - the icon has to keep sitting
+   against its text. */
+#reel .reel-panel--bridge .hl-tag {
+  display: grid;
+  align-items: center;
+  max-width: 100%;
+}
+
+#reel .reel-panel--bridge .hl-tag > .bridge-kick {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+#reel {
+  --bk: clamp(0, calc((var(--b-tp, 0) - 0.58) / 0.07), 1);
+}
+
+#reel .reel-panel--bridge .bridge-kick--from { opacity: calc(1 - var(--bk)); }
+#reel .reel-panel--bridge .bridge-kick--to { opacity: var(--bk); }
+
+/* The heading's place, held open and never painted: the board is the visible
+   heading on this beat. visibility rather than opacity because opacity 0 still
+   answers a hit test, and this sits over the real one. */
+#reel .reel-panel--bridge .hl-slide-title {
+  visibility: hidden;
+}
+
+/* Then the copy, from the left and a line at a time - the same 1.1rem and the
+   same idea as every other column in the reel, on this beat's own progress
+   instead of --tp. Last line lands at 0.81, which leaves the card its notch. */
+#reel .reel-panel--bridge .hl-slide-sub,
+#reel .reel-panel--bridge .hl-slide-desc,
+#reel .reel-panel--bridge .hl-slide-actions {
+  --show: clamp(0, calc((var(--b-tp, 0) - 0.70 - var(--n-line) * 0.025) / 0.06), 1);
+  opacity: var(--show);
+  transform: translate3d(calc((1 - var(--show)) * -1.1rem), 0, 0);
+}
+
+#reel .reel-panel--bridge .hl-slide-sub { --n-line: 0; }
+#reel .reel-panel--bridge .hl-slide-desc { --n-line: 1; }
+#reel .reel-panel--bridge .hl-slide-actions { --n-line: 2; }
+
+/* And the beat this hands over to does NOT play its entrance. Its copy is
+   already on screen - the bridge spent three notches putting it there - so the
+   cascade would have dipped the whole column out and slid it back in across the
+   crossfade. Only this beat: every other game slide still arrives on its own.
+   (1,4,0) against the work cascade's (1,3,0), so --show resolves to 1 and the
+   opacity and transform written against it fall out at rest. */
+/* The envelope slides a beat sideways as it arrives, and this one must not move
+   at all: the bridge is painting the same column underneath it through the
+   crossfade, so 25px of entrance slide reads as the whole column jumping. Same
+   reason the bridge itself clears it. It gives up its exit slide too, which is
+   the trade - it still fades out under the beat that covers it. */
+#reel .reel-panel--work.reel-panel--handover {
+  transform: none;
+}
+
+#reel .reel-panel--work.reel-panel--handover .hl-tag,
+#reel .reel-panel--work.reel-panel--handover .hl-slide-title,
+#reel .reel-panel--work.reel-panel--handover .hl-slide-sub,
+#reel .reel-panel--work.reel-panel--handover .hl-slide-desc,
+#reel .reel-panel--work.reel-panel--handover .hl-slide-actions {
+  --show: 1;
 }

@@ -928,14 +928,33 @@
 								</div>
 							</div>
 						</div>
+						<!-- The same column the next beat has, in the same order, so the pieces land
+						     where they land by layout rather than by being moved there one at a time.
+						     It is the build-up TO Chess Run, so it is Chess Run: the kicker turns over
+						     into that beat's, then the copy arrives, then the card, and by the end the
+						     two beats are showing the same thing and the handover has nothing to give
+						     away. Duplicated copy - if the wording below changes, change it in both. -->
 						<div class="hl-slide-content">
 							<!-- The icon is not decoration: .hl-tag is an inline-flex, so its baseline is
 							     its FIRST item's, and a text-only tag sat 2px off the one on the beat
-							     this hands over to. Every work tag leads with one. -->
-							<span class="hl-tag"><i class='bx bxs-joystick'></i> What I build</span>
+							     this hands over to. Every work tag leads with one - so both of these do.
+							     One box, two labels stacked in it: the box is the width of the wider, so
+							     nothing reflows underneath as they cross. -->
+							<span class="hl-tag">
+								<span class="bridge-kick bridge-kick--from"><i class='bx bxs-joystick'></i> What I build</span>
+								<span class="bridge-kick bridge-kick--to" aria-hidden="true"><i class='bx bxl-play-store'></i> Recently Live &middot; Pixel Dreams</span>
+							</span>
+							<!-- Holds the heading's space and never paints - the board is the visible
+							     heading here. Without it the copy below would sit against the kicker
+							     instead of under the heading, and the column would be the wrong height
+							     for the kicker to land by itself. -->
+							<h2 class="hl-slide-title" aria-hidden="true">Chess Run</h2>
+							<p class="hl-slide-sub" aria-hidden="true">A Roguelike Endless Runner</p>
+							<p class="hl-slide-desc" aria-hidden="true">Play as a King, dodging or capturing enemy pieces on an infinite chessboard. Chess meets endless runner!</p>
+							<div class="hl-slide-actions" aria-hidden="true"><a class="hl-btn hl-btn--primary" href="ChessRun.html" tabindex="-1">Explore <span class="arrow"></span></a><a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank" rel="noopener" tabindex="-1">LinkTree</a></div>
 						</div>
 					</article>
-					<article class="reel-panel reel-panel--work hl-slide" style="--i:4; --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18)">
+					<article class="reel-panel reel-panel--work reel-panel--handover hl-slide" style="--i:4; --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18)">
 						<a class="hl-slide-bg" href="ChessRun.html" aria-label="Open Chess Run">
 							<div class="hl-gc-banner" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"></div>
 							<div class="hl-gc-foot">
