@@ -2749,6 +2749,9 @@
 			// Slide two holds on the heading alone for half its beat, then the heading
 			// rises out of the middle and the logos come in under it.
 			defineStep(".reel-panel--collab", 0.45, "step-logos", true);
+			// The award photo waits a further scroll. One notch is about 0.17 of this
+			// beat - two slots of 32vh, so 576px at 900 tall against a 100px notch.
+			defineStep(".reel-panel--collab", 0.62, "step-award");
 			
 			function placeSplits() {
 				for (var k = 0; k < splits.length; k++) {
@@ -2944,7 +2947,7 @@
 			function clearBeats() {
 				reel.classList.remove("at-collab", "step-logos");
 				for (var b = 0; b < panels.length; b++) {
-					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "no-entrance");
+					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-award", "no-entrance");
 				}
 				if (window.__flap) window.__flap.arm(reel);
 			}

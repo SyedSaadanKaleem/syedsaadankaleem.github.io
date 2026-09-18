@@ -10420,9 +10420,32 @@ html.lenis body {
   animation: reelStepIn 420ms var(--ease-out) calc(var(--n-logo, 0) * 110ms) both !important;
 }
 
+/* The photo waits for a scroll of its own, after the logos have landed. Its
+   --show is pinned to 0 so the scroll clock it used to ride cannot bring it in
+   early, and the step's animation is the only thing that opens it. The exit is
+   untouched: --gone is still scroll based, so it leaves with the slide. */
+#reel .reel-panel--collab .intro2-photo-card {
+  --show: 0;
+}
+
+#reel .reel-panel--collab.step-award .intro2-photo-card {
+  animation: reelStepIn 460ms var(--ease-out) both !important;
+}
+
+/* No script and reduced motion never get a step, so the pin above would leave
+   the photo off the page entirely. */
+#reel.reel-static .reel-panel--collab .intro2-photo-card {
+  --show: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  #reel.step-logos .intro2-logo {
+  #reel.step-logos .intro2-logo,
+  #reel .reel-panel--collab.step-award .intro2-photo-card {
     animation: none !important;
+    --show: 1;
+  }
+
+  #reel .reel-panel--collab .intro2-photo-card {
     --show: 1;
   }
 }
