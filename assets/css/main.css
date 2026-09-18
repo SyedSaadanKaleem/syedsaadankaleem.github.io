@@ -10368,18 +10368,17 @@ html.lenis body {
 
 
 
-/* Scrolling back up into slide one is a RETURN, not an arrival. Its entrance
-   choreography is written against --tp, so coming back in at the top of the
-   beat re-ran all of it: the letter pack threw every cell out and packed it
-   again, and --grow re-grew the heading to 1.7x and slid the column back to
-   centre on the way. Both look like the text moving around underneath the
-   flap, which is the only thing that should be happening. --lp 1 settles the
-   pack, --grow 0 settles the size and the position; the flap does the rest.
-   Leaving the reel at the top clears it, so a real arrival still plays. */
-#reel .reel-panel--title.no-entrance {
-  --grow: 0;
-}
+/* Scrolling back up into slide one is a RETURN, not an arrival: the letter pack
+   should not throw every cell out and pack it again underneath the flap. --lp 1
+   settles the pack and nothing else.
 
+   It used to pin --grow to 0 as well, and that was wrong in a way that only
+   showed on the way up. --grow is SCROLL based - the heading's size and the
+   column's position are meant to scrub with the thumb in both directions - so
+   pinning it froze the heading at its settled size all the way up the beat, and
+   then clearing the mark at the top of the reel dropped it onto whatever --tp
+   said by then, which is a jump to 1.7x. The pack is an entrance and is
+   suppressed; the size and the position are not, and they scrub. */
 #reel .reel-panel--title.no-entrance .rl-ltr {
   --lp: 1;
 }
@@ -10608,4 +10607,88 @@ html.lenis body {
 #reel .intro2-logo,
 #reel .reel-panel--collab .intro2-photo-card {
   transition: --show 380ms var(--ease-out) !important;
+}
+
+
+/* ===========================================================================
+   THE HANDOVER INTO CHESS RUN
+
+   Once the board has landed on the next beat's heading it rolls over to that
+   beat's TITLE, so the two are the same words at the same size in the same
+   place and there is nothing in the swap to notice. The glow goes with it:
+   while the drums are still turning it gutters twice and comes back up in Chess
+   Run's own colours, which that beat carries inline.
+
+   The two glow variables have to be REGISTERED or they cannot be animated -
+   an unregistered custom property flips at the halfway mark instead of
+   interpolating, and the flicker would be four hard cuts rather than a light
+   failing. Registered, they keep inheriting exactly as before, so every beat
+   that sets its own pair inline is untouched.
+   =========================================================================== */
+@property --slide-glow {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(238, 43, 43, 0.18);
+}
+
+@property --slide-glow-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(238, 43, 43, 0.18);
+}
+
+/* Down, up brighter, down again, and settled - a tube striking rather than a
+   crossfade. The two dips are uneven on purpose; evenly spaced ones read as a
+   blink. */
+@keyframes reelGlowSwap {
+  0% {
+    --slide-glow: rgba(238, 43, 43, 0.18);
+    --slide-glow-2: rgba(238, 43, 43, 0.18);
+  }
+  16% {
+    --slide-glow: rgba(238, 43, 43, 0.03);
+    --slide-glow-2: rgba(238, 43, 43, 0.03);
+  }
+  28% {
+    --slide-glow: rgba(141, 53, 255, 0.28);
+    --slide-glow-2: rgba(0, 148, 198, 0.28);
+  }
+  41% {
+    --slide-glow: rgba(141, 53, 255, 0.04);
+    --slide-glow-2: rgba(0, 148, 198, 0.04);
+  }
+  55% {
+    --slide-glow: rgba(141, 53, 255, 0.26);
+    --slide-glow-2: rgba(0, 148, 198, 0.26);
+  }
+  68% {
+    --slide-glow: rgba(141, 53, 255, 0.09);
+    --slide-glow-2: rgba(0, 148, 198, 0.09);
+  }
+  100% {
+    --slide-glow: rgba(141, 53, 255, 0.18);
+    --slide-glow-2: rgba(0, 148, 198, 0.18);
+  }
+}
+
+/* 1100ms is the roll: 43 cells at 14ms apart is 602ms before the last one even
+   starts, and its own walk is capped at 520. The light settles as the last drum
+   does. */
+#reel .reel-panel--bridge.glow-swap {
+  animation: reelGlowSwap 1100ms linear both !important;
+}
+
+/* CHESS RUN is the next beat's title, and that is plain white - no accent
+   travels with it. */
+#reel .reel-panel--title .flap-board.is-d .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-d .flap[data-accent-c] {
+  --ink: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--bridge.glow-swap {
+    animation: none !important;
+    --slide-glow: rgba(141, 53, 255, 0.18);
+    --slide-glow-2: rgba(0, 148, 198, 0.18);
+  }
 }
