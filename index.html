@@ -3061,6 +3061,10 @@
 				reel.style.setProperty("--bg", "1");
 				var rr = rowEl.getBoundingClientRect();
 				var tagRest = tagEl ? tagEl.getBoundingClientRect() : null;
+				// This beat's own heading, which is where the board comes to rest. It is the
+				// reference for the kicker's gap - see below for why the row is not.
+				var h2El = bridgeEl.querySelector(".hl-slide-title");
+				var h2Rest = h2El ? h2El.getBoundingClientRect() : null;
 
 				reel.style.removeProperty("--bg");
 				reel.style.removeProperty("--bu");
@@ -3078,7 +3082,13 @@
 				if (tagEl && tagRest) {
 					var bcy = pr.height / 2 - (hr.top + hr.height / 2 - pr.top);
 					var rowTopCentred = (rr0.top - pr.top) + bcy;
-					var gap = rr.top - tagRest.bottom;
+					// The gap the kicker already has above the heading at rest. Taken off this
+					// beat's own h2, NOT off the flap row: --bw-x/--bw-y are still zeroed here,
+					// because this is the pass that computes them, so the row is sitting at its
+					// untransformed position rather than where it lands. That read -116.4 instead
+					// of 22.4, and -116 is exactly how far below the heading the kicker ended up
+					// at full size.
+					var gap = h2Rest ? (h2Rest.top - tagRest.bottom) : (rr.top - tagRest.bottom);
 					reel.style.setProperty("--bt-x",
 						(pr.width / 2 - (tagRest.left + tagRest.width / 2 - pr.left)).toFixed(1) + "px");
 					reel.style.setProperty("--bt-y",
