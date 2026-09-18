@@ -9161,7 +9161,7 @@ margin-top: -2em;}
   --eo: calc((3 - var(--n-stat)) * 0.03);
   --show: clamp(0, calc((var(--tp) - 0.58 - var(--n-stat) * 0.03) / 0.07), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
-  transform: translate3d(calc((1 - var(--show)) * 0.7rem + var(--gone) * 0.4rem), 0, 0);
+  transform: translate3d(calc((1 - var(--show)) * -0.7rem + var(--gone) * -0.4rem), 0, 0);
 }
 
 #reel .reel-panel--title .intro2-stat:nth-child(1) { --n-stat: 0; }
@@ -9195,7 +9195,7 @@ margin-top: -2em;}
   --eo: 0.10;
   --show: clamp(0, calc((var(--tp) - 0.10) / 0.16), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
-  transform: translate3d(calc((1 - var(--show)) * 0.8rem + var(--gone) * 0.4rem), 0, 0);
+  transform: translate3d(calc((1 - var(--show)) * -0.8rem + var(--gone) * -0.4rem), 0, 0);
 }
 
 #reel .reel-panel--collab .intro2-collab-title {
@@ -9352,7 +9352,7 @@ margin-top: -2em;}
   --eo: calc((3 - var(--n-stat)) * 0.03);
   --show: clamp(0, calc((var(--tp) - 0.12 - var(--n-stat) * 0.09) / 0.16), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
-  transform: translate3d(calc((1 - var(--show)) * 0.7rem + var(--gone) * 0.4rem), 0, 0);
+  transform: translate3d(calc((1 - var(--show)) * -0.7rem + var(--gone) * -0.4rem), 0, 0);
 }
 
 #reel .reel-panel--numbers .intro2-stat:nth-child(1) { --n-stat: 0; }
@@ -9440,7 +9440,7 @@ margin-top: -2em;}
   --eo: calc((3 - var(--n-logo)) * 0.03);
   --show: clamp(0, calc((var(--tp) - 0.12 - var(--n-logo) * 0.08) / 0.16), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
-  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
+  transform: translate3d(calc((1 - var(--show)) * -0.9rem + var(--gone) * -0.5rem), 0, 0);
 }
 
 #reel .reel-panel--partners .intro2-logo:nth-child(1) { --n-logo: 0; }
@@ -9539,7 +9539,7 @@ margin-top: -2em;}
   --eo: calc((3 - var(--n-card)) * 0.03);
   --show: clamp(0, calc((var(--tp) - 0.50 - var(--n-card) * 0.045) / 0.10), 1);
   opacity: calc(var(--show) * (1 - var(--gone)));
-  transform: translate3d(calc((1 - var(--show)) * 0.9rem + var(--gone) * 0.5rem), 0, 0);
+  transform: translate3d(calc((1 - var(--show)) * -0.9rem + var(--gone) * -0.5rem), 0, 0);
 }
 
 #reel .reel-panel--collab .intro2-logo:nth-child(1) { --n-card: 0; }
@@ -10602,10 +10602,15 @@ html.lenis body {
   transition: --t 420ms var(--ease-out) !important;
 }
 
-#reel .reel-panel--title .intro2-lead .lw,
-#reel .reel-panel--title .intro2-stat,
-#reel .intro2-logo,
-#reel .reel-panel--collab .intro2-photo-card {
+/* Scoped by PIECE rather than by beat, because the driver moves three of these
+   between beats on a phone - the stats, the banners and the photo all end up
+   somewhere else below 900. Naming their home beat meant they lost the
+   transition exactly where they had been moved to. */
+#reel .reel-panel--intro .intro2-lead .lw,
+#reel .reel-panel--intro .intro2-stat,
+#reel .reel-panel--intro .intro2-logo,
+#reel .reel-panel--intro .intro2-photo-card,
+#reel .reel-panel--intro .intro2-eyebrow {
   transition: --show 380ms var(--ease-out) !important;
 }
 
@@ -10637,47 +10642,61 @@ html.lenis body {
   initial-value: rgba(238, 43, 43, 0.18);
 }
 
-/* Down, up brighter, down again, and settled - a tube striking rather than a
-   crossfade. The two dips are uneven on purpose; evenly spaced ones read as a
-   blink. */
-@keyframes reelGlowSwap {
-  0% {
+/* The brightness and the colour are two different animations, because they are
+   two different things. The colour crosses from this beat's red to Chess Run's
+   pair ONCE, straight through, over the whole 1100ms - it is a light warming to
+   a new colour, not a switch being thrown. The flicker rides on top of it as a
+   blend percentage, so what gutters is the strength and never the hue.
+
+   --g1b and --g2b are already in .hl-slide's gradients with a 100% fallback and
+   nothing ever sets them, so they were sitting there waiting to be used. They
+   have to be registered to interpolate, same as the colours. */
+@property --g1b {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 100%;
+}
+
+@property --g2b {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 100%;
+}
+
+@keyframes reelGlowHue {
+  from {
     --slide-glow: rgba(238, 43, 43, 0.18);
     --slide-glow-2: rgba(238, 43, 43, 0.18);
   }
-  16% {
-    --slide-glow: rgba(238, 43, 43, 0.03);
-    --slide-glow-2: rgba(238, 43, 43, 0.03);
-  }
-  28% {
-    --slide-glow: rgba(141, 53, 255, 0.28);
-    --slide-glow-2: rgba(0, 148, 198, 0.28);
-  }
-  41% {
-    --slide-glow: rgba(141, 53, 255, 0.04);
-    --slide-glow-2: rgba(0, 148, 198, 0.04);
-  }
-  55% {
-    --slide-glow: rgba(141, 53, 255, 0.26);
-    --slide-glow-2: rgba(0, 148, 198, 0.26);
-  }
-  68% {
-    --slide-glow: rgba(141, 53, 255, 0.09);
-    --slide-glow-2: rgba(0, 148, 198, 0.09);
-  }
-  100% {
+  to {
     --slide-glow: rgba(141, 53, 255, 0.18);
     --slide-glow-2: rgba(0, 148, 198, 0.18);
   }
 }
 
-/* 1100ms is the roll: 43 cells at 14ms apart is 602ms before the last one even
-   starts, and its own walk is capped at 520. The light settles as the last drum
-   does. */
-#reel .reel-panel--bridge.glow-swap {
-  animation: reelGlowSwap 1100ms linear both !important;
+/* Uneven on purpose: evenly spaced dips read as a blink rather than a tube
+   striking. It settles back to full before the colour has finished crossing. */
+@keyframes reelGlowFlicker {
+  0%   { --g1b: 100%; --g2b: 100%; }
+  14%  { --g1b: 14%;  --g2b: 14%; }
+  22%  { --g1b: 128%; --g2b: 128%; }
+  33%  { --g1b: 22%;  --g2b: 22%; }
+  46%  { --g1b: 118%; --g2b: 118%; }
+  56%  { --g1b: 40%;  --g2b: 40%; }
+  68%  { --g1b: 110%; --g2b: 110%; }
+  78%  { --g1b: 72%;  --g2b: 72%; }
+  100% { --g1b: 100%; --g2b: 100%; }
 }
 
+/* 1100ms is the roll: 43 cells at 14ms apart is 602ms before the last one even
+   starts, and its own walk is capped at 520. The light settles as the last drum
+   does. The hue is linear so it is always on the move; the flicker is stepped
+   by its own keyframes. */
+#reel .reel-panel--bridge.glow-swap {
+  animation:
+    reelGlowHue 1100ms linear both,
+    reelGlowFlicker 1100ms linear both !important;
+}
 /* CHESS RUN is the next beat's title, and that is plain white - no accent
    travels with it. */
 #reel .reel-panel--title .flap-board.is-d .flap[data-accent-a],
