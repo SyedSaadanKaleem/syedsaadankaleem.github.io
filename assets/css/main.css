@@ -10642,60 +10642,35 @@ html.lenis body {
   initial-value: rgba(238, 43, 43, 0.18);
 }
 
-/* The brightness and the colour are two different animations, because they are
-   two different things. The colour crosses from this beat's red to Chess Run's
-   pair ONCE, straight through, over the whole 1100ms - it is a light warming to
-   a new colour, not a switch being thrown. The flicker rides on top of it as a
-   blend percentage, so what gutters is the strength and never the hue.
+/* The glow is SCROLL based, like the move it belongs to. It runs on --bg, the
+   same number that carries the heading down onto the next beat's title: nothing
+   happens until the heading starts travelling, it is still going for as long as
+   the heading is, and it is finished the moment the heading arrives. Scrub back
+   and it unwinds. Before this it was a 1100ms animation that started on a scroll
+   position and then ran on its own clock regardless of what the scroll did next.
 
-   --g1b and --g2b are already in .hl-slide's gradients with a 100% fallback and
-   nothing ever sets them, so they were sitting there waiting to be used. They
-   have to be registered to interpolate, same as the colours. */
-@property --g1b {
-  syntax: "<percentage>";
-  inherits: true;
-  initial-value: 100%;
-}
+   The colour is a straight mix from this beat's red to Chess Run's own pair,
+   which that beat carries inline - at --bg 0.5 the light is genuinely halfway
+   between the two, not part way through a keyframe list.
 
-@property --g2b {
-  syntax: "<percentage>";
-  inherits: true;
-  initial-value: 100%;
-}
+   The flicker is two sine waves at unrelated frequencies so it never settles
+   into a visible pulse, inside a window that is 0 at both ends and 1 in the
+   middle - so it starts from a steady light, gutters hardest while the heading
+   is mid-flight, and is steady again by the time it lands. --g1b and --g2b were
+   already in .hl-slide's gradients with a 100% fallback and nothing ever set
+   them, so the flicker had somewhere to live without a new variable. */
+#reel.at-bridge .reel-panel--bridge {
+  --gfw: calc(4 * var(--bg) * (1 - var(--bg)));
+  --gfo: calc(0.5 + 0.5 * sin(var(--bg) * 47rad));
+  --gfo2: calc(0.5 + 0.5 * sin(var(--bg) * 113rad + 1.1rad));
 
-@keyframes reelGlowHue {
-  from {
-    --slide-glow: rgba(238, 43, 43, 0.18);
-    --slide-glow-2: rgba(238, 43, 43, 0.18);
-  }
-  to {
-    --slide-glow: rgba(141, 53, 255, 0.18);
-    --slide-glow-2: rgba(0, 148, 198, 0.18);
-  }
-}
+  --slide-glow: color-mix(in srgb,
+    rgba(141, 53, 255, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0.18));
+  --slide-glow-2: color-mix(in srgb,
+    rgba(0, 148, 198, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0.18));
 
-/* Uneven on purpose: evenly spaced dips read as a blink rather than a tube
-   striking. It settles back to full before the colour has finished crossing. */
-@keyframes reelGlowFlicker {
-  0%   { --g1b: 100%; --g2b: 100%; }
-  14%  { --g1b: 14%;  --g2b: 14%; }
-  22%  { --g1b: 128%; --g2b: 128%; }
-  33%  { --g1b: 22%;  --g2b: 22%; }
-  46%  { --g1b: 118%; --g2b: 118%; }
-  56%  { --g1b: 40%;  --g2b: 40%; }
-  68%  { --g1b: 110%; --g2b: 110%; }
-  78%  { --g1b: 72%;  --g2b: 72%; }
-  100% { --g1b: 100%; --g2b: 100%; }
-}
-
-/* 1100ms is the roll: 43 cells at 14ms apart is 602ms before the last one even
-   starts, and its own walk is capped at 520. The light settles as the last drum
-   does. The hue is linear so it is always on the move; the flicker is stepped
-   by its own keyframes. */
-#reel .reel-panel--bridge.glow-swap {
-  animation:
-    reelGlowHue 1100ms linear both,
-    reelGlowFlicker 1100ms linear both !important;
+  --g1b: calc(100% - var(--gfw) * (0.52 * var(--gfo) + 0.34 * var(--gfo2)) * 100%);
+  --g2b: calc(100% - var(--gfw) * (0.34 * var(--gfo) + 0.52 * var(--gfo2)) * 100%);
 }
 /* CHESS RUN is the next beat's title, and that is plain white - no accent
    travels with it. */
@@ -10704,10 +10679,11 @@ html.lenis body {
   --ink: #fff;
 }
 
+/* Nothing to switch off for reduced motion - there is no animation here, only a
+   scrubbed value - but the flicker is light strobing, so it is flattened and the
+   colour is left to follow the scroll on its own. */
 @media (prefers-reduced-motion: reduce) {
-  #reel .reel-panel--bridge.glow-swap {
-    animation: none !important;
-    --slide-glow: rgba(141, 53, 255, 0.18);
-    --slide-glow-2: rgba(0, 148, 198, 0.18);
+  #reel.at-bridge .reel-panel--bridge {
+    --gfw: 0;
   }
 }

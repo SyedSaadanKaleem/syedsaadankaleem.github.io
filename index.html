@@ -3217,9 +3217,8 @@
 					// 1, which is where the landing finishes.
 					if (window.__flap.to && onBridge) window.__flap.to(reel, btp >= 0.86 ? "d" : "c");
 					if (window.__flap.hold) window.__flap.hold(reel, onBridge && btp < 0.34);
-					// The glow goes with it: it flickers and comes up in the next beat's
-					// colours while the drums are still turning.
-					if (bridgeEl) bridgeEl.classList.toggle("glow-swap", onBridge && btp >= 0.86);
+					// The glow needs no mark of its own any more - it runs on --bg, straight off
+					// the scroll, for exactly as long as the heading is travelling.
 				}
 			}
 			function onScroll() { if (!queued) { queued = true; requestAnimationFrame(write); } }
@@ -3230,7 +3229,7 @@
 			function clearBeats() {
 				reel.classList.remove("at-collab", "at-bridge", "step-logos");
 				for (var b = 0; b < panels.length; b++) {
-					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-award", "no-entrance", "glow-swap");
+					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-award", "no-entrance");
 				}
 				if (window.__flap) window.__flap.arm(reel);
 			}
