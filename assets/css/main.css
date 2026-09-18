@@ -10789,6 +10789,19 @@ html.lenis body {
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
+  /* Hug the text. As a stretched grid item each label was as wide as the CELL,
+     which is the width of the longer of the two - so centring the box centred a
+     298px box whose 145px of text still started at its left edge, 77px off. */
+  justify-self: start;
+}
+
+/* And the label centres itself inside that cell while the heading is up, on the
+   same pair the heading's own rows use - margin-left half the cell, then back
+   half its own width. At the two ends, where --bu and --bg are equal, both terms
+   are 0 and it is the left-aligned kicker again, untouched. */
+#reel.at-bridge .reel-panel--bridge .hl-tag > .bridge-kick {
+  margin-left: calc((var(--bu) - var(--bg)) * 50%);
+  transform: translateX(calc((var(--bu) - var(--bg)) * -50%));
 }
 
 /* One out, THEN the other in - not a crossfade. They are different lengths, so
