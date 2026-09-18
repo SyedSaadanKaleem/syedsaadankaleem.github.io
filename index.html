@@ -908,7 +908,7 @@
 					     position IS Chess Run's, to the pixel, without anything being measured or
 					     matched by hand. The opening move is slide one's: oversized and centred,
 					     settling onto that resting place as the beat runs. -->
-					<article class="reel-panel reel-panel--bridge hl-slide" data-slots="3">
+					<article class="reel-panel reel-panel--bridge hl-slide" data-slots="4">
 						<!-- Chess Run's card, standing on the beat that hands over to it. The whole
 						     work-beat layout - the grid, the column widths, the 128px gutter, every
 						     breakpoint of it - hangs off .hl-slide:has(> .hl-slide-bg), so this card
@@ -3277,8 +3277,8 @@
 					// beat's TITLE, so the two are the same words in the same place and the
 					// handover has nothing left to give away. 0.575 is just past --bg reaching
 					// 1, which is where the landing finishes.
-					if (window.__flap.to && onBridge) window.__flap.to(reel, btp >= 0.575 ? "d" : "c");
-					if (window.__flap.hold) window.__flap.hold(reel, onBridge && btp < 0.227);
+					if (window.__flap.to && onBridge) window.__flap.to(reel, btp >= 0.52 ? "d" : "c");
+					if (window.__flap.hold) window.__flap.hold(reel, onBridge && btp < 0.17);
 					// Worldscar's beat opens on the heading the beat above it just had - set, not
 					// walked, see enter() - and rolls over to its own a notch in. Rolling back is
 					// the same call with the other target, so scrubbing up unrolls it.

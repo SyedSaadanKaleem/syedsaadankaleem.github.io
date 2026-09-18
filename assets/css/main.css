@@ -10570,8 +10570,8 @@ html.lenis body {
    distance the move had at two slots, which is why every number here is the old
    one times two thirds. What is left over is the card's, below. */
 #reel.at-bridge {
-  --bu: clamp(0, calc(var(--b-tp, 0) / 0.227), 1);
-  --bg: clamp(0, calc((var(--b-tp, 0) - 0.34) / 0.227), 1);
+  --bu: clamp(0, calc(var(--b-tp, 0) / 0.17), 1);
+  --bg: clamp(0, calc((var(--b-tp, 0) - 0.34) / 0.17), 1);
 }
 
 /* The card waits. The heading lands at 0.567 and then nothing happens for a
@@ -10599,7 +10599,7 @@ html.lenis body {
 #reel .reel-panel--bridge > .hl-slide-bg {
   transform: none;
   filter: none;
-  opacity: clamp(0, calc((var(--b-tp, 0) - 0.85) / 0.09), 1);
+  opacity: clamp(0, calc((var(--b-tp, 0) - 0.83) / 0.09), 1);
 }
 
 /* Where slide two actually left the board, which is NOT always --c-settle: that
@@ -10796,8 +10796,8 @@ html.lenis body {
    with a gap between them: the first is gone at 0.62, the second does not start
    until 0.64, and in between there is no kicker at all. */
 #reel {
-  --bk-out: clamp(0, calc((var(--b-tp, 0) - 0.58) / 0.04), 1);
-  --bk-in: clamp(0, calc((var(--b-tp, 0) - 0.64) / 0.04), 1);
+  --bk-out: clamp(0, calc((var(--b-tp, 0) - 0.53) / 0.04), 1);
+  --bk-in: clamp(0, calc((var(--b-tp, 0) - 0.60) / 0.04), 1);
 }
 
 #reel .reel-panel--bridge .bridge-kick--from { opacity: calc(1 - var(--bk-out)); }
@@ -10831,7 +10831,7 @@ html.lenis body {
 #reel .reel-panel--bridge .hl-slide-sub,
 #reel .reel-panel--bridge .hl-slide-desc,
 #reel .reel-panel--bridge .hl-slide-actions {
-  --show: clamp(0, calc((var(--b-tp, 0) - 0.70 - var(--n-line) * 0.025) / 0.06), 1);
+  --show: clamp(0, calc((var(--b-tp, 0) - 0.68 - var(--n-line) * 0.025) / 0.06), 1);
   opacity: var(--show);
   transform: translate3d(calc((1 - var(--show)) * -1.1rem), 0, 0);
 }
@@ -11063,3 +11063,12 @@ html.lenis body {
 @property --gfb { syntax: "<number>"; inherits: false; initial-value: 0; }
 @property --sfa { syntax: "<number>"; inherits: false; initial-value: 0; }
 @property --sfb { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+/* The kicker is not there while the heading is growing. It arrives once the
+   heading has reached full size and then holds with it for a scroll, which is
+   what the beat's fourth slot buys: two notches up, TWO standing still, two back
+   down. Off --b-tp rather than .at-bridge, so the frames where this beat is
+   painting but not yet live read 0 like everything else here. */
+#reel .reel-panel--bridge .hl-tag {
+  opacity: clamp(0, calc((var(--b-tp, 0) - 0.17) / 0.05), 1);
+}
