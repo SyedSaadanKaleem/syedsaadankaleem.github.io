@@ -903,6 +903,29 @@
 					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--award">
 						<div class="hl-slide-content"></div>
 					</article>
+					<!-- The bridge into the game slides. It is built out of a work beat's own copy
+					     classes - .hl-slide-content, .hl-tag, .hl-slide-title - so its resting
+					     position IS Chess Run's, to the pixel, without anything being measured or
+					     matched by hand. The opening move is slide one's: oversized and centred,
+					     settling onto that resting place as the beat runs. -->
+					<article class="reel-panel reel-panel--bridge hl-slide" data-slots="2">
+						<!-- Empty, and hidden in CSS. The whole work-beat layout - the grid, the
+						     column widths, the 128px gutter, every breakpoint of it - hangs off
+						     .hl-slide:has(> .hl-slide-bg), and :has() is structural, so a child that
+						     renders nothing still matches it. That is what puts this beat's copy on
+						     exactly the same grid as Chess Run's instead of restating it here. -->
+						<div class="hl-slide-bg" aria-hidden="true"></div>
+						<div class="hl-slide-content">
+							<!-- The icon is not decoration: .hl-tag is an inline-flex, so its baseline is
+							     its FIRST item's, and a text-only tag sat 2px off the one on the beat
+							     this hands over to. Every work tag leads with one. -->
+							<span class="hl-tag"><i class='bx bxs-joystick'></i> What I build</span>
+							<h2 class="hl-slide-title bridge-title">
+								<span><span class="vg-accent">Games</span> and</span>
+								<span><span class="vg-accent">XR</span> applications</span>
+							</h2>
+						</div>
+					</article>
 					<article class="reel-panel reel-panel--work hl-slide" style="--i:4; --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18)">
 						<a class="hl-slide-bg" href="ChessRun.html" aria-label="Open Chess Run">
 							<div class="hl-gc-banner" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"></div>
@@ -2789,6 +2812,7 @@
 			// per frame.
 			var titleBeat = reel.querySelector(".reel-panel--title");
 			var collabEl = reel.querySelector(".reel-panel--collab");
+			var bridgeEl = reel.querySelector(".reel-panel--bridge");
 			var heading = titleBeat && titleBeat.querySelector(".intro2-title");
 			// How far the finished column has to come UP to sit centred. The beat hangs
 			// from a fixed lead-in so the heading lands exactly where the board is for the
@@ -2818,8 +2842,68 @@
 				}
 			}
 
+			// The bridge's opening, measured the same way slide one's is: put the beat in
+			// its grown state with no offsets, read where the heading's centre actually
+			// lands against the panel's, and the difference IS the offset. Nothing is
+			// fitted, so it holds at every breakpoint where the copy column moves.
+			function calibrateBridge() {
+				if (!bridgeEl) return;
+				var h = bridgeEl.querySelector(".bridge-title");
+				var content = bridgeEl.querySelector(".hl-slide-content");
+				if (!h || !content) return;
+
+				// How big it can get before its longest line stops fitting the column.
+				var lines = h.querySelectorAll(":scope > span");
+				var widest = 0;
+				for (var k = 0; k < lines.length; k++) {
+					if (lines[k].offsetWidth > widest) widest = lines[k].offsetWidth;
+				}
+				var room = content.clientWidth * 0.94;
+				var peak = widest > 0 ? Math.min(1.6, room / widest) : 1.6;
+				bridgeEl.style.setProperty("--s-peak", (peak < 1 ? 1 : peak).toFixed(3));
+
+				// Where the next beat's heading actually sits, and how far this one is from
+				// it. Building the bridge out of work-beat classes gets the two onto the same
+				// grid, but not to the same place: the work beat's row is as tall as its CARD
+				// and this one has none, so 'centred in the row' means something different on
+				// every layout the card changes - measured, 52px apart at 1024x600 and 158 at
+				// 320x568. So it is measured rather than matched, like everything else here.
+				bridgeEl.style.setProperty("--grow", "0");
+				bridgeEl.style.setProperty("--rise", "0px");
+				bridgeEl.style.setProperty("--nudge", "0px");
+				bridgeEl.style.setProperty("--to-x", "0px");
+				bridgeEl.style.setProperty("--to-y", "0px");
+				var np = bridgeEl.getBoundingClientRect();
+				var nat = h.getBoundingClientRect();
+				var work = reel.querySelector(".reel-panel--work");
+				var wt = work && work.querySelector(".hl-slide-title");
+				if (wt) {
+					var wp = work.getBoundingClientRect();
+					var tr = wt.getBoundingClientRect();
+					// Its own entrance slide taken back off, or the target would be wherever
+					// that beat happened to be in its cascade when this ran.
+					var wm = new DOMMatrixReadOnly(getComputedStyle(wt).transform);
+					bridgeEl.style.setProperty("--to-x",
+						(((tr.left - wm.e) - wp.left) - (nat.left - np.left)).toFixed(1) + "px");
+					bridgeEl.style.setProperty("--to-y",
+						(((tr.top - wm.f) - wp.top) - (nat.top - np.top)).toFixed(1) + "px");
+				}
+
+				// And the opening offset, read in the grown state. At --grow 1 the landing
+				// term above is 0, so this measures the centring on its own.
+				bridgeEl.style.setProperty("--grow", "1");
+				var pr = bridgeEl.getBoundingClientRect();
+				var hr = h.getBoundingClientRect();   // forces layout, so this reads back
+				bridgeEl.style.removeProperty("--grow");
+				bridgeEl.style.setProperty("--rise",
+					(pr.height / 2 - (hr.top + hr.height / 2 - pr.top)).toFixed(1) + "px");
+				bridgeEl.style.setProperty("--nudge",
+					(pr.width / 2 - (hr.left + hr.width / 2 - pr.left)).toFixed(1) + "px");
+			}
+
 			function calibrate() {
 				calibrateCollab();
+				calibrateBridge();
 				if (!heading) return;
 
 				// How big the opening heading can get before its longest line stops

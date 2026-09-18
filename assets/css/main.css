@@ -9627,7 +9627,8 @@ margin-top: -2em;}
    26px under the nav at 1024x768, where there is width for two columns. */
 @media (max-height: 700px) and (min-width: 700px),
        (min-width: 900px) and (max-width: 1024px) {
-  #reel .reel-panel--work.hl-slide:has(> .hl-slide-bg) {
+  #reel .reel-panel--work.hl-slide:has(> .hl-slide-bg),
+  #reel .reel-panel--bridge.hl-slide:has(> .hl-slide-bg) {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
     align-items: center;
@@ -9638,7 +9639,8 @@ margin-top: -2em;}
     padding-right: clamp(1rem, 4vw, 3rem);
   }
 
-  #reel .reel-panel--work .hl-slide-content {
+  #reel .reel-panel--work .hl-slide-content,
+  #reel .reel-panel--bridge .hl-slide-content {
     grid-column: 1;
     grid-row: 1;
     max-width: none;
@@ -9660,12 +9662,14 @@ margin-top: -2em;}
    has once the nav bar is out. Everything here is proportional to viewport
    height, so it only tightens where it has to. */
 @media (max-height: 700px) {
-  #reel .reel-panel--work.hl-slide:has(> .hl-slide-bg) {
+  #reel .reel-panel--work.hl-slide:has(> .hl-slide-bg),
+  #reel .reel-panel--bridge.hl-slide:has(> .hl-slide-bg) {
     padding-top: clamp(0.5rem, 2vh, 1.5rem);
     gap: clamp(0.5rem, 1.5vh, 1.2rem);
   }
 
-  #reel .reel-panel--work .hl-tag {
+  #reel .reel-panel--work .hl-tag,
+  #reel .reel-panel--bridge .hl-tag {
     margin-bottom: clamp(0.35rem, 1.2vh, 0.9rem);
   }
 
@@ -10448,4 +10452,91 @@ html.lenis body {
   #reel .reel-panel--collab .intro2-photo-card {
     --show: 1;
   }
+}
+
+
+/* ===========================================================================
+   THE BRIDGE - from the collaborations beat into the games
+
+   Built out of a work beat's own copy classes, so where it comes to rest is
+   Chess Run's heading and kicker to the pixel - measured at 1600x900, the title
+   at left 128 / top 140 in 60.8px and the tag at left 128 / top 90 - without a
+   single number being matched by hand. The next beat then simply carries on
+   from where this one stopped.
+
+   The opening is slide one's, and for the same reason: a heading that arrives
+   oversized and centred and settles into its place reads as a title card
+   turning into a section. --grow runs 1 to 0 across the first third of the
+   beat, and everything here is written against it.
+   =========================================================================== */
+#reel .reel-panel--bridge.hl-slide {
+  background-color: transparent;
+}
+
+/* Present so :has() matches and the beat inherits the work layout, rendering
+   nothing because there is no card on this one. */
+#reel .reel-panel--bridge > .hl-slide-bg {
+  display: none;
+}
+
+/* The reel's own sizing for a beat that is neither work nor intro. transform is
+   cleared because the stock envelope slides a beat 2rem sideways on its way out,
+   and this one's whole job is to put its heading exactly where the next beat's
+   is - it holds on that spot and fades, rather than drifting off it. */
+#reel .reel-panel--bridge {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  transform: none;
+}
+
+#reel .reel-panel--bridge {
+  --settle: clamp(0, calc((var(--tp) - 0.16) / 0.34), 1);
+  --grow: calc(1 - var(--settle));
+  --s: calc(1 + (var(--s-peak, 1.6) - 1) * var(--grow));
+}
+
+/* The column carries the move, so the kicker and the heading travel as one
+   piece - which is what makes them land on the two the next beat already has.
+   --rise and --nudge are written by the driver, 0 until it has, which just means
+   no opening move rather than a broken one. */
+/* Two ends, interpolated by --grow: centred on the slide at 1, and standing
+   exactly on the next beat's heading at 0. --to-x and --to-y are that landing,
+   measured by the driver against the real Chess Run beat rather than matched by
+   construction - the work layout puts the copy in a row as tall as its card,
+   and this beat has no card, so 'the same grid' is not the same place. */
+#reel .reel-panel--bridge .hl-slide-content {
+  transform: translate3d(
+    calc(var(--grow) * var(--nudge, 0px) + (1 - var(--grow)) * var(--to-x, 0px)),
+    calc(var(--grow) * var(--rise, 0px) + (1 - var(--grow)) * var(--to-y, 0px)),
+    0);
+}
+
+/* Grows about the top of its own centre: the top stays put so the kicker keeps
+   its gap, and the middle stays put so --nudge is a straight half-column. */
+#reel .reel-panel--bridge .bridge-title {
+  transform-origin: 50% 0;
+  transform: scale(var(--s));
+}
+
+/* Centring that can be scrubbed. text-align is not interpolable, so going from
+   centred to left-aligned with it would snap the line sideways halfway through.
+   Each line hugs its own text instead, and margin-left 50% of the column plus
+   translateX -50% of the line centres it exactly - both ends animate, and at 0
+   it is the left-aligned heading again, unchanged. */
+#reel .reel-panel--bridge .bridge-title > span {
+  display: block;
+  width: max-content;
+  margin-left: calc(var(--grow) * 50%);
+  transform: translateX(calc(var(--grow) * -50%));
+}
+
+#reel .reel-panel--bridge .hl-tag {
+  width: max-content;
+  margin-left: calc(var(--grow) * 50%);
+  transform: translateX(calc(var(--grow) * -50%));
+}
+
+#reel .reel-panel--bridge .vg-accent {
+  color: #ee2b2b;
 }
