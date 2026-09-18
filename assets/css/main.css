@@ -9828,8 +9828,7 @@ margin-top: -2em;}
    opacity and filter are here for Cobweb, whose entrance is those two rather
    than a transform. --exit is 0 everywhere in the reel, so on every other card
    they already resolve to exactly what this sets them to. */
-#reel .reel-panel--work > .hl-slide-bg:not(:hover),
-#reel .reel-panel--bridge > .hl-slide-bg:not(:hover) {
+#reel .reel-panel--work > .hl-slide-bg:not(:hover) {
   transform: none;
   opacity: 1;
   filter: none;
@@ -10585,10 +10584,21 @@ html.lenis body {
    been less than an animation, but it would also snap, and this beat is
    scrubbed - you can sit in the middle of it.
 
-   Same specificity as the rule that pins every other card to opacity 1, and
-   later in the file, which is what lets this through. Off the bridge that one
-   wins again and the card is solid - by then the beat itself is fading. */
-#reel.at-bridge .reel-panel--bridge > .hl-slide-bg {
+   NOT gated on .at-bridge, which is what it was at first and which flashed the
+   card. That class is put on by the driver when the bridge becomes the LIVE
+   beat, but a beat starts painting before it is live - it fades in over the one
+   above it - so there were three frames of the handover where the panel was up
+   to 0.5 opaque, the class was not on yet and the card fell back to the rule
+   below at a flat 1. --b-tp needs no gate: the driver publishes it every frame
+   and clamps it, so it is already 0 everywhere above this beat and 1 everywhere
+   below, and the ramp reads 0 through the whole handover.
+
+   This rule owns the bridge card outright, so it also carries the two the work
+   cards get from the neutraliser. No hover exception: the card is
+   pointer-events: none, so there is no lift to preserve. */
+#reel .reel-panel--bridge > .hl-slide-bg {
+  transform: none;
+  filter: none;
   opacity: clamp(0, calc((var(--b-tp, 0) - 0.68) / 0.113), 1);
 }
 
