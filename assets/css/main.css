@@ -10809,8 +10809,20 @@ html.lenis body {
    other, like every other piece in the column - see ONE HEADING AT A TIME at the
    foot of this file. visibility rather than opacity because opacity 0 still
    answers a hit test, and this sits over the real one. */
+#reel .reel-panel--bridge .hl-slide-title {
+  opacity: clamp(0, calc((var(--b-tp, 0) - 0.995) * 200), 1);
+}
+
+/* Gating that on .at-bridge alone was wrong and flashed: the panel paints while
+   it fades in over the beat above, and the class is not on yet, so for three
+   frames this h2 printed CHESS RUN under the rolling board at up to 0.495. The
+   step above is off --b-tp, which is published every frame and is 0 there.
+
+   The class is still needed for the other end. Through the bridge's own tail
+   --b-tp is already 1 while the board is still up, so the step alone would show
+   both. Hidden until --b-tp is 1 AND the bridge has handed over. */
 #reel.at-bridge .reel-panel--bridge .hl-slide-title {
-  visibility: hidden;
+  opacity: 0;
 }
 
 /* Then the copy, from the left and a line at a time - the same 1.1rem and the
