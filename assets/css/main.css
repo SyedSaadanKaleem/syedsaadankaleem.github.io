@@ -10791,10 +10791,13 @@ html.lenis body {
 #reel .reel-panel--bridge .bridge-kick--from { opacity: calc(1 - var(--bk)); }
 #reel .reel-panel--bridge .bridge-kick--to { opacity: var(--bk); }
 
-/* The heading's place, held open and never painted: the board is the visible
-   heading on this beat. visibility rather than opacity because opacity 0 still
+/* The heading's place, held open and not painted while this beat is running:
+   the board is the visible heading here. It comes back for the handover, so the
+   crossfade has this column's heading on one side and the next beat's on the
+   other, like every other piece in the column - see ONE HEADING AT A TIME at the
+   foot of this file. visibility rather than opacity because opacity 0 still
    answers a hit test, and this sits over the real one. */
-#reel .reel-panel--bridge .hl-slide-title {
+#reel.at-bridge .reel-panel--bridge .hl-slide-title {
   visibility: hidden;
 }
 
@@ -10823,9 +10826,18 @@ html.lenis body {
    at all: the bridge is painting the same column underneath it through the
    crossfade, so 25px of entrance slide reads as the whole column jumping. Same
    reason the bridge itself clears it. It gives up its exit slide too, which is
-   the trade - it still fades out under the beat that covers it. */
+   the trade - it still fades out under the beat that covers it.
+
+   --enter pinned for the same reason, and it is the one that actually showed.
+   Stock tracks .hl-slide-title on it - letter-spacing -0.01em widening by 0.12em
+   as --enter falls to 0 - and this beat was still ramping --enter from 0 while
+   the bridge painted the same heading at settled tracking underneath. Same words,
+   same left edge, 6.688px of letter-spacing against -0.608px: the two runs walk
+   apart across the word and it reads as a second heading ghosting out to the
+   right. Pinning --show was not enough, because --show is not what tracks it. */
 #reel .reel-panel--work.reel-panel--handover {
   transform: none;
+  --enter: 1;
 }
 
 #reel .reel-panel--work.reel-panel--handover .hl-tag,
@@ -10834,4 +10846,38 @@ html.lenis body {
 #reel .reel-panel--work.reel-panel--handover .hl-slide-desc,
 #reel .reel-panel--work.reel-panel--handover .hl-slide-actions {
   --show: 1;
+}
+
+/* ===========================================================================
+   ONE HEADING AT A TIME
+
+   The board and the next beat's own h2 draw the same words in the same place,
+   and for the length of the crossfade both were doing it - the board is 322px
+   wide against the h2's 272, so it read as a second, wider heading sticking out
+   behind the first. The h2 only started painting there once its cascade was
+   pinned; before that it was invisible until the board had gone.
+
+   So they swap, and they swap on the same class in the same frame rather than
+   on two ramps that have to be kept from overlapping. While the bridge is live
+   the board is the heading and the h2 waits. The instant .at-bridge comes off,
+   the h2 is the heading and the board is gone.
+
+   Past the bridge is --b-tp at exactly 1 with .at-bridge off - the x200 is just
+   a step function, 1 anywhere below 0.995 and 0 at the top. Above the bridge
+   --b-tp is 0, so slide one and slide two keep their board; the tail of the
+   bridge itself is --b-tp 1 with the class still on, which the override covers.
+
+   It also settles the board being visible at all after the handover: it was
+   jumping 139px up out of the bridge's transform and flapping to blank there,
+   in full view. It still does both, with nothing on screen. */
+#reel .reel-panel--title .intro2-title.flap-board {
+  opacity: clamp(0, calc((1 - var(--b-tp, 0)) * 200), 1);
+}
+
+#reel.at-bridge .reel-panel--title .intro2-title.flap-board {
+  opacity: 1;
+}
+
+#reel.at-bridge .reel-panel--handover .hl-slide-title {
+  visibility: hidden;
 }
