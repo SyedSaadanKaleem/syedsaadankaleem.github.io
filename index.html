@@ -2751,6 +2751,9 @@
 					if (i >= 0) {
 						live0[i].classList.remove("is-out", "is-done");
 						live0[i].classList.add("is-live");
+						// Arriving from a LATER beat is a return, not an arrival: the beat's
+						// own entrance choreography stays settled and only the board moves.
+						live0[i].classList.toggle("no-entrance", live > i);
 						if (window.__flap) window.__flap.enter(live0[i], reel);
 						// Landing part-way down the reel - a reload restores the scroll -
 						// must not play the beats above it as a show. They are simply
@@ -2769,7 +2772,7 @@
 			// on screen with its text arrived.
 			function clearBeats() {
 				for (var b = 0; b < panels.length; b++) {
-					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats");
+					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "no-entrance");
 				}
 				if (window.__flap) window.__flap.arm(reel);
 			}

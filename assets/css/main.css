@@ -10286,21 +10286,10 @@ html.lenis body {
   text-align: center;
 }
 
-/* The seam only exists while the board is walking. On a departure board it is
-   permanent because the board IS the thing; here it is a transition, and a
-   hairline across every letter of a settled heading would be a new look rather
-   than a new move. */
-#reel .reel-panel--intro .is-flapping .flap::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.32;
-  pointer-events: none;
-}
+/* No seam. The original draws one because a Solari board IS a board and the
+   hinge line is part of the object; at 60px of display type across a whole
+   heading the same hairline reads as a strikethrough. The leaf falling through
+   -90deg is the mechanism - the line was only decoration on top of it. */
 
 /* PLAYING. is red in the first sentence and nothing in the second, so the
    accent belongs to the state, not to the cell. */
@@ -10314,4 +10303,20 @@ html.lenis body {
    and because it is where the second sentence's wording lives. */
 #reel .reel-panel--collab .intro2-collab-title {
   visibility: hidden;
+}
+
+/* Scrolling back up into slide one is a RETURN, not an arrival. Its entrance
+   choreography is written against --tp, so coming back in at the top of the
+   beat re-ran all of it: the letter pack threw every cell out and packed it
+   again, and --grow re-grew the heading to 1.7x and slid the column back to
+   centre on the way. Both look like the text moving around underneath the
+   flap, which is the only thing that should be happening. --lp 1 settles the
+   pack, --grow 0 settles the size and the position; the flap does the rest.
+   Leaving the reel at the top clears it, so a real arrival still plays. */
+#reel .reel-panel--title.no-entrance {
+  --grow: 0;
+}
+
+#reel .reel-panel--title.no-entrance .rl-ltr {
+  --lp: 1;
 }
