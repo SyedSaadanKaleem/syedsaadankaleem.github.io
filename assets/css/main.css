@@ -10980,27 +10980,65 @@ html.lenis body {
   transform: none;
 }
 
-/* The rest of the column waits for the roll to finish rather than arriving
-   under it. Same cascade every work beat has, just started later - the offsets
-   come off the --n-line the beat already carries. */
+/* The column opens as Chess Run's, all of it already there. This beat starts on
+   the picture the beat above it ended on - same card, same column, same words -
+   so the crossfade between the two shows nothing at all. The work cascade would
+   otherwise ramp these in off --tp, which is what had the copy fading out while
+   the heading was still rolling. */
 #reel .reel-panel--scar .hl-tag,
 #reel .reel-panel--scar .hl-slide-sub,
 #reel .reel-panel--scar .hl-slide-desc,
 #reel .reel-panel--scar .hl-slide-actions {
-  --show: clamp(0, calc((var(--tp) - 0.45 - var(--n-line) * 0.03) / 0.08), 1);
+  --show: 1;
+  opacity: 1;
+  transform: none;
 }
 
-/* The glow, on the roll and nothing else: it starts when the letters start and
-   is steady again when they land. Same shape as the bridge's - two sine waves
-   at unrelated frequencies so it never settles into a pulse, inside a window
-   that is 0 at both ends and 1 in the middle - and the colour crosses ONCE,
-   straight through, from Chess Run's pair to this beat's red. Brightness
-   gutters, hue does not. */
-/* The leg lives on the SECTION, like the bridge's --bg, not on the panel with
-   everything that reads it. --s-tp is already published there, and it is the
-   same number as this beat's --tp. */
-/* The glow is a TRANSITION here, played once when the beat opens, alongside the
-   heading's roll - not scrubbed like the bridge's.
+/* Worldscar's kicker waits its turn. The two differ in SHAPE, not just wording -
+   a play-store glyph against a masked ghost - so they are two elements traded by
+   a class rather than one element rewritten. Same for the LinkTree button, which
+   Worldscar does not have. */
+/* This beat rests on Chess Run's glow, not on the default red. The bridge ends
+   purple, and a panel that has not been told otherwise starts at the registered
+   initial value - so the crossfade into this beat changed the colour of the room
+   a scroll before anything was supposed to. The transition starts from here. */
+#reel .reel-panel--scar {
+  --slide-glow: rgba(141, 53, 255, 0.18);
+  --slide-glow-2: rgba(0, 148, 198, 0.18);
+}
+
+#reel .reel-panel--scar .scar-kick--to {
+  display: none;
+}
+
+#reel .reel-panel--scar.is-scar-swapped .scar-kick--from {
+  display: none;
+}
+
+#reel .reel-panel--scar.is-scar-swapped .scar-kick--to {
+  display: inline-flex;
+}
+
+#reel .reel-panel--scar.is-scar-swapped .scar-btn--chess {
+  display: none;
+}
+
+/* ---- 1. Chess Run's copy leaves, and nothing else moves yet --------------- */
+@keyframes scar-copy-out {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
+}
+
+#reel .reel-panel--scar.step-scar-out .hl-tag,
+#reel .reel-panel--scar.step-scar-out .hl-slide-sub,
+#reel .reel-panel--scar.step-scar-out .hl-slide-desc,
+#reel .reel-panel--scar.step-scar-out .hl-slide-actions {
+  animation: scar-copy-out 380ms ease both !important;
+}
+
+/* ---- 2. The heading rolls, the glow crosses under it, the card changes ---- */
+/* The glow is a TRANSITION, played once on the middle scroll alongside the
+   heading's walk - not scrubbed like the bridge's.
 
    And it is on --slide-glow itself rather than on --g1b. --g1b is read as
    color-mix(in srgb, <colour> var(--g1b, 100%), transparent), and an unregistered
@@ -11032,45 +11070,39 @@ html.lenis body {
 /* 1100ms is what the board takes: 43 cells at a 14ms stagger, and the last of
    them still has its own walk to run. So the two finish together.
 
-   !important on all three of these, and it is not a shortcut. This branch opens
+   !important on every animation here, and it is not a shortcut. This branch opens
    with a NO MOTION baseline - *, *::before, *::after { animation: none !important }
    - which is why everything else here is a scrubbed custom property rather than a
    keyframe: the stock deck's motion had to be off before any of it could be
    rebuilt. These rules are (1,2,0) against that rule's (0,0,0), so an important
-   declaration here outranks the important one there, and only these three opt
-   back in. */
-#reel .reel-panel--scar.is-live {
+   declaration here outranks the important one there. */
+#reel .reel-panel--scar.step-scar-swap {
   animation: scar-glow 1100ms linear both !important;
 }
 
-/* 2. The card, the moment the heading and the glow have both landed. */
-@keyframes scar-card-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-#reel .reel-panel--scar.is-live > .hl-slide-bg {
-  animation: scar-card-in 420ms ease 1100ms both !important;
-}
-
-/* 3. The kicker and the paragraph are the scroll after that, not part of the
-   transition - .step-scar-copy is put on by the driver at --tp 0.35. */
-#reel .reel-panel--scar .hl-tag,
-#reel .reel-panel--scar .hl-slide-desc {
-  opacity: 0;
-}
-
+/* ---- 3. Worldscar's copy arrives ------------------------------------------ */
+/* After the leaving rules in the file and at the same weight, which is what lets
+   it win: by this scroll BOTH marks are on the beat, because a step is a
+   threshold that has been passed rather than a phase that ends. */
 @keyframes scar-copy-in {
   from { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
   to   { opacity: 1; transform: none; }
 }
 
-#reel .reel-panel--scar.step-scar-copy .hl-tag {
+#reel .reel-panel--scar.step-scar-in .hl-tag {
   animation: scar-copy-in 420ms ease both !important;
 }
 
-#reel .reel-panel--scar.step-scar-copy .hl-slide-desc {
-  animation: scar-copy-in 420ms ease 110ms both !important;
+#reel .reel-panel--scar.step-scar-in .hl-slide-sub {
+  animation: scar-copy-in 420ms ease 80ms both !important;
+}
+
+#reel .reel-panel--scar.step-scar-in .hl-slide-desc {
+  animation: scar-copy-in 420ms ease 160ms both !important;
+}
+
+#reel .reel-panel--scar.step-scar-in .hl-slide-actions {
+  animation: scar-copy-in 420ms ease 240ms both !important;
 }
 
 /* The card does not fade in, it fails in. Three sine waves at frequencies that

@@ -274,32 +274,44 @@
 							<div class="hl-slide-actions" aria-hidden="true"><a class="hl-btn hl-btn--primary" href="ChessRun.html" tabindex="-1">Explore <span class="arrow"></span></a><a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank" rel="noopener" tabindex="-1">LinkTree</a></div>
 						</div>
 					</article>
-					<!-- Worldscar. The bridge ends with the whole Chess Run slide standing, and
-					     this beat is the scroll after it: that slide leaves with its own panel -
-					     card, copy and kicker together - the board rolls CHESS RUN over into
-					     WORLDSCAR where it stands, and this card is simply the one that is here
-					     when the crossfade finishes. A plain switch for now.
+					<!-- Worldscar, in three scrolls.
 					
-					     A separate beat rather than another slot on the bridge, because the
-					     bridge's choreography is settled and every number in it is a fraction of
-					     its own length - adding a slot there would have moved all of them. -->
-					<article class="reel-panel reel-panel--work reel-panel--scar hl-slide" data-slots="2">
-						<div class="hl-slide-bg" aria-hidden="true">
-							<div class="hl-gc-banner" style="background-image:url('images/WorldScar/WorldScar-Banner.jpg')"></div>
+					     This beat OPENS on Chess Run - the same card, the same column, the same
+					     words the bridge ended on - so the crossfade into it has nothing to give
+					     away. Then: the copy leaves, the heading rolls and the card changes, the
+					     new copy arrives. Three scrolls, one thing each.
+					
+					     Worldscar's versions ride along in data-to-* and are swapped in at the
+					     middle scroll, while everything that changes is already invisible. One set
+					     of elements rather than two stacked sets, so nothing has to be held in
+					     register with anything else.
+					
+					     A separate beat rather than another slot on the bridge: the bridge's
+					     choreography is settled and every number in it is a fraction of its own
+					     length, so a fifth slot would have moved all of them. -->
+					<article class="reel-panel reel-panel--work reel-panel--scar hl-slide" data-slots="3">
+						<div class="hl-slide-bg scar-card" aria-hidden="true"
+						     data-to-banner="images/WorldScar/WorldScar-Banner.jpg"
+						     data-to-logo="images/WorldScar/Logo.png"
+						     data-to-name="Worldscar" data-to-sub="A Horror Escape Room">
+							<div class="hl-gc-banner" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"></div>
 							<div class="hl-gc-foot">
-								<img class="hl-gc-logo" src="images/WorldScar/Logo.png" alt="" loading="lazy" onerror="this.style.display='none'">
+								<img class="hl-gc-logo" src="images/ChessRun/Logo.png" alt="" loading="lazy" onerror="this.style.display='none'">
 								<div class="hl-gc-meta">
-									<span class="hl-gc-name">Worldscar</span>
-									<span class="hl-gc-sub">A Horror Escape Room</span>
+									<span class="hl-gc-name">Chess Run</span>
+									<span class="hl-gc-sub">A Roguelike Endless Runner</span>
 								</div>
 							</div>
 						</div>
-						<!-- Holds the heading's place and never paints, the way the bridge's does.
-						     The board is the visible heading on this beat too. -->
+						<!-- The column the bridge ends on, to the word. The h2 holds the heading's
+						     place and never paints - the board is the visible heading here too. -->
 						<div class="hl-slide-content">
-							<span class="hl-tag"><span aria-hidden="true" style="display:inline-block;width:1.3em;height:1.3em;flex:none;background:#ee2b2b;-webkit-mask:url('images/Ghost.png') center/contain no-repeat;mask:url('images/Ghost.png') center/contain no-repeat"></span> In Development &middot; Pixel Dreams</span>
-							<h2 class="hl-slide-title" aria-hidden="true">Worldscar</h2>
-							<p class="hl-slide-desc">Trapped inside an abandoned bio-lab, you need to escape the shifting environment. Collect cards, find doors, and escape.</p>
+							<span class="hl-tag scar-kick scar-kick--from"><i class='bx bxl-play-store'></i> Recently Live &middot; Pixel Dreams</span>
+							<span class="hl-tag scar-kick scar-kick--to"><span aria-hidden="true" style="display:inline-block;width:1.3em;height:1.3em;flex:none;background:#ee2b2b;-webkit-mask:url('images/Ghost.png') center/contain no-repeat;mask:url('images/Ghost.png') center/contain no-repeat"></span> In Development &middot; Pixel Dreams</span>
+							<h2 class="hl-slide-title" aria-hidden="true">Chess Run</h2>
+							<p class="hl-slide-sub" data-to="A Horror Escape Room">A Roguelike Endless Runner</p>
+							<p class="hl-slide-desc" data-to="Trapped inside an abandoned bio-lab, you need to escape the shifting environment. Collect cards, find doors, and escape.">Play as a King, dodging or capturing enemy pieces on an infinite chessboard. Chess meets endless runner!</p>
+							<div class="hl-slide-actions"><a class="hl-btn hl-btn--primary" href="ChessRun.html" data-to-href="WorldScar.html" tabindex="-1">Explore <span class="arrow"></span></a><a class="hl-btn scar-btn--chess" href="https://linktr.ee/ChessRun" target="_blank" rel="noopener" tabindex="-1">LinkTree</a></div>
 						</div>
 					</article>
 
@@ -2656,10 +2668,9 @@
 					// the transition between them and it belongs to the scroll, not to the beat
 					// change. Landing it here means the board is already the right word on the
 					// first frame, which is the frame the beat above it is still fading out on.
-					// Worldscar's roll is a TRANSITION, not a scrub: set to the heading the beat
-					// above ended on, then walked once, here, as the beat opens. Nothing about it
-					// tracks the thumb after that.
-					if (panel.classList.contains("reel-panel--scar")) { land(b, "d"); run(b, "e"); return; }
+					// Worldscar opens on the heading the beat above ended on, SET not walked. The
+					// walk is the middle of three scrolls and is fired from the driver, not here.
+					if (panel.classList.contains("reel-panel--scar")) { land(b, "d"); return; }
 					var st = panel.classList.contains("reel-panel--title") ? "a"
 						: panel.classList.contains("reel-panel--collab") ? "b"
 						: panel.classList.contains("reel-panel--bridge") ? "c"
@@ -2799,10 +2810,13 @@
 			// The award photo waits a further scroll. One notch is about 0.17 of this
 			// beat - two slots of 32vh, so 576px at 900 tall against a 100px notch.
 			defineStep(".reel-panel--collab", 0.62, "step-award");
-			// Worldscar's kicker and paragraph are the scroll AFTER the transition. Two
-			// slots, so a wheel notch is about 0.147 of this beat - 0.35 is two notches
-			// in, clear of the 1.1s the heading and the glow take to finish.
-			defineStep(".reel-panel--scar", 0.35, "step-scar-copy");
+			// Worldscar is three scrolls, one thing each: Chess Run's copy leaves, then
+			// the heading rolls and the card changes, then Worldscar's copy arrives. Two
+			// slots, so a wheel notch is about 0.147 of this beat and these sit about two
+			// apart - enough for the 1.1s transition to finish before the last one.
+			defineStep(".reel-panel--scar", 0.16, "step-scar-out");
+			defineStep(".reel-panel--scar", 0.46, "step-scar-swap");
+			defineStep(".reel-panel--scar", 0.76, "step-scar-in");
 			
 			function placeSplits() {
 				for (var k = 0; k < splits.length; k++) {
@@ -2847,6 +2861,46 @@
 			// The board still lives in slide one's panel, so this beat's progress has to
 			// be published on the section the same way the bridge's is.
 			var scarEl = reel.querySelector(".reel-panel--scar");
+
+			// Worldscar's words and pictures, swapped in on the middle scroll. Everything
+			// this touches is invisible at that moment - the copy left on the scroll
+			// before, and the card is changing because that IS the step - so there is
+			// nothing to cross-fade and one set of elements does for both games.
+			var scarOrig = null, scarOn = false;
+			function scarSwap(on) {
+				if (!scarEl || on === scarOn) return;
+				var card = scarEl.querySelector(".scar-card");
+				var banner = card && card.querySelector(".hl-gc-banner");
+				var logo = card && card.querySelector(".hl-gc-logo");
+				var name = card && card.querySelector(".hl-gc-name");
+				var csub = card && card.querySelector(".hl-gc-sub");
+				var sub = scarEl.querySelector(".hl-slide-sub");
+				var desc = scarEl.querySelector(".hl-slide-desc");
+				var primary = scarEl.querySelector(".hl-btn--primary");
+				// Captured the first time rather than authored twice, so scrubbing back up
+				// puts Chess Run back exactly as the markup had it.
+				if (!scarOrig) scarOrig = {
+					banner: banner ? banner.style.backgroundImage : "",
+					logo: logo ? logo.getAttribute("src") : "",
+					name: name ? name.textContent : "",
+					csub: csub ? csub.textContent : "",
+					sub: sub ? sub.textContent : "",
+					desc: desc ? desc.textContent : "",
+					href: primary ? primary.getAttribute("href") : ""
+				};
+				scarOn = on;
+				if (banner) banner.style.backgroundImage = on
+					? "url('" + card.getAttribute("data-to-banner") + "')" : scarOrig.banner;
+				if (logo) logo.setAttribute("src", on ? card.getAttribute("data-to-logo") : scarOrig.logo);
+				if (name) name.textContent = on ? card.getAttribute("data-to-name") : scarOrig.name;
+				if (csub) csub.textContent = on ? card.getAttribute("data-to-sub") : scarOrig.csub;
+				if (sub) sub.textContent = on ? sub.getAttribute("data-to") : scarOrig.sub;
+				if (desc) desc.textContent = on ? desc.getAttribute("data-to") : scarOrig.desc;
+				if (primary) primary.setAttribute("href", on ? primary.getAttribute("data-to-href") : scarOrig.href);
+				// The kicker and the LinkTree button differ in SHAPE, not just wording, so
+				// those two are swapped by CSS off this mark rather than rewritten here.
+				scarEl.classList.toggle("is-scar-swapped", on);
+			}
 			var heading = titleBeat && titleBeat.querySelector(".intro2-title");
 			// How far the finished column has to come UP to sit centred. The beat hangs
 			// from a fixed lead-in so the heading lands exactly where the board is for the
@@ -3232,7 +3286,12 @@
 					// Worldscar's beat opens on the heading the beat above it just had - set, not
 					// walked, see enter() - and rolls over to its own a notch in. Rolling back is
 					// the same call with the other target, so scrubbing up unrolls it.
-					// Worldscar rolls on entry now - see enter(). Nothing to drive from here.
+					// The middle scroll: the heading walks over and the words and pictures change
+					// with it. Both read the same threshold the .step-scar-swap mark does, so
+					// scrubbing back up walks it home and puts Chess Run back.
+					var onScar = i >= 0 && live0[i] === scarEl;
+					if (window.__flap.to && onScar) window.__flap.to(reel, stp >= 0.46 ? "e" : "d");
+					scarSwap(stp >= 0.46);
 					// The glow needs no mark of its own any more - it runs on --bg, straight off
 					// the scroll, for exactly as long as the heading is travelling.
 				}
