@@ -235,10 +235,11 @@
 						     is both what makes that match and what the match places, landing on the
 						     same spot the real one takes one beat down.
 						
-						     The same markup minus the link. aria-hidden because the beat below
-						     announces this game properly, and a second link to the same page is a
-						     second tab stop to nowhere. -->
-						<div class="hl-slide-bg" aria-hidden="true">
+						     A link to the page its Explore button opens, like every card, so it can
+						     be clicked from the moment it starts to arrive. aria-hidden and out of the
+						     tab order because the beat below announces this game properly, and a
+						     second tab stop to the same page is a stop to nowhere. -->
+						<a class="hl-slide-bg" href="ChessRun.html" tabindex="-1" aria-hidden="true">
 							<div class="hl-gc-banner" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"></div>
 							<div class="hl-gc-foot">
 								<img class="hl-gc-logo" src="images/ChessRun/Logo.png" alt="" loading="lazy" onerror="this.style.display='none'">
@@ -247,7 +248,7 @@
 									<span class="hl-gc-sub">A Roguelike Endless Runner</span>
 								</div>
 							</div>
-						</div>
+						</a>
 						<!-- The same column the next beat has, in the same order, so the pieces land
 						     where they land by layout rather than by being moved there one at a time.
 						     It is the build-up TO Chess Run, so it is Chess Run: the kicker turns over
@@ -290,7 +291,7 @@
 					     choreography is settled and every number in it is a fraction of its own
 					     length, so a fifth slot would have moved all of them. -->
 					<article class="reel-panel reel-panel--work reel-panel--scar hl-slide" data-slots="3">
-						<div class="hl-slide-bg scar-card" aria-hidden="true"
+						<a class="hl-slide-bg scar-card" href="ChessRun.html" tabindex="-1" aria-hidden="true"
 						     data-to-banner="images/WorldScar/WorldScar-Banner.jpg"
 						     data-to-logo="images/WorldScar/Logo.png"
 						     data-to-name="Worldscar" data-to-sub="A Horror Escape Room">
@@ -302,7 +303,7 @@
 									<span class="hl-gc-sub">A Roguelike Endless Runner</span>
 								</div>
 							</div>
-						</div>
+						</a>
 						<!-- The column the bridge ends on, to the word. The h2 holds the heading's
 						     place and never paints - the board is the visible heading here too. -->
 						<div class="hl-slide-content">
@@ -2810,17 +2811,20 @@
 			// The award photo waits a further scroll. One notch is about 0.17 of this
 			// beat - two slots of 32vh, so 576px at 900 tall against a 100px notch.
 			defineStep(".reel-panel--collab", 0.62, "step-award");
+			// The bridge's card can be clicked from the moment it starts to arrive - the
+			// same 0.83 its fade starts from, off the same progress --b-tp is.
+			defineStep(".reel-panel--bridge", 0.83, "step-bridge-card");
 			// Worldscar is three scrolls, one thing each: Chess Run's copy leaves, then
-			// the heading rolls and the card changes, then Worldscar's copy arrives. Two
-			// slots, so a wheel notch is about 0.147 of this beat and these sit about two
-			// apart - enough for the 1.1s transition to finish before the last one.
-			// The first one fires almost the moment this beat takes over: the join into it
-			// is a cut between identical frames, so the scroll that ends the bridge's
-			// complete Chess Run IS the scroll that starts taking its copy away. Waiting
-			// here left a second, unchanged Chess Run on screen for more than a notch.
-			defineStep(".reel-panel--scar", 0.02, "step-scar-out");
-			defineStep(".reel-panel--scar", 0.25, "step-scar-swap");
-			defineStep(".reel-panel--scar", 0.50, "step-scar-in");
+			// the heading rolls and the card changes, then Worldscar's copy arrives. Three
+			// slots of 32vh, so a 100px wheel notch is about 0.11 of this beat, and the
+			// last two sit about two notches apart - enough for the 1.1s transition to
+			// finish before the copy comes.
+			// The first waits one notch, so the finished Chess Run stays for a scroll
+			// before anything leaves. The join into this beat is a cut between identical
+			// frames, so that notch is the same slide holding still, not a second one.
+			defineStep(".reel-panel--scar", 0.13, "step-scar-out");
+			defineStep(".reel-panel--scar", 0.36, "step-scar-swap");
+			defineStep(".reel-panel--scar", 0.61, "step-scar-in");
 			
 			function placeSplits() {
 				for (var k = 0; k < splits.length; k++) {
@@ -2901,6 +2905,8 @@
 				if (sub) sub.textContent = on ? sub.getAttribute("data-to") : scarOrig.sub;
 				if (desc) desc.textContent = on ? desc.getAttribute("data-to") : scarOrig.desc;
 				if (primary) primary.setAttribute("href", on ? primary.getAttribute("data-to-href") : scarOrig.href);
+				// The card is a link too, to wherever Explore goes.
+				if (card && primary) card.setAttribute("href", primary.getAttribute("href"));
 				// The kicker and the LinkTree button differ in SHAPE, not just wording, so
 				// those two are swapped by CSS off this mark rather than rewritten here.
 				scarEl.classList.toggle("is-scar-swapped", on);
@@ -3294,8 +3300,8 @@
 					// with it. Both read the same threshold the .step-scar-swap mark does, so
 					// scrubbing back up walks it home and puts Chess Run back.
 					var onScar = i >= 0 && live0[i] === scarEl;
-					if (window.__flap.to && onScar) window.__flap.to(reel, stp >= 0.25 ? "e" : "d");
-					scarSwap(stp >= 0.25);
+					if (window.__flap.to && onScar) window.__flap.to(reel, stp >= 0.36 ? "e" : "d");
+					scarSwap(stp >= 0.36);
 					// The glow needs no mark of its own any more - it runs on --bg, straight off
 					// the scroll, for exactly as long as the heading is travelling.
 				}

@@ -10516,11 +10516,16 @@ html.lenis body {
    second card arriving. It is also still what makes :has() match, which is what
    gives this beat the work layout.
 
-   Not clickable: the real one is one beat down. aria-hidden keeps it out of the
-   accessibility tree, and this keeps the hover lift off a card that does not
-   respond to being hovered. */
+   Not clickable until it starts to arrive: below 0.83 it is opacity 0, and an
+   invisible link is not one to leave catching the pointer. From the step the
+   driver puts on at that same 0.83 it is a link like every other card - it can
+   be clicked while it is still fading in. */
 #reel .reel-panel--bridge > .hl-slide-bg {
   pointer-events: none;
+}
+
+#reel .reel-panel--bridge.step-bridge-card > .hl-slide-bg {
+  pointer-events: auto;
 }
 
 /* The reel's own sizing for a beat that is neither work nor intro. transform is
@@ -10594,12 +10599,17 @@ html.lenis body {
    below, and the ramp reads 0 through the whole handover.
 
    This rule owns the bridge card outright, so it also carries the two the work
-   cards get from the neutraliser. No hover exception: the card is
-   pointer-events: none, so there is no lift to preserve. */
+   cards get from the neutraliser. */
 #reel .reel-panel--bridge > .hl-slide-bg {
   transform: none;
   filter: none;
   opacity: clamp(0, calc((var(--b-tp, 0) - 0.83) / 0.09), 1);
+}
+
+/* The stock hover lift, which the transform above would otherwise hold down -
+   the same -3px Worldscar's card gets through the work cards' :not(:hover). */
+#reel .reel-panel--bridge > .hl-slide-bg:hover {
+  transform: translateY(-3px);
 }
 
 /* Where slide two actually left the board, which is NOT always --c-settle: that
@@ -10951,12 +10961,14 @@ html.lenis body {
    That is why it lives inside Worldscar's own beat instead of a second bridge
    panel: no duplicated column, and no crossfade in the middle of the sequence.
 
-   The beat is three slots. A notch is about 0.113 of it:
-     0    - 0.12  the beat above is still fading out, board reads CHESS RUN
-     0.12 - 0.40  the roll, and the glow flickering across to this beat's colour
-     0.40         board out, this beat's own heading in, same frame
-     0.45 - 0.65  the copy, a line at a time
-     0.66 - 0.86  the card, glitching in
+   The beat is three slots. A notch is about 0.11 of it. Steps, played not
+   scrubbed - the numbers are where each one fires:
+     0    - 0.13  the finished Chess Run holds for a scroll (cut, not
+                  crossfaded, from the bridge's identical last frame)
+     0.13         Chess Run's kicker and copy leave
+     0.36         the roll, the glow flickering across, the card, and
+                  Worldscar's kicker coming in with them
+     0.61         Worldscar's copy arrives
    =========================================================================== */
 
 /* The board stands where the bridge left it - --bw-x/--bw-y is the landing it
@@ -11058,11 +11070,23 @@ html.lenis body {
   to   { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
 }
 
-#reel .reel-panel--scar.step-scar-out .hl-tag,
 #reel .reel-panel--scar.step-scar-out .hl-slide-sub,
 #reel .reel-panel--scar.step-scar-out .hl-slide-desc,
 #reel .reel-panel--scar.step-scar-out .hl-slide-actions {
   animation: scar-copy-out 380ms ease both !important;
+}
+
+/* The kicker leaves on a transition, not on the keyframe. The two kickers trade
+   places by display, and an element coming back from display:none starts its
+   animation over - so each one flashed up at full strength and faded again,
+   Worldscar's as the heading began to roll and Chess Run's on the way back up.
+   A transition does not run out of display:none; the kicker just shows the
+   state it is in. Declared on the mark alone, so scrolling back past it puts
+   the kicker back at once, the way the rest of the copy comes back. */
+#reel .reel-panel--scar.step-scar-out .scar-kick--from {
+  opacity: 0;
+  transform: translate3d(-1.1rem, 0, 0);
+  transition: opacity 380ms ease, transform 380ms ease !important;
 }
 
 /* ---- 2. The heading rolls, the glow crosses under it, the card changes ---- */
@@ -11109,6 +11133,13 @@ html.lenis body {
   animation: scar-glow 1100ms linear both !important;
 }
 
+/* Worldscar's kicker comes in with the roll rather than a scroll after it, and
+   stays - it is there for the whole transition. Here the restart is the point:
+   it plays the moment the kicker is shown. The paragraph still waits for 3. */
+#reel .reel-panel--scar.is-scar-swapped .scar-kick--to {
+  animation: scar-copy-in 420ms ease both !important;
+}
+
 /* ---- 3. Worldscar's copy arrives ------------------------------------------ */
 /* After the leaving rules in the file and at the same weight, which is what lets
    it win: by this scroll BOTH marks are on the beat, because a step is a
@@ -11116,10 +11147,6 @@ html.lenis body {
 @keyframes scar-copy-in {
   from { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
   to   { opacity: 1; transform: none; }
-}
-
-#reel .reel-panel--scar.step-scar-in .hl-tag {
-  animation: scar-copy-in 420ms ease both !important;
 }
 
 #reel .reel-panel--scar.step-scar-in .hl-slide-sub {
