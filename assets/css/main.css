@@ -10720,6 +10720,25 @@ html.lenis body {
    is mid-flight, and is steady again by the time it lands. --g1b and --g2b were
    already in .hl-slide's gradients with a 100% fallback and nothing ever set
    them, so the flicker had somewhere to live without a new variable. */
+/* The colour, off --b-tp rather than off .at-bridge. The crossover itself is
+   unchanged - --bgc is the same leg --bg is, written against the published
+   progress instead of against the variable the class sets - so while the beat is
+   live this resolves to exactly what the rule below already gives it.
+
+   What it fixes is the frames either side. A panel paints while it fades in over
+   the beat above and while it fades out under the beat below, and .at-bridge is
+   only on in between - so on its way out the bridge dropped to the registered red
+   default while still on screen, and the room changed colour for a frame right as
+   Worldscar arrived. Gate on the progress, never on the class. */
+#reel .reel-panel--bridge {
+  --bgc: clamp(0, calc((var(--b-tp, 0) - 0.34) / 0.17), 1);
+
+  --slide-glow: color-mix(in srgb,
+    rgba(141, 53, 255, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0.18));
+  --slide-glow-2: color-mix(in srgb,
+    rgba(0, 148, 198, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0.18));
+}
+
 #reel.at-bridge .reel-panel--bridge {
   --gfw: calc(4 * var(--bg) * (1 - var(--bg)));
   --gfo: calc(0.5 + 0.5 * sin(var(--bg) * 47rad));
