@@ -2814,9 +2814,13 @@
 			// the heading rolls and the card changes, then Worldscar's copy arrives. Two
 			// slots, so a wheel notch is about 0.147 of this beat and these sit about two
 			// apart - enough for the 1.1s transition to finish before the last one.
-			defineStep(".reel-panel--scar", 0.16, "step-scar-out");
-			defineStep(".reel-panel--scar", 0.46, "step-scar-swap");
-			defineStep(".reel-panel--scar", 0.76, "step-scar-in");
+			// The first one fires almost the moment this beat takes over: the join into it
+			// is a cut between identical frames, so the scroll that ends the bridge's
+			// complete Chess Run IS the scroll that starts taking its copy away. Waiting
+			// here left a second, unchanged Chess Run on screen for more than a notch.
+			defineStep(".reel-panel--scar", 0.02, "step-scar-out");
+			defineStep(".reel-panel--scar", 0.25, "step-scar-swap");
+			defineStep(".reel-panel--scar", 0.50, "step-scar-in");
 			
 			function placeSplits() {
 				for (var k = 0; k < splits.length; k++) {
@@ -3290,8 +3294,8 @@
 					// with it. Both read the same threshold the .step-scar-swap mark does, so
 					// scrubbing back up walks it home and puts Chess Run back.
 					var onScar = i >= 0 && live0[i] === scarEl;
-					if (window.__flap.to && onScar) window.__flap.to(reel, stp >= 0.46 ? "e" : "d");
-					scarSwap(stp >= 0.46);
+					if (window.__flap.to && onScar) window.__flap.to(reel, stp >= 0.25 ? "e" : "d");
+					scarSwap(stp >= 0.25);
 					// The glow needs no mark of its own any more - it runs on --bg, straight off
 					// the scroll, for exactly as long as the heading is travelling.
 				}

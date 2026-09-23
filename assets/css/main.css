@@ -11202,3 +11202,30 @@ html.lenis body {
 #reel .reel-panel--bridge .hl-tag {
   opacity: clamp(0, calc((var(--b-tp, 0) - 0.17) / 0.05), 1);
 }
+
+/* ===========================================================================
+   ONE CHESS RUN - A CUT, NOT A CROSSFADE, AT THIS JOIN
+
+   Every beat hands over on a shared 0.32-slot window: the outgoing one fades
+   out while the incoming one fades in, both at 0.5 across the boundary, so the
+   picture dims to about three quarters and comes back. Between two different
+   slides that reads as the slide changing. Here the two sides are the SAME
+   Chess Run - the Worldscar beat opens on a copy so its copy can leave on a
+   scroll of its own - and the dim-and-return read as Chess Run arriving a
+   second time.
+
+   So at this one join there is no overlap at all. The bridge stays fully on
+   until its last slot is spent and the Worldscar beat is fully on from its first,
+   and both read the same --p, so they swap in one frame. Two identical pictures
+   with nothing between them is nothing to see.
+
+   This touches the bridge's EXIT only - its --in is carried through unchanged,
+   so its entrance and everything it does while live are exactly as settled.
+   Worldscar is the last beat and never exits, so it needs no --out term. */
+#reel .reel-panel--bridge {
+  opacity: calc(var(--in) * (1 - clamp(0, calc((var(--d) - var(--slots, 1)) * 1000), 1)));
+}
+
+#reel .reel-panel--scar {
+  opacity: clamp(0, calc(var(--d) * 1000), 1);
+}
