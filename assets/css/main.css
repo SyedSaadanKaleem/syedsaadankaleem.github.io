@@ -11024,6 +11024,16 @@ html.lenis body {
 #reel .reel-panel--scar {
   --slide-glow: rgba(141, 53, 255, 0.18);
   --slide-glow-2: rgba(0, 148, 198, 0.18);
+  /* And it must not ARRIVE. The stock envelope slides every beat in 32px from
+     the right as it fades up, and this beat opens on the same Chess Run slide
+     the bridge is still showing - so a second Chess Run slid in over the first,
+     25px, 19px, 12px apart through the crossfade, and read as the slide coming
+     round again before it turned into Worldscar. Held still, the two are the
+     same picture and the crossfade between them is nothing. Same fix the
+     bridge carries, for the same reason; --enter with it so nothing else in
+     the column tracks an entrance either. */
+  transform: none;
+  --enter: 1;
 }
 
 #reel .reel-panel--scar .scar-kick--to {
