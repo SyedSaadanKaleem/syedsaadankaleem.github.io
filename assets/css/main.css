@@ -9238,10 +9238,11 @@ margin-top: -2em;}
    em-relative offsets here, which is what makes it scale with the type instead
    of needing a value per breakpoint.
 
-   The curve is the one difference. The hero rides easeOutBack over 620ms; this
-   is a scrub, so scroll position is the clock and a back-curve would need the
-   overshoot built into the arithmetic. The letters settle straight instead -
-   the packing order and the rotation are what read, not the overshoot.
+   Slide two's is a scrub, and the curve is its one difference: the hero rides
+   easeOutBack over 620ms, and with scroll position as the clock a back-curve
+   would need the overshoot built into the arithmetic, so those letters settle
+   straight. Slide one's plays the hero's own keyframes on a clock instead,
+   overshoot and all - see reelLetterLock below.
 
    Words stay whole and are separated by real spaces, so a heading that has to
    wrap still can. The hero's name never wraps and did not need it. */
@@ -9281,10 +9282,51 @@ margin-top: -2em;}
    -42.5deg, which is not the same move, just the same formula pushed past where
    it works. Capped per word, the worst case here is -11.7deg. */
 
-/* Slide one: done by 0.18, and the plate only starts settling at 0.22 - the hero
-   packs the name first, then assembles the frame around it. */
+/* Slide one is not a scrub of the name's entrance any more but the entrance
+   itself: the hero's keyframes, curve and stagger, on a clock from the moment
+   the beat goes live. So its letters sit at rest here and move by the rules
+   below. Slide two keeps its scrub. */
 #reel .reel-panel--title .rl-ltr {
-  --lp: clamp(0, calc((var(--t) - var(--w) * 0.022 - var(--i) * 0.006) / 0.07), 1);
+  --lp: 1;
+}
+
+/* vgLetterLock with the two adjustments the scrub carried - over --s, because
+   the plate is blown up while the letters travel, and times --pack, the room
+   the line has at 320 - so the travel on screen is the hero's. */
+@keyframes reelLetterLock {
+  from {
+    transform:
+      translate3d(calc((0.1em + var(--i) * 0.15em) * var(--pack, 1) / var(--s, 1)), calc(0.14em / var(--s, 1)), 0)
+      rotate(calc(-4deg - var(--i) * 1.1deg));
+  }
+}
+
+/* The hero's numbers: 620ms on its back-curve, the ink in 280ms, 42ms between
+   letters. Its lines are one word each and start 180ms apart, and so do these
+   words - --i restarts in every word, --w counts them. --ld, not the hero's --d,
+   which in the reel is each beat's progress. Only on an arrival: .no-entrance
+   is the way back from slide two, and that walks the board instead. */
+#reel .reel-panel--title.is-live:not(.no-entrance) .rl-ltr {
+  --ld: calc(var(--w) * 180ms + var(--i) * 42ms);
+  animation:
+    reelLetterLock 620ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--ld) backwards,
+    vgHeroInk 280ms cubic-bezier(0.23, 1, 0.32, 1) var(--ld) backwards !important;
+}
+
+/* And PLAYING lands white and catches red letter by letter behind the landing,
+   the way SAADAN does. */
+#reel .reel-panel--title.is-live:not(.no-entrance) .rl-ltr[data-accent-a] {
+  animation:
+    reelLetterLock 620ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--ld) backwards,
+    vgHeroInk 280ms cubic-bezier(0.23, 1, 0.32, 1) var(--ld) backwards,
+    vgAccentIgnite 240ms ease calc(var(--w) * 180ms + 520ms + var(--i) * 32ms) backwards !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--title.is-live:not(.no-entrance) .rl-ltr,
+  #reel .reel-panel--title.is-live:not(.no-entrance) .rl-ltr[data-accent-a] {
+    animation: none !important;
+  }
 }
 
 /* Slide two: ten words instead of four, so they follow each other faster. */
