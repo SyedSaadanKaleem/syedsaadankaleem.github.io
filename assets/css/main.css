@@ -8580,7 +8580,10 @@ margin-top: -2em;}
 .vg-name .vg-ltr {
   display: inline-block;
   transform-origin: 0% 100%;
-  --d: calc((var(--lag) + var(--i) * 42ms) * var(--hs));
+  /* --k, where a line runs to more than one word: --i restarts in every word,
+     so a letter travels no further than the name's do, and --k counts on
+     along the line, so the line still assembles at the name's 42ms. */
+  --d: calc((var(--lag) + var(--k, var(--i)) * 42ms) * var(--hs));
   --ltr: vgLetterLock calc(620ms * var(--hs)) var(--hero-back) var(--d) backwards,
          vgHeroInk calc(280ms * var(--hs)) var(--hero-ease) var(--d) backwards;
 }
@@ -8593,6 +8596,11 @@ margin-top: -2em;}
   --lag: 180ms;
 }
 
+/* inline-block keeps a word whole where its heading wraps. */
+.vg-name .vg-word {
+  display: inline-block;
+}
+
 .vg-name.name-in .vg-ltr {
   animation: var(--ltr) !important;
 }
@@ -8600,7 +8608,7 @@ margin-top: -2em;}
 .vg-name.name-in .vg-accent .vg-ltr {
   animation:
     var(--ltr),
-    vgAccentIgnite calc(240ms * var(--hs)) ease calc((var(--lag) + 520ms + var(--i) * 32ms) * var(--hs)) backwards !important;
+    vgAccentIgnite calc(240ms * var(--hs)) ease calc((var(--lag) + 520ms + var(--k, var(--i)) * 32ms) * var(--hs)) backwards !important;
 }
 
 .vg-name.name-out .vg-ltr,
@@ -8623,106 +8631,124 @@ margin-top: -2em;}
 }
 
 /* ===========================================================================
-   THE REST OF THE SKILLS SECTION, ON THE HERO'S MOTION
+   THE SECTIONS BELOW THE REEL, ON THE HERO'S MOTION
 
-   The heading's row is built the way the hero's frame is built around the
-   name: everything in it keys off the heading's own name-in / name-out, as the
-   hero keys everything off hero-in / hero-out, on the hero's offsets from the
-   name's start - the eyebrow's icon at 430ms (vgBoltIn), its words at 470ms
-   and the paragraph at 640ms (vgHeroIn). Out, the reverse: the paragraph at
-   60ms, the eyebrow at 85ms, the letters from 110ms. Replays at 65%, as the
-   hero's do.
+   Skills, the Journey and the footer, built alike. Each section's heading
+   row is built the way the hero's frame is built around the name: everything
+   in it keys off the heading's own name-in / name-out, as the hero keys
+   everything off hero-in / hero-out, on the hero's offsets from the name's
+   start - the eyebrow's icon at 430ms (vgBoltIn), its words at 470ms and the
+   paragraph from 640ms (vgHeroIn), a line at a time. Out, the reverse: the
+   paragraph at 60ms, the eyebrow at 85ms, the letters from 110ms. Replays at
+   65%, as the hero's do.
 
-   Everything below it - the six steps, the Toolkit's heading and button, the
-   twelve chips - is the hero's supporting-part pair on its own: vgHeroIn as
-   each piece comes into view, vgHeroOut as it goes, --vd staggering the ones
-   that turn together (index.html, the .rv-in script).
+   Everything below the rows - steps, the sub-headings' eyebrows and button,
+   chips, cards, the footer's form and contacts - is the hero's supporting-part
+   pair on its own: vgHeroIn as each piece comes into view, vgHeroOut as it
+   goes, --vd staggering the ones that turn together (index.html, the .rv-in
+   script).
    =========================================================================== */
-#main .craft-head {
+:is(#main, #Certification, #footer) .craft-head {
   --hs: 1;
 }
 
-#main .craft-head:has(.vg-name.name-replay) {
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-replay) {
   --hs: 0.65;
 }
 
-#main .craft-head:has(.vg-name.name-in) .intro2-eyebrow svg {
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-in) .intro2-eyebrow svg {
   animation: vgBoltIn calc(380ms * var(--hs)) var(--ease-out) calc(430ms * var(--hs)) backwards !important;
 }
 
-#main .craft-head:has(.vg-name.name-in) .intro2-eyebrow span {
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-in) .intro2-eyebrow span {
   animation: vgHeroIn calc(420ms * var(--hs)) var(--ease-out) calc(470ms * var(--hs)) backwards !important;
 }
 
-#main .craft-head:has(.vg-name.name-in) .craft-head-copy .intro2-lead {
-  animation: vgHeroIn calc(460ms * var(--hs)) var(--ease-out) calc(640ms * var(--hs)) backwards !important;
+/* Paragraphs arrive a line at a time, the way slide one's does in the reel:
+   every word a box (.lw, from the reel's splitter - index.html), told which
+   line it landed on at this width (--n-line), and --lw-step between lines -
+   90ms where there is room, closer where a paragraph runs long, so its last
+   line is moving by 600ms. They leave whole, as the hero's paragraph does. */
+:is(#main, #Certification, #footer) .lw {
+  display: inline-block;
 }
 
-#main .craft-head:has(.vg-name.name-out) .craft-head-copy .intro2-lead {
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-in) .craft-head-copy .intro2-lead .lw {
+  animation: vgHeroIn calc(460ms * var(--hs)) var(--ease-out) calc((640ms + var(--n-line, 0) * var(--lw-step, 90ms)) * var(--hs)) backwards !important;
+}
+
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-out) .craft-head-copy .intro2-lead {
   animation: vgHeroOut 260ms var(--ease-out) 60ms forwards !important;
 }
 
-#main .craft-head:has(.vg-name.name-out) .intro2-eyebrow span {
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-out) .intro2-eyebrow span {
   animation: vgHeroOut 260ms var(--ease-out) 85ms forwards !important;
 }
 
-#main .craft-head:has(.vg-name.name-out) .intro2-eyebrow svg {
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-out) .intro2-eyebrow svg {
   --fx-out: 0.35rem;
   animation: vgHeroOut 260ms var(--ease-out) 85ms forwards !important;
 }
 
-#main .craft-head:has(.vg-name.name-noanim) * {
+:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-noanim) * {
   animation-duration: 1ms !important;
   animation-delay: 0s !important;
 }
 
-#main .rv-in {
+:is(#main, #Certification, #footer) .rv-in {
   animation: vgHeroIn 420ms var(--ease-out) var(--vd, 0ms) backwards !important;
 }
 
-#main .rv-out {
+:is(#main, #Certification, #footer) .rv-out {
   animation: vgHeroOut 260ms var(--ease-out) var(--vd, 0ms) forwards !important;
 }
 
-#main .rv-out.rv-noanim {
+:is(#main, #Certification, #footer) .rv-out.rv-noanim {
   animation-duration: 1ms !important;
   animation-delay: 0s !important;
+}
+
+/* A card's paragraph follows its card in, a line at a time from 200ms. */
+#Certification .rv-in :is(.cert-desc, .venture-desc) .lw {
+  animation: vgHeroIn 420ms var(--ease-out) calc(var(--vd, 0ms) + 200ms + var(--n-line, 0) * var(--lw-step, 90ms)) backwards !important;
 }
 
 /* The same trade the hero makes: none of it, rather than a gentler version.
    index.html adds none of the classes either, so nothing is left hidden. */
 @media (prefers-reduced-motion: reduce) {
-  #main .craft-head *,
-  #main .rv-in,
-  #main .rv-out {
+  :is(#main, #Certification, #footer) .craft-head *,
+  :is(#main, #Certification, #footer) .rv-in,
+  :is(#main, #Certification, #footer) .rv-out {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
 }
 
-/* The Toolkit's heading plays the name as well. The hero's lines are one word
-   each and start 180ms apart; this heading runs to twelve words, so it is laid
-   out the way the reel's long headings are - --i restarts in every word, --w
-   counts them - and its words follow each other faster, 60ms apart. --vd is
-   the heading's place in the reveal's stagger. The letters, their ink and their
-   exit are .vg-name's own rules; inline-block keeps each word whole where the
-   heading wraps. */
-#main .skills-toolkit-header .vg-word {
-  display: inline-block;
+/* The sub-headings play the name as well - the Toolkit's, and the Journey's
+   two. The hero's lines are one word each and start 180ms apart; these run to
+   as many as twelve words, so they are laid out the way the reel's long
+   headings are - --i restarts in every word, --w counts them - and their words
+   follow each other faster, 60ms apart. --vd is the heading's place in the
+   reveal's stagger. The letters, their ink and their exit are .vg-name's own
+   rules. */
+:is(#main, #Certification) .skills-toolkit-header .vg-word {
   --lag: calc(var(--vd, 0ms) + var(--w) * 60ms);
 }
 
 /* ===========================================================================
    THE STEPS OPENING AND CLOSING
 
-   A step opens on hover, or on a tap where there is no hover, and on this
-   branch it snapped: the NO MOTION reset took the stock transitions with it.
-   They come back on the motion tokens - the height on the strong ease-out,
-   opening in --dur-modal and closing in --dur-hover, slower in than out as the
-   hero's are; the paragraph fading in once its room has begun to open and out
-   before it shuts; the number, title and row changing colour on plain ease, as
-   hover colour does.
+   A step - Skills' six, the Journey's four - opens on hover, or on a tap where
+   there is no hover, and on this branch it snapped: the NO MOTION reset took
+   the stock transitions with it. They come back on the motion tokens - the
+   height on the strong ease-out, opening in --dur-modal and closing in
+   --dur-hover, slower in than out as the hero's are; the number, title and row
+   changing colour on plain ease, as hover colour does.
+
+   The paragraph comes in a line at a time as its room opens - the date first
+   where there is one, then each line 60ms after the last, drifting in as the
+   hero's parts do - and leaves whole, before the row has shut.
 
    The height is the paragraph's own. The stock rule opens to a 20em max-height
    - 293px at 1280 wide, for 45px paragraphs, and 280px on a phone, for 106
@@ -8735,19 +8761,19 @@ margin-top: -2em;}
    Reduced motion keeps what the branch had: the stock rules, instant.
    =========================================================================== */
 @media (prefers-reduced-motion: no-preference) {
-  #main .journey-row {
+  :is(#main, #Certification) .journey-row {
     transition: background-color var(--dur-hover) ease !important;
   }
 
-  #main .journey-row h3 {
+  :is(#main, #Certification) .journey-row h3 {
     transition: color var(--dur-hover) ease !important;
   }
 
-  #main .journey-num {
+  :is(#main, #Certification) .journey-num {
     transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease !important;
   }
 
-  #main .journey-detail {
+  :is(#main, #Certification) .journey-detail {
     display: grid;
     grid-template-rows: 0fr;
     max-height: none;
@@ -8757,27 +8783,61 @@ margin-top: -2em;}
       opacity var(--dur-press) var(--ease-out) !important;
   }
 
-  #main .journey-detail > p {
+  /* One track to open: Skills' paragraph, or the wrapper round the Journey's
+     date and paragraph. */
+  :is(#main, #Certification) .journey-detail > * {
     min-height: 0;
   }
 
-  #main .journey-row.is-open .journey-detail {
+  :is(#main, #Certification) .journey-row.is-open .journey-detail {
     grid-template-rows: 1fr;
     transition:
       grid-template-rows var(--dur-modal) var(--ease-out),
       margin-top var(--dur-modal) var(--ease-out),
-      opacity var(--dur-menu) var(--ease-out) 60ms !important;
+      opacity var(--dur-press) var(--ease-out) !important;
+  }
+
+  /* The lines, shut: out of sight, and quick to get there. */
+  :is(#main, #Certification) .journey-detail :is(.lw, .journey-date) {
+    opacity: 0;
+    transform: translate3d(0.9rem, 0, 0);
+    transition:
+      opacity var(--dur-press) var(--ease-out),
+      transform var(--dur-press) var(--ease-out) !important;
+  }
+
+  :is(#main, #Certification) .journey-row.is-open .journey-detail :is(.lw, .journey-date) {
+    --line-d: calc(60ms + (var(--n-line, 0) + var(--ln0, 0)) * 60ms);
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--dur-modal) var(--ease-out) var(--line-d),
+      transform var(--dur-modal) var(--ease-out) var(--line-d) !important;
+  }
+
+  /* The Journey's date is the first line; its paragraph follows it. */
+  #Certification .journey-detail p {
+    --ln0: 1;
   }
 
   /* Gated as the stock hover-open is, so a touch screen's sticky :hover cannot
      hold a tapped row open. */
   @media (hover: hover) {
-    #main .journey-row:hover .journey-detail {
+    :is(#main, #Certification) .journey-row:hover .journey-detail {
       grid-template-rows: 1fr;
       transition:
         grid-template-rows var(--dur-modal) var(--ease-out),
         margin-top var(--dur-modal) var(--ease-out),
-        opacity var(--dur-menu) var(--ease-out) 60ms !important;
+        opacity var(--dur-press) var(--ease-out) !important;
+    }
+
+    :is(#main, #Certification) .journey-row:hover .journey-detail :is(.lw, .journey-date) {
+      --line-d: calc(60ms + (var(--n-line, 0) + var(--ln0, 0)) * 60ms);
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity var(--dur-modal) var(--ease-out) var(--line-d),
+        transform var(--dur-modal) var(--ease-out) var(--line-d) !important;
     }
   }
 
@@ -8785,19 +8845,19 @@ margin-top: -2em;}
      the heading as the row opens (the stock rules and the touch script), on the
      height's timing, so the row still opens as one motion. */
   @media screen and (max-width: 736px) and (orientation: portrait) {
-    #main .journey-row h3 {
+    :is(#main, #Certification) .journey-row h3 {
       transition: color var(--dur-hover) ease, min-height var(--dur-hover) var(--ease-out) !important;
     }
 
-    #main .journey-row.is-open h3 {
+    :is(#main, #Certification) .journey-row.is-open h3 {
       transition: color var(--dur-hover) ease, min-height var(--dur-modal) var(--ease-out) !important;
     }
 
-    #main .journey-num {
+    :is(#main, #Certification) .journey-num {
       transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, bottom var(--dur-hover) var(--ease-out) !important;
     }
 
-    #main .journey-row.is-open .journey-num {
+    :is(#main, #Certification) .journey-row.is-open .journey-num {
       transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, bottom var(--dur-modal) var(--ease-out) !important;
     }
   }
