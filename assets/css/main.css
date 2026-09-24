@@ -10731,9 +10731,14 @@ html.lenis body {
     calc(var(--bu) * var(--bt-y, 0px) + var(--bg) * (var(--bl-y, 0px) - var(--bt-y, 0px))));
 }
 
-/* GAMES and XR are the accent in the third sentence, the way PLAYING. is in the
+/* GAMES and XR are the accent in the third sentence, the way PLAYING is in the
    first. Both are per-state, because a cell is only that word in one of them. */
 #reel .reel-panel--title .flap-board.is-c .flap[data-accent-c] {
+  --ink: #ee2b2b;
+}
+
+/* And PLAY and SANDBOX in the second. */
+#reel .reel-panel--title .flap-board.is-b .flap[data-accent-b] {
   --ink: #ee2b2b;
 }
 
