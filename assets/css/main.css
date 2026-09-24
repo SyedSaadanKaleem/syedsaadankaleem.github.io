@@ -9807,19 +9807,17 @@ margin-top: -2em;}
 /* The last beat never exits. Every other one fades out over the last 30% of its
    slot to make way for the next, but there is no next - what comes over it is
    the following section, and it has to have something to come over. Without
-   this the reel's final screen is empty by the time Certification arrives. */
+   this the reel's final screen is empty by the time #main arrives. */
 #reel .reel-panel:last-child {
   --out: 0;
 }
 
-/* Certification rides up over that held frame, the way #main already does over
-   the deck's pin. -100vh starts it exactly where the reel's own pin would
-   otherwise begin to scroll away. No z-index needed: stock already puts both at
-   3, and Certification is later in the document, so it paints on top where they
-   overlap. */
-#page-wrapper > section#Certification {
-  margin-top: -100vh;
-}
+/* Certification used to carry a -100vh here, from when it was the section after
+   the reel and rode up over its held frame. Once the reel moved up behind the
+   hero it came after #main instead, and the same pull had it covering #main's
+   last screen before that was ever seen - THE TOOLKIT and every chip under it.
+   It follows #main as stock has it now: #main scrolls through, pins bottom-
+   aligned, and Certification comes up over the pinned frame. */
 
 /* The reel is left the way the old deck's last slide was: the next section -
    #main, since the deck went - comes up over the held frame, opaque and red
