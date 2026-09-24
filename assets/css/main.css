@@ -10954,7 +10954,7 @@ html.lenis body {
 }
 
 /* ===========================================================================
-   ONE GAME TURNING INTO THE NEXT - CHESS RUN TO WORLDSCAR, WORLDSCAR TO ONEIROS
+   ONE GAME TURNING INTO THE NEXT - CHESS RUN, WORLDSCAR, ONEIROS, SNATCH
 
    Same layout on both sides, so unlike the bridge there is nowhere for the
    heading to travel to and nothing to grow - the whole transition is the roll.
@@ -11001,12 +11001,14 @@ html.lenis body {
   transition: transform 300ms var(--ease-out) !important;
 }
 
-/* WORLDSCAR and ONEIROS are titles and plain white, like CHESS RUN - the accents
-   belong to the sentences the cells carry in the other states. */
+/* WORLDSCAR, ONEIROS and SNATCH are titles and plain white, like CHESS RUN - the
+   accents belong to the sentences the cells carry in the other states. */
 #reel .reel-panel--title .flap-board.is-e .flap[data-accent-a],
 #reel .reel-panel--title .flap-board.is-e .flap[data-accent-c],
 #reel .reel-panel--title .flap-board.is-f .flap[data-accent-a],
-#reel .reel-panel--title .flap-board.is-f .flap[data-accent-c] {
+#reel .reel-panel--title .flap-board.is-f .flap[data-accent-c],
+#reel .reel-panel--title .flap-board.is-g .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-g .flap[data-accent-c] {
   --ink: #fff;
 }
 
@@ -11049,6 +11051,11 @@ html.lenis body {
   --slide-glow-2: rgba(238, 43, 43, 0.18);
 }
 
+#reel .reel-panel--snatch {
+  --slide-glow: rgba(62, 169, 162, 0.18);
+  --slide-glow-2: rgba(33, 79, 176, 0.18);
+}
+
 /* The new kicker waits its turn. Two games' kickers differ in SHAPE, not just
    wording - a play-store glyph against a masked ghost against a headset - so
    they are two elements traded by a class rather than one element rewritten.
@@ -11079,6 +11086,13 @@ html.lenis body {
 }
 
 #reel .reel-panel--swap.is-swapped .swap-drop {
+  display: none;
+}
+
+/* And a button the new game has that the last one did not, like Snatch's Steam.
+   Hidden only until the swap rather than shown by it, so it comes back as
+   whatever a button is, with nothing restated here. */
+#reel .reel-panel--swap:not(.is-swapped) .swap-add {
   display: none;
 }
 
@@ -11156,6 +11170,24 @@ html.lenis body {
   100% { --slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18); }
 }
 
+/* Oneiros's teal and blue to Snatch's pink and orange. Snatch's own glow is 0.20,
+   not 0.18, so that is where this one lands. */
+@keyframes snatch-glow {
+  0%   { --slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18); }
+  8%   { --slide-glow: rgba(77, 158, 163, 0.07); --slide-glow-2: rgba(47, 80, 164, 0.09); }
+  14%  { --slide-glow: rgba(89, 149, 165, 0.20); --slide-glow-2: rgba(58, 80, 156, 0.19); }
+  22%  { --slide-glow: rgba(104, 138, 166, 0.09); --slide-glow-2: rgba(72, 81, 144, 0.21); }
+  30%  { --slide-glow: rgba(120, 127, 167, 0.22); --slide-glow-2: rgba(86, 81, 133, 0.08); }
+  38%  { --slide-glow: rgba(135, 116, 169, 0.10); --slide-glow-2: rgba(100, 82, 121, 0.20); }
+  47%  { --slide-glow: rgba(153, 103, 170, 0.21); --slide-glow-2: rgba(116, 83, 108, 0.11); }
+  56%  { --slide-glow: rgba(170, 91, 172, 0.08); --slide-glow-2: rgba(132, 83, 95, 0.22); }
+  66%  { --slide-glow: rgba(189, 77, 174, 0.20); --slide-glow-2: rgba(149, 84, 80, 0.10); }
+  76%  { --slide-glow: rgba(209, 63, 176, 0.12); --slide-glow-2: rgba(167, 85, 66, 0.19); }
+  86%  { --slide-glow: rgba(228, 49, 177, 0.19); --slide-glow-2: rgba(184, 86, 51, 0.13); }
+  94%  { --slide-glow: rgba(243, 37, 179, 0.16); --slide-glow-2: rgba(198, 87, 40, 0.18); }
+  100% { --slide-glow: rgba(255, 29, 180, 0.20); --slide-glow-2: rgba(209, 87, 31, 0.18); }
+}
+
 /* 1100ms is what the board takes: 43 cells at a 14ms stagger, and the last of
    them still has its own walk to run. So the two finish together.
 
@@ -11171,6 +11203,10 @@ html.lenis body {
 
 #reel .reel-panel--oni.step-roll {
   animation: oni-glow 1100ms linear both !important;
+}
+
+#reel .reel-panel--snatch.step-roll {
+  animation: snatch-glow 1100ms linear both !important;
 }
 
 /* The new kicker comes in with the roll rather than a scroll after it, and
@@ -11229,6 +11265,11 @@ html.lenis body {
   @keyframes oni-glow {
     from { --slide-glow: rgba(238, 43, 43, 0.18); --slide-glow-2: rgba(238, 43, 43, 0.18); }
     to   { --slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18); }
+  }
+
+  @keyframes snatch-glow {
+    from { --slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18); }
+    to   { --slide-glow: rgba(255, 29, 180, 0.20); --slide-glow-2: rgba(209, 87, 31, 0.18); }
   }
 
 }
