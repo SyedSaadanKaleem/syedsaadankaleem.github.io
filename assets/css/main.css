@@ -10954,50 +10954,59 @@ html.lenis body {
 }
 
 /* ===========================================================================
-   CHESS RUN TO WORLDSCAR
+   ONE GAME TURNING INTO THE NEXT - CHESS RUN TO WORLDSCAR, WORLDSCAR TO ONEIROS
 
    Same layout on both sides, so unlike the bridge there is nowhere for the
    heading to travel to and nothing to grow - the whole transition is the roll.
-   That is why it lives inside Worldscar's own beat instead of a second bridge
-   panel: no duplicated column, and no crossfade in the middle of the sequence.
+   That is why each one lives inside the next game's own beat instead of a
+   second bridge panel: no duplicated column, and no crossfade in the middle of
+   the sequence.
 
-   The beat is three slots. A notch is about 0.11 of it. Steps, played not
-   scrubbed - the numbers are where each one fires:
-     0    - 0.13  the finished Chess Run holds for a scroll (cut, not
-                  crossfaded, from the bridge's identical last frame)
-     0.13         Chess Run's kicker and copy leave
-     0.36         the roll, the glow flickering across, the card, and
-                  Worldscar's kicker coming in with them
-     0.61         Worldscar's copy arrives
+   Every one of these is a .reel-panel--swap and runs the same three steps,
+   played not scrubbed. In slots, where a 100px notch is about a third of one:
+     copy-out   the last game's kicker and copy leave
+     roll       +0.69: the heading rolls, the glow flickers across, the card
+                changes and the new kicker comes in with them
+     copy-in    +0.75: the new game's copy arrives
+   and each game then holds for about one still scroll before the next beat's
+   copy-out. Chess Run's hold is at the start of Worldscar's beat, because the
+   bridge's timing is settled; after that each hold is the tail of the beat, so
+   the next beat's first step fires almost at once. Each beat opens on a copy of
+   the one before, joined by a cut, so the two are one slide.
    =========================================================================== */
 
 /* The board stands where the bridge left it - --bw-x/--bw-y is the landing it
-   already measured onto a work beat's title, and Worldscar's title is in the
-   same place as Chess Run's - so nothing new has to be calibrated. It reads
-   CHESS RUN on the first frame because enter() lands rather than walks it.
-
-   --s-tp not --tp: the board is in slide one's panel and cannot see this beat's
-   own progress, which is the same reason the bridge publishes --b-tp. */
+   already measured onto a work beat's title, and every game's title is in the
+   same place as Chess Run's - so nothing new has to be calibrated. It reads the
+   last game's word on the first frame because enter() lands rather than walks it. */
 /* One heading at a time, at this boundary too. The bridge finishes with --b-tp
    at 1, which is where its own h2 is meant to come back and carry the crossfade
    - but the board does not leave any more, it stays to do the roll. Two headings
    in one place, 332.3px of board against 316.3px of h2, ghosting the way it did
    at the last handover. The board wins from the frame this beat is live. */
-#reel.at-scar .reel-panel--bridge .hl-slide-title {
+#reel.at-swap .reel-panel--bridge .hl-slide-title {
   opacity: 0;
 }
 
-#reel.at-scar .reel-panel--title .intro2-title.flap-board {
+#reel.at-swap .reel-panel--title .intro2-title.flap-board {
   /* Stays. On this beat the board IS the heading - there is no h2 taking over
      from it, so there is nothing to hand to and nothing to hide for. */
   opacity: 1;
-  transform: translate(var(--bw-x, 0px), var(--bw-y, 0px));
+  /* --bw-dy is how far this beat's own heading sits from the bridge's, which is
+     what --bw-y was measured on: 0 on a wide screen, not on a phone. It moves
+     only at a roll, so the board eases there with the letters rather than
+     jumping; declared on the mark alone, so the bridge's scrubbed move is not
+     turned into a transition on the way back up. */
+  transform: translate(var(--bw-x, 0px), calc(var(--bw-y, 0px) + var(--bw-dy, 0px)));
+  transition: transform 300ms var(--ease-out) !important;
 }
 
-/* WORLDSCAR is this beat's own title and it is plain white, like CHESS RUN -
-   the accents belong to the sentences the cells carry in the other states. */
+/* WORLDSCAR and ONEIROS are titles and plain white, like CHESS RUN - the accents
+   belong to the sentences the cells carry in the other states. */
 #reel .reel-panel--title .flap-board.is-e .flap[data-accent-a],
-#reel .reel-panel--title .flap-board.is-e .flap[data-accent-c] {
+#reel .reel-panel--title .flap-board.is-e .flap[data-accent-c],
+#reel .reel-panel--title .flap-board.is-f .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-f .flap[data-accent-c] {
   --ink: #fff;
 }
 
@@ -11006,36 +11015,45 @@ html.lenis body {
    both are up and none where neither is. It does not travel in from the left
    with the rest of the column: it is already in place, the board was standing
    on it. */
-#reel .reel-panel--scar .hl-slide-title {
+#reel .reel-panel--swap .hl-slide-title {
   opacity: 0;
   transform: none;
 }
 
-/* The column opens as Chess Run's, all of it already there. This beat starts on
-   the picture the beat above it ended on - same card, same column, same words -
-   so the crossfade between the two shows nothing at all. The work cascade would
-   otherwise ramp these in off --tp, which is what had the copy fading out while
-   the heading was still rolling. */
-#reel .reel-panel--scar .hl-tag,
-#reel .reel-panel--scar .hl-slide-sub,
-#reel .reel-panel--scar .hl-slide-desc,
-#reel .reel-panel--scar .hl-slide-actions {
+/* The column opens as the last game's, all of it already there. The beat starts
+   on the picture the beat above it ended on - same card, same column, same
+   words - so the cut between the two shows nothing at all. The work cascade
+   would otherwise ramp these in off --tp, which is what had the copy fading out
+   while the heading was still rolling. */
+#reel .reel-panel--swap .hl-tag,
+#reel .reel-panel--swap .hl-slide-sub,
+#reel .reel-panel--swap .hl-slide-desc,
+#reel .reel-panel--swap .hl-slide-actions {
   --show: 1;
   opacity: 1;
   transform: none;
 }
 
-/* Worldscar's kicker waits its turn. The two differ in SHAPE, not just wording -
-   a play-store glyph against a masked ghost - so they are two elements traded by
-   a class rather than one element rewritten. Same for the LinkTree button, which
-   Worldscar does not have. */
-/* This beat rests on Chess Run's glow, not on the default red. The bridge ends
-   purple, and a panel that has not been told otherwise starts at the registered
-   initial value - so the crossfade into this beat changed the colour of the room
-   a scroll before anything was supposed to. The transition starts from here. */
+/* Each beat rests on the glow the one above it ended on, not on the default red:
+   a panel that has not been told otherwise starts at the registered initial
+   value, which changed the colour of the room a scroll before anything was
+   supposed to. The transition starts from here - Chess Run's purple for
+   Worldscar, Worldscar's red for Oneiros. */
 #reel .reel-panel--scar {
   --slide-glow: rgba(141, 53, 255, 0.18);
   --slide-glow-2: rgba(0, 148, 198, 0.18);
+}
+
+#reel .reel-panel--oni {
+  --slide-glow: rgba(238, 43, 43, 0.18);
+  --slide-glow-2: rgba(238, 43, 43, 0.18);
+}
+
+/* The new kicker waits its turn. Two games' kickers differ in SHAPE, not just
+   wording - a play-store glyph against a masked ghost against a headset - so
+   they are two elements traded by a class rather than one element rewritten.
+   .swap-drop is a button the new game does not have, like Chess Run's LinkTree. */
+#reel .reel-panel--swap {
   /* And it must not ARRIVE. The stock envelope slides every beat in 32px from
      the right as it fades up, and this beat opens on the same Chess Run slide
      the bridge is still showing - so a second Chess Run slid in over the first,
@@ -11048,32 +11066,32 @@ html.lenis body {
   --enter: 1;
 }
 
-#reel .reel-panel--scar .scar-kick--to {
+#reel .reel-panel--swap .swap-kick--to {
   display: none;
 }
 
-#reel .reel-panel--scar.is-scar-swapped .scar-kick--from {
+#reel .reel-panel--swap.is-swapped .swap-kick--from {
   display: none;
 }
 
-#reel .reel-panel--scar.is-scar-swapped .scar-kick--to {
+#reel .reel-panel--swap.is-swapped .swap-kick--to {
   display: inline-flex;
 }
 
-#reel .reel-panel--scar.is-scar-swapped .scar-btn--chess {
+#reel .reel-panel--swap.is-swapped .swap-drop {
   display: none;
 }
 
-/* ---- 1. Chess Run's copy leaves, and nothing else moves yet --------------- */
-@keyframes scar-copy-out {
+/* ---- 1. The last game's copy leaves, and nothing else moves yet ----------- */
+@keyframes swap-copy-out {
   from { opacity: 1; transform: none; }
   to   { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
 }
 
-#reel .reel-panel--scar.step-scar-out .hl-slide-sub,
-#reel .reel-panel--scar.step-scar-out .hl-slide-desc,
-#reel .reel-panel--scar.step-scar-out .hl-slide-actions {
-  animation: scar-copy-out 380ms ease both !important;
+#reel .reel-panel--swap.step-copy-out .hl-slide-sub,
+#reel .reel-panel--swap.step-copy-out .hl-slide-desc,
+#reel .reel-panel--swap.step-copy-out .hl-slide-actions {
+  animation: swap-copy-out 380ms ease both !important;
 }
 
 /* The kicker leaves on a transition, not on the keyframe. The two kickers trade
@@ -11083,7 +11101,7 @@ html.lenis body {
    A transition does not run out of display:none; the kicker just shows the
    state it is in. Declared on the mark alone, so scrolling back past it puts
    the kicker back at once, the way the rest of the copy comes back. */
-#reel .reel-panel--scar.step-scar-out .scar-kick--from {
+#reel .reel-panel--swap.step-copy-out .swap-kick--from {
   opacity: 0;
   transform: translate3d(-1.1rem, 0, 0);
   transition: opacity 380ms ease, transform 380ms ease !important;
@@ -11103,7 +11121,9 @@ html.lenis body {
 
    The hue crosses straight through, purple to red, while the alpha gutters at
    stops that do not line up with it - so what flickers is the strength and the
-   colour only ever travels one way. */
+   colour only ever travels one way. One of these per game, since the colours
+   are the game's; oni-glow is the same gutter at the same stops, red to
+   Oneiros's teal and blue. */
 @keyframes scar-glow {
   0%   { --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18); }
   8%   { --slide-glow: rgba(149, 52, 238, 0.07); --slide-glow-2: rgba(19, 140, 186, 0.09); }
@@ -11120,6 +11140,22 @@ html.lenis body {
   100% { --slide-glow: rgba(238, 43, 43, 0.18); --slide-glow-2: rgba(238, 43, 43, 0.18); }
 }
 
+@keyframes oni-glow {
+  0%   { --slide-glow: rgba(238, 43, 43, 0.18); --slide-glow-2: rgba(238, 43, 43, 0.18); }
+  8%   { --slide-glow: rgba(224, 53, 53, 0.07); --slide-glow-2: rgba(222, 46, 54, 0.09); }
+  14%  { --slide-glow: rgba(213, 61, 60, 0.20); --slide-glow-2: rgba(209, 48, 62, 0.19); }
+  22%  { --slide-glow: rgba(199, 71, 69, 0.09); --slide-glow-2: rgba(193, 51, 72, 0.21); }
+  30%  { --slide-glow: rgba(185, 81, 79, 0.22); --slide-glow-2: rgba(177, 54, 83, 0.08); }
+  38%  { --slide-glow: rgba(171, 91, 88, 0.10); --slide-glow-2: rgba(160, 57, 94, 0.20); }
+  47%  { --slide-glow: rgba(155, 102, 99, 0.21); --slide-glow-2: rgba(142, 60, 106, 0.11); }
+  56%  { --slide-glow: rgba(139, 114, 110, 0.08); --slide-glow-2: rgba(123, 63, 117, 0.22); }
+  66%  { --slide-glow: rgba(122, 126, 122, 0.20); --slide-glow-2: rgba(103, 67, 131, 0.10); }
+  76%  { --slide-glow: rgba(104, 139, 133, 0.12); --slide-glow-2: rgba(82, 70, 144, 0.19); }
+  86%  { --slide-glow: rgba(87, 151, 145, 0.19); --slide-glow-2: rgba(62, 74, 157, 0.13); }
+  94%  { --slide-glow: rgba(73, 161, 155, 0.16); --slide-glow-2: rgba(45, 77, 168, 0.18); }
+  100% { --slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18); }
+}
+
 /* 1100ms is what the board takes: 43 cells at a 14ms stagger, and the last of
    them still has its own walk to run. So the two finish together.
 
@@ -11129,36 +11165,40 @@ html.lenis body {
    keyframe: the stock deck's motion had to be off before any of it could be
    rebuilt. These rules are (1,2,0) against that rule's (0,0,0), so an important
    declaration here outranks the important one there. */
-#reel .reel-panel--scar.step-scar-swap {
+#reel .reel-panel--scar.step-roll {
   animation: scar-glow 1100ms linear both !important;
 }
 
-/* Worldscar's kicker comes in with the roll rather than a scroll after it, and
-   stays - it is there for the whole transition. Here the restart is the point:
-   it plays the moment the kicker is shown. The paragraph still waits for 3. */
-#reel .reel-panel--scar.is-scar-swapped .scar-kick--to {
-  animation: scar-copy-in 420ms ease both !important;
+#reel .reel-panel--oni.step-roll {
+  animation: oni-glow 1100ms linear both !important;
 }
 
-/* ---- 3. Worldscar's copy arrives ------------------------------------------ */
+/* The new kicker comes in with the roll rather than a scroll after it, and
+   stays - it is there for the whole transition. Here the restart is the point:
+   it plays the moment the kicker is shown. The paragraph still waits for 3. */
+#reel .reel-panel--swap.is-swapped .swap-kick--to {
+  animation: swap-copy-in 420ms ease both !important;
+}
+
+/* ---- 3. The new game's copy arrives --------------------------------------- */
 /* After the leaving rules in the file and at the same weight, which is what lets
    it win: by this scroll BOTH marks are on the beat, because a step is a
    threshold that has been passed rather than a phase that ends. */
-@keyframes scar-copy-in {
+@keyframes swap-copy-in {
   from { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
   to   { opacity: 1; transform: none; }
 }
 
-#reel .reel-panel--scar.step-scar-in .hl-slide-sub {
-  animation: scar-copy-in 420ms ease 80ms both !important;
+#reel .reel-panel--swap.step-copy-in .hl-slide-sub {
+  animation: swap-copy-in 420ms ease 80ms both !important;
 }
 
-#reel .reel-panel--scar.step-scar-in .hl-slide-desc {
-  animation: scar-copy-in 420ms ease 160ms both !important;
+#reel .reel-panel--swap.step-copy-in .hl-slide-desc {
+  animation: swap-copy-in 420ms ease 160ms both !important;
 }
 
-#reel .reel-panel--scar.step-scar-in .hl-slide-actions {
-  animation: scar-copy-in 420ms ease 240ms both !important;
+#reel .reel-panel--swap.step-copy-in .hl-slide-actions {
+  animation: swap-copy-in 420ms ease 240ms both !important;
 }
 
 /* The card does not fade in, it fails in. Three sine waves at frequencies that
@@ -11184,6 +11224,11 @@ html.lenis body {
   @keyframes scar-glow {
     from { --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18); }
     to   { --slide-glow: rgba(238, 43, 43, 0.18); --slide-glow-2: rgba(238, 43, 43, 0.18); }
+  }
+
+  @keyframes oni-glow {
+    from { --slide-glow: rgba(238, 43, 43, 0.18); --slide-glow-2: rgba(238, 43, 43, 0.18); }
+    to   { --slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18); }
   }
 
 }
@@ -11248,11 +11293,15 @@ html.lenis body {
 
    This touches the bridge's EXIT only - its --in is carried through unchanged,
    so its entrance and everything it does while live are exactly as settled.
-   Worldscar is the last beat and never exits, so it needs no --out term. */
+
+   Every game beat after it is joined the same way at both ends, since each one
+   opens on a copy of the one before: in at the first frame of its slot, out at
+   the frame past its last. The last beat's --d never gets past its slots - --p
+   stops at 1 - so it stays up for the section that rides over it. */
 #reel .reel-panel--bridge {
   opacity: calc(var(--in) * (1 - clamp(0, calc((var(--d) - var(--slots, 1)) * 1000), 1)));
 }
 
-#reel .reel-panel--scar {
-  opacity: clamp(0, calc(var(--d) * 1000), 1);
+#reel .reel-panel--swap {
+  opacity: calc(clamp(0, calc(var(--d) * 1000), 1) * (1 - clamp(0, calc((var(--d) - var(--slots, 1)) * 1000), 1)));
 }
