@@ -8701,6 +8701,108 @@ margin-top: -2em;}
   }
 }
 
+/* The Toolkit's heading plays the name as well. The hero's lines are one word
+   each and start 180ms apart; this heading runs to twelve words, so it is laid
+   out the way the reel's long headings are - --i restarts in every word, --w
+   counts them - and its words follow each other faster, 60ms apart. --vd is
+   the heading's place in the reveal's stagger. The letters, their ink and their
+   exit are .vg-name's own rules; inline-block keeps each word whole where the
+   heading wraps. */
+#main .skills-toolkit-header .vg-word {
+  display: inline-block;
+  --lag: calc(var(--vd, 0ms) + var(--w) * 60ms);
+}
+
+/* ===========================================================================
+   THE STEPS OPENING AND CLOSING
+
+   A step opens on hover, or on a tap where there is no hover, and on this
+   branch it snapped: the NO MOTION reset took the stock transitions with it.
+   They come back on the motion tokens - the height on the strong ease-out,
+   opening in --dur-modal and closing in --dur-hover, slower in than out as the
+   hero's are; the paragraph fading in once its room has begun to open and out
+   before it shuts; the number, title and row changing colour on plain ease, as
+   hover colour does.
+
+   The height is the paragraph's own. The stock rule opens to a 20em max-height
+   - 293px at 1280 wide, for 45px paragraphs, and 280px on a phone, for 106
+   to 128px - so eased, the row would have hit full height in the first
+   stretch of the curve and sat through most of the close before moving. A
+   one-row grid going 0fr to 1fr eases the real height, so all of the curve
+   is visible motion. max-height is lifted to let it; the touch script's exact
+   max-height still lands on top and is never the smaller.
+
+   Reduced motion keeps what the branch had: the stock rules, instant.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  #main .journey-row {
+    transition: background-color var(--dur-hover) ease !important;
+  }
+
+  #main .journey-row h3 {
+    transition: color var(--dur-hover) ease !important;
+  }
+
+  #main .journey-num {
+    transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease !important;
+  }
+
+  #main .journey-detail {
+    display: grid;
+    grid-template-rows: 0fr;
+    max-height: none;
+    transition:
+      grid-template-rows var(--dur-hover) var(--ease-out),
+      margin-top var(--dur-hover) var(--ease-out),
+      opacity var(--dur-press) var(--ease-out) !important;
+  }
+
+  #main .journey-detail > p {
+    min-height: 0;
+  }
+
+  #main .journey-row.is-open .journey-detail {
+    grid-template-rows: 1fr;
+    transition:
+      grid-template-rows var(--dur-modal) var(--ease-out),
+      margin-top var(--dur-modal) var(--ease-out),
+      opacity var(--dur-menu) var(--ease-out) 60ms !important;
+  }
+
+  /* Gated as the stock hover-open is, so a touch screen's sticky :hover cannot
+     hold a tapped row open. */
+  @media (hover: hover) {
+    #main .journey-row:hover .journey-detail {
+      grid-template-rows: 1fr;
+      transition:
+        grid-template-rows var(--dur-modal) var(--ease-out),
+        margin-top var(--dur-modal) var(--ease-out),
+        opacity var(--dur-menu) var(--ease-out) 60ms !important;
+    }
+  }
+
+  /* Phones held upright: the title block grows and the number rides down with
+     the heading as the row opens (the stock rules and the touch script), on the
+     height's timing, so the row still opens as one motion. */
+  @media screen and (max-width: 736px) and (orientation: portrait) {
+    #main .journey-row h3 {
+      transition: color var(--dur-hover) ease, min-height var(--dur-hover) var(--ease-out) !important;
+    }
+
+    #main .journey-row.is-open h3 {
+      transition: color var(--dur-hover) ease, min-height var(--dur-modal) var(--ease-out) !important;
+    }
+
+    #main .journey-num {
+      transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, bottom var(--dur-hover) var(--ease-out) !important;
+    }
+
+    #main .journey-row.is-open .journey-num {
+      transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, bottom var(--dur-modal) var(--ease-out) !important;
+    }
+  }
+}
+
 /* === Motion tokens (same values as the animation plans on update-animations,
    so the two branches do not fork a parallel system) === */
 :root {

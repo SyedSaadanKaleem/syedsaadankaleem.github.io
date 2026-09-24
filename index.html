@@ -838,8 +838,10 @@
 							</svg>
 							<span>The Toolkit</span>
 						</div>
-						<h3 class="intro2-collab-title">The engines and platforms I use to bring everything above to
-							life</h3>
+						<!-- Letters again, for the name's entrance and exit - word by word, as the
+						     reel's long headings are: --i restarts in every word, --w counts them.
+						     The label reads it whole. -->
+						<h3 class="intro2-collab-title vg-name" aria-label="The engines and platforms I use to bring everything above to life"><span class="vg-word" style="--w:0"><span class="vg-ltr" style="--i:0">T</span><span class="vg-ltr" style="--i:1">h</span><span class="vg-ltr" style="--i:2">e</span></span> <span class="vg-word" style="--w:1"><span class="vg-ltr" style="--i:0">e</span><span class="vg-ltr" style="--i:1">n</span><span class="vg-ltr" style="--i:2">g</span><span class="vg-ltr" style="--i:3">i</span><span class="vg-ltr" style="--i:4">n</span><span class="vg-ltr" style="--i:5">e</span><span class="vg-ltr" style="--i:6">s</span></span> <span class="vg-word" style="--w:2"><span class="vg-ltr" style="--i:0">a</span><span class="vg-ltr" style="--i:1">n</span><span class="vg-ltr" style="--i:2">d</span></span> <span class="vg-word" style="--w:3"><span class="vg-ltr" style="--i:0">p</span><span class="vg-ltr" style="--i:1">l</span><span class="vg-ltr" style="--i:2">a</span><span class="vg-ltr" style="--i:3">t</span><span class="vg-ltr" style="--i:4">f</span><span class="vg-ltr" style="--i:5">o</span><span class="vg-ltr" style="--i:6">r</span><span class="vg-ltr" style="--i:7">m</span><span class="vg-ltr" style="--i:8">s</span></span> <span class="vg-word" style="--w:4"><span class="vg-ltr" style="--i:0">I</span></span> <span class="vg-word" style="--w:5"><span class="vg-ltr" style="--i:0">u</span><span class="vg-ltr" style="--i:1">s</span><span class="vg-ltr" style="--i:2">e</span></span> <span class="vg-word" style="--w:6"><span class="vg-ltr" style="--i:0">t</span><span class="vg-ltr" style="--i:1">o</span></span> <span class="vg-word" style="--w:7"><span class="vg-ltr" style="--i:0">b</span><span class="vg-ltr" style="--i:1">r</span><span class="vg-ltr" style="--i:2">i</span><span class="vg-ltr" style="--i:3">n</span><span class="vg-ltr" style="--i:4">g</span></span> <span class="vg-word" style="--w:8"><span class="vg-ltr" style="--i:0">e</span><span class="vg-ltr" style="--i:1">v</span><span class="vg-ltr" style="--i:2">e</span><span class="vg-ltr" style="--i:3">r</span><span class="vg-ltr" style="--i:4">y</span><span class="vg-ltr" style="--i:5">t</span><span class="vg-ltr" style="--i:6">h</span><span class="vg-ltr" style="--i:7">i</span><span class="vg-ltr" style="--i:8">n</span><span class="vg-ltr" style="--i:9">g</span></span> <span class="vg-word" style="--w:9"><span class="vg-ltr" style="--i:0">a</span><span class="vg-ltr" style="--i:1">b</span><span class="vg-ltr" style="--i:2">o</span><span class="vg-ltr" style="--i:3">v</span><span class="vg-ltr" style="--i:4">e</span></span> <span class="vg-word" style="--w:10"><span class="vg-ltr" style="--i:0">t</span><span class="vg-ltr" style="--i:1">o</span></span> <span class="vg-word" style="--w:11"><span class="vg-ltr" style="--i:0">l</span><span class="vg-ltr" style="--i:1">i</span><span class="vg-ltr" style="--i:2">f</span><span class="vg-ltr" style="--i:3">e</span></span></h3>
 													<a class="hl-btn hl-btn--primary" href="#footerTittle">Let's Work Together <span
 								class="arrow"></span></a>
 
@@ -1378,6 +1380,9 @@
 			if (!heads.length || !window.IntersectionObserver) return;
 			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 			Array.prototype.forEach.call(heads, function (h) {
+				// Not the Toolkit's heading: that one is covered rather than scrolled
+				// away, which only the reveal script below can see.
+				if (h.closest(".skills-toolkit-header")) return;
 				var shown = null, seenIn = false;
 				function apply(next) {
 					shown = next;
@@ -1413,13 +1418,15 @@
 
 	<script>
 		// The rest of the Skills section on the hero's supporting-part motion: the six
-		// steps, the Toolkit's heading and button, and the twelve chips each drift in
+		// steps, the Toolkit's eyebrow and button, and the twelve chips each drift in
 		// with vgHeroIn as they come into view and leave with vgHeroOut as they go.
 		// Pieces that turn together are staggered 70ms apart, and leave in reverse.
 		// The hero's thresholds again - in at 85% seen, out once 30% has gone - and
 		// "seen" stops at the top of the section coming up over this one, so the
 		// chips leave as the Journey covers them, the way the hero exits as it is
 		// covered. The heading's own row (eyebrow, lead) follows the heading, in CSS.
+		// The Toolkit's heading is measured here too, but plays the name: it gets
+		// the .vg-name classes that the name's own script gives How I build.
 		(function () {
 			var sec = document.getElementById("main");
 			if (!sec) return;
@@ -1439,12 +1446,15 @@
 				if (h <= 0) return 0;
 				return Math.max(0, Math.min(r.bottom, bottom) - Math.max(r.top, 0)) / h;
 			}
+			var pre = items.map(function (el) { return el.classList.contains("vg-name") ? "name-" : "rv-"; });
 			function flip(k, on, delay) {
-				var el = items[k];
+				var el = items[k], p = pre[k];
 				state[k] = on;
-				el.classList.remove("rv-in", "rv-out", "rv-noanim");
+				el.classList.remove(p + "in", p + "out", p + "noanim");
 				el.style.setProperty("--vd", delay + "ms");
-				el.classList.add(on ? "rv-in" : "rv-out");
+				el.classList.add(p + (on ? "in" : "out"));
+				// Every entrance after the first at 65%, as the name's are.
+				if (!on && p === "name-") el.classList.add("name-replay");
 			}
 			function update() {
 				var bottom = window.innerHeight;
@@ -1455,7 +1465,7 @@
 					if (state[k] === null) {
 						// First read: out of view is the exited state, set rather than played.
 						if (f >= 0.85) ins.push(k);
-						else { state[k] = false; items[k].classList.add("rv-out", "rv-noanim"); }
+						else { state[k] = false; items[k].classList.add(pre[k] + "out", pre[k] + "noanim"); }
 					} else if (!state[k] && f >= 0.85) ins.push(k);
 					else if (state[k] && f <= 0.7) outs.push(k);
 				}
