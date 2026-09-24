@@ -8622,6 +8622,85 @@ margin-top: -2em;}
   }
 }
 
+/* ===========================================================================
+   THE REST OF THE SKILLS SECTION, ON THE HERO'S MOTION
+
+   The heading's row is built the way the hero's frame is built around the
+   name: everything in it keys off the heading's own name-in / name-out, as the
+   hero keys everything off hero-in / hero-out, on the hero's offsets from the
+   name's start - the eyebrow's icon at 430ms (vgBoltIn), its words at 470ms
+   and the paragraph at 640ms (vgHeroIn). Out, the reverse: the paragraph at
+   60ms, the eyebrow at 85ms, the letters from 110ms. Replays at 65%, as the
+   hero's do.
+
+   Everything below it - the six steps, the Toolkit's heading and button, the
+   twelve chips - is the hero's supporting-part pair on its own: vgHeroIn as
+   each piece comes into view, vgHeroOut as it goes, --vd staggering the ones
+   that turn together (index.html, the .rv-in script).
+   =========================================================================== */
+#main .craft-head {
+  --hs: 1;
+}
+
+#main .craft-head:has(.vg-name.name-replay) {
+  --hs: 0.65;
+}
+
+#main .craft-head:has(.vg-name.name-in) .intro2-eyebrow svg {
+  animation: vgBoltIn calc(380ms * var(--hs)) var(--ease-out) calc(430ms * var(--hs)) backwards !important;
+}
+
+#main .craft-head:has(.vg-name.name-in) .intro2-eyebrow span {
+  animation: vgHeroIn calc(420ms * var(--hs)) var(--ease-out) calc(470ms * var(--hs)) backwards !important;
+}
+
+#main .craft-head:has(.vg-name.name-in) .craft-head-copy .intro2-lead {
+  animation: vgHeroIn calc(460ms * var(--hs)) var(--ease-out) calc(640ms * var(--hs)) backwards !important;
+}
+
+#main .craft-head:has(.vg-name.name-out) .craft-head-copy .intro2-lead {
+  animation: vgHeroOut 260ms var(--ease-out) 60ms forwards !important;
+}
+
+#main .craft-head:has(.vg-name.name-out) .intro2-eyebrow span {
+  animation: vgHeroOut 260ms var(--ease-out) 85ms forwards !important;
+}
+
+#main .craft-head:has(.vg-name.name-out) .intro2-eyebrow svg {
+  --fx-out: 0.35rem;
+  animation: vgHeroOut 260ms var(--ease-out) 85ms forwards !important;
+}
+
+#main .craft-head:has(.vg-name.name-noanim) * {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+}
+
+#main .rv-in {
+  animation: vgHeroIn 420ms var(--ease-out) var(--vd, 0ms) backwards !important;
+}
+
+#main .rv-out {
+  animation: vgHeroOut 260ms var(--ease-out) var(--vd, 0ms) forwards !important;
+}
+
+#main .rv-out.rv-noanim {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+}
+
+/* The same trade the hero makes: none of it, rather than a gentler version.
+   index.html adds none of the classes either, so nothing is left hidden. */
+@media (prefers-reduced-motion: reduce) {
+  #main .craft-head *,
+  #main .rv-in,
+  #main .rv-out {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* === Motion tokens (same values as the animation plans on update-animations,
    so the two branches do not fork a parallel system) === */
 :root {

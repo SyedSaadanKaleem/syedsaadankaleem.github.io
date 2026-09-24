@@ -1411,6 +1411,69 @@
 		})();
 	</script>
 
+	<script>
+		// The rest of the Skills section on the hero's supporting-part motion: the six
+		// steps, the Toolkit's heading and button, and the twelve chips each drift in
+		// with vgHeroIn as they come into view and leave with vgHeroOut as they go.
+		// Pieces that turn together are staggered 70ms apart, and leave in reverse.
+		// The hero's thresholds again - in at 85% seen, out once 30% has gone - and
+		// "seen" stops at the top of the section coming up over this one, so the
+		// chips leave as the Journey covers them, the way the hero exits as it is
+		// covered. The heading's own row (eyebrow, lead) follows the heading, in CSS.
+		(function () {
+			var sec = document.getElementById("main");
+			if (!sec) return;
+			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+			var items = Array.prototype.slice.call(sec.querySelectorAll(".journey, .skills-toolkit-header > *, .skill-chip"));
+			if (!items.length) return;
+			var cover = sec.nextElementSibling;
+			while (cover && cover.tagName !== "SECTION") cover = cover.nextElementSibling;
+			var state = items.map(function () { return null; });
+			// Share of the piece in the clear part of the screen - of the piece, or of
+			// the whole screen when the piece is the taller, so it can still land. The
+			// screen, not the clear part: with the Journey almost over it, a sliver of
+			// clear screen made anything touching it count as all in view.
+			function seen(el, bottom) {
+				var r = el.getBoundingClientRect();
+				var h = Math.min(r.height, window.innerHeight);
+				if (h <= 0) return 0;
+				return Math.max(0, Math.min(r.bottom, bottom) - Math.max(r.top, 0)) / h;
+			}
+			function flip(k, on, delay) {
+				var el = items[k];
+				state[k] = on;
+				el.classList.remove("rv-in", "rv-out", "rv-noanim");
+				el.style.setProperty("--vd", delay + "ms");
+				el.classList.add(on ? "rv-in" : "rv-out");
+			}
+			function update() {
+				var bottom = window.innerHeight;
+				if (cover) bottom = Math.min(bottom, cover.getBoundingClientRect().top);
+				var ins = [], outs = [];
+				for (var k = 0; k < items.length; k++) {
+					var f = seen(items[k], bottom);
+					if (state[k] === null) {
+						// First read: out of view is the exited state, set rather than played.
+						if (f >= 0.85) ins.push(k);
+						else { state[k] = false; items[k].classList.add("rv-out", "rv-noanim"); }
+					} else if (!state[k] && f >= 0.85) ins.push(k);
+					else if (state[k] && f <= 0.7) outs.push(k);
+				}
+				ins.forEach(function (k, n) { flip(k, true, n * 70); });
+				outs.forEach(function (k, n) { flip(k, false, (outs.length - 1 - n) * 20); });
+			}
+			var queued = false;
+			function onScroll() {
+				if (queued) return;
+				queued = true;
+				requestAnimationFrame(function () { queued = false; update(); });
+			}
+			window.addEventListener("scroll", onScroll, { passive: true });
+			window.addEventListener("resize", onScroll);
+			update();
+		})();
+	</script>
+
 
 
 	<div id="videoModal">
@@ -1602,10 +1665,9 @@
 			// ============================================
 			const fadeSelectors = [
 				/* #intro is animated with GSAP below */
-				'#main .craft-head',
-				'#main .journey',
-				'#main .skills-toolkit-header',
-				'#main .skill-chip',
+				/* #main is not tagged: it has the hero's motion now (.vg-name and the .rv-in
+				   script), and this branch's NO MOTION block pins every .fade-on-scroll
+				   element with !important, which no keyframe can move. */
 				'#Certification .craft-head',
 				'#Certification .journey',
 				'#Certification .skills-toolkit-header',
