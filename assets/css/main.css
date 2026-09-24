@@ -10954,7 +10954,7 @@ html.lenis body {
 }
 
 /* ===========================================================================
-   ONE GAME TURNING INTO THE NEXT - CHESS RUN, WORLDSCAR, ONEIROS, SNATCH
+   ONE GAME TURNING INTO THE NEXT - CHESS RUN, WORLDSCAR, ONEIROS, SNATCH, COBWEB
 
    Same layout on both sides, so unlike the bridge there is nowhere for the
    heading to travel to and nothing to grow - the whole transition is the roll.
@@ -11001,14 +11001,16 @@ html.lenis body {
   transition: transform 300ms var(--ease-out) !important;
 }
 
-/* WORLDSCAR, ONEIROS and SNATCH are titles and plain white, like CHESS RUN - the
-   accents belong to the sentences the cells carry in the other states. */
+/* WORLDSCAR, ONEIROS, SNATCH and Cobweb's title are plain white, like CHESS RUN -
+   the accents belong to the sentences the cells carry in the other states. */
 #reel .reel-panel--title .flap-board.is-e .flap[data-accent-a],
 #reel .reel-panel--title .flap-board.is-e .flap[data-accent-c],
 #reel .reel-panel--title .flap-board.is-f .flap[data-accent-a],
 #reel .reel-panel--title .flap-board.is-f .flap[data-accent-c],
 #reel .reel-panel--title .flap-board.is-g .flap[data-accent-a],
-#reel .reel-panel--title .flap-board.is-g .flap[data-accent-c] {
+#reel .reel-panel--title .flap-board.is-g .flap[data-accent-c],
+#reel .reel-panel--title .flap-board.is-h .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-h .flap[data-accent-c] {
   --ink: #fff;
 }
 
@@ -11056,6 +11058,34 @@ html.lenis body {
   --slide-glow-2: rgba(33, 79, 176, 0.18);
 }
 
+#reel .reel-panel--cobweb {
+  --slide-glow: rgba(255, 29, 180, 0.2);
+  --slide-glow-2: rgba(209, 87, 31, 0.18);
+}
+
+/* Cobweb's title is the one the board breaks over two rows, and the h2 under it
+   holds the room: its swapped text carries the break. */
+#reel .reel-panel--cobweb .hl-slide-title {
+  white-space: pre-line;
+}
+
+/* hl-slide--cobweb keeps the copy in the left column, clear of the tiles; the
+   reel's older rule also centres it against the mosaic. In a game beat the
+   heading only rolls, it does not travel, so the copy stays top-aligned like
+   every other game's - centred, the column dropped 143px under the roll. */
+#reel .reel-panel--swap.hl-slide--cobweb > .hl-slide-content {
+  align-self: start;
+}
+
+/* Cobweb's six tiles arrive with the card, all at once, like every other card
+   here. The work beats' own rule walks them in one at a time off --tp, which in
+   a game beat would be the scroll dragging the card in after the roll. */
+#reel .reel-panel--swap .hl-cobweb-card .hl-mini {
+  --show: 1;
+  opacity: 1;
+  transform: none;
+}
+
 /* The new kicker waits its turn. Two games' kickers differ in SHAPE, not just
    wording - a play-store glyph against a masked ghost against a headset - so
    they are two elements traded by a class rather than one element rewritten.
@@ -11097,15 +11127,16 @@ html.lenis body {
 }
 
 /* ---- 1. The last game's copy leaves, and nothing else moves yet ----------- */
-@keyframes swap-copy-out {
-  from { opacity: 1; transform: none; }
-  to   { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
-}
-
+/* On a transition, not a keyframe. A keyframe restarts whenever its marks
+   change, so scrolled back fast from a finished game it was still fading out
+   when the roll swapped the words back - the last game's subtitle ghosting at
+   up to 17% over this one. See the step-roll rule below for the other half. */
 #reel .reel-panel--swap.step-copy-out .hl-slide-sub,
 #reel .reel-panel--swap.step-copy-out .hl-slide-desc,
 #reel .reel-panel--swap.step-copy-out .hl-slide-actions {
-  animation: swap-copy-out 380ms ease both !important;
+  opacity: 0;
+  transform: translate3d(-1.1rem, 0, 0);
+  transition: opacity 380ms ease, transform 380ms ease !important;
 }
 
 /* The kicker leaves on a transition, not on the keyframe. The two kickers trade
@@ -11188,6 +11219,23 @@ html.lenis body {
   100% { --slide-glow: rgba(255, 29, 180, 0.20); --slide-glow-2: rgba(209, 87, 31, 0.18); }
 }
 
+/* Snatch's pink and orange to Cobweb's green and violet. */
+@keyframes cobweb-glow {
+  0%   { --slide-glow: rgba(255, 29, 180, 0.20); --slide-glow-2: rgba(209, 87, 31, 0.18); }
+  8%   { --slide-glow: rgba(239, 43, 169, 0.07); --slide-glow-2: rgba(200, 85, 46, 0.09); }
+  14%  { --slide-glow: rgba(228, 54, 161, 0.20); --slide-glow-2: rgba(193, 83, 58, 0.19); }
+  22%  { --slide-glow: rgba(212, 68, 151, 0.09); --slide-glow-2: rgba(184, 80, 73, 0.21); }
+  30%  { --slide-glow: rgba(197, 82, 140, 0.22); --slide-glow-2: rgba(175, 78, 89, 0.08); }
+  38%  { --slide-glow: rgba(181, 97, 129, 0.10); --slide-glow-2: rgba(166, 75, 104, 0.20); }
+  47%  { --slide-glow: rgba(163, 113, 117, 0.21); --slide-glow-2: rgba(156, 72, 122, 0.11); }
+  56%  { --slide-glow: rgba(146, 129, 105, 0.08); --slide-glow-2: rgba(146, 70, 139, 0.22); }
+  66%  { --slide-glow: rgba(126, 146, 92, 0.20); --slide-glow-2: rgba(134, 67, 158, 0.10); }
+  76%  { --slide-glow: rgba(107, 164, 78, 0.12); --slide-glow-2: rgba(123, 63, 178, 0.19); }
+  86%  { --slide-glow: rgba(87, 182, 65, 0.19); --slide-glow-2: rgba(112, 60, 197, 0.13); }
+  94%  { --slide-glow: rgba(72, 196, 54, 0.16); --slide-glow-2: rgba(103, 58, 212, 0.18); }
+  100% { --slide-glow: rgba(60, 207, 46, 0.18); --slide-glow-2: rgba(96, 56, 224, 0.18); }
+}
+
 /* 1100ms is what the board takes: 43 cells at a 14ms stagger, and the last of
    them still has its own walk to run. So the two finish together.
 
@@ -11207,6 +11255,21 @@ html.lenis body {
 
 #reel .reel-panel--snatch.step-roll {
   animation: snatch-glow 1100ms linear both !important;
+}
+
+#reel .reel-panel--cobweb.step-roll {
+  animation: cobweb-glow 1100ms linear both !important;
+}
+
+/* From the roll on, the copy is never part-way out. It swaps words at the roll,
+   so it must be invisible there: a fast flick forward cuts a fade still running
+   short, and going back down past step 3 the copy goes at once rather than
+   fading out over words that are about to change under it. Cobweb drops its
+   button row with display:none as well, which a keyframe would have replayed. */
+#reel .reel-panel--swap.step-roll .hl-slide-sub,
+#reel .reel-panel--swap.step-roll .hl-slide-desc,
+#reel .reel-panel--swap.step-roll .hl-slide-actions {
+  transition: none !important;
 }
 
 /* The new kicker comes in with the roll rather than a scroll after it, and
@@ -11270,6 +11333,11 @@ html.lenis body {
   @keyframes snatch-glow {
     from { --slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18); }
     to   { --slide-glow: rgba(255, 29, 180, 0.20); --slide-glow-2: rgba(209, 87, 31, 0.18); }
+  }
+
+  @keyframes cobweb-glow {
+    from { --slide-glow: rgba(255, 29, 180, 0.20); --slide-glow-2: rgba(209, 87, 31, 0.18); }
+    to   { --slide-glow: rgba(60, 207, 46, 0.18); --slide-glow-2: rgba(96, 56, 224, 0.18); }
   }
 
 }
