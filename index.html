@@ -583,8 +583,9 @@
 								</svg>
 								<span>The Process</span>
 							</div>
-							<h2 class="intro2-title"><span>How I</span><span><span
-										class="vg-accent">build.</span></span></h2>
+							<!-- Split into letters the way the hero's name is, for the name's own
+							     entrance and exit (.vg-name). The label reads it whole. -->
+							<h2 class="intro2-title vg-name" aria-label="How I build."><span class="vg-line"><span class="vg-ltr" style="--i:0">H</span><span class="vg-ltr" style="--i:1">o</span><span class="vg-ltr" style="--i:2">w</span> <span class="vg-ltr" style="--i:3">I</span></span><span class="vg-line"><span class="vg-accent"><span class="vg-ltr" style="--i:0">b</span><span class="vg-ltr" style="--i:1">u</span><span class="vg-ltr" style="--i:2">i</span><span class="vg-ltr" style="--i:3">l</span><span class="vg-ltr" style="--i:4">d</span><span class="vg-ltr" style="--i:5">.</span></span></span></h2>
 						</div>
 						<aside class="craft-head-copy">
 							<p class="intro2-lead">I move fast, prototype faster, and obsess over how a game
@@ -1362,6 +1363,51 @@
 				window.addEventListener("load", start);
 				setTimeout(start, 1500);
 			}
+		})();
+	</script>
+
+	<script>
+		// The Skills heading plays the hero name's entrance and exit (.vg-name in
+		// main.css). The hero measures itself against the scroll because it is
+		// sticky and never leaves the viewport; this heading scrolls like any other,
+		// so it is simply watched. The hero's own thresholds, as how much of it is
+		// in view: out once 30% has gone, over either edge, and back in at 85% - the
+		// gap is the same hysteresis, so a nudge at the line cannot flip it.
+		(function () {
+			var heads = document.querySelectorAll(".vg-name");
+			if (!heads.length || !window.IntersectionObserver) return;
+			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+			Array.prototype.forEach.call(heads, function (h) {
+				var shown = null, seenIn = false;
+				function apply(next) {
+					shown = next;
+					h.classList.remove("name-in", "name-out", "name-noanim");
+					void h.offsetWidth;   // forces the restart; re-adding a class in the same frame is otherwise a no-op
+					if (next) {
+						// Second time onward at 65%, as the hero does.
+						if (seenIn) h.classList.add("name-replay");
+						seenIn = true;
+					}
+					h.classList.add(next ? "name-in" : "name-out");
+				}
+				new IntersectionObserver(function (entries) {
+					var r = entries[entries.length - 1].intersectionRatio;
+					if (shown === null) {
+						// First read. Out of view is the exited state, set rather than played,
+						// so the entrance has something to bring in when it arrives. The no-anim
+						// mark stays until the next change - handed back its real timing, the
+						// finished exit would replay, letters showing through its delay.
+						if (r >= 0.85) apply(true);
+						else {
+							shown = false;
+							h.classList.add("name-noanim", "name-out");
+						}
+						return;
+					}
+					if (!shown && r >= 0.85) apply(true);
+					else if (shown && r <= 0.7) apply(false);
+				}, { threshold: [0, 0.7, 0.85, 1] }).observe(h);
+			});
 		})();
 	</script>
 
