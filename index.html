@@ -2898,6 +2898,10 @@
 				return;
 			}
 			var panels = Array.prototype.slice.call(reel.querySelectorAll(".reel-panel"));
+			// The section that comes up over the last beat. The next SECTION, not the
+			// next element - the sidebars' nav sits between the two in the markup.
+			var nextSec = reel.nextElementSibling;
+			while (nextSec && nextSec.tagName !== "SECTION") nextSec = nextSec.nextElementSibling;
 
 			// Short phones get a layout the wide one does not have: slide one's copy and
 			// its four stats together need more height than a pinned screen has once the
@@ -3407,6 +3411,15 @@
 				var arrive = (vh - r.top) / vh;
 				arrive = arrive < 0 ? 0 : arrive > 1 ? 1 : arrive;
 				reel.style.setProperty("--arrive", arrive.toFixed(4));
+
+				// And the way out, the deck's own: the next section rides up over the last
+				// beat's held frame the way #main comes up over the deck's last slide, and
+				// the beat is pressed back as it goes. How far the cover has come, squared
+				// as the deck squares its --exit, so the push-back starts gently.
+				if (nextSec) {
+					var cover = 1 - Math.min(Math.max(nextSec.getBoundingClientRect().top / vh, 0), 1);
+					reel.style.setProperty("--reel-exit", (cover * cover).toFixed(4));
+				}
 
 				// Panels are stacked, so the ones that are not on screen would still
 				// swallow clicks meant for the one that is. Mark the current beat and

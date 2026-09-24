@@ -8866,15 +8866,17 @@ margin-top: -2em;}
 
 /* Must match #page-wrapper > section:not(#header), which is (2,0,1) because
    :not(#header) contributes an ID. The page is a stacked sticky reveal
-   (#highlights 1, #main 2, #Certification 3, #footer 4) and at the stock
-   z-index 1 the pinned #main painted straight over this. */
+   (#highlights 1, #main 2, #Certification 3, #footer 4). This was 3 when the
+   reel sat after #main, whose pin painted straight over it at 1. It sits
+   after the hero now (0), and back at the stock 1 it keeps above that while
+   #highlights - later in the page, same layer - can come up over its end. */
 #page-wrapper > section#reel {
   --p: 0;
   --n: 18;
   position: relative;
   /* Same rule the other sections carry. */
   border-top: 3px solid #ee2b2b;
-  z-index: 3;
+  z-index: 1;
   /* 100vh for the pin, 32vh of scroll per slot, and a second 100vh at the end
      that the scrub does not use. The pin is still stuck through it, holding the
      last beat, and Certification's -100vh margin puts it exactly there - so it
@@ -9817,6 +9819,37 @@ margin-top: -2em;}
    overlap. */
 #page-wrapper > section#Certification {
   margin-top: -100vh;
+}
+
+/* The section after the reel is #highlights now, and it leaves the reel the
+   way the deck's last slide is left: the next section comes up over the held
+   frame, opaque and red edge first - #main's -100vh and border over the deck -
+   and the beat is pressed back into the stack as it goes, on the deck's own
+   --exit numbers. --reel-exit is how far the cover has come, squared, from the
+   driver. Only while the reel is pinned: .reel-static is an ordinary stacked
+   list, and pulling the next section up would hide its end. */
+#page-wrapper > section#reel:not(.reel-static) ~ section#highlights {
+  margin-top: -100vh;
+  border-top: 3px solid #ee2b2b;
+}
+
+#reel .reel-panel:last-child {
+  --exit: var(--reel-exit, 0);
+}
+
+/* The copy fades on the deck's own rule, .hl-slide .hl-slide-content, but the
+   reel neutralises that column's transform for the work beats' line cascade -
+   so its press is restated here, the deck's 0.06 on the deck's 0 25% origin.
+   The card has to be let through the reel's neutraliser the same way, with the
+   deck's Cobweb card press: scaled, faded and dimmed together. */
+#reel .reel-panel--work:last-child > .hl-slide-content {
+  transform: scale(calc(1 - 0.06 * var(--exit)));
+}
+
+#reel .reel-panel--work:last-child > .hl-slide-bg:not(:hover) {
+  transform: scale(calc(1 - 0.07 * var(--exit)));
+  opacity: calc(1 - 0.8 * var(--exit));
+  filter: brightness(calc(1 - 0.35 * var(--exit)));
 }
 
 /* ===========================================================================
@@ -11035,8 +11068,8 @@ html.lenis body {
 
 #reel.at-swap .reel-panel--title .intro2-title.flap-board {
   /* Stays. On this beat the board IS the heading - there is no h2 taking over
-     from it, so there is nothing to hand to and nothing to hide for. */
-  opacity: 1;
+     from it, so there is nothing to hand to and nothing to hide for. Its
+     opacity is further down, with the push-back at the reel's end. */
   /* --bw-dy is how far this beat's own heading sits from the bridge's, which is
      what --bw-y was measured on: 0 on a wide screen, not on a phone. It moves
      only at a roll, so the board eases there with the letters rather than
@@ -11044,6 +11077,16 @@ html.lenis body {
      turned into a transition on the way back up. */
   transform: translate(var(--bw-x, 0px), calc(var(--bw-y, 0px) + var(--bw-dy, 0px)));
   transition: transform 300ms var(--ease-out) !important;
+  /* And pressed back with the rest of the last beat as the next section comes
+     up over it - the deck's copy numbers, since the board IS this beat's
+     heading. On `scale`, not in the transform, so it tracks the scroll instead
+     of easing behind it. 0 everywhere but the reel's end. */
+  opacity: calc(1 - 0.85 * var(--reel-exit, 0));
+  scale: calc(1 - 0.06 * var(--reel-exit, 0));
+  /* `scale` applies after the transform, so it would shrink the translate with
+     it - the board slid 5.4px off its heading by the end. Scaling about the
+     point the translate lands on keeps it on the heading. */
+  transform-origin: var(--bw-x, 0px) calc(var(--bw-y, 0px) + var(--bw-dy, 0px));
 }
 
 /* WORLDSCAR, ONEIROS, SNATCH and Cobweb's title are plain white, like CHESS RUN -
