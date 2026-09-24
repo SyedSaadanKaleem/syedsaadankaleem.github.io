@@ -45,6 +45,8 @@ if (toggleBtn && leftSidebar) {
             for (var i = 0; i < candidates.length; i++) {
                 var el = document.getElementById(candidates[i]);
                 if (!el) continue;
+                // A place inside the reel's pin: its own offset is where that part plays.
+                if (el.classList && el.classList.contains('reel-mark')) return el;
                 var slide = el.closest && el.closest('.hl-slide'); if (slide) return slide;
                 if (el.tagName === 'SECTION') return el;
                 var sec = el.closest && el.closest('section');

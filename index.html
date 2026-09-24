@@ -105,6 +105,14 @@
 		<!-- SECTION 3.5: REEL (pinned sequence, no page travel) -->
 		<!-- ================================================== -->
 		<section id="reel" aria-label="Intro and selected work" style="--n: 7">
+			<!-- The nav's Introduction and Projects, now that both live in here. The pin
+			     shows every beat in the same place, so a link cannot point at a beat;
+			     these sit at the scroll offsets where they play instead - slide one
+			     settled, and the bridge's GAMES AND XR APPLICATIONS at full size - placed
+			     by the driver from data-at (beat, how far in). The ids are the old deck
+			     slides', so every link that pointed there still arrives. -->
+			<div class="reel-mark" id="introTittle" data-at="title 0.6" aria-hidden="true"></div>
+			<div class="reel-mark" id="highlightsTittle" data-at="bridge 0.28" aria-hidden="true"></div>
 			<div class="reel-pin">
 				<div class="reel-stage">
 					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--title" data-slots="3" style="--i:0">
@@ -556,210 +564,6 @@
 
 
 
-		<!-- ================================================== -->
-		<!-- SECTION 2: GAMES (Worldscar + Shipped + In Dev)    -->
-		<!-- ================================================== -->
-		<!-- data-lenis-prevent-wheel: this section runs its own wheel hijack - it
-		     preventDefaults every notch and snaps to a slide itself. Lenis does not
-		     stop at another listener's preventDefault, so without this both would
-		     move the page for the same gesture. -->
-		<section id="highlights" class="wrapper style3" data-lenis-prevent-wheel>
-			<div class="hl-slides">
-				<div class="hl-slide hl-slide--intro" id="introTittle" data-index="0">
-					<div class="hl-slide-content">
-						<div class="intro2-grid">
-							<div class="intro2">
-								<div class="intro2-eyebrow intro-fx">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-										stroke="currentColor" stroke-width="2" stroke-linecap="round"
-										stroke-linejoin="round">
-										<rect x="2" y="6" width="20" height="12" rx="4" />
-										<line x1="6" y1="12" x2="10" y2="12" />
-										<line x1="8" y1="10" x2="8" y2="14" />
-										<circle cx="16.5" cy="11" r="1" fill="currentColor" stroke="none" />
-										<circle cx="18.5" cy="13" r="1" fill="currentColor" stroke="none" />
-									</svg>
-									<span>Who I Am</span>
-								</div>
-								<h2 class="intro2-title intro-fx"><span>Crafting worlds</span><span>worth <span
-											class="vg-accent">playing.</span></span></h2>
-								<p class="intro2-lead intro-fx">I’m a game developer, technical leader, and creative entrepreneur
-									specializing in immersive games and interactive experiences. As Co-founder &amp; CTO
-									of <strong style="color: #ee2b2b;">Designfull</strong> and Co-founder of <strong style="color: #ee2b2b;">Pixel Dreams Studio</strong>, I pair engineering with
-									creative vision shipping products with innovative gameplay, striking visuals, and
-									polished experiences. Since 2019 in the industry and 2021 in games, I’ve worked on
-									10+ games and launched 7 titles on Google Play.</p>
-								<div class="intro2-stats">
-									<div class="intro2-stat intro-fx">
-										<div class="intro2-stat-num">7</div>
-										<div class="intro2-stat-label">Games Live</div>
-									</div>
-									<div class="intro2-stat intro-fx">
-										<div class="intro2-stat-num">2</div>
-										<div class="intro2-stat-label">In Development</div>
-									</div>
-									<div class="intro2-stat intro-fx">
-										<div class="intro2-stat-num">6+</div>
-										<div class="intro2-stat-label">Years Building</div>
-									</div>
-									<div class="intro2-stat intro-fx">
-										<div class="intro2-stat-num">2</div>
-										<div class="intro2-stat-label">Studios Founded</div>
-									</div>
-								</div>
-								<div class="intro2-logos intro2-logos--left">
-									<div class="intro2-logo intro-fx"><img src="./logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
-									<div class="intro2-logo intro-fx"><img src="./logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
-									<div class="intro2-logo intro-fx"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-									<div class="intro2-logo intro-fx"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
-								</div>
-							</div>
-							<aside class="intro2-collab">
-								<div class="intro2-eyebrow intro-fx">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-										stroke="currentColor" stroke-width="2" stroke-linecap="round"
-										stroke-linejoin="round">
-										<path d="M9 11l3 3 3-3" />
-										<path d="M4 7h16" />
-										<rect x="3" y="7" width="18" height="13" rx="2" />
-									</svg>
-									<span>Collaborations</span>
-								</div>
-								<h3 class="intro2-collab-title intro-fx">A few names that let me play in their sandbox</h3>
-								<div class="intro2-media-row">
-									<figure class="intro2-photo-card intro-fx">
-										<img src="images/CEGA Summit Award.jpeg"
-											alt="Receiving the Future Play Investor Summit award for Pixel Dream Studios" />
-										<figcaption>Future Play Investor Summit ’26 · Award · CEGA</figcaption>
-									</figure>
-									<div class="intro2-logos">
-										<div class="intro2-logo intro-fx"><img src="./logos/CanvasDigital.svg"
-												alt="Canvas Digital" /></div>
-										<div class="intro2-logo intro-fx"><img src="./logos/Khareed-o-Mobile.svg"
-												alt="Khareed-o-Mobile" /></div>
-										<div class="intro2-logo intro-fx"><img src="./logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-										<div class="intro2-logo intro-fx"><img src="./logos/ShotSpire.svg" alt="ShotSpire" /></div>
-									</div>
-								</div>
-							</aside>
-						</div>
-					</div>
-				</div>
-				<div class="hl-slide" id="highlightsTittle" data-index="1" style="--slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18)">
-					<div class="hl-slide-bg" style="background-image:url('images/ChessRun/ChessRun-Banner.jpg')"
-						role="img" aria-label="Chess Run"></div>
-					<div class="hl-slide-content">
-						<span class="hl-tag"><i class='bx bxl-play-store'></i> Recently Live · Pixel Dreams</span>
-						<h2 class="hl-slide-title">Chess Run</h2>
-						<p class="hl-slide-sub">A Roguelike Endless Runner</p>
-						<p class="hl-slide-desc">Play as a King, dodging or capturing enemy pieces on an infinite chessboard. Chess meets endless runner!</p>
-						<div class="hl-slide-actions">
-							<a class="hl-btn hl-btn--primary" href="ChessRun.html">Explore <span
-									class="arrow"></span></a>
-							<a class="hl-btn" href="https://linktr.ee/ChessRun" target="_blank"
-								rel="noopener">LinkTree</a>
-						</div>
-					</div>
-				</div>
-				<div class="hl-slide" data-index="2">
-					<div class="hl-slide-bg" style="background-image:url('images/WorldScar/WorldScar-Banner.jpg')"
-						role="img" aria-label="Worldscar"></div>
-					<div class="hl-slide-content">
-						<span class="hl-tag"><span aria-hidden="true"
-								style="display:inline-block;width:1.3em;height:1.3em;flex:none;background:#ee2b2b;-webkit-mask:url('images/Ghost.png') center/contain no-repeat;mask:url('images/Ghost.png') center/contain no-repeat"></span> In Development · Pixel Dreams</span>
-						<h2 class="hl-slide-title">Worldscar</h2>
-						<p class="hl-slide-sub">A Horror Escape Room</p>
-						<p class="hl-slide-desc">Trapped inside an abandoned bio-lab, you need to escape the shifting environment. Collect cards,find doors, and escape.</p>
-						<div class="hl-slide-actions">
-							<a class="hl-btn hl-btn--primary" href="WorldScar.html">Explore <span
-									class="arrow"></span></a>
-							<a class="hl-btn" href="javascript:void(0)"
-								onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Concept</a>
-						</div>
-					</div>
-				</div>
-				<div class="hl-slide" data-index="3" style="--slide-glow: rgba(62, 169, 162, 0.18); --slide-glow-2: rgba(33, 79, 176, 0.18)">
-					<div class="hl-slide-bg" style="background-image:url('images/Oneiros/Banner.jpg')" role="img"
-						aria-label="Oneiros"></div>
-					<div class="hl-slide-content">
-						<span class="hl-tag"><i class='bx bxl-meta'></i> XR · Client Work</span>
-						<h2 class="hl-slide-title">Oneiros</h2>
-						<p class="hl-slide-sub">XR Experience · Meta Quest</p>
-						<p class="hl-slide-desc">An immersive XR eyewear showroom. Reach out, pick up a pair of
-							glasses, resize and recolor them in real space. The &ldquo;try it on&rdquo; moment, made
-							tangible.</p>
-						<div class="hl-slide-actions">
-							<a class="hl-btn hl-btn--primary" href="Oneiros.html">Explore <span
-									class="arrow"></span></a>
-						</div>
-					</div>
-				</div>
-				<div class="hl-slide" data-index="4" style="--slide-glow: rgba(255, 29, 180, 0.2); --slide-glow-2: rgba(209, 87, 31, 0.18)">
-					<div class="hl-slide-bg" style="background-image:url('images/Snatch/SnatchThumnail.jpg')" role="img"
-						aria-label="Snatch"></div>
-					<div class="hl-slide-content">
-						<span class="hl-tag"><i class='bx bxl-steam'></i> Coming Soon · Re-Vision</span>
-						<h2 class="hl-slide-title">Snatch</h2>
-						<p class="hl-slide-sub">A New Era of Pong</p>
-						<p class="hl-slide-desc">A fast, competitive reinvention of Pong with a modern twist. Coming to
-							Steam.</p>
-						<div class="hl-slide-actions">
-							<a class="hl-btn hl-btn--primary" href="Snatch.html">Explore <span
-									class="arrow"></span></a>
-							<a class="hl-btn" href="https://store.steampowered.com/app/3630900/Snatch/" target="_blank" rel="noopener">Steam</a>
-						</div>
-					</div>
-				</div>
-				<div class="hl-slide hl-slide--cobweb" data-index="5" style="--slide-glow: rgba(60, 207, 46, 0.18); --slide-glow-2: rgba(96, 56, 224, 0.18)">
-					<div class="hl-cobweb-inner">
-						<span class="hl-tag">Cobweb Games · Unity Developer</span>
-						<h2 class="hl-slide-title">Ten Projects, Six Launches</h2>
-						<p class="hl-slide-desc">Shipped six titles to Google Play as a Unity Developer at Cobweb Games. 
-							built fast, optimized hard, and learned to deliver under real production pressure.</p>
-						<div class="hl-cobweb-grid">
-							<a class="hl-mini" href="CastleInvader.html">
-								<span class="hl-mini-thumb"><img src="images/CastleInvader/Castle-Invader-Thumnail.jpg"
-										alt="Castle Invader" loading="lazy"></span>
-								<span class="hl-mini-name">Castle Invader</span>
-								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-							</a>
-							<a class="hl-mini" href="PenguinPinnacle.html">
-								<span class="hl-mini-thumb"><img
-										src="images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg"
-										alt="Penguin Pinnacle" loading="lazy"></span>
-								<span class="hl-mini-name">Penguin Pinnacle</span>
-								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-							</a>
-							<a class="hl-mini" href="SwiftBeat.html">
-								<span class="hl-mini-thumb"><img src="images/Swift Beat/Swift-Beat-Thumnail.jpg"
-										alt="Swift Beat" loading="lazy"></span>
-								<span class="hl-mini-name">Swift Beat</span>
-								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-							</a>
-							<a class="hl-mini" href="SlimeyAdventure.html">
-								<span class="hl-mini-thumb"><img
-										src="images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="Slimey Adventure"
-										loading="lazy"></span>
-								<span class="hl-mini-name">Slimey Adventure</span>
-								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-							</a>
-							<a class="hl-mini" href="EggiPeggi.html">
-								<span class="hl-mini-thumb"><img src="images/EggiPeggi/Eggi-Peggi-Thumnail.jpg"
-										alt="Eggi Peggi" loading="lazy"></span>
-								<span class="hl-mini-name">Eggi Peggi</span>
-								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-							</a>
-							<a class="hl-mini" href="MeteorChase.html">
-								<span class="hl-mini-thumb"><img src="images/Metor Chase/Metor-Chase-Thumnail.jpg"
-										alt="Meteor Chase" loading="lazy"></span>
-								<span class="hl-mini-name">Meteor Chase</span>
-								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
 		<!-- ================================================== -->
 		<!-- SECTION 3: SKILLS (How I Build)                    -->
 		<!-- ================================================== -->
@@ -1561,25 +1365,6 @@
 		})();
 	</script>
 
-	<script>
-		// Intro slide reveal. Deliberately NOT the site's .fade-on-scroll observer:
-		// that one un-reveals anything scrolling above the fold, and this slide is
-		// pinned, so its copy would land and then fade back out while still on
-		// screen. One-way - once a piece is in, it stays in.
-		(function () {
-			var els = document.querySelectorAll('#introTittle .intro-fx');
-			if (!els.length) return;
-			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-			var io = new IntersectionObserver(function (entries) {
-				entries.forEach(function (e) {
-					if (!e.isIntersecting) return;
-					e.target.classList.add('is-in');
-					io.unobserve(e.target);
-				});
-			}, { threshold: 0.2 });
-			els.forEach(function (el) { io.observe(el); });
-		})();
-	</script>
 
 
 	<div id="videoModal">
@@ -1883,419 +1668,39 @@
 	</script>
 
 
-	<!-- Career Highlights vertical slider (one-card-per-gesture lock) -->
+	<!-- What the old Career Highlights deck's script carried that the rest of the
+	     page still leans on, kept when the deck itself went - the reel holds its
+	     intro and its games now. -->
 	<script>
 		(function () {
-			var section = document.getElementById('highlights');
-			var slides = Array.prototype.slice.call(section.querySelectorAll('.hl-slide'));  // scoped: .hl-slide is reused in #reel and must not join this pin stack
-			var wrap = document.querySelector('.hl-slides');
-			var overlays = document.querySelector('.hl-overlays');
-			if (!section || !slides.length) return;
-			// Append a full-viewport spacer to the sticky stack so the LAST slide gets a real
-			// pin range (it's otherwise the last child and slides straight off). With #main
-			// pulled up over this region, Skills scrolls over the pinned last slide.
-			if (wrap && !wrap.querySelector('.hl-stack-tail')) {
-				var _tail = document.createElement('div');
-				_tail.className = 'hl-stack-tail';
-				_tail.setAttribute('aria-hidden', 'true');
-				wrap.appendChild(_tail);
+			// Stable viewport height for layout math. window.innerHeight changes as the
+			// mobile URL bar hides/shows; feeding that into sticky-top sync rewrites pin
+			// offsets mid-scroll (jitter). 100lvh — the large viewport, what 100vh means
+			// on mobile — is fixed per orientation; probe it and refresh on real resizes.
+			// Browsers without lvh fall back to innerHeight (their vh is stable anyway).
+			function measureVH() {
+				var d = document.createElement('div');
+				d.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:100lvh;visibility:hidden;pointer-events:none;';
+				document.body.appendChild(d);
+				window.__vh = d.offsetHeight || window.innerHeight || 1;
+				d.parentNode.removeChild(d);
 			}
-			// Rework the Cobweb (last) slide into the same two-column layout: its text on the
-			// left (like every other slide) and all six games in a card on the right.
-			(function () {
-				var cob = section.querySelector('.hl-slide--cobweb');
-				if (!cob || cob.getAttribute('data-carded')) return;
-				var inner = cob.querySelector('.hl-cobweb-inner');
-				var grid = cob.querySelector('.hl-cobweb-grid');
-				if (!inner || !grid) return;
-				inner.classList.add('hl-slide-content');       // left column, styled like other slides
-				// Add the red subtitle (like the other slides) between the title and blurb.
-				var cobTitle = inner.querySelector('.hl-slide-title');
-				if (cobTitle && !inner.querySelector('.hl-slide-sub')) {
-					var cobSub = document.createElement('p');
-					cobSub.className = 'hl-slide-sub';
-					cobSub.textContent = 'With-in Thirteen Months';
-					cobTitle.insertAdjacentElement('afterend', cobSub);
-				}
-				// Put the CobWeb logo in the tag, where the other slides show a red icon.
-				var cobTag = inner.querySelector('.hl-tag');
-				if (cobTag && !cobTag.querySelector('.hl-tag-logo')) {
-					var cobLogo = document.createElement('img');
-					cobLogo.className = 'hl-tag-logo';
-					cobLogo.src = 'logos/cobweb-logo.svg';
-					cobLogo.alt = 'CobWeb';
-					cobTag.insertBefore(cobLogo, cobTag.firstChild);
-				}
-				// Give each game tile a short blurb (from the old cards) beneath its title.
-				var DESCS = {
-					'CastleInvader.html': 'Lead your team through weather obstacles in a charming Red Light Green Light adventure.',
-					'PenguinPinnacle.html': 'Guide a heroic penguin through vibrant worlds in this classic 2D platformer adventure.',
-					'SwiftBeat.html': 'Sync your actions to the rhythmic beats, dodge obstacles, and save the ball in this rhythmic platformer.',
-					'SlimeyAdventure.html': 'Soar through perilous skies, dodging enemies & collecting power-ups in this action-packed 2D game.',
-					'EggiPeggi.html': "Bounce an egg with a chicken's head to keep it airborne in this whimsical arcade challenge.",
-					'MeteorChase.html': 'Dodge relentless meteors as an astronaut in this high-speed challenge of reflexes and strategy.'
-				};
-				Array.prototype.forEach.call(grid.querySelectorAll('.hl-mini'), function (mini) {
-					var href = (mini.getAttribute('href') || '').split('/').pop();
-					var nameEl = mini.querySelector('.hl-mini-name');
-					if (!DESCS[href] || !nameEl || mini.querySelector('.hl-mini-desc')) return;
-					var p = document.createElement('span');
-					p.className = 'hl-mini-desc';
-					p.textContent = DESCS[href];
-					nameEl.insertAdjacentElement('afterend', p);
-				});
-				var card = document.createElement('div');
-				card.className = 'hl-slide-bg hl-cobweb-card';  // right card (reuses card frame + grid placement)
-				card.setAttribute('data-carded', '1');
-				card.appendChild(grid);                         // move the six-game grid inside the card
-				cob.appendChild(card);
-				cob.setAttribute('data-carded', '1');
-			})();
-			// Build the right-side game card from assets already on disk: the slide's banner
-			// (from .hl-slide-bg's inline background) + the game's Logo.png, name and tag.
-			slides.forEach(function (slide) {
-				var bg = slide.querySelector(':scope > .hl-slide-bg');
-				if (!bg || bg.getAttribute('data-carded')) return;
-				var m = (bg.style.backgroundImage || '').match(/url\(["']?(.*?)["']?\)/);
-				if (!m) return;
-				var src = m[1];
-				var folder = src.split('/').slice(0, 2).join('/');   // images/<Game>
-				var name = bg.getAttribute('aria-label') || '';
-				var content = slide.querySelector('.hl-slide-content');
-				var subEl = content && content.querySelector('.hl-slide-sub');
-				var tagEl = content && content.querySelector('.hl-tag');
-				var sub = subEl ? subEl.textContent.trim() : '';
-				var tag = tagEl ? tagEl.textContent.trim() : '';
-				// Card is a real <a> to the same project page as the slide's Explore button,
-				// so middle-click / ctrl+click / keyboard all work natively.
-				var explore = content && content.querySelector('a.hl-btn--primary[href$=".html"]');
-				var card = document.createElement(explore ? 'a' : 'div');
-				card.className = bg.className;
-				card.setAttribute('data-carded', '1');
-				if (explore) {
-					card.href = explore.getAttribute('href');
-					card.setAttribute('aria-label', 'Open ' + name);
-				}
-				card.innerHTML =
-					'<div class="hl-gc-banner" style="background-image:url(\'' + src + '\')"></div>' +
-					'<div class="hl-gc-foot">' +
-					'<img class="hl-gc-logo" src="' + folder + '/Logo.png" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
-					'<div class="hl-gc-meta">' +
-					'<span class="hl-gc-name">' + name + '</span>' +
-					(sub ? '<span class="hl-gc-sub">' + sub + '</span>' : '') +
-					'</div>' +
-					'</div>';
-				slide.replaceChild(card, bg);
-			});
-			if (overlays) {
-				var so = new IntersectionObserver(function (entries) {
-					entries.forEach(function (e) { overlays.classList.toggle('is-active', e.isIntersecting); });
-				}, { threshold: 0.02 });
-				so.observe(section);
-			}
-			var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-				var coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
-				// Stable viewport height for layout math. window.innerHeight changes as the
-				// mobile URL bar hides/shows; feeding that into sticky-top sync rewrites pin
-				// offsets mid-scroll (jitter). 100lvh — the large viewport, what 100vh means
-				// on mobile — is fixed per orientation; probe it and refresh on real resizes.
-				// Browsers without lvh fall back to innerHeight (their vh is stable anyway).
-				function measureVH() {
-					var d = document.createElement('div');
-					d.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:100lvh;visibility:hidden;pointer-events:none;';
-					document.body.appendChild(d);
-					window.__vh = d.offsetHeight || window.innerHeight || 1;
-					d.parentNode.removeChild(d);
-				}
-				measureVH();
-				window.addEventListener('resize', measureVH);   // registered FIRST, so later resize handlers see the fresh value
+			measureVH();
+			window.addEventListener('resize', measureVH);   // registered FIRST, so later resize handlers see the fresh value
 			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
-			// Sticky slides report their *stuck* offsetTop once pinned, so derive layout
-			// positions from the (non-sticky) container top + cumulative slide heights.
-			function slideTops() {
-				var c = document.querySelector('.hl-slides') || section;
-				// Use fractional rect heights, not integer offsetHeight: on fractional display
-				// scaling the rounding drift accumulates and pushes the snap target past a slide top.
-				var t = topOf(c), out = [];
-				for (var i = 0; i < slides.length; i++) { out.push(t); t += slides[i].getBoundingClientRect().height; }
-				return out;
-			}
-			function slideTop(i) { return slideTops()[i]; }
-			function bounds() { var a = topOf(section); return { a: a, b: a + section.offsetHeight }; }
-			function inSlider() {
-				var y = window.pageYOffset, bb = bounds();
-				// Cap capture at the last slide's rest point. Below it lies the spacer +
-				// Skills-cover zone, which must scroll natively so Skills can slide over the
-				// pinned last slide. (bb.b now includes the spacer, so we can't use it here.)
-				return y >= bb.a - 4 && y <= slideTop(slides.length - 1) + 4;
-			}
-			function currentIndex() {
-				// Containment, not nearest-top: with variable-height slides the nearest
-				// top can name a slide we haven't actually reached yet.
-				var y = window.pageYOffset, tops = slideTops(), idx = 0;
-				for (var i = 0; i < tops.length; i++) { if (y >= tops[i] - 4) idx = i; }
-				return idx;
-			}
-			// A slide taller than the viewport must NOT pin at top:0 — sticky would freeze
-			// it with its lower content forever below the fold. A negative sticky top lets
-			// it scroll through, then pin bottom-aligned while the next card covers it.
-			function syncStickyTops() {
-				for (var i = 0; i < slides.length; i++) {
-					var over = slides[i].getBoundingClientRect().height - window.__vh;
-					slides[i].style.top = over > 0 ? (-over) + 'px' : '';
-				}
-			}
-			syncStickyTops();
-			window.addEventListener('resize', syncStickyTops);
-			window.addEventListener('load', syncStickyTops);
-			// Scroll-driven entrance/exit: write --enter/--exit onto each slide every
-			// frame. --enter tracks the slide's own rise (viewport bottom -> pinned);
-			// --exit tracks how far the NEXT card (or #main, for the last slide) has
-			// covered it. All the visuals live in CSS calc()s off these two variables.
-			if (!reduce) {
-				var fxMain = document.getElementById('main');
-				var fxQueued = false;
-				var slideFx = function () {
-					fxQueued = false;
-					var vh = window.__vh || 1;   // stable height: a URL-bar toggle must not rescale the fx mid-scroll
-					for (var i = 0; i < slides.length; i++) {
-						// Intro slide gets no entrance (it's the section opener); exit still applies.
-						var eIn = i === 0 ? 1 : 1 - Math.min(Math.max(slides[i].getBoundingClientRect().top / vh, 0), 1);
-						// Remap the rise so the entrance plays in its VISIBLE last 60%: the card sits
-						// low in the slide, so anything animated during the first 40% happens below
-						// the fold and reads as "no entrance" even though it ran.
-						eIn = Math.min(Math.max((eIn - 0.4) / 0.6, 0), 1);
-						var cover = slides[i + 1] || fxMain;
-						var eOut = cover ? 1 - Math.min(Math.max(cover.getBoundingClientRect().top / vh, 0), 1) : 0;
-						slides[i].style.setProperty('--enter', (1 - (1 - eIn) * (1 - eIn)).toFixed(4));   // ease-out: the swing settles softly
-						slides[i].style.setProperty('--exit', (eOut * eOut).toFixed(4));                  // ease-in: the push-back starts gently
-					}
-				};
-				window.addEventListener('scroll', function () { if (!fxQueued) { fxQueued = true; requestAnimationFrame(slideFx); } }, { passive: true });
-				window.addEventListener('resize', slideFx);
-				window.addEventListener('load', slideFx);
-				slideFx();
-			}
-			// True while more of slide idx lies beyond the viewport in the scroll
-			// direction — gestures then scroll natively instead of snapping past content.
-			function moreToSee(idx, dir) {
-				var y = window.pageYOffset, tops = slideTops();
-				if (dir > 0) return y + window.innerHeight < tops[idx] + slides[idx].getBoundingClientRect().height - 4;
-				return y > tops[idx] + 4;
-			}
-			// Veil cards during a fast entry so none can flash over the target slide before
-			// the hard-stop settles. 'down' hides everything after the intro (entering from
-			// above), 'up' hides everything before the last slide (entering from below),
-			// 'none' clears. At rest the hidden cards are off-screen/covered, so veiling is
-			// invisible until the moment one would otherwise peek.
-			function setVeil(mode) {
-				var last = slides.length - 1;
-				for (var i = 0; i < slides.length; i++) {
-					var hide = (mode === 'down' && i >= 1) || (mode === 'up' && i <= last - 1);
-					slides[i].classList.toggle('hl-veil', hide);
-				}
-			}
-			var locked = false, targetIdx = null, lastWheelT = 0, goToT = 0, pollT = null;
-			var lastY = -1, stillCount = 0;
-			var engaged = false, prevY = window.pageYOffset, lastUserScrollT = 0, entrySide = 0;
-			var lastArmed = false;   // becomes true only after the last slide has settled gates the exit to the next section
-			var QUIET_MS = 200;   // wheel silence required before the lock releases
-			var MIN_LOCK = 420;   // hold at least this long so momentum can't skip a card mid-scroll
-			var STALL_MS = 1200;  // hard ceiling (scrollbar drag / interrupted scroll) -> force unlock
-			// Timer-driven (not rAF): rAF pauses in a backgrounded tab, which would wedge the lock
-			// AND leave the seam shadow stuck on. setTimeout still fires when backgrounded.
-			function release() {
-				// Snap to the EXACT slide top. Smooth scroll can stop a few px past the target,
-				// and in this sticky reveal-stack any overshoot exposes the next slide from the
-				// bottom. Forcing the precise resting position kills that peek in both directions.
-				if (targetIdx !== null) {
-					window.scrollTo({ top: Math.round(slideTop(targetIdx)), behavior: 'instant' });
-					if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
-				}
-				if (targetIdx === slides.length - 1) lastArmed = true;   // last slide has fully settled -> a fresh scroll may now exit to the next section
-				locked = false; targetIdx = null;
-				clearTimeout(pollT); pollT = null;
-				if (wrap) wrap.classList.remove('hl-animating');
-				setVeil('none');   // hard-stop landed (or we've moved on) hidden cards are off-screen, safe to reveal
-			}
-			function poll() {
-				var now = performance.now();
-				var y = window.pageYOffset;
-				if (y === lastY) stillCount++; else stillCount = 0;
-				lastY = y;
-				var quiet = now - lastWheelT >= QUIET_MS;
-				var minElapsed = now - goToT >= MIN_LOCK;
-				var settled = stillCount >= 2;   // scroll animation has actually stopped moving
-				if ((quiet && minElapsed && settled) || now - goToT >= STALL_MS) { release(); return; }
-				pollT = setTimeout(poll, 50);
-			}
-			function goTo(i, instant) {
-				i = Math.max(0, Math.min(i, slides.length - 1));
-				lastArmed = false;   // any move dis-arms the exit; it re-arms only once the last slide settles
-				locked = true;
-				targetIdx = i;
-				lastWheelT = goToT = performance.now();
-				lastY = -1; stillCount = 0;
-				if (wrap) wrap.classList.add('hl-animating');
-				window.scrollTo({ top: Math.round(slideTop(i)), behavior: 'auto' });
-				if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
-				clearTimeout(pollT); pollT = setTimeout(poll, 50);
-			}
-			// --- Wheel: hard lock, exactly one card per gesture; release at the ends ---
-			window.addEventListener("wheel", function (e) {
-				lastUserScrollT = performance.now();   // timestamp EVERY wheel so the entry-catch can distinguish real user scroll from programmatic
-				window.__navGlideUntil = 0;            // user wheel takes over: re-arm the scroll grabs immediately
-				if (reduce) return;
-				if (!inSlider()) {
-					engaged = false;
-					var t0o = slideTop(0);
-					entrySide = window.pageYOffset < t0o ? -1 : 1;   // remember which side we're approaching from
-					// Hold the hard-stop: once the safety net has locked onto the intro,
-					// swallow any outside wheels so native momentum can't overrun the stop.
-					// (No magnetic pull toward the intro from a distance — the intro is only
-					// ever reached by natural scrolling; we just refuse to let it overshoot.)
-					if (locked) { e.preventDefault(); return; }
-					var vh = window.innerHeight, y = window.pageYOffset;
-					// Pre-veil the cards after the intro as we approach it from above, so an
-					// overshoot frame can't flash one before the hard-stop lands. (Only the
-					// downward direction gets a veil — scrolling UP reveals the previous card
-					// from behind the current one, so hiding it would just expose grey.)
-					if (e.deltaY > 0 && entrySide < 0 && t0o - y <= vh * 1.5) setVeil('down');
-					else setVeil('none');
-					// Scrolling UP toward the slider from below no longer hard-stops on the last
-					// slide — the reveal-stack scrolls past natively so it never snaps into view.
-					return;
-				}
-				var dir = e.deltaY > 0 ? 1 : (e.deltaY < 0 ? -1 : 0);
-				if (!dir) return;
-				// First wheel after entering the slider: settle onto the entry slide and
-				// swallow the gesture, so a fast flick can't skip a card on entry. When we
-				// arrived from above, that entry slide is ALWAYS the intro (index 0) even if
-				// momentum already scrolled us partway into the next card. Advancing waits
-				// for the next gesture.
-				if (!engaged && !locked) {
-					engaged = true;
-					e.preventDefault();
-					lastWheelT = performance.now();
-					if (entrySide < 0) { setVeil('down'); goTo(0); }              // from above -> hard-stop on the intro (veil later cards)
-					else if (entrySide > 0) { goTo(slides.length - 1); }          // from below -> settle on the last slide (only reachable once it's fully in view)
-					else goTo(currentIndex());
-					return;
-				}
-				engaged = true;
-				var idx = locked && targetIdx !== null ? targetIdx : currentIndex();
-				if (!locked) {
-					if (moreToSee(idx, dir)) return;   // tall slide: scroll natively to its far edge before snapping on
-					if (dir > 0 && idx >= slides.length - 1) {
-						// Reached the last slide. Hard-stop here and absorb the gesture so
-						// momentum can't spill into the next section. Only a FRESH scroll,
-						// after the slide has settled (lastArmed), is allowed to exit.
-						if (!lastArmed) { e.preventDefault(); lastWheelT = performance.now(); goTo(slides.length - 1); return; }
-						engaged = false; return;   // armed -> let the page scroll on to the next section
-					}
-					if (dir < 0 && idx <= 0) { engaged = false; return; }                   // before first -> let page scroll up
-				}
-				e.preventDefault();
-				lastWheelT = performance.now();   // momentum tail keeps the lock alive
-				if (locked) return;                // swallow every event until settled + quiet
-				goTo(idx + dir);
-			}, { passive: false });
-			// --- Entry-catch safety net: if a fast fling blows past the intro's resting
-			//     point before the wheel grab fires, snap it back the instant we cross the
-			//     intro top. Only reacts to genuine user wheel (not nav-link smooth scrolls). ---
-			window.addEventListener("scroll", function () {
-				var y = window.pageYOffset;
-				if (!reduce && !coarse && !engaged && !locked && performance.now() >= (window.__navGlideUntil || 0) && performance.now() - lastUserScrollT < 250) {
-					var t0 = slideTop(0), tLast = slideTop(slides.length - 1);
-					// Crossing an end slide's rest point clamps to that slide. Downward -> intro.
-					// Upward -> the last slide, but ONLY at its exact rest point (the moment it is
-					// fully in view after the Skills section slides away) — no magnetic grab from a
-					// distance, so scrolling up from Skills stays native until the hand-off, then
-					// hard-stops; per-card snapping takes over from there.
-					if (y > prevY && prevY < t0 && y >= t0) {
-						engaged = true;
-						lastWheelT = performance.now();
-						setVeil('down');       // keep later cards hidden through the snap-back + hold
-						goTo(0, true);         // instant snap back onto the intro
-					} else if (y < prevY && prevY > tLast && y <= tLast) {
-						engaged = true;
-						lastWheelT = performance.now();
-						goTo(slides.length - 1, true);   // instant hard-stop on the fully-revealed last slide
-					}
-				}
-				prevY = y;
-			}, { passive: true });
-			// --- Keyboard ---
-			window.addEventListener("keydown", function (e) {
-				if (reduce || !inSlider() || locked) return;
-				var idx = currentIndex();
-				if ((e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") && idx < slides.length - 1 && !moreToSee(idx, 1)) { e.preventDefault(); goTo(idx + 1); }
-				else if ((e.key === "ArrowUp" || e.key === "PageUp") && idx > 0 && !moreToSee(idx, -1)) { e.preventDefault(); goTo(idx - 1); }
-			});
-			// --- Touch swipe (mobile): hard lock, one card per swipe. Non-passive so
-			//     preventDefault kills native scroll + fling momentum inside the slider;
-			//     without it the smooth goTo() loses to the fling and cards free-scroll. ---
-			var ty = null;
-			window.addEventListener("touchstart", function (e) { ty = inSlider() ? e.touches[0].clientY : null; }, { passive: true });
-			window.addEventListener("touchmove", function (e) {
-				lastUserScrollT = performance.now();   // arm the entry-catch for touch flings too
-				window.__navGlideUntil = 0;
-				if (reduce || coarse || !inSlider()) return;   // coarse pointers use the settle-snap below instead of gesture hijack
-				if (locked) { e.preventDefault(); lastWheelT = performance.now(); return; }   // swallow the rest of the gesture while snapping
-				if (ty === null) return;
-				var dy = ty - e.touches[0].clientY;
-				var idx = currentIndex(), dir = dy > 0 ? 1 : -1;
-				if (moreToSee(idx, dir)) return;   // tall slide: native touch scroll through it
-				if (dir > 0 && idx >= slides.length - 1) return;
-				if (dir < 0 && idx <= 0) return;
-				e.preventDefault();                // hard stop: no native movement, the snap does all the travel
-				if (Math.abs(dy) < 45) return;
-				ty = null;
-				engaged = true;
-				lastWheelT = performance.now();
-				goTo(idx + dir);
-			}, { passive: false });
-			window.addEventListener("touchend", function () { ty = null; }, { passive: true });
-			// --- Touch devices (coarse pointer): NO gesture hijack — swipes and flings run
-			//     natively (grabbing them mid-gesture is what read as glitchy). Instead, once
-			//     the scroll settles inside the deck, the incoming card either commits
-			//     (>= 50% risen into view) or retreats fully behind the current card. ---
-			if (coarse && !reduce) {
-				var touching = false, settleT = null;
-				var SETTLE_MS = 120;   // scroll silence that counts as "the fling has ended"
-				var settleSnap = function () {
-					if (touching || locked) return;
-					if (performance.now() < (window.__navGlideUntil || 0)) return;   // nav glide owns the scroll
-					var y = window.pageYOffset, tops = slideTops(), vh = window.__vh || 1;
-					if (y <= tops[0] + 1 || y >= tops[tops.length - 1] - 1) return;   // outside the card-over-card zone: stay native
-					var i = 0;
-					for (var k = 0; k < tops.length; k++) { if (y >= tops[k]) i = k; }
-					// Fraction of the NEXT card already risen into view. A card travels exactly
-					// one viewport to cover; taller slides hit this zone only in their last viewport.
-					var f = (y + vh - tops[i + 1]) / vh;
-					if (f <= 0) return;   // still inside a tall card's own content: never yank
-					var target = f >= 0.5 ? tops[i + 1] : tops[i + 1] - vh;   // commit : hide (== this card's rest for viewport-tall cards)
-					if (Math.abs(y - target) < 2) return;   // already at rest
-					window.scrollTo({ top: Math.round(target), behavior: 'auto' });
-					if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
-				};
-				var armSettle = function () { clearTimeout(settleT); settleT = setTimeout(settleSnap, SETTLE_MS); };
-				window.addEventListener('touchstart', function () { touching = true; clearTimeout(settleT); }, { passive: true });
-				window.addEventListener('touchend', function () { touching = false; armSettle(); }, { passive: true });
-				window.addEventListener('scroll', armSettle, { passive: true });
-			}
-			// --- Nav links: suspend every scroll grab (slider entry-catch + reveal-stack
-			//     hard-stops, via window.__navGlideUntil), glide to the target, re-arm after.
-			//     Slide targets go through goTo() so the lock/veil machinery stays coherent;
-			//     section targets get their static top summed from sibling heights, because
-			//     offsetTop on stuck sticky sections reports the displaced position. ---
+			// --- Nav links: suspend every scroll grab (the reveal-stack hard-stops, via
+			//     window.__navGlideUntil), glide to the target, re-arm after. Section
+			//     targets get their static top summed from sibling heights, because
+			//     offsetTop on stuck sticky sections reports the displaced position. A
+			//     .reel-mark is a place inside the reel's pin rather than a section: its
+			//     offset in the reel is the scroll position where that part plays. ---
 			var pw = document.getElementById('page-wrapper');
 			var navSections = Array.prototype.slice.call(pw ? pw.querySelectorAll(':scope > section') : []);
 			function staticTopOf(el) {
 				var sec = el.closest && el.closest('section');
 				while (sec && navSections.indexOf(sec) === -1) sec = sec.parentElement && sec.parentElement.closest('section');
 				if (!sec) return 0;   // #page-wrapper itself -> top of page
-				// Sum heights AND margins: #main overlaps the slider with a -100vh margin-top.
+				// Sum heights AND margins: #main overlaps the reel's end with a -100vh margin-top.
 				var t = topOf(pw);
 				for (var i = 0; i < navSections.length; i++) {
 					var cs = getComputedStyle(navSections[i]);
@@ -2313,18 +1718,8 @@
 				e.preventDefault();
 				history.replaceState(null, '', a.getAttribute('href'));
 				window.__navGlideUntil = performance.now() + 1600;
-				var slideEl = el.closest('.hl-slide');
-				var i = slideEl ? slides.indexOf(slideEl) : -1;
-				if (i >= 0) {
-					engaged = true;
-					if (i === 0 && window.pageYOffset < slideTop(0)) setVeil('down');   // entering from above: no card flash
-					goTo(i);
-					return;
-				}
-				engaged = false;
-				targetIdx = null;   // defuse any pending slide snap so release() can't yank us back
-				release();
-				window.scrollTo({ top: Math.round(staticTopOf(el)), behavior: 'auto' });
+				var y = staticTopOf(el) + (el.classList.contains('reel-mark') ? el.offsetTop : 0);
+				window.scrollTo({ top: Math.round(y), behavior: 'auto' });
 				if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
 			});
 		})();
@@ -2892,9 +2287,31 @@
 		(function () {
 			var reel = document.getElementById("reel");
 			if (!reel) return;
+			// The nav's marks (see the markup): each one set to the scroll offset where
+			// its beat plays, data-at's fraction of the way in - in slots, 32vh each,
+			// while pinned; where the beat simply is in the static list.
+			var marks = Array.prototype.slice.call(reel.querySelectorAll(":scope > .reel-mark"));
+			function placeMarks(isStatic) {
+				for (var m = 0; m < marks.length; m++) {
+					var at = (marks[m].getAttribute("data-at") || "").split(" ");
+					var beat = reel.querySelector(".reel-panel--" + at[0]);
+					if (!beat) continue;
+					if (isStatic) {
+						marks[m].style.top = (beat.getBoundingClientRect().top - reel.getBoundingClientRect().top) + "px";
+						continue;
+					}
+					var bi = parseFloat(beat.style.getPropertyValue("--i")) || 0;
+					var bs = parseFloat(beat.style.getPropertyValue("--slots")) || 1;
+					marks[m].style.top = "calc(" + (bi + (parseFloat(at[1]) || 0) * bs) + " * 32vh)";
+				}
+			}
 			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 				reel.style.setProperty("--p", "1");   // settled roster, no sequence
 				reel.classList.add("reel-static");
+				var placeStatic = function () { placeMarks(true); };
+				placeStatic();
+				window.addEventListener("resize", placeStatic);
+				window.addEventListener("load", placeStatic);
 				return;
 			}
 			var panels = Array.prototype.slice.call(reel.querySelectorAll(".reel-panel"));
@@ -3033,6 +2450,7 @@
 				}
 				n = total || panels.length;
 				reel.style.setProperty("--n", n);
+				placeMarks(false);
 			}
 			var live = -1;
 			var queued = false;
@@ -3412,10 +2830,10 @@
 				arrive = arrive < 0 ? 0 : arrive > 1 ? 1 : arrive;
 				reel.style.setProperty("--arrive", arrive.toFixed(4));
 
-				// And the way out, the deck's own: the next section rides up over the last
-				// beat's held frame the way #main comes up over the deck's last slide, and
-				// the beat is pressed back as it goes. How far the cover has come, squared
-				// as the deck squares its --exit, so the push-back starts gently.
+				// And the way out, the old deck's own: the next section (#main) rides up over
+				// the last beat's held frame the way it used to come up over the deck's last
+				// slide, and the beat is pressed back as it goes. How far the cover has come,
+				// squared as the deck squared its --exit, so the push-back starts gently.
 				if (nextSec) {
 					var cover = 1 - Math.min(Math.max(nextSec.getBoundingClientRect().top / vh, 0), 1);
 					reel.style.setProperty("--reel-exit", (cover * cover).toFixed(4));

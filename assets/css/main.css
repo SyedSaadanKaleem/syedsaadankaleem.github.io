@@ -8866,10 +8866,10 @@ margin-top: -2em;}
 
 /* Must match #page-wrapper > section:not(#header), which is (2,0,1) because
    :not(#header) contributes an ID. The page is a stacked sticky reveal
-   (#highlights 1, #main 2, #Certification 3, #footer 4). This was 3 when the
-   reel sat after #main, whose pin painted straight over it at 1. It sits
-   after the hero now (0), and back at the stock 1 it keeps above that while
-   #highlights - later in the page, same layer - can come up over its end. */
+   (#main 2, #Certification 3, #footer 4). This was 3 when the reel sat after
+   #main, whose pin painted straight over it at 1. It sits after the hero now
+   (0), and back at the stock 1 it keeps above that while #main, next after it
+   and at 2, comes up over its end. */
 #page-wrapper > section#reel {
   --p: 0;
   --n: 18;
@@ -9821,16 +9821,32 @@ margin-top: -2em;}
   margin-top: -100vh;
 }
 
-/* The section after the reel is #highlights now, and it leaves the reel the
-   way the deck's last slide is left: the next section comes up over the held
-   frame, opaque and red edge first - #main's -100vh and border over the deck -
-   and the beat is pressed back into the stack as it goes, on the deck's own
-   --exit numbers. --reel-exit is how far the cover has come, squared, from the
-   driver. Only while the reel is pinned: .reel-static is an ordinary stacked
-   list, and pulling the next section up would hide its end. */
-#page-wrapper > section#reel:not(.reel-static) ~ section#highlights {
-  margin-top: -100vh;
-  border-top: 3px solid #ee2b2b;
+/* The reel is left the way the old deck's last slide was: the next section -
+   #main, since the deck went - comes up over the held frame, opaque and red
+   edge first, on the -100vh margin and border it already had for riding over
+   the deck. And the beat is pressed back into the stack as it goes, on the
+   deck's own --exit numbers: --reel-exit is how far the cover has come,
+   squared, from the driver.
+
+   Not while .reel-static: that is an ordinary stacked list with nothing held
+   at its end, and -100vh would pull #main up over its last beat. */
+#page-wrapper > section#reel.reel-static ~ section#main {
+  margin-top: 0;
+}
+
+/* The nav's marks inside the reel. Placed by the driver; nothing to see or to
+   hit. The ids are the old deck slides', so #introTittle's own background and
+   red border come off here. */
+#reel > .reel-mark {
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  pointer-events: none;
 }
 
 #reel .reel-panel:last-child {
