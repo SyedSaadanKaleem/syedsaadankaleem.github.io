@@ -9284,10 +9284,13 @@ margin-top: -2em;}
 
 /* Slide one is not a scrub of the name's entrance any more but the entrance
    itself: the hero's keyframes, curve and stagger, on a clock from the moment
-   the beat goes live. So its letters sit at rest here and move by the rules
-   below. Slide two keeps its scrub. */
+   the beat goes live. So its letters only need two states here - hidden until
+   that clock starts, at rest from then on - and move by the rules below. Held
+   at rest outright, they stood at full strength on the approach, before the
+   pin had engaged and the entrance had anything to bring in. Slide two keeps
+   its scrub. */
 #reel .reel-panel--title .rl-ltr {
-  --lp: 1;
+  --lp: clamp(0, calc(var(--t) * 1000), 1);
 }
 
 /* vgLetterLock with the two adjustments the scrub carried - over --s, because
