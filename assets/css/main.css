@@ -8948,7 +8948,9 @@ margin-top: -2em;}
   --out: clamp(0, calc((var(--d) - var(--grp-lead, 0) - var(--grp-last, var(--slots, 1)) + 0.16) / 0.32), 1);
 }
 
-@media (max-width: 900px) {
+/* Not below 500 tall - a phone on its side - where the part keeps the screen to
+   itself and the board goes blank over it (index.html). */
+@media (max-width: 900px) and (min-height: 501px) {
   #reel .reel-panel.reel-panel--award {
     align-items: flex-start;
     padding-top: 0;
@@ -8967,7 +8969,7 @@ margin-top: -2em;}
   }
 }
 
-@media (max-width: 900px) and (max-height: 700px) {
+@media (max-width: 900px) and (max-height: 700px) and (min-height: 501px) {
   #reel .reel-panel.reel-panel--partners {
     align-items: flex-start;
     padding-top: 0;
@@ -11053,9 +11055,12 @@ html.lenis body {
 /* On a short phone the banners live on a beat of their own, positioned under the
    heading, but still arrive on slide two's step - the heading holds alone, then
    they come in under it - and stay through their beat. The mark is on the reel,
-   so it reaches them there. */
-#reel.step-logos .reel-panel--partners .intro2-logo {
-  animation: reelStepIn 420ms var(--ease-out) calc(var(--n-logo, 0) * 110ms) both !important;
+   so it reaches them there. Not on a phone on its side, where their beat has the
+   screen to itself and they arrive with it, on their own scroll. */
+@media (min-height: 501px) {
+  #reel.step-logos .reel-panel--partners .intro2-logo {
+    animation: reelStepIn 420ms var(--ease-out) calc(var(--n-logo, 0) * 110ms) both !important;
+  }
 }
 
 /* A phone-only screen opens on the board walking the last heading away - about

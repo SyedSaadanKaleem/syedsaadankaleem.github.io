@@ -2341,10 +2341,16 @@
 						return;
 					}
 					var cl = panel.classList;
-					var st = cl.contains("reel-panel--title") || cl.contains("reel-panel--numbers") ? "a"
-						: cl.contains("reel-panel--collab") || cl.contains("reel-panel--partners") || cl.contains("reel-panel--award") ? "b"
+					var part = cl.contains("reel-panel--numbers") ? "a"
+						: cl.contains("reel-panel--partners") || cl.contains("reel-panel--award") ? "b" : null;
+					// Except on a screen too short for the heading and the part both - a phone on
+					// its side, 390 tall: under the heading the photo came out 6px wide. There the
+					// part has the screen to itself, as all of them used to.
+					if (part && window.matchMedia && window.matchMedia("(max-height: 500px)").matches) part = "blank";
+					var st = part || (cl.contains("reel-panel--title") ? "a"
+						: cl.contains("reel-panel--collab") ? "b"
 						: cl.contains("reel-panel--bridge") ? "c"
-							: cl.contains("reel-panel--bridge2") ? "e" : "blank";
+							: cl.contains("reel-panel--bridge2") ? "e" : "blank");
 					// Already on it - the next part of a split slide, under the same heading.
 					// run() spins every cell at least a few flaps even when nothing changes,
 					// and that scrambled the heading over the part arriving under it.
@@ -2578,7 +2584,10 @@
 				splitGroups.forEach(function (g) {
 					var head = g[0], last = head;
 					if (!head) return;
-					for (var j = 1; j < g.length; j++) {
+					// Too short to keep the heading (see enter() above): the eyebrow leaves with its
+					// own beat, as it used to.
+					var own = window.matchMedia && window.matchMedia("(max-height: 500px)").matches;
+					for (var j = 1; j < g.length && !own; j++) {
 						if (g[j] && getComputedStyle(g[j]).display !== "none") last = g[j];
 					}
 					var lead = (parseFloat(last.style.getPropertyValue("--i")) || 0) - (parseFloat(head.style.getPropertyValue("--i")) || 0);
