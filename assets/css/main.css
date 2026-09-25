@@ -8980,6 +8980,18 @@ margin-top: -2em;}
   }
 }
 
+/* A split slide's parts do not slide in as panels. Every panel comes in 2rem
+   from the right as its beat starts; slide two's banners show on slide two's
+   step, before their own beat has started, so they sat 32px right of the heading
+   they belong under until it did. Their own entrances carry the motion. */
+@media (max-width: 900px) and (min-height: 501px) {
+  #reel .reel-panel.reel-panel--numbers,
+  #reel .reel-panel.reel-panel--partners,
+  #reel .reel-panel.reel-panel--award {
+    transform: none;
+  }
+}
+
 /* ===========================================================================
    THE GAMES' HEADINGS STAND IN ONE PLACE - stacked phones
 
@@ -9002,9 +9014,14 @@ margin-top: -2em;}
 
   #reel .reel-panel.reel-panel--work .hl-tag,
   #reel .reel-panel.reel-panel--bridge .hl-tag {
-    min-height: var(--tag-h, auto);
-    align-items: flex-end;
-    align-content: end;
+    padding-top: var(--tag-pad, 0px);
+  }
+
+  /* The card on the copy's left edge, not hung off the right one - short screens
+     cap its width, and the gap it left read as a misplaced card. */
+  #reel .reel-panel.reel-panel--work > .hl-slide-bg,
+  #reel .reel-panel.reel-panel--bridge > .hl-slide-bg {
+    justify-self: start;
   }
 }
 
@@ -9018,6 +9035,19 @@ margin-top: -2em;}
   #reel .reel-panel.reel-panel--bridge .hl-slide-desc {
     font-size: 0.875rem;
     line-height: 1.55;
+  }
+
+  /* The same two gaps traded round, so the subtitle sits with its heading rather
+     than with the paragraph - 11px off the one and 7 off the other it read as the
+     paragraph's. The sum is unchanged, so nothing else moves. */
+  #reel .reel-panel.reel-panel--work .hl-slide-content > .hl-slide-sub,
+  #reel .reel-panel.reel-panel--bridge .hl-slide-content > .hl-slide-sub {
+    margin-top: 0.35rem;
+  }
+
+  #reel .reel-panel.reel-panel--work .hl-slide-content > .hl-slide-desc,
+  #reel .reel-panel.reel-panel--bridge .hl-slide-content > .hl-slide-desc {
+    margin-top: 0.75rem;
   }
 }
 
@@ -9036,13 +9066,33 @@ margin-top: -2em;}
   }
 }
 
-/* Hung at the eyebrow's height where there is height for it. On a short screen
-   the beat keeps its own tighter pad (clamp 0.5-1.5rem, further up the file) -
-   the eyebrow's 34px at 320x568 put Oneiros's card 67px under the nav bar. */
-@media (max-width: 899px) and (min-height: 701px) {
+/* Hung at the eyebrow's height, and spaced the way the wide layout is - tag,
+   heading, the subtitle tight under the heading it belongs to, then room before
+   the paragraph, the buttons and the card (22 / 11 / 24 / 32px at 1280x800).
+   The short-screen rules had the subtitle 8px off the paragraph and 11 off its
+   heading, so it read as the paragraph's. Proportional to height, so it only
+   loosens where there is room; the shortest screens (600 and under) keep their
+   tight set, which is what gets Oneiros onto 320x568. */
+@media (max-width: 899px) and (min-height: 701px), (max-width: 699px) and (min-height: 601px) {
   #reel .reel-panel.reel-panel--work.hl-slide:has(> .hl-slide-bg),
   #reel .reel-panel.reel-panel--bridge.hl-slide:has(> .hl-slide-bg) {
     padding-top: calc(2 * clamp(1rem, 3vh, 2.5rem));
+    gap: clamp(0.9rem, 2.8vh, 1.5rem);
+  }
+
+  #reel .reel-panel.reel-panel--work .hl-slide-content > .hl-tag,
+  #reel .reel-panel.reel-panel--bridge .hl-slide-content > .hl-tag {
+    margin-bottom: clamp(0.5rem, 1.8vh, 1rem);
+  }
+
+  #reel .reel-panel.reel-panel--work .hl-slide-content > .hl-slide-sub,
+  #reel .reel-panel.reel-panel--bridge .hl-slide-content > .hl-slide-sub {
+    margin-top: clamp(0.3rem, 1vh, 0.6rem);
+  }
+
+  #reel .reel-panel.reel-panel--work .hl-slide-content > .hl-slide-desc,
+  #reel .reel-panel.reel-panel--bridge .hl-slide-content > .hl-slide-desc {
+    margin: clamp(0.75rem, 2.4vh, 1.4rem) 0 clamp(0.9rem, 2.8vh, 1.5rem);
   }
 }
 
