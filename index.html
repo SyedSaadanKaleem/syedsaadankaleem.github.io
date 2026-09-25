@@ -218,16 +218,17 @@
 							</div>
 						</div>
 					</article>
-					<!-- The second short-phone split: the partner logos leave the collaborations
-					     beat so the photo and its caption are not fighting them for height. -->
+					<!-- The second short-phone split: on a phone 700 tall or less the partner
+					     banners leave the collaborations beat for a screen of their own - they
+					     do not fit under its three-line heading. -->
 					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--partners">
 						<div class="hl-slide-content"></div>
 					</article>
-					<!-- The third: the award photo. Slide two's heading is the display size now,
-					     so on a short phone it is three lines of it, and what is left under the
-					     nav bar is about 240px - measured, the card ran 119px past it at 320x568.
-					     Shrinking the photo to fit would have made it 104px wide. It gets its own
-					     screen instead. -->
+					<!-- The third: the award photo, on its own screen at 900 wide and under.
+					     Slide two's heading is the display size now, so on a short phone it is
+					     three lines of it and what is left under the nav bar is about 240px -
+					     the card ran 119px past it at 320x568. On a tall one the banners stay
+					     with the heading and fill the rest - the two overlapped at 375x812. -->
 					<article class="reel-panel reel-panel--intro hl-slide hl-slide--intro reel-panel--award">
 						<div class="hl-slide-content"></div>
 					</article>
@@ -1748,6 +1749,36 @@
 				});
 				window.addEventListener('scroll', closeOpenRows, { passive: true });
 			}
+
+			// ============================================
+			// Upright phones anchor a step's number to the
+			// row's bottom edge (the crop). On a tap the
+			// script above lifts it to the heading; a hover
+			// had nothing, so the row carried it down with
+			// that edge and over the paragraph. Read both of
+			// its places for every row - shut, and with its
+			// foot on the heading's once open, the heading at
+			// least 3.5em as stock has it - and main.css moves
+			// it between the two from the top, tap or hover.
+			// ============================================
+			const portrait = window.matchMedia('(max-width: 736px) and (orientation: portrait)');
+			const holdNums = () => document.querySelectorAll('.journey-row').forEach(row => {
+				const n = row.querySelector('.journey-num'), h = row.querySelector('h3');
+				if (!n || !h) return;
+				row.style.removeProperty('--num-top');
+				row.style.removeProperty('--num-open-top');
+				if (!portrait.matches) return;
+				row.classList.add('is-measuring');   // shut, whatever the pointer is doing
+				const top = n.offsetTop, tall = n.offsetHeight;
+				const foot = h.offsetTop + Math.max(h.offsetHeight, 3.5 * parseFloat(getComputedStyle(h).fontSize));
+				row.classList.remove('is-measuring');
+				row.style.setProperty('--num-top', top + 'px');
+				row.style.setProperty('--num-open-top', (foot - tall) + 'px');
+			});
+			holdNums();
+			window.addEventListener('resize', holdNums);
+			window.addEventListener('load', holdNums);
+			if (document.fonts && document.fonts.ready) document.fonts.ready.then(holdNums);
 		})();
 	</script>
 
@@ -2276,9 +2307,10 @@
 			}
 
 			window.__flap = {
-				// Which sentence a beat is standing on. Everything past the two intro
-				// beats is a blank board, including the phone-only beats, which have
-				// the screen to themselves.
+				// Which sentence a beat is standing on. The phone-only beats keep the
+				// sentence of the slide they were split from - slide one's for its stats,
+				// slide two's for its banners and its photo - so a split slide reads as
+				// one slide, its next part arriving under the same heading.
 				enter: function (panel, reel) {
 					var b = ready(reel); if (!b) return;
 					// A game beat opens on the heading the beat above ended on, SET not walked:
@@ -2308,10 +2340,15 @@
 						land(b, "a");
 						return;
 					}
-					var st = panel.classList.contains("reel-panel--title") ? "a"
-						: panel.classList.contains("reel-panel--collab") ? "b"
-						: panel.classList.contains("reel-panel--bridge") ? "c"
-							: panel.classList.contains("reel-panel--bridge2") ? "e" : "blank";
+					var cl = panel.classList;
+					var st = cl.contains("reel-panel--title") || cl.contains("reel-panel--numbers") ? "a"
+						: cl.contains("reel-panel--collab") || cl.contains("reel-panel--partners") || cl.contains("reel-panel--award") ? "b"
+						: cl.contains("reel-panel--bridge") ? "c"
+							: cl.contains("reel-panel--bridge2") ? "e" : "blank";
+					// Already on it - the next part of a split slide, under the same heading.
+					// run() spins every cell at least a few flaps even when nothing changes,
+					// and that scrambled the heading over the part arriving under it.
+					if (b.state === st) return;
 					run(b, st, st === "c");
 				},
 				// Back above the reel: the board is set, not walked, so the entrance
@@ -2440,20 +2477,28 @@
 				".reel-panel--title .intro2-grid",
 				"(max-width: 900px) and (max-height: 700px)");
 
-			// The partner banners. They live at the foot of slide two's left column and
-			// move out whole, names and all. On width alone, not width and height: four
-			// stacked banners are tall, so once the two columns collapse they push slide
-			// two past the nav bar on a phone of any height - 73px over at 375x812.
+			// Slide two at 900 and under, where its two columns stack: heading, banners
+			// and photo in one column is more than any phone holds. Taken in the order
+			// the desktop slide plays them - heading, then the four banners, then the
+			// photo:
+			//   taller than 700 - heading and banners stay together, photo on its own:
+			//                     two screens (375x812: banners end at 560 over a 722 nav);
+			//   700 and under   - the banners do not fit under the three-line heading
+			//                     either (17px into it at 375x667, 57px at 320x568), so
+			//                     heading, banners, photo: three screens.
+			// With the banners moved and the photo left behind, the banners came in over
+			// the photo at 375x812 - they arrived with slide two's step while the photo
+			// was still on it.
 			defineSplit(".reel-panel--partners", ".reel-panel--collab .intro2-logos--left",
 				".reel-panel--collab .intro2",
-				"(max-width: 900px)");
+				"(max-width: 900px) and (max-height: 700px)");
 
-			// The award photo, once slide two's heading grew to the display size. Same
-			// condition as the CSS that shows the beat, exactly - split on one and show
-			// on the other and the photo moves into a hidden beat and leaves the page.
+			// The award photo. Same condition as the CSS that shows the beat, exactly -
+			// split on one and show on the other and the photo moves into a hidden beat
+			// and leaves the page.
 			defineSplit(".reel-panel--award", ".reel-panel--collab .intro2-media-row",
 				".reel-panel--collab .intro2-collab",
-				"(max-height: 700px) and (max-width: 720px)");
+				"(max-width: 900px)");
 
 			// Steps: scroll position says WHEN a piece arrives, and the animation says
 			// how - the opposite of the scrub, where scroll position said how far in it
@@ -2474,6 +2519,10 @@
 			defineStep(".reel-panel--title", 0.42, "step-lead");
 			defineStep(".reel-panel--title", 0.54, "step-stats");
 			defineStep(".reel-panel--numbers", 0.12, "step-stats");
+			// The banners' own screen, on a short phone: in one by one at the same 0.12
+			// the stats start at on theirs. Keyed to this beat, not to slide two's
+			// step-logos, which had them in under slide two's heading a beat early.
+			defineStep(".reel-panel--partners", 0.12, "step-cards");
 			// Slide two holds on the heading alone for half its beat, then the heading
 			// rises out of the middle and the logos come in under it.
 			defineStep(".reel-panel--collab", 0.45, "step-logos", true);
@@ -2519,6 +2568,26 @@
 				}
 			}
 
+			// A slide split for a phone is still the one slide: its eyebrow stays up with
+			// the heading until the slide's last part leaves. main.css reads the two
+			// numbers set here off the slide's own beat - the slots from its start to
+			// that last part, and the last part's length.
+			var splitGroups = [
+				[".reel-panel--title", ".reel-panel--numbers"],
+				[".reel-panel--collab", ".reel-panel--partners", ".reel-panel--award"]
+			].map(function (g) { return g.map(function (s) { return reel.querySelector(s); }); });
+			function groupSplits() {
+				splitGroups.forEach(function (g) {
+					var head = g[0], last = head;
+					if (!head) return;
+					for (var j = 1; j < g.length; j++) {
+						if (g[j] && getComputedStyle(g[j]).display !== "none") last = g[j];
+					}
+					var lead = (parseFloat(last.style.getPropertyValue("--i")) || 0) - (parseFloat(head.style.getPropertyValue("--i")) || 0);
+					head.style.setProperty("--grp-lead", lead);
+					head.style.setProperty("--grp-last", last.style.getPropertyValue("--slots") || "1");
+				});
+			}
 			function assignSlots() {
 				starts = [];
 				live0 = [];
@@ -2534,6 +2603,7 @@
 				}
 				n = total || panels.length;
 				reel.style.setProperty("--n", n);
+				groupSplits();
 				placeMarks(false);
 			}
 			var live = -1;
@@ -2650,6 +2720,20 @@
 				if (gr) {
 					var settle = (pr.height - gr.height) / 2 - (gr.top - pr.top);
 					reel.style.setProperty("--c-settle", settle.toFixed(1) + "px");
+				}
+
+				// Where slide two's heading ends, from the top of a panel: its banners' and
+				// its photo's own screens keep the heading, so they start under it. Off the
+				// board, not the hidden copy it stands on - that copy wraps to four lines at
+				// 320 where the board has its three - and off layout, so whatever sentence,
+				// size or rise the board is in right now does not count.
+				var board = heading, row = board && board.querySelector(".flap-row");
+				if (board && row && titleBeat) {
+					var top = 0, el = board;
+					while (el && el !== titleBeat && el !== reel) { top += el.offsetTop; el = el.offsetParent; }
+					if (el === reel) top -= titleBeat.offsetTop;
+					var rows = parseInt(board.getAttribute("data-rows-b"), 10) || 1;
+					reel.style.setProperty("--head-b", (top + rows * row.offsetHeight).toFixed(1) + "px");
 				}
 			}
 
@@ -2834,7 +2918,25 @@
 					}
 				}
 			}
+			// Every game's heading stands in the same place on a phone, so the tag over it
+			// is the same height in every beat - the tallest one's at this width, 42px at
+			// 375 and 22 at 768 - and the shorter ones sit on its floor (main.css). The
+			// hidden kicker in each swap beat is shown for the reading: it is another
+			// game's tag, and may be the tallest.
+			function calibrateTags() {
+				var tags = reel.querySelectorAll(".reel-panel--bridge .hl-tag, .reel-panel--work .hl-tag");
+				reel.style.removeProperty("--tag-h");
+				var max = 0;
+				Array.prototype.forEach.call(tags, function (t) {
+					var d = t.style.display;
+					if (getComputedStyle(t).display === "none") t.style.display = "inline-flex";
+					max = Math.max(max, t.getBoundingClientRect().height);
+					t.style.display = d;
+				});
+				if (max) reel.style.setProperty("--tag-h", Math.ceil(max) + "px");
+			}
 			function calibrate() {
+				calibrateTags();
 				splitWords(leadEl);
 				groupLines(leadEl);
 				calibrateCollab();
@@ -3045,7 +3147,7 @@
 			function clearBeats() {
 				reel.classList.remove("at-collab", "at-bridge", "at-swap", "step-logos");
 				for (var b = 0; b < panels.length; b++) {
-					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-award", "no-entrance");
+					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-cards", "step-award", "no-entrance");
 				}
 				if (window.__flap) window.__flap.arm(reel);
 			}

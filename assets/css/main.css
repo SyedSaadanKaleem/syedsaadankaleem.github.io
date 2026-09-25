@@ -8841,9 +8841,9 @@ margin-top: -2em;}
     }
   }
 
-  /* Phones held upright: the title block grows and the number rides down with
-     the heading as the row opens (the stock rules and the touch script), on the
-     height's timing, so the row still opens as one motion. */
+  /* Phones held upright: the title block grows and the number rises to meet the
+     heading as the row opens, on the height's timing, so the row still opens as
+     one motion - by its top, which is how it is placed there now. */
   @media screen and (max-width: 736px) and (orientation: portrait) {
     :is(#main, #Certification) .journey-row h3 {
       transition: color var(--dur-hover) ease, min-height var(--dur-hover) var(--ease-out) !important;
@@ -8854,12 +8854,193 @@ margin-top: -2em;}
     }
 
     :is(#main, #Certification) .journey-num {
-      transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, bottom var(--dur-hover) var(--ease-out) !important;
+      transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, top var(--dur-hover) var(--ease-out) !important;
     }
 
     :is(#main, #Certification) .journey-row.is-open .journey-num {
-      transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, bottom var(--dur-modal) var(--ease-out) !important;
+      transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, top var(--dur-modal) var(--ease-out) !important;
     }
+
+    @media (hover: hover) {
+      :is(#main, #Certification) .journey-row:hover h3 {
+        transition: color var(--dur-hover) ease, min-height var(--dur-modal) var(--ease-out) !important;
+      }
+
+      :is(#main, #Certification) .journey-row:hover .journey-num {
+        transition: color var(--dur-hover) ease, text-shadow var(--dur-hover) ease, top var(--dur-modal) var(--ease-out) !important;
+      }
+    }
+  }
+}
+
+/* ===========================================================================
+   A STEP'S NUMBER MEETS ITS HEADING AS THE ROW OPENS - phones held upright
+
+   Upright, stock anchors the number to the row's bottom edge - the crop - and on
+   a tap its script lifts it to the heading's foot. A hover had no such script,
+   so an opening row carried the number down with that edge and over the
+   paragraph. index.html reads both places for every row - where the number
+   stands shut, and where its foot meets the heading's with the row open, the
+   heading at least 3.5em tall (stock's own rule, now on a hover too) - and the
+   number rises from one to the other from the top, on the height's timing.
+   =========================================================================== */
+.journey-row.is-measuring .journey-detail {
+  display: none !important;
+}
+
+.journey-row.is-measuring h3 {
+  min-height: 0 !important;
+}
+
+/* The numbers in the headings' face - Podium Sharp at 700 with their -0.01em,
+   as the name, the section headings and the game titles are - where stock had
+   them in regular Inter. */
+:is(#main, #Certification) .journey-num {
+  font-family: "Podium Sharp", "Chakra Petch", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@media screen and (max-width: 736px) and (orientation: portrait) {
+  :is(#main, #Certification) .journey-num {
+    top: var(--num-top, auto);
+  }
+
+  :is(#main, #Certification) .journey-row.is-open .journey-num {
+    top: var(--num-open-top, auto);
+  }
+}
+
+@media screen and (max-width: 736px) and (orientation: portrait) and (hover: hover) {
+  :is(#main, #Certification) .journey-row:hover h3 {
+    min-height: 3.5em;
+  }
+
+  :is(#main, #Certification) .journey-row:hover .journey-num {
+    top: var(--num-open-top, auto);
+  }
+}
+
+/* ===========================================================================
+   A SPLIT SLIDE KEEPS ITS HEADING - phones
+
+   Slide one's stats, and slide two's banners and photo, take screens of their
+   own on a phone, and each keeps the heading of the slide it came from: the
+   board stays on that slide's sentence (index.html), the eyebrow stays up until
+   the slide's last part leaves, and the part starts under the heading.
+
+   --grp-lead / --grp-last: the slots from this slide's start to its last part,
+   and that part's length - so the eyebrow runs its exit on the last part's
+   clock, at the 0.78 every intro piece leaves at. Unsplit, they are 0 and the
+   slide's own length, which is the old --go exactly. --head-b is where slide
+   two's heading ends, measured from the top of a panel.
+   =========================================================================== */
+#reel .reel-panel--title .intro2-eyebrow,
+#reel .reel-panel--collab .intro2-eyebrow {
+  --go: clamp(0, calc(((var(--d) - var(--grp-lead, 0)) / var(--grp-last, var(--slots, 1)) - 0.78) / 0.2), 1);
+}
+
+/* And slide two's panel does not slide off with its own beat - every panel is
+   pushed 2rem left once it is over, and that took the eyebrow 32px sideways as
+   the banners' screen came in. Slide one's panel never slides (it holds the
+   board). Doubled class: the base rule sits further down the file. */
+#reel .reel-panel.reel-panel--collab {
+  --out: clamp(0, calc((var(--d) - var(--grp-lead, 0) - var(--grp-last, var(--slots, 1)) + 0.16) / 0.32), 1);
+}
+
+@media (max-width: 900px) {
+  #reel .reel-panel.reel-panel--award {
+    align-items: flex-start;
+    padding-top: 0;
+  }
+
+  #reel .reel-panel.reel-panel--award .hl-slide-content {
+    padding-top: calc(var(--head-b, 0px) + clamp(1rem, 3vh, 1.9rem));
+  }
+
+  /* As big as the room under the heading allows: the photo is 843x1054, so its
+     width is that height over 1.25, less the gap, the nav bar's 106px and a
+     caption that runs to three lines once the photo is this narrow. */
+  #reel .reel-panel.reel-panel--award .intro2-photo-card {
+    max-width: min(100%, calc((100vh - var(--head-b, 0px) - 14.5rem) / 1.25));
+    margin-inline: 0;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 700px) {
+  #reel .reel-panel.reel-panel--partners {
+    align-items: flex-start;
+    padding-top: 0;
+  }
+
+  #reel .reel-panel.reel-panel--partners .hl-slide-content {
+    padding-top: calc(var(--head-b, 0px) + clamp(1rem, 3vh, 1.9rem));
+  }
+}
+
+/* ===========================================================================
+   THE GAMES' HEADINGS STAND IN ONE PLACE - stacked phones
+
+   Stock centres a stacked game slide in its screen (align-content: center below
+   1024 wide), so each beat's heading sat wherever its own copy and card put it:
+   at 375x667 Chess Run's at 114, Worldscar's 125, Oneiros's 90, Snatch's 128. And
+   the copy changes inside a swap beat, so a heading moved on the roll as well -
+   Worldscar's by 11px while it was still Chess Run's. From the top instead, at
+   the eyebrow's place on the intro beats, with every tag as tall as the tallest
+   (--tag-h, index.html): the heading is where the tag's floor puts it, and that
+   is the same in every beat. Wide screens were already top-hung - every heading
+   at 124 at 1280x800. The side-by-side layouts are left as they are. */
+@media (max-width: 899px) and (min-height: 701px), (max-width: 699px) {
+  /* Doubled class: the short-screen padding further down the file is otherwise
+     the same weight and later. */
+  #reel .reel-panel.reel-panel--work.hl-slide:has(> .hl-slide-bg),
+  #reel .reel-panel.reel-panel--bridge.hl-slide:has(> .hl-slide-bg) {
+    align-content: start;
+  }
+
+  #reel .reel-panel.reel-panel--work .hl-tag,
+  #reel .reel-panel.reel-panel--bridge .hl-tag {
+    min-height: var(--tag-h, auto);
+    align-items: flex-end;
+    align-content: end;
+  }
+}
+
+/* The shortest phones. At 320x568 Oneiros's column is 354px - six lines of
+   paragraph at 27px apiece - and with its card it ran 44px under the nav bar.
+   A size down and a tighter line for the paragraph there, and the card at 30vh
+   of width rather than 36. Bridge and beats alike, so Chess Run still cuts
+   clean; not Cobweb's mosaic, which fits as it is. */
+@media (max-height: 600px) {
+  #reel .reel-panel.reel-panel--work .hl-slide-desc,
+  #reel .reel-panel.reel-panel--bridge .hl-slide-desc {
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+}
+
+/* Slide one's paragraph too: fourteen lines at 320x568, the last 31px under
+   the nav bar with the stats already on their own screen. */
+@media (max-height: 600px) {
+  #reel .reel-panel.reel-panel--title .intro2-lead {
+    line-height: 1.45;
+  }
+}
+
+@media (max-height: 600px) and (max-width: 700px) {
+  #reel .reel-panel.reel-panel--work > .hl-slide-bg:not(.hl-cobweb-card),
+  #reel .reel-panel.reel-panel--bridge > .hl-slide-bg {
+    max-width: min(100%, 30vh);
+  }
+}
+
+/* Hung at the eyebrow's height where there is height for it. On a short screen
+   the beat keeps its own tighter pad (clamp 0.5-1.5rem, further up the file) -
+   the eyebrow's 34px at 320x568 put Oneiros's card 67px under the nav bar. */
+@media (max-width: 899px) and (min-height: 701px) {
+  #reel .reel-panel.reel-panel--work.hl-slide:has(> .hl-slide-bg),
+  #reel .reel-panel.reel-panel--bridge.hl-slide:has(> .hl-slide-bg) {
+    padding-top: calc(2 * clamp(1rem, 3vh, 2.5rem));
   }
 }
 
@@ -9679,10 +9860,9 @@ margin-top: -2em;}
    - there is one set of numbers in the document, not a phone copy and a wide
    copy drifting apart.
 
-   No heading on it. Each stat already carries its own label, so four of them
-   filling a screen reads as a statement without one, and inventing a title for
-   a beat the wide layout does not have would put copy on the site that only
-   some visitors ever see. */
+   It keeps slide one's heading and eyebrow - the board stays on slide one's
+   sentence and the eyebrow leaves with this beat, not before it - so the stats
+   read as the rest of slide one, landing under the heading the lead just left. */
 #reel .reel-panel--numbers {
   display: none;
 }
@@ -9752,8 +9932,9 @@ margin-top: -2em;}
   display: none;
 }
 
-/* Same condition the driver splits the photo on, to the character. */
-@media (max-height: 700px) and (max-width: 720px) {
+/* Same condition the driver splits the photo on, to the character: every
+   screen where slide two's columns stack. */
+@media (max-width: 900px) {
   #reel .reel-panel--award {
     display: flex;
   }
@@ -9769,8 +9950,9 @@ margin-top: -2em;}
 /* Must be the same condition the driver splits on. If the beat is hidden while
    the driver has moved the banners into it, the partners disappear from the page
    altogether - which is what happened at 375x812 when only one of the two was
-   widened. */
-@media (max-width: 900px) {
+   widened. Short screens only: taller than 700, the banners stay on slide two
+   under its heading, and the photo is the one that moves out. */
+@media (max-width: 900px) and (max-height: 700px) {
   #reel .reel-panel--partners {
     display: flex;
   }
@@ -10045,11 +10227,18 @@ margin-top: -2em;}
     margin-bottom: clamp(0.35rem, 1.2vh, 0.9rem);
   }
 
-  #reel .reel-panel--work .hl-slide-desc {
+  /* The bridge too. It is Chess Run's slide to the pixel everywhere else, and
+     these two it was missing: at 375x667 its paragraph kept 24/32px of margin to
+     the beat's 8/11 and its card foot its full padding, 171px of card to 143, so
+     the column it centres was 37px taller and Chess Run jumped 22px down on the
+     cut into Worldscar's beat. */
+  #reel .reel-panel--work .hl-slide-desc,
+  #reel .reel-panel--bridge .hl-slide-desc {
     margin: clamp(0.35rem, 1.2vh, 0.9rem) 0 clamp(0.5rem, 1.6vh, 1rem);
   }
 
-  #reel .reel-panel--work .hl-gc-foot {
+  #reel .reel-panel--work .hl-gc-foot,
+  #reel .reel-panel--bridge .hl-gc-foot {
     padding: clamp(0.45rem, 1.5vh, 0.9rem) 0.95rem;
   }
 
@@ -10861,8 +11050,26 @@ html.lenis body {
   animation: reelStepIn 420ms var(--ease-out) calc(var(--n-card, 0) * 110ms) both !important;
 }
 
-#reel.step-logos .reel-panel--partners .intro2-logo {
+/* On a short phone the banners have a screen of their own, and come in one by one
+   when it does - its step-cards at 0.12, not slide two's step-logos. Keyed to the
+   reel's mark, they arrived under slide two's heading a beat early. */
+#reel .reel-panel--partners.step-cards .intro2-logo {
   animation: reelStepIn 420ms var(--ease-out) calc(var(--n-logo, 0) * 110ms) both !important;
+}
+
+/* A phone-only screen opens on the board walking the last heading away - about
+   a second of flaps (520ms a cell, 14ms between cells). What arrives on that
+   screen waits for the walk to end, or it came in under the turning letters:
+   the stats 27px into them and the banners 21px at 844x390, the photo 32px at
+   768x1024. The stats and banners are held back and start their one by one when
+   it ends; the photo rides --show, so its own transition brings it in. */
+#reel:has(.flap-board.is-flapping) :is(.reel-panel--numbers .intro2-stat, .reel-panel--partners .intro2-logo) {
+  animation: none !important;
+  --show: 0 !important;
+}
+
+#reel:has(.flap-board.is-flapping) .reel-panel--award .intro2-photo-card {
+  --show: 0;
 }
 
 /* The photo waits for a scroll of its own, after the logos have landed. Its
@@ -10885,6 +11092,7 @@ html.lenis body {
 
 @media (prefers-reduced-motion: reduce) {
   #reel.step-logos .intro2-logo,
+  #reel .reel-panel--partners.step-cards .intro2-logo,
   #reel .reel-panel--collab.step-award .intro2-photo-card {
     animation: none !important;
     --show: 1;
