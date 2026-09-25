@@ -9017,19 +9017,50 @@ margin-top: -2em;}
     padding-top: var(--tag-pad, 0px);
   }
 
-  /* The card on the copy's left edge, not hung off the right one - short screens
-     cap its width, and the gap it left read as a misplaced card. */
+  /* Every game's card in one place - the bottom right, just above the nav bar -
+     whatever the copy over it runs to: the grid's second row takes the rest of the
+     height and the card stands on its floor. Hung under the copy, it moved with
+     every paragraph, and with the roll inside a beat. The row is never shorter
+     than the card, so a long column pushes it down rather than under the copy. */
+  #reel .reel-panel.reel-panel--work.hl-slide:has(> .hl-slide-bg),
+  #reel .reel-panel.reel-panel--bridge.hl-slide:has(> .hl-slide-bg) {
+    grid-template-rows: auto minmax(auto, 1fr);
+  }
+
   #reel .reel-panel.reel-panel--work > .hl-slide-bg,
   #reel .reel-panel.reel-panel--bridge > .hl-slide-bg {
-    justify-self: start;
+    align-self: end;
+    justify-self: end;
+    margin-bottom: clamp(0.25rem, 1.5vh, 1rem);
+  }
+}
+
+/* And one height (--card-h, index.html), so the corner holds the same card-sized
+   box on every slide and through every roll - Snatch's card in Cobweb's beat as
+   well, the frame Cobweb opens on. Not the mosaic, which is its own shape. */
+#reel .reel-panel.reel-panel--bridge > .hl-slide-bg,
+#reel .reel-panel.reel-panel--swap > .hl-slide-bg:not(.hl-cobweb-card) {
+  min-height: var(--card-h, auto);
+}
+
+/* The side-by-side layouts - a phone on its side, and 900 to 1024 wide - had the
+   card centred against the copy. On the floor of its column instead, the corner
+   the wide layout already puts it in. */
+@media (max-height: 700px) and (min-width: 700px),
+       (min-width: 900px) and (max-width: 1024px) {
+  #reel .reel-panel.reel-panel--work > .hl-slide-bg,
+  #reel .reel-panel.reel-panel--bridge > .hl-slide-bg {
+    align-self: end;
+    margin-bottom: clamp(0.25rem, 1.5vh, 1rem);
   }
 }
 
 /* The shortest phones. At 320x568 Oneiros's column is 354px - six lines of
    paragraph at 27px apiece - and with its card it ran 44px under the nav bar.
-   A size down and a tighter line for the paragraph there, and the card at 30vh
-   of width rather than 36. Bridge and beats alike, so Chess Run still cuts
-   clean; not Cobweb's mosaic, which fits as it is. */
+   A size down and a tighter line for the paragraph there. Bridge and beats
+   alike, so Chess Run still cuts clean. The card keeps the 36vh it has on every
+   short screen: narrower, its subtitle wrapped to three lines and the card came
+   out taller, 176px at 30vh against 149 at 36. */
 @media (max-height: 600px) {
   #reel .reel-panel.reel-panel--work .hl-slide-desc,
   #reel .reel-panel.reel-panel--bridge .hl-slide-desc {
@@ -9049,6 +9080,13 @@ margin-top: -2em;}
   #reel .reel-panel.reel-panel--bridge .hl-slide-content > .hl-slide-desc {
     margin-top: 0.75rem;
   }
+
+  /* The corner a little lower, for every card alike: at 320x568 Snatch's copy
+     left its card 4px short of the corner the others stood in. */
+  #reel .reel-panel.reel-panel--work.hl-slide > .hl-slide-bg,
+  #reel .reel-panel.reel-panel--bridge.hl-slide > .hl-slide-bg {
+    margin-bottom: 0.25rem;
+  }
 }
 
 /* Slide one's paragraph too: fourteen lines at 320x568, the last 31px under
@@ -9056,13 +9094,6 @@ margin-top: -2em;}
 @media (max-height: 600px) {
   #reel .reel-panel.reel-panel--title .intro2-lead {
     line-height: 1.45;
-  }
-}
-
-@media (max-height: 600px) and (max-width: 700px) {
-  #reel .reel-panel.reel-panel--work > .hl-slide-bg:not(.hl-cobweb-card),
-  #reel .reel-panel.reel-panel--bridge > .hl-slide-bg {
-    max-width: min(100%, 30vh);
   }
 }
 
@@ -9077,7 +9108,10 @@ margin-top: -2em;}
   #reel .reel-panel.reel-panel--work.hl-slide:has(> .hl-slide-bg),
   #reel .reel-panel.reel-panel--bridge.hl-slide:has(> .hl-slide-bg) {
     padding-top: calc(2 * clamp(1rem, 3vh, 2.5rem));
-    gap: clamp(0.9rem, 2.8vh, 1.5rem);
+    /* The least the copy and the card are allowed apart - the card stands in its
+       corner, so this only counts on the slide whose copy runs longest (Snatch),
+       and at 18px that one pushed its card 5px out of the corner at 360x640. */
+    gap: clamp(0.6rem, 1.8vh, 1.5rem);
   }
 
   #reel .reel-panel.reel-panel--work .hl-slide-content > .hl-tag,

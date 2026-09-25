@@ -2960,8 +2960,33 @@
 				if (r.width < innerWidth * 0.6 || r.top < innerHeight / 2) return 0;
 				return Math.max(0, innerHeight - r.top);
 			}
+			// Every game's card stands in one place, so every card is one height: the
+			// tallest, reading each swap card with the game it swaps in as well, since its
+			// subtitle runs to one line for one game and two for the next, and a card that
+			// changed height on the roll moved its top edge with it (main.css, --card-h).
+			// Snatch's card in Cobweb's beat counts too - the frame Cobweb opens on. Cobweb's
+			// mosaic is its own shape and is left out.
+			function calibrateCards() {
+				var cards = reel.querySelectorAll(".reel-panel--bridge > .hl-slide-bg, .reel-panel--swap > .hl-slide-bg:not(.hl-cobweb-card)");
+				reel.style.removeProperty("--card-h");
+				var max = 0;
+				Array.prototype.forEach.call(cards, function (card) {
+					max = Math.max(max, card.offsetHeight);
+					var to = card.getAttribute("data-to-sub"), csub = card.querySelector(".hl-gc-sub");
+					var toName = card.getAttribute("data-to-name"), name = card.querySelector(".hl-gc-name");
+					if (!to || !csub) return;
+					var was = csub.textContent, wasName = name ? name.textContent : "";
+					csub.textContent = to;
+					if (name && toName) name.textContent = toName;
+					max = Math.max(max, card.offsetHeight);
+					csub.textContent = was;
+					if (name && toName) name.textContent = wasName;
+				});
+				if (max) reel.style.setProperty("--card-h", Math.ceil(max) + "px");
+			}
 			function calibrate() {
 				calibrateTags();
+				calibrateCards();
 				splitWords(leadEl);
 				groupLines(leadEl);
 				calibrateCollab();
