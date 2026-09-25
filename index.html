@@ -2483,9 +2483,11 @@
 			// photo:
 			//   taller than 700 - heading and banners stay together, photo on its own:
 			//                     two screens (375x812: banners end at 560 over a 722 nav);
-			//   700 and under   - the banners do not fit under the three-line heading
-			//                     either (17px into it at 375x667, 57px at 320x568), so
-			//                     heading, banners, photo: three screens.
+			//   700 and under   - the banners take a beat of their own, positioned under
+			//                     the heading on that beat (main.css, --head-b): slide
+			//                     two's column put them 17px into it at 375x667. They
+			//                     still come in on slide two's step and stay through
+			//                     their beat, so it reads as the same two screens.
 			// With the banners moved and the photo left behind, the banners came in over
 			// the photo at 375x812 - they arrived with slide two's step while the photo
 			// was still on it.
@@ -2519,10 +2521,6 @@
 			defineStep(".reel-panel--title", 0.42, "step-lead");
 			defineStep(".reel-panel--title", 0.54, "step-stats");
 			defineStep(".reel-panel--numbers", 0.12, "step-stats");
-			// The banners' own screen, on a short phone: in one by one at the same 0.12
-			// the stats start at on theirs. Keyed to this beat, not to slide two's
-			// step-logos, which had them in under slide two's heading a beat early.
-			defineStep(".reel-panel--partners", 0.12, "step-cards");
 			// Slide two holds on the heading alone for half its beat, then the heading
 			// rises out of the middle and the logos come in under it.
 			defineStep(".reel-panel--collab", 0.45, "step-logos", true);
@@ -3147,7 +3145,7 @@
 			function clearBeats() {
 				reel.classList.remove("at-collab", "at-bridge", "at-swap", "step-logos");
 				for (var b = 0; b < panels.length; b++) {
-					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-cards", "step-award", "no-entrance");
+					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-award", "no-entrance");
 				}
 				if (window.__flap) window.__flap.arm(reel);
 			}

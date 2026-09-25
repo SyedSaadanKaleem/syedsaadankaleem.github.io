@@ -11050,10 +11050,11 @@ html.lenis body {
   animation: reelStepIn 420ms var(--ease-out) calc(var(--n-card, 0) * 110ms) both !important;
 }
 
-/* On a short phone the banners have a screen of their own, and come in one by one
-   when it does - its step-cards at 0.12, not slide two's step-logos. Keyed to the
-   reel's mark, they arrived under slide two's heading a beat early. */
-#reel .reel-panel--partners.step-cards .intro2-logo {
+/* On a short phone the banners live on a beat of their own, positioned under the
+   heading, but still arrive on slide two's step - the heading holds alone, then
+   they come in under it - and stay through their beat. The mark is on the reel,
+   so it reaches them there. */
+#reel.step-logos .reel-panel--partners .intro2-logo {
   animation: reelStepIn 420ms var(--ease-out) calc(var(--n-logo, 0) * 110ms) both !important;
 }
 
@@ -11092,7 +11093,6 @@ html.lenis body {
 
 @media (prefers-reduced-motion: reduce) {
   #reel.step-logos .intro2-logo,
-  #reel .reel-panel--partners.step-cards .intro2-logo,
   #reel .reel-panel--collab.step-award .intro2-photo-card {
     animation: none !important;
     --show: 1;
