@@ -9009,7 +9009,7 @@ margin-top: -2em;}
 
 /* The bridge: Chess Run's paragraph, from step-desc (0.705, where its block
    started fading in on the scroll) on a clock. Scrolled back past the step, its
-   lines go with the scroll again, the way the rest of this column does. */
+   lines fade back out together. */
 #reel .reel-panel--bridge .hl-slide-desc:has(.lw) {
   --show: 1;
 }
@@ -9018,10 +9018,17 @@ margin-top: -2em;}
   --show: clamp(0, calc((var(--b-tp, 0) - 0.705) / 0.06), 1);
   opacity: var(--show);
   transform: translate3d(calc((1 - var(--show)) * -1.1rem), 0, 0);
+  /* The way back, the same 380ms every piece of slide one leaves on. Nothing
+     else moves --show while the step is off - the scroll value is 0 below it. */
+  transition: --show 380ms var(--ease-out) !important;
 }
 
+/* In on a transition rather than a keyframe, for the reason slide one's
+   paragraph is (STEPS): a keyframe taken away starts no transition, so the
+   lines dropped out in a frame on the way back up. */
 #reel .reel-panel--bridge.step-desc .hl-slide-desc .lw {
-  animation: reelStepIn 420ms var(--ease-out) calc(var(--n-line, 0) * 70ms) both !important;
+  --show: 1;
+  transition: --show 420ms var(--ease-out) calc(var(--n-line, 0) * 70ms) !important;
 }
 
 /* The games: at step-copy-in the paragraph used to come in whole at 160ms; its
@@ -9040,6 +9047,32 @@ margin-top: -2em;}
 }
 
 #reel .reel-panel--swap.step-copy-in .hl-slide-content:has(> .hl-slide-desc .lw) > .hl-slide-actions {
+  animation: swap-copy-in 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) both !important;
+}
+
+/* And back. Scrolled up past a game's copy-out, the last game's copy came back
+   at once - the transition that takes it away is declared on the leaving state,
+   so taking that state off put everything straight back. It returns the way the
+   new game's copy arrives instead: its kicker, the subtitle at 80ms, the
+   paragraph a line at a time from 160ms, then the buttons.
+
+   Keyed to the beat NOT being past copy-out, which is the state every beat
+   starts in - so it plays once as the page loads, off screen, and after that
+   only when copy-out is taken back off. A beat scrolled into from above is
+   already finished, and the cut from the beat before it stays a cut. */
+#reel .reel-panel--swap:not(.step-copy-out) .swap-kick--from {
+  animation: swap-copy-in 420ms ease both !important;
+}
+
+#reel .reel-panel--swap:not(.step-copy-out) .hl-slide-sub {
+  animation: swap-copy-in 420ms ease 80ms both !important;
+}
+
+#reel .reel-panel--swap:not(.step-copy-out) .hl-slide-desc .lw {
+  animation: swap-copy-in 420ms ease calc(160ms + var(--n-line, 0) * 70ms) both !important;
+}
+
+#reel .reel-panel--swap:not(.step-copy-out) .hl-slide-actions {
   animation: swap-copy-in 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) both !important;
 }
 
@@ -10829,8 +10862,15 @@ html.lenis body {
 
    The class goes on the beat rather than the element because short phones move
    the stats into their own beat, and the rule has to find them in either. */
+/* The paragraph is on a transition rather than the keyframe, though. Scrolled
+   back up past the step, taking a keyframe away starts no transition - the
+   lines measured 0 the frame after, despite the transition further down that
+   was meant to catch it - so the paragraph blinked out. A transition runs both
+   ways: in a line at a time from here, out together on the 380ms every intro
+   piece leaves on. */
 #reel .reel-panel.step-lead .intro2-lead .lw {
-  animation: reelStepIn 460ms var(--ease-out) calc(var(--n-line, 0) * var(--lw-step, 90ms)) both !important;
+  --show: 1;
+  transition: --show 460ms var(--ease-out) calc(var(--n-line, 0) * var(--lw-step, 90ms)) !important;
 }
 
 /* One by one, 70ms apart - the gap the hero's scoreboard uses. Four of them
@@ -10844,6 +10884,10 @@ html.lenis body {
   #reel .reel-panel.step-stats .intro2-stat {
     animation: none !important;
     --show: 1;
+  }
+
+  #reel .reel-panel.step-lead .intro2-lead .lw {
+    transition: none !important;
   }
 }
 
