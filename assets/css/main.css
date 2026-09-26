@@ -8993,6 +8993,67 @@ margin-top: -2em;}
 }
 
 /* ===========================================================================
+   THE GAMES' PARAGRAPHS, A LINE AT A TIME
+
+   Slide one's paragraph arrives a line at a time; the games' came in as one
+   block. Each is split into word boxes the same way (index.html, splitDesc),
+   each word told the line it landed on at this width, and the lines come in
+   70ms apart - the gap the hero's scoreboard keeps - from the left, the way
+   every piece of these columns arrives. The block itself stops fading once it
+   is split, so the two do not multiply.
+   =========================================================================== */
+#reel .reel-panel--bridge .hl-slide-desc .lw,
+#reel .reel-panel--swap .hl-slide-desc .lw {
+  display: inline-block;
+}
+
+/* The bridge: Chess Run's paragraph, from step-desc (0.705, where its block
+   started fading in on the scroll) on a clock. Scrolled back past the step, its
+   lines go with the scroll again, the way the rest of this column does. */
+#reel .reel-panel--bridge .hl-slide-desc:has(.lw) {
+  --show: 1;
+}
+
+#reel .reel-panel--bridge .hl-slide-desc .lw {
+  --show: clamp(0, calc((var(--b-tp, 0) - 0.705) / 0.06), 1);
+  opacity: var(--show);
+  transform: translate3d(calc((1 - var(--show)) * -1.1rem), 0, 0);
+}
+
+#reel .reel-panel--bridge.step-desc .hl-slide-desc .lw {
+  animation: reelStepIn 420ms var(--ease-out) calc(var(--n-line, 0) * 70ms) both !important;
+}
+
+/* The games: at step-copy-in the paragraph used to come in whole at 160ms; its
+   lines come in from there instead, and the buttons wait for the last one
+   (--desc-lines, index.html) rather than landing in the middle of them. */
+@keyframes swap-copy-show {
+  from, to { opacity: 1; transform: none; }
+}
+
+#reel .reel-panel--swap.step-copy-in .hl-slide-desc:has(.lw) {
+  animation: swap-copy-show 1ms both !important;
+}
+
+#reel .reel-panel--swap.step-copy-in .hl-slide-desc .lw {
+  animation: swap-copy-in 420ms ease calc(160ms + var(--n-line, 0) * 70ms) both !important;
+}
+
+#reel .reel-panel--swap.step-copy-in .hl-slide-content:has(> .hl-slide-desc .lw) > .hl-slide-actions {
+  animation: swap-copy-in 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) both !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--bridge .hl-slide-desc .lw,
+  #reel .reel-panel--swap .hl-slide-desc .lw {
+    animation: none !important;
+    --show: 1;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===========================================================================
    THE GAMES' HEADINGS STAND IN ONE PLACE - stacked phones
 
    Stock centres a stacked game slide in its screen (align-content: center below

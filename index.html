@@ -2539,6 +2539,9 @@
 			// Where the bridge's board rolls over to CHESS RUN - read by the driver to
 			// roll it, and by enter() to SET it there when the bridge is come back to.
 			defineStep(".reel-panel--bridge", 0.52, "step-titled");
+			// Chess Run's paragraph comes in a line at a time from here - 0.705, where the
+			// block used to start fading in on the scroll (main.css).
+			defineStep(".reel-panel--bridge", 0.705, "step-desc");
 			// Each game after the bridge is a swap beat, three scrolls with one thing each:
 			// the last game's copy leaves, then the heading rolls and the card changes,
 			// then the new game's copy arrives. A slot is 32vh, so a 100px wheel notch is
@@ -2673,7 +2676,10 @@
 				// is the one beat whose heading's spacer changes: a title the board breaks
 				// over two rows needs two lines of room under it.
 				if (sub && sub.hasAttribute("data-to")) sub.textContent = on ? sub.getAttribute("data-to") : o.sub;
-				if (desc && desc.hasAttribute("data-to")) desc.textContent = on ? desc.getAttribute("data-to") : o.desc;
+				if (desc && desc.hasAttribute("data-to")) {
+					desc.textContent = on ? desc.getAttribute("data-to") : o.desc;
+					splitDesc(desc);   // new words, so new word boxes and new lines
+				}
 				if (title && title.hasAttribute("data-to")) title.textContent = on ? title.getAttribute("data-to") : o.title;
 				if (primary && primary.hasAttribute("data-to-href")) primary.setAttribute("href", on ? primary.getAttribute("data-to-href") : o.href);
 				// The card is a link too, to wherever Explore goes.
@@ -2984,11 +2990,24 @@
 				});
 				if (max) reel.style.setProperty("--card-h", Math.ceil(max) + "px");
 			}
+			// The games' paragraphs arrive a line at a time as well (main.css): split once,
+			// grouped at this width, and the count of lines handed to the column so its
+			// buttons can wait for the last one. swapTo() calls it again after rewriting
+			// the words at a roll.
+			function splitDesc(desc) {
+				if (!desc) return;
+				splitWords(desc);
+				groupLines(desc);
+				var words = desc.querySelectorAll(".lw");
+				var lines = words.length ? (parseFloat(words[words.length - 1].style.getPropertyValue("--n-line")) || 0) + 1 : 1;
+				desc.parentNode.style.setProperty("--desc-lines", lines);
+			}
 			function calibrate() {
 				calibrateTags();
 				calibrateCards();
 				splitWords(leadEl);
 				groupLines(leadEl);
+				Array.prototype.forEach.call(reel.querySelectorAll(".reel-panel--bridge .hl-slide-desc, .reel-panel--swap .hl-slide-desc"), splitDesc);
 				calibrateCollab();
 				calibrateBridge();
 				if (!heading) return;
@@ -3204,7 +3223,7 @@
 			function clearBeats() {
 				reel.classList.remove("at-collab", "at-bridge", "at-swap", "step-logos");
 				for (var b = 0; b < panels.length; b++) {
-					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-award", "no-entrance");
+					panels[b].classList.remove("is-live", "is-out", "is-done", "step-lead", "step-stats", "step-award", "step-desc", "no-entrance");
 				}
 				if (window.__flap) window.__flap.arm(reel);
 			}
