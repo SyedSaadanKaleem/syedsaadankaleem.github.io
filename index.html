@@ -2398,6 +2398,108 @@
 			// cache only notices a change of SIZE - so at 1600 the cells were still
 			// carrying the stand-in's widths and ran 195px past the column. Drop the
 			// cache when the real face lands, and re-apply at rest.
+
+			// A single line of text rolled the heading's way - the games' card names at
+			// the roll. Same charset, same flap, stagger, floor and budget, and each cell
+			// eases its width from the old glyph's advance to the new one over its own
+			// roll. Its cells are built for the move and the plain text is put back once
+			// it lands, so at rest the name is just its words.
+			//
+			// The one difference is the leaf. The heading's is an opaque card the colour
+			// of the stage behind it; a card name sits over a banner's glow that changes
+			// hue at that very roll, so an opaque leaf would print a box. The leaf is see-
+			// through instead, and the face's top half is clipped to the strip the falling
+			// leaf has uncovered (--fa), so the old and new glyphs never overlap.
+			function textOf(el) {
+				return el.getAttribute("data-flap-to") || el.textContent;
+			}
+			function flapText(el, to, animate) {
+				if (el.__flapRaf) cancelAnimationFrame(el.__flapRaf);
+				var from = el.__flapCells ? el.__flapCells.map(function (c) { return CHARSET[c.glyph]; }).join("") : el.textContent;
+				el.__flapCells = null;
+				el.removeAttribute("data-flap-to");
+				if (!animate || from.toUpperCase() === to.toUpperCase()) { el.textContent = to; return; }
+
+				var n = Math.max(from.length, to.length), len = CHARSET.length;
+				var src = (from.toUpperCase() + new Array(n + 1).join(" ")).slice(0, n);
+				var dst = (to.toUpperCase() + new Array(n + 1).join(" ")).slice(0, n);
+				var lastInk = dst.replace(/ +$/, "").length - 1;
+
+				el.setAttribute("data-flap-to", to);
+				el.textContent = "";
+				var probe = document.createElement("span");
+				probe.className = "flap-probe";
+				el.appendChild(probe);
+				var adv = function (ch) { probe.textContent = show(ch); return probe.getBoundingClientRect().width; };
+
+				var cells = [];
+				for (var k = 0; k < n; k++) {
+					var cn = document.createElement("span");
+					cn.className = "flap";
+					cn.innerHTML = '<span class="flap-strut"></span><span class="flap-face"></span><span class="flap-leaf"><span></span></span>';
+					var g0 = drum(src[k]), g1 = drum(dst[k]);
+					var steps = Math.max((g1 - g0 + len) % len, MIN_SPIN);
+					var cell = {
+						el: cn, strut: cn.firstChild, face: cn.childNodes[1], leafWrap: cn.lastChild, leafFace: cn.lastChild.firstChild,
+						glyph: g0, from: g0, to: dst[k], steps: steps, stepMs: Math.min(STEP_MS, SPIN_BUDGET / steps),
+						w0: adv(src[k]), w1: k > lastInk ? 0 : adv(dst[k])
+					};
+					cell.strut.textContent = show(dst[k]);
+					cell.face.textContent = show(src[k]);
+					cell.leafFace.textContent = show(src[k]);
+					cn.style.width = cell.w0.toFixed(2) + "px";
+					cells.push(cell);
+					el.appendChild(cn);
+				}
+				el.removeChild(probe);
+				el.__flapCells = cells;
+				el.getBoundingClientRect();   // the old widths are the transition's start
+				cells.forEach(function (c, j) {
+					c.el.style.setProperty("--fd", (c.steps * c.stepMs).toFixed(0) + "ms");
+					c.el.style.setProperty("--fdl", (j * STAGGER) + "ms");
+					c.el.style.width = c.w1.toFixed(2) + "px";
+				});
+
+				var t0 = performance.now();
+				var tick = function (now) {
+					// Rewritten from outside mid-roll (calibrateCards measures with the plain
+					// text), so these cells are gone - nothing left to turn.
+					if (el.__flapCells !== cells || cells[0].el.parentNode !== el) return;
+					var running = false;
+					for (var j = 0; j < cells.length; j++) {
+						var cl = cells[j];
+						if (cl.steps === 0) continue;
+						var elapsed = now - t0 - j * STAGGER;
+						if (elapsed < 0) { running = true; continue; }
+						var step = Math.floor(elapsed / cl.stepMs);
+						if (step >= cl.steps) {
+							cl.glyph = drum(cl.to);
+							cl.face.textContent = show(cl.to);
+							cl.leafWrap.style.visibility = "hidden";
+							cl.el.style.removeProperty("--fa");
+							cl.steps = 0;
+							continue;
+						}
+						running = true;
+						var shown = (cl.from + step) % len;
+						var f = (elapsed % cl.stepMs) / cl.stepMs;
+						cl.face.textContent = show(CHARSET[(shown + 1) % len]);
+						cl.leafFace.textContent = show(CHARSET[shown]);
+						cl.leafWrap.style.visibility = "visible";
+						cl.leafWrap.style.transform = "rotateX(" + (-90 * f).toFixed(1) + "deg)";
+						cl.el.style.setProperty("--fa", (50 * (1 - Math.cos(f * Math.PI / 2))).toFixed(1) + "%");
+						cl.glyph = shown;
+					}
+					if (running) { el.__flapRaf = requestAnimationFrame(tick); return; }
+					el.__flapCells = null;
+					el.removeAttribute("data-flap-to");
+					el.textContent = to;
+				};
+				el.__flapRaf = requestAnimationFrame(tick);
+			}
+			window.__flap.text = flapText;
+			window.__flap.textOf = textOf;
+
 			if (document.fonts && document.fonts.ready) {
 				document.fonts.ready.then(function () {
 					measuredAt = 0;
@@ -2670,7 +2772,13 @@
 				if (banner) banner.style.backgroundImage = on
 					? "url('" + card.getAttribute("data-to-banner") + "')" : o.banner;
 				if (logo) logo.setAttribute("src", on ? card.getAttribute("data-to-logo") : o.logo);
-				if (name) name.textContent = on ? card.getAttribute("data-to-name") : o.name;
+				// The name rolls with the heading when the beat is on screen; anywhere else
+				// (a reload landing past it, a beat off stage) it is simply set.
+				if (name) {
+					var toName = on ? card.getAttribute("data-to-name") : o.name;
+					if (window.__flap && window.__flap.text && card.hasAttribute("data-to-name")) window.__flap.text(name, toName, el.classList.contains("is-live"));
+					else name.textContent = toName;
+				}
 				if (csub) csub.textContent = on ? card.getAttribute("data-to-sub") : o.csub;
 				// Only what has somewhere to go - Cobweb has no buttons to re-point, and it
 				// is the one beat whose heading's spacer changes: a title the board breaks
@@ -2981,7 +3089,8 @@
 					var to = card.getAttribute("data-to-sub"), csub = card.querySelector(".hl-gc-sub");
 					var toName = card.getAttribute("data-to-name"), name = card.querySelector(".hl-gc-name");
 					if (!to || !csub) return;
-					var was = csub.textContent, wasName = name ? name.textContent : "";
+					// Mid-roll the name is flap cells; its words are where the roll is going.
+					var was = csub.textContent, wasName = name ? (window.__flap && window.__flap.textOf ? window.__flap.textOf(name) : name.textContent) : "";
 					csub.textContent = to;
 					if (name && toName) name.textContent = toName;
 					max = Math.max(max, card.offsetHeight);

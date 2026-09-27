@@ -12248,6 +12248,119 @@ html.lenis body {
   animation: swap-copy-back 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) both !important;
 }
 
+/* No logo on the reel's game cards - the name and its subtitle are the foot.
+   Hidden rather than taken out of the markup, because swapTo() still re-points
+   its src at every roll. */
+#reel .hl-gc-logo {
+  display: none;
+}
+
+/* The subtitle in the white Cobweb's six cards use for theirs (.hl-mini-desc),
+   rather than the accent red. */
+#reel .hl-gc-sub {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* And the six cards' names in the big cards' face (.hl-gc-name), at their own
+   size. */
+#reel .hl-mini-name {
+  font-family: 'Podium Sharp', 'Chakra Petch', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+/* Every card's name opened up and lightened, so it reads at card size. The
+   face ships in one weight only, so the lighter weight is a hairline of the
+   cards' own background drawn over the letters' edges (#121212 is #0b0b0b
+   under the cards' 3% white) - 0.05em takes about a pixel off a stem at 18px. */
+#reel .hl-gc-name,
+#reel .hl-mini-name {
+  letter-spacing: 0.06em;
+  -webkit-text-stroke: 0.05em #121212;
+}
+
+/* The six are small enough that the same treatment still closed them up: at
+   9.9px the 0.05em hairline ate half a stem. Larger, wider, a finer hairline.
+   1.2x each size the stock and the reel set for them - 0.72rem, and 0.62rem
+   under 700px wide or 700px tall - at the same weight of selector. */
+#reel .hl-mini-name {
+  letter-spacing: 0.08em;
+  -webkit-text-stroke-width: 0.03em;
+}
+
+#reel .reel-panel--work .hl-cobweb-card .hl-mini-name {
+  font-size: 0.864rem;
+}
+
+/* Their blurbs set the way the big cards' subtitle is (.hl-gc-sub): small caps
+   of Inter, tracked out. The colour already matches. */
+#reel .hl-cobweb-card .hl-mini-desc {
+  font-family: 'Inter', system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.6rem;
+}
+
+@media (max-width: 700px), (max-height: 700px) {
+  #reel .reel-panel--work .hl-cobweb-card .hl-mini-name {
+    font-size: 0.744rem;
+  }
+}
+
+/* The card's game name rolls at the roll the way the heading does (index.html,
+   __flap.text): the heading's cell, strut, face and leaf, at the name's own size.
+   Its cells only exist while it is rolling. */
+#reel .hl-gc-name .flap {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  overflow: visible;
+  perspective: 6em;
+  transition: width var(--fd, 0ms) linear var(--fdl, 0ms) !important;
+}
+
+#reel .hl-gc-name .flap-strut {
+  display: block;
+  visibility: hidden;
+  white-space: pre;
+}
+
+/* Two bands: the strip above the falling leaf (0 to --fa) and the bottom half.
+   At rest --fa is 50% and the bands meet, so the whole glyph shows. Wide of the
+   cell on both sides, so a W passing through an I's cell is not cut. */
+#reel .hl-gc-name .flap-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  text-align: center;
+  white-space: pre;
+  clip-path: polygon(-50% 0, 150% 0, 150% var(--fa, 50%), -50% var(--fa, 50%),
+    -50% 50%, 150% 50%, 150% 100%, -50% 100%);
+}
+
+#reel .hl-gc-name .flap-leaf {
+  position: absolute;
+  inset: 0 0 50% 0;
+  overflow: hidden;
+  visibility: hidden;
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+}
+
+#reel .hl-gc-name .flap-leaf > span {
+  display: block;
+  text-align: center;
+  white-space: pre;
+}
+
+#reel .hl-gc-name .flap-probe {
+  position: absolute;
+  visibility: hidden;
+  display: inline-block;
+  white-space: pre;
+  pointer-events: none;
+}
+
 /* The card does not fade in, it fails in. Three sine waves at frequencies that
    do not divide into each other, inside the same 0-1-0 window the glow uses, so
    the worst of it is mid-arrival and it is clean at both ends: the whole card
