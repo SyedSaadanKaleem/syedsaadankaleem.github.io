@@ -2744,6 +2744,49 @@
 			// Everything this touches is invisible at that moment - the copy left on the
 			// scroll before, and the card is changing because that IS the step - so there
 			// is nothing to cross-fade and one set of elements does for both games.
+			// The card's subtitle decodes across at the roll, its own move beside the
+			// name's flap and the picture's glitch: the old words break up into noise in a
+			// wave from the left, and the new ones resolve out of it in a second wave,
+			// each character churning every 40ms until its turn. Characters still in the
+			// noise carry .is-noise (main.css) and are the accent. About the heading's
+			// roll, 540ms end to end whatever the length. Plain text again once resolved.
+			var NOISE = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*/<>+=";
+			function decode(el, to) {
+				cancelAnimationFrame(el.__decodeRaf);
+				var from = el.getAttribute("data-decode-to") ? el.__decodeShown || "" : el.textContent;
+				// Held at the taller of the two texts for the whole move, so a subtitle that
+				// wraps for one game and not the other - or noise wider than either - does
+				// not walk the name up and down.
+				el.style.minHeight = "";
+				el.textContent = to; var h1 = el.offsetHeight;
+				el.textContent = from; var h0 = el.offsetHeight;
+				el.style.minHeight = Math.max(h0, h1) + "px";
+				el.setAttribute("data-decode-to", to);
+				var n = Math.max(from.length, to.length), per = Math.min(18, 260 / Math.max(n, 1));
+				var t0 = performance.now(), seed = [];
+				var esc = function (ch) { return ch === "&" ? "&amp;" : ch === "<" ? "&lt;" : ch === ">" ? "&gt;" : ch; };
+				var tick = function (now) {
+					var t = now - t0, html = "", plain = "", done = true;
+					for (var i = 0; i < n; i++) {
+						var breakAt = i * per, settleAt = 180 + i * per;
+						if (t >= settleAt) { var c1 = to[i] || ""; html += esc(c1); plain += c1; continue; }
+						done = false;
+						if (t < breakAt) { var c0 = from[i] || ""; html += esc(c0); plain += c0; continue; }
+						var target = to[i] || from[i] || " ";
+						if (target === " ") { html += " "; plain += " "; continue; }
+						var slot = Math.floor(t / 40);
+						if (seed[i] === undefined || seed[i].slot !== slot) seed[i] = { slot: slot, ch: NOISE[Math.floor(Math.random() * NOISE.length)] };
+						html += '<span class="is-noise">' + esc(seed[i].ch) + "</span>";
+						plain += seed[i].ch;
+					}
+					el.__decodeShown = plain;
+					if (done) { el.removeAttribute("data-decode-to"); el.style.minHeight = ""; el.textContent = to; return; }
+					el.innerHTML = html;
+					el.__decodeRaf = requestAnimationFrame(tick);
+				};
+				el.__decodeRaf = requestAnimationFrame(tick);
+			}
+
 			function swapTo(sw, on) {
 				if (on === sw.on) return;
 				var el = sw.el;
@@ -2769,8 +2812,28 @@
 					href: primary ? primary.getAttribute("href") : ""
 				});
 				sw.on = on;
-				if (banner) banner.style.backgroundImage = on
-					? "url('" + card.getAttribute("data-to-banner") + "')" : o.banner;
+				// The picture glitches across at the roll when the beat is on screen (main.css,
+				// .is-glitching), both ways, and changes at the glitch's worst frame - 160ms
+				// in - so the cut is inside the noise. Cobweb's card has no next picture and
+				// is left alone. Anywhere else it is simply set.
+				if (banner) {
+					var toBg = on ? "url('" + card.getAttribute("data-to-banner") + "')" : o.banner;
+					clearTimeout(banner.__glitchSwap);
+					var glitch = card.hasAttribute("data-to-banner") && el.classList.contains("is-live")
+						&& !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+					if (glitch) {
+						banner.classList.remove("is-glitching");
+						void banner.offsetWidth;   // restart it if a roll back lands mid-glitch
+						banner.classList.add("is-glitching");
+						banner.__glitchSwap = setTimeout(function () { banner.style.backgroundImage = toBg; }, 160);
+						if (!banner.__glitchEnd) {
+							banner.__glitchEnd = true;
+							banner.addEventListener("animationend", function (e) {
+								if (e.target === banner && e.animationName === "gc-glitch") banner.classList.remove("is-glitching");
+							});
+						}
+					} else banner.style.backgroundImage = toBg;
+				}
 				if (logo) logo.setAttribute("src", on ? card.getAttribute("data-to-logo") : o.logo);
 				// The name rolls with the heading when the beat is on screen; anywhere else
 				// (a reload landing past it, a beat off stage) it is simply set.
@@ -2779,7 +2842,12 @@
 					if (window.__flap && window.__flap.text && card.hasAttribute("data-to-name")) window.__flap.text(name, toName, el.classList.contains("is-live"));
 					else name.textContent = toName;
 				}
-				if (csub) csub.textContent = on ? card.getAttribute("data-to-sub") : o.csub;
+				if (csub) {
+					var toSub = on ? card.getAttribute("data-to-sub") : o.csub;
+					if (card.hasAttribute("data-to-name") && el.classList.contains("is-live")
+						&& !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) decode(csub, toSub);
+					else { cancelAnimationFrame(csub.__decodeRaf); csub.removeAttribute("data-decode-to"); csub.style.minHeight = ""; csub.textContent = toSub; }
+				}
 				// Only what has somewhere to go - Cobweb has no buttons to re-point, and it
 				// is the one beat whose heading's spacer changes: a title the board breaks
 				// over two rows needs two lines of room under it.
@@ -3090,7 +3158,7 @@
 					var toName = card.getAttribute("data-to-name"), name = card.querySelector(".hl-gc-name");
 					if (!to || !csub) return;
 					// Mid-roll the name is flap cells; its words are where the roll is going.
-					var was = csub.textContent, wasName = name ? (window.__flap && window.__flap.textOf ? window.__flap.textOf(name) : name.textContent) : "";
+					var was = csub.getAttribute("data-decode-to") || csub.textContent, wasName = name ? (window.__flap && window.__flap.textOf ? window.__flap.textOf(name) : name.textContent) : "";
 					csub.textContent = to;
 					if (name && toName) name.textContent = toName;
 					max = Math.max(max, card.offsetHeight);

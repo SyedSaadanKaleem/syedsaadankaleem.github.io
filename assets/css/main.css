@@ -12307,6 +12307,86 @@ html.lenis body {
   }
 }
 
+/* The picture glitches across at the roll (index.html, swapTo adds the class and
+   swaps the image 160ms in, at the worst of it). 520ms, which is about the
+   heading's roll. Stepped, not eased - a glitch jumps between states. The
+   picture itself jitters sideways under a contrast/hue spike, and two copies of
+   it, cut down to their red and their cyan (multiplied by the colour, then
+   screened back over), slide apart the opposite ways in bands. Clean at both
+   ends, worst at 160-230ms. */
+#reel .hl-gc-banner.is-glitching {
+  position: relative;
+  overflow: hidden;
+  animation: gc-glitch 520ms steps(1, end) both !important;
+}
+
+#reel .hl-gc-banner.is-glitching::before,
+#reel .hl-gc-banner.is-glitching::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+#reel .hl-gc-banner.is-glitching::before {
+  background-color: #f00;
+  animation: gc-glitch-r 520ms steps(1, end) both !important;
+}
+
+#reel .hl-gc-banner.is-glitching::after {
+  background-color: #0ff;
+  animation: gc-glitch-c 520ms steps(1, end) both !important;
+}
+
+@keyframes gc-glitch {
+  0%   { transform: none; filter: none; }
+  6%   { transform: translate3d(-5px, 0, 0); filter: contrast(1.4) hue-rotate(35deg); }
+  13%  { transform: translate3d(4px, 0, 0); filter: saturate(2); }
+  22%  { transform: translate3d(-9px, 1px, 0); filter: contrast(1.8) brightness(1.3); }
+  30%  { transform: translate3d(7px, 0, 0); filter: hue-rotate(-60deg) contrast(1.3); }
+  38%  { transform: translate3d(-3px, 0, 0); filter: contrast(1.2); }
+  48%  { transform: translate3d(4px, 0, 0); filter: saturate(1.6); }
+  60%  { transform: translate3d(-2px, 0, 0); filter: none; }
+  72%  { transform: translate3d(1px, 0, 0); filter: none; }
+  82%, 100% { transform: none; filter: none; }
+}
+
+@keyframes gc-glitch-r {
+  0%   { opacity: 0; transform: none; clip-path: inset(0); }
+  5%   { opacity: 1; transform: translate3d(6px, 0, 0); clip-path: inset(10% 0 55% 0); }
+  12%  { opacity: 1; transform: translate3d(-4px, 0, 0); clip-path: inset(62% 0 8% 0); }
+  20%  { opacity: 1; transform: translate3d(12px, 0, 0); clip-path: inset(0 0 30% 0); }
+  28%  { opacity: 1; transform: translate3d(-8px, 0, 0); clip-path: inset(40% 0 20% 0); }
+  36%  { opacity: 1; transform: translate3d(5px, 0, 0); clip-path: inset(75% 0 0 0); }
+  46%  { opacity: 1; transform: translate3d(-3px, 0, 0); clip-path: inset(20% 0 60% 0); }
+  58%  { opacity: 1; transform: translate3d(2px, 0, 0); clip-path: inset(50% 0 35% 0); }
+  70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+@keyframes gc-glitch-c {
+  0%   { opacity: 0; transform: none; clip-path: inset(0); }
+  5%   { opacity: 1; transform: translate3d(-6px, 0, 0); clip-path: inset(45% 0 30% 0); }
+  12%  { opacity: 1; transform: translate3d(5px, 0, 0); clip-path: inset(5% 0 70% 0); }
+  20%  { opacity: 1; transform: translate3d(-12px, 0, 0); clip-path: inset(30% 0 0 0); }
+  28%  { opacity: 1; transform: translate3d(9px, 0, 0); clip-path: inset(0 0 55% 0); }
+  36%  { opacity: 1; transform: translate3d(-5px, 0, 0); clip-path: inset(55% 0 25% 0); }
+  46%  { opacity: 1; transform: translate3d(3px, 0, 0); clip-path: inset(80% 0 5% 0); }
+  58%  { opacity: 1; transform: translate3d(-2px, 0, 0); clip-path: inset(15% 0 70% 0); }
+  70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+/* The subtitle's characters still in the noise while it decodes (index.html,
+   decode()) - the accent, full strength, against the resolved words' 55% white. */
+#reel .hl-gc-sub .is-noise {
+  color: #ee2b2b;
+}
+
 /* The card's game name rolls at the roll the way the heading does (index.html,
    __flap.text): the heading's cell, strut, face and leaf, at the name's own size.
    Its cells only exist while it is rolling. */
