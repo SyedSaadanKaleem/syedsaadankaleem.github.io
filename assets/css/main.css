@@ -9068,15 +9068,18 @@ margin-top: -2em;}
    paragraph a line at a time from 160ms, then the buttons.
 
    Keyed to the beat NOT being past copy-out, which is the state every beat
-   starts in - so it plays once as the page loads, off screen, and after that
-   only when copy-out is taken back off. A beat scrolled into from above is
-   already finished, and the cut from the beat before it stays a cut. */
+   starts in. The kicker, subtitle and buttons come back on transitions, not
+   keyframes: a keyframe held them visible from page load, and taking it away
+   at copy-out starts no transition, so going DOWN they blinked out instead of
+   fading. A transition has nothing to play on load, and runs both ways. The
+   paragraph's lines keep the keyframe - the block around them does the fading
+   on the way out, so losing it costs nothing. */
 #reel .reel-panel--swap:not(.step-copy-out) .swap-kick--from {
-  animation: swap-copy-in 420ms ease both !important;
+  transition: opacity 420ms ease, transform 420ms ease !important;
 }
 
 #reel .reel-panel--swap:not(.step-copy-out) .hl-slide-sub {
-  animation: swap-copy-in 420ms ease 80ms both !important;
+  transition: opacity 420ms ease 80ms, transform 420ms ease 80ms !important;
 }
 
 #reel .reel-panel--swap:not(.step-copy-out) .hl-slide-desc .lw {
@@ -9084,7 +9087,7 @@ margin-top: -2em;}
 }
 
 #reel .reel-panel--swap:not(.step-copy-out) .hl-slide-actions {
-  animation: swap-copy-in 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) both !important;
+  transition: opacity 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms), transform 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -9976,6 +9979,31 @@ margin-top: -2em;}
    its scrub. */
 #reel .reel-panel--title .rl-ltr {
   --lp: clamp(0, calc(var(--t) * 1000), 1);
+}
+
+/* And the way back up out of the reel, which blinked: the beat's marks are
+   cleared there, so reelBeatIn comes off, --t drops to 0 in a frame and so did
+   the letters - a keyframe taken away starts no transition. They fade instead,
+   at rest, over the 380ms the rest of the reel leaves on. --lv is 1 on every
+   marked state and only moves when the marks are cleared, so the approach from
+   above (0 before, keyframe-driven after) never sees it. */
+@property --lv {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+#reel .reel-panel--title.is-live .rl-ltr,
+#reel .reel-panel--title.is-out .rl-ltr,
+#reel .reel-panel--title.is-done .rl-ltr {
+  --lv: 1;
+}
+
+#reel .reel-panel--title:not(.is-live):not(.is-out):not(.is-done) .rl-ltr {
+  --lp: 1;
+  opacity: var(--lv);
+  transition: width var(--fd, 0ms) linear var(--fdl, 0ms),
+    color var(--cd, 0ms) linear var(--cdl, 0ms), --lv 380ms ease !important;
 }
 
 /* vgLetterLock with the two adjustments the scrub carried - over --s, because
@@ -12105,9 +12133,43 @@ html.lenis body {
 
 /* The new kicker comes in with the roll rather than a scroll after it, and
    stays - it is there for the whole transition. Here the restart is the point:
-   it plays the moment the kicker is shown. The paragraph still waits for 3. */
+   it plays the moment the kicker is shown. The paragraph still waits for 3.
+   A transition out of @starting-style rather than the keyframe, so it can also
+   LEAVE: scrolled back past the roll, the keyframe came off and the kicker
+   blinked out with it. */
 #reel .reel-panel--swap.is-swapped .swap-kick--to {
-  animation: swap-copy-in 420ms ease both !important;
+  transition: opacity 420ms ease, transform 420ms ease !important;
+}
+
+@starting-style {
+  #reel .reel-panel--swap.is-swapped .swap-kick--to {
+    opacity: 0;
+    transform: translate3d(-1.1rem, 0, 0);
+  }
+}
+
+/* Its way out, going back up past the roll: it fades over the same 380ms the
+   rest of the copy leaves on, and holds its display:none until that is done.
+   Only one kicker is ever in the flow - two stacked push the heading 22px down -
+   so the last game's kicker is kept out of it for the whole of copy-out,
+   leaving after its own fade the same way, and coming back from display:none
+   out of @starting-style when copy-out comes off. */
+#reel .reel-panel--swap:not(.is-swapped) .swap-kick--to {
+  opacity: 0;
+  transform: translate3d(-1.1rem, 0, 0);
+  transition: opacity 380ms ease, transform 380ms ease, display 380ms allow-discrete !important;
+}
+
+#reel .reel-panel--swap.step-copy-out:not(.is-swapped) .swap-kick--from {
+  display: none;
+  transition: opacity 380ms ease, transform 380ms ease, display 380ms allow-discrete !important;
+}
+
+@starting-style {
+  #reel .reel-panel--swap:not(.step-copy-out) .swap-kick--from {
+    opacity: 0;
+    transform: translate3d(-1.1rem, 0, 0);
+  }
 }
 
 /* ---- 3. The new game's copy arrives --------------------------------------- */
@@ -12129,6 +12191,61 @@ html.lenis body {
 
 #reel .reel-panel--swap.step-copy-in .hl-slide-actions {
   animation: swap-copy-in 420ms ease 240ms both !important;
+}
+
+/* And back. Scrolled up past step-copy-in, the new game's copy blinked out:
+   taking the keyframe away starts no transition, and step-roll's
+   transition:none is what the copy falls back to. That none has to stay - it
+   is what cuts a still-running copy-out fade when a fast flick reaches the roll.
+   Both directions end in the same state, so the way up rides a property the
+   way down never moves: --copy is 1 only under step-copy-in, and it is 0 on
+   both sides of the roll going down, so it only transitions going up. */
+@property --copy {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+#reel .reel-panel--swap.step-copy-in .hl-slide-sub,
+#reel .reel-panel--swap.step-copy-in .hl-slide-desc,
+#reel .reel-panel--swap.step-copy-in .hl-slide-actions {
+  --copy: 1;
+}
+
+#reel .reel-panel--swap.step-roll:not(.step-copy-in) .hl-slide-sub,
+#reel .reel-panel--swap.step-roll:not(.step-copy-in) .hl-slide-desc,
+#reel .reel-panel--swap.step-roll:not(.step-copy-in) .hl-slide-actions {
+  opacity: var(--copy);
+  transform: translate3d(calc((1 - var(--copy)) * -1.1rem), 0, 0);
+  transition: --copy 380ms ease !important;
+}
+
+/* And the return. Going up, the last game's copy comes back on the NEXT beat's
+   panel, at its copy-out - 0.06 of a slot, about 15px, before the beat above
+   takes over. So its fade was cut a frame or two in and the beat above stood
+   there finished: the copy snapped on. The beat above plays it instead, when it
+   is returned to (.no-entrance, index.html) with its copy in. A new name, not
+   swap-copy-in again - a keyframe only restarts when its name changes. */
+@keyframes swap-copy-back {
+  from { opacity: 0; transform: translate3d(-1.1rem, 0, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+#reel .reel-panel--swap.is-live.no-entrance.step-copy-in .swap-kick--to {
+  animation: swap-copy-back 420ms ease both !important;
+}
+
+#reel .reel-panel--swap.is-live.no-entrance.step-copy-in .hl-slide-sub {
+  animation: swap-copy-back 420ms ease 80ms both !important;
+}
+
+#reel .reel-panel--swap.is-live.no-entrance.step-copy-in .hl-slide-desc .lw {
+  animation: swap-copy-back 420ms ease calc(160ms + var(--n-line, 0) * 70ms) both !important;
+}
+
+#reel .reel-panel--swap.is-live.no-entrance.step-copy-in .hl-slide-actions,
+#reel .reel-panel--swap.is-live.no-entrance.step-copy-in .hl-slide-content:has(> .hl-slide-desc .lw) > .hl-slide-actions {
+  animation: swap-copy-back 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) both !important;
 }
 
 /* The card does not fade in, it fails in. Three sine waves at frequencies that
