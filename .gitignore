@@ -1,0 +1,5 @@
+# Python bytecode caches (regenerated automatically)
+__pycache__/
+
+# Local motion tooling: node_modules and render output, not site source
+tools/motion/
