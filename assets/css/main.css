@@ -9058,7 +9058,8 @@ margin-top: -2em;}
    place of stock's wide-tracked Inter. They already play the name's entrance. */
 #Certification .intro2-collab-title.vg-name {
   font-family: 'Podium Sharp', 'Chakra Petch', sans-serif;
-  letter-spacing: -0.01em;
+  /* Opened up from the name's -0.01em: at 21px the face's letters closed up. */
+  letter-spacing: 0.04em;
 }
 
 /* Their second word in the accent, as the section headings carry one - and it
@@ -9134,6 +9135,21 @@ margin-top: -2em;}
    rules. */
 :is(#main, #Certification) .skills-toolkit-header .vg-word {
   --lag: calc(var(--vd, 0ms) + var(--w) * 60ms);
+}
+
+/* But a word's letters took 42ms each after a start only 60ms behind the word
+   before, so a long word was still arriving when the short ones after it had
+   begun - letters lit in the middle of the line before the ones to their left.
+   The letters count on along the whole line instead (--k, index.html), from
+   the heading's own start, so it assembles strictly left to right - at 22ms a
+   letter, not the name's 42, since the Toolkit's runs to 54 letters and would
+   otherwise take over two seconds. */
+:is(#main, #Certification) .skills-toolkit-header .vg-word {
+  --lag: var(--vd, 0ms);
+}
+
+:is(#main, #Certification) .skills-toolkit-header .vg-name .vg-ltr {
+  --d: calc((var(--lag) + var(--k, var(--i)) * 22ms) * var(--hs));
 }
 
 /* ===========================================================================
@@ -12873,9 +12889,48 @@ html.lenis body {
     transform 420ms ease calc(160ms + var(--n-tile, 0) * 60ms) !important;
 }
 
+/* Cobweb's six names build the way the hero's name does: each letter packs in
+   from the right on its back-curve (vgLetterLock, 620ms) as its ink comes up
+   (vgHeroInk, 280ms), 42ms apart along the name (--k, index.html). A tile at
+   a time, on the stagger the tiles' words already keep - 160ms, then 60ms a
+   tile. The name block itself does not also fade and rise in: its letters
+   carry their own ink, so at copy-in it is simply there for them to arrive
+   into. Going back up it fades out with the rest of the tile's words. */
+#reel .reel-panel--cobweb .hl-mini-name .vg-word {
+  display: inline-block;
+}
+
+#reel .reel-panel--cobweb .hl-mini-name .vg-ltr {
+  display: inline-block;
+  transform-origin: 0% 100%;
+}
+
+/* The blurbs too: they decode in (index.html), so at copy-in they are simply
+   there, empty, for the characters to resolve into - a fade over the top hid
+   most of the decode. */
+#reel .reel-panel--cobweb.step-copy-in .hl-cobweb-card .hl-mini > :is(.hl-mini-name, .hl-mini-desc) {
+  transform: none;
+  transition: none !important;
+}
+
+#reel .reel-panel--cobweb.step-copy-in .hl-mini-name .vg-ltr {
+  --d: calc(160ms + var(--n-tile, 0) * 60ms + var(--k, var(--i)) * 42ms);
+  animation:
+    vgLetterLock 620ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--d) backwards,
+    vgHeroInk 280ms cubic-bezier(0.23, 1, 0.32, 1) var(--d) backwards !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reel .reel-panel--cobweb.step-copy-in .hl-mini-name .vg-ltr {
+    animation: none !important;
+  }
+}
+
 /* The subtitle's characters still in the noise while it decodes (index.html,
-   decode()) - the accent, full strength, against the resolved words' 55% white. */
-#reel .hl-gc-sub .is-noise {
+   decode()) - the accent, full strength, against the resolved words' 55% white.
+   Cobweb's six blurbs decode the same way, so their noise is the accent too. */
+#reel .hl-gc-sub .is-noise,
+#reel .hl-mini-desc .is-noise {
   color: #ee2b2b;
 }
 
