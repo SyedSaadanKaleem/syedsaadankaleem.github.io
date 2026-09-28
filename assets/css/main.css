@@ -26,8 +26,9 @@
 /* The 4 alone comes from Archivo Black - declared after, so it wins U+34.
    The file is Archivo 900's 4 only, scaled and dropped to span Podium's 0
    (-12..792 units) so it sits in the round 0's overshoot, not above it.
-   Unsqueezed: the stem's right edge sits on Podium's 2/3 right edge (605) in
-   their 631 advance, and the crossbar's tail overhangs to the right */
+   Unsqueezed, and spaced like Podium's digits on both sides: 25 units before
+   the ink, 26 after the stem (advance 654), with the crossbar's tail
+   overhanging to the right */
 @font-face {
     font-family: 'Podium Sharp';
     src: url(/assets/webfonts/archivo-black-4.woff2) format('woff2');
@@ -8331,9 +8332,6 @@ margin-top: -2em;}
   opacity: 1 !important;
   transform: none !important;
 }
-.chess-divider img {
-  transform: none !important;
-}
 
 /* ===========================================================================
    HERO MOTION — the one deliberate motion on this branch.
@@ -8717,6 +8715,397 @@ margin-top: -2em;}
 :is(#main, #Certification, #footer) .rv-out.rv-noanim {
   animation-duration: 1ms !important;
   animation-delay: 0s !important;
+}
+
+/* The skill cards fade in and out on the spot - the same vgHeroIn/Out pair,
+   with no travel. */
+:is(#main, #Certification) .skill-chip {
+  --fx: 0px;
+  --fx-out: 0px;
+}
+
+/* The certificate and studio cards come in from their own side: the left
+   column from the left, the right column from the right as before - mirrored
+   on the way out. Only while the grids have two columns (stock drops them to
+   one at 640px); stacked, every card keeps the right-hand entrance. */
+@media (min-width: 641px) {
+  #Certification :is(.cert-grid, .venture-grid) > :nth-child(odd) {
+    --fx: -0.9rem;
+    --fx-out: -0.5rem;
+  }
+}
+
+/* The certificate and studio cards' titles read the way the reel's game cards'
+   names do: the face's own weight (700 was the browser thickening a one-weight
+   face), opened up, and lightened by a hairline of the cards' own background -
+   #1f1f1f is #181818 under their 3% white. */
+#Certification .cert-title {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  -webkit-text-stroke: 0.05em #1f1f1f;
+}
+
+/* "Verify on Credly" is the card's whole bottom edge: a red strip corner to
+   corner, in the type of the game slides' Explore button (.hl-btn--primary),
+   rather than stock's 9.6px red text link. Pinned to the card (the text column
+   stops being the positioned box), the card keeps room for it under its
+   padding, and the card's own overflow and 14px corners round its ends. */
+#Certification .cert-card {
+  padding-bottom: calc(1.1rem + 2.75rem);
+}
+
+#Certification .cert-body {
+  position: static;
+}
+
+#Certification .cert-verify {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2.75rem;
+  justify-content: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  background: #ee2b2b;
+  color: #fff !important;
+}
+
+#Certification .cert-verify:hover {
+  background: #c81f1f;
+}
+
+/* The studio cards' foot: the logo band above already names the studio, so no
+   heading (taken out of the markup - the logo's alt still reads it). What is
+   left is one line: the description on the left, the action on the right.
+   Pixel Dreams' Visit is the red button the game slides' Explore is; Designfull
+   has no link, only its Offline status, so that takes the same shape in grey -
+   a button that does not look pressable, because it is not. */
+/* The button IS the card's bottom-right corner: the foot drops its padding on
+   the top, right and bottom (the description keeps it), the action fills the
+   foot's full height out to the card's edges, and the card's own overflow and
+   14px corner round it - no radius of its own. */
+#Certification .venture-body {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+#Certification .venture-row {
+  order: 2;
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+}
+
+#Certification .venture-desc {
+  order: 1;
+  min-width: 0;
+  align-self: center;
+  padding: clamp(0.9rem, 1.5vw, 1.1rem) 0 clamp(1.1rem, 1.8vw, 1.3rem);
+}
+
+#Certification :is(.venture-link, .venture-status) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  padding: 0 1.6em;
+  border-radius: 0;
+  line-height: 1;
+}
+
+#Certification .venture-link {
+  background: #ee2b2b;
+  color: #fff !important;
+}
+
+/* Hovering the corner floods the card with it: a red layer the size of the
+   corner (--bw, --bh, measured by index.html) opens out to the whole card, under
+   the logo band and the foot, so the logo stands on the red. The corner keeps
+   its own red rather than darkening, so it and the flood are one colour, and
+   the description turns white to read on it. */
+#Certification .venture-card:has(.venture-link)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #ee2b2b;
+  pointer-events: none;
+  clip-path: inset(calc(100% - var(--bh, 0px)) 0 0 calc(100% - var(--bw, 0px)) round 0);
+  transition: clip-path 420ms var(--ease-out) !important;
+}
+
+/* Square while it is the corner; its edges round to the card's 14px as it
+   opens, so the red growing across the card is a rounded panel, not a box. */
+#Certification .venture-card:has(.venture-link:hover)::after {
+  clip-path: inset(0 round 14px);
+}
+
+/* The logo's hover growth (stock: scale 1.04) on the flood's own clock. Stock
+   gave it a transition; the branch's NO MOTION baseline took it away, so it
+   snapped. */
+#Certification .venture-logo img {
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out) !important;
+}
+
+/* Layers, bottom to top: the foot (its description goes UNDER the red - the
+   flood covers it), the red, the logo band, the word. The foot stops being a
+   stacking context of its own (z-index auto), so the word inside it can sit
+   above the red while the description stays below it. */
+#Certification .venture-card:has(.venture-link)::after {
+  z-index: 1;
+}
+
+#Certification .venture-card:has(.venture-link) .venture-body {
+  z-index: auto;
+}
+
+#Certification .venture-card:has(.venture-link) .venture-logo {
+  z-index: 2;
+}
+
+#Certification .venture-link {
+  position: relative;
+  z-index: 3;
+}
+
+/* And the word crosses to the card's middle as the red fills it: the word
+   moves, not the corner, so the pointer never loses the button under it.
+   From the corner's centre (--cw - --bw/2) to the card's (--cw/2). */
+#Certification .venture-link-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  transition: transform 420ms var(--ease-out) !important;
+}
+
+#Certification .venture-link:hover .venture-link-label {
+  transform: translate3d(calc((var(--bw, 0px) - var(--cw, 0px)) / 2), 0, 0);
+}
+
+/* "Visit" at rest, "Visit Venture" once it is the card's button: the second
+   word unfolds from nothing as the label crosses. It hangs off the end of
+   "Visit" outside the layout, so the corner never widens - the flood and the
+   dark row are cut from the corner's size - and the label goes a further half
+   of its width (--mw, measured) left, so the pair is what lands centred. */
+#Certification .venture-link-word {
+  position: relative;
+  white-space: nowrap;
+}
+
+/* The arrow slot is empty here, but as a flex item it still took the label's
+   0.45em gap after the word, which put the centred label 3px left of centre. */
+#Certification .venture-link .arrow {
+  display: none;
+}
+
+#Certification .venture-link-more {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: pre;
+  opacity: 0;
+  transition: max-width 420ms var(--ease-out), opacity 420ms var(--ease-out) !important;
+}
+
+#Certification .venture-link:hover .venture-link-more {
+  max-width: 7em;
+  opacity: 1;
+}
+
+#Certification .venture-link:hover .venture-link-label {
+  transform: translate3d(calc((var(--bw, 0px) - var(--cw, 0px) - var(--mw, 0px)) / 2), 0, 0);
+}
+
+/* And the bottom row darkens the way the certificates' Verify strip does
+   (#c81f1f), spreading left from the corner along the whole row with the word,
+   so over the red the foot reads as the card's button. A layer the card's
+   width, pinned to the corner's right edge and cut back to the corner at rest;
+   under the word (z-index -1 inside the link), over the corner's own red. The
+   card's overflow rounds its far end. */
+#Certification .venture-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--cw, 100%);
+  z-index: -1;
+  background: #c81f1f;
+  clip-path: inset(0 0 0 calc(100% - var(--bw, 0px)));
+  opacity: 0;
+  transition: clip-path 420ms var(--ease-out), opacity 420ms var(--ease-out) !important;
+}
+
+#Certification .venture-link:hover::before {
+  clip-path: inset(0);
+  opacity: 1;
+}
+
+/* Designfull's has nothing to open: the same corner, in the card's own grey
+   with a rule on its left, so it reads as a label rather than a button. */
+#Certification .venture-status {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Hovering Verify floods the certificate card from its strip, the way Visit
+   floods Pixel Dreams': the red opens from the strip (--bh, measured by
+   index.html) to the whole card with its corners rounding to 14px. Under it:
+   the issuer line and the description. Over it: the badge, which moves to the
+   card's middle, and the title, centred under the badge (--bdx/--bdy and
+   --tdx/--tdy, measured). The strip's own word stays on top. */
+#Certification .cert-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #ee2b2b;
+  pointer-events: none;
+  clip-path: inset(calc(100% - var(--bh, 0px)) 0 0 0 round 0);
+  transition: clip-path 420ms var(--ease-out) !important;
+}
+
+#Certification .cert-card:has(.cert-verify:hover)::after {
+  clip-path: inset(0 round 14px);
+  transition: clip-path 420ms var(--ease-out) !important;
+}
+
+/* Going, the red waits for the content to be home: the title's last leg - up
+   to its own row - ends at 720ms (420 + 300), so the red starts back into the
+   strip then, and never uncovers the description with the title still on it.
+   Coming, it opens at once (the rule above). */
+#Certification .cert-card::after {
+  transition: clip-path 420ms var(--ease-out) 720ms !important;
+}
+
+/* The text column must not be a stacking context: stock gives it z-index 1,
+   and a flex item with a z-index is one even unpositioned - which boxed the
+   title and the strip's word in at level 1, under the red. */
+#Certification .cert-body {
+  z-index: auto;
+}
+
+/* In three moves, so the badge never crosses the title: the title drops
+   straight down to its row first, the badge then comes across to the middle
+   over the space the title has left, and only then does the title slide to
+   the centre, under a badge that is already there. Backwards on the way out.
+   The title's two legs are two properties - `translate` down, `transform`
+   across - so each keeps its own delay. The first ends at 300ms; the badge
+   leaves at 200ms, with the title all but down; the last starts at 420ms, with
+   the badge all but in. */
+#Certification .cert-badge {
+  z-index: 2;
+  transition: transform 320ms var(--ease-out) 200ms !important;
+}
+
+#Certification .cert-title {
+  position: relative;
+  z-index: 2;
+  transition: transform 300ms var(--ease-out),
+    translate 300ms var(--ease-out) 420ms,
+    -webkit-text-stroke-color 420ms var(--ease-out) 720ms !important;
+}
+
+#Certification .cert-verify {
+  z-index: 3;
+}
+
+#Certification .cert-card:has(.cert-verify:hover) .cert-badge {
+  transform: translate3d(var(--bdx, 0px), var(--bdy, 0px), 0);
+}
+
+#Certification .cert-card:has(.cert-verify:hover) .cert-title {
+  translate: 0 var(--tdy, 0px);
+  transform: translate3d(var(--tdx, 0px), 0, 0);
+  transition: translate 300ms var(--ease-out),
+    transform 300ms var(--ease-out) 420ms,
+    -webkit-text-stroke-color 420ms var(--ease-out) !important;
+}
+
+/* Over the red the title's hairline would be the card's grey drawn round red
+   letters' edges; it is dropped there. */
+#Certification .cert-card:has(.cert-verify:hover) .cert-title {
+  -webkit-text-stroke-color: #ee2b2b;
+}
+
+/* The badge's hover growth (stock: scale 1.05) animates instead of snapping -
+   the NO MOTION baseline had taken its transition. */
+#Certification .cert-badge img {
+  transition: transform 420ms var(--ease-out) !important;
+}
+
+/* The line over each certificate's title, readable: 11.5px with a little more
+   weight, in place of 9px tracked out at 0.26em. */
+#Certification .cert-issuer {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+
+/* And the section's two sub-headings in the face the name and the section
+   headings are set in (.intro2-title: Podium Sharp, tracked in -0.01em), in
+   place of stock's wide-tracked Inter. They already play the name's entrance. */
+#Certification .intro2-collab-title.vg-name {
+  font-family: 'Podium Sharp', 'Chakra Petch', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Their second word in the accent, as the section headings carry one - and it
+   ignites letter by letter on the way in, off the name's own .vg-accent rule. */
+#Certification .intro2-collab-title .vg-accent {
+  color: #ee2b2b;
+}
+
+/* The contact form - its fields and its buttons - comes in from the left and
+   leaves that way; the email and phone boxes beside it keep the right-hand
+   entrance, so the two columns open from their own sides. */
+#footer form .row > [class*='col-'] {
+  --fx: -0.9rem;
+  --fx-out: -0.5rem;
+}
+
+/* The journey lists' numbers come in from the LEFT while the words still come
+   from the right. The list arrives as one block (.journey is the .rv-in
+   element), so the number rides a counter-move: twice the block's offset the
+   other way, on the block's own duration, curve and delay, so on screen it
+   travels the same distance from the other side. Out the same way. Transform
+   only - the block's fade is already the number's. */
+@keyframes journeyNumIn {
+  from { transform: translate3d(calc(-2 * var(--fx, 0.9rem)), 0, 0); }
+}
+
+@keyframes journeyNumOut {
+  to { transform: translate3d(calc(-2 * var(--fx-out, 0.5rem)), 0, 0); }
+}
+
+:is(#main, #Certification) .journey.rv-in .journey-num {
+  animation: journeyNumIn 420ms var(--ease-out) var(--vd, 0ms) backwards !important;
+}
+
+:is(#main, #Certification) .journey.rv-out .journey-num {
+  animation: journeyNumOut 260ms var(--ease-out) var(--vd, 0ms) forwards !important;
+}
+
+:is(#main, #Certification) .journey.rv-out.rv-noanim .journey-num {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(#main, #Certification) .journey .journey-num {
+    animation: none !important;
+  }
 }
 
 /* A card's paragraph follows its card in, a line at a time from 200ms. */
@@ -10291,6 +10680,26 @@ margin-top: -2em;}
   color: #fff;
 }
 
+/* Placed by column but not by row, so the rule (::before, first in the box
+   tree) took a 0px first row and the logo and name dropped into a second one,
+   a row gap - 12.8px - below the middle of the banner. One row for all three.
+   The rule has only ever painted at 0px tall; it stays unseen. And each mark
+   sits in the middle of its slot rather than against its left edge, so a tall
+   narrow one (LiftOnHai) and a wide one (Canvas Digital) share a centre line. */
+#reel .intro2-logos--left .intro2-logo img,
+#reel .intro2-logos--left .intro2-logo::before,
+#reel .intro2-logos--left .intro2-logo-name {
+  grid-row: 1;
+}
+
+#reel .intro2-logos--left .intro2-logo::before {
+  background: none;
+}
+
+#reel .intro2-logos--left .intro2-logo img {
+  object-position: center;
+}
+
 /* They arrive one after another once the beat is in, finishing well before its
    exit ramp at 0.70. */
 #reel .reel-panel--collab .intro2-logo {
@@ -11569,7 +11978,8 @@ html.lenis body {
    and it unwinds. Before this it was a 1100ms animation that started on a scroll
    position and then ran on its own clock regardless of what the scroll did next.
 
-   The colour is a straight mix from this beat's red to Chess Run's own pair,
+   The colour is a straight mix from no light at all - GAMES AND XR APPLICATIONS
+   stands on the bare stage; the glow is the games' - to Chess Run's own pair,
    which that beat carries inline - at --bg 0.5 the light is genuinely halfway
    between the two, not part way through a keyframe list.
 
@@ -11593,9 +12003,9 @@ html.lenis body {
   --bgc: clamp(0, calc((var(--b-tp, 0) - 0.34) / 0.17), 1);
 
   --slide-glow: color-mix(in srgb,
-    rgba(141, 53, 255, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0.18));
+    rgba(141, 53, 255, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0));
   --slide-glow-2: color-mix(in srgb,
-    rgba(0, 148, 198, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0.18));
+    rgba(0, 148, 198, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0));
 }
 
 #reel.at-bridge .reel-panel--bridge {
@@ -11604,9 +12014,9 @@ html.lenis body {
   --gfo2: calc(0.5 + 0.5 * sin(var(--bg) * 113rad + 1.1rad));
 
   --slide-glow: color-mix(in srgb,
-    rgba(141, 53, 255, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0.18));
+    rgba(141, 53, 255, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0));
   --slide-glow-2: color-mix(in srgb,
-    rgba(0, 148, 198, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0.18));
+    rgba(0, 148, 198, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0));
 
   /* The product is worked out as a plain number first and only then taken off
      100%. Written as one expression - var * (group) * 100% - it never reached
@@ -12248,6 +12658,13 @@ html.lenis body {
   animation: swap-copy-back 420ms ease calc(170ms + var(--desc-lines, 1) * 70ms) both !important;
 }
 
+/* No red floor. Stock lights the bottom 60% of every slide but the intro ones
+   with a red wash (.hl-slide::after, 8%, 10% on Cobweb); the room's light is
+   each slide's own glow, and GAMES AND XR APPLICATIONS stands in none at all. */
+#reel .hl-slide::after {
+  background: none;
+}
+
 /* No logo on the reel's game cards - the name and its subtitle are the foot.
    Hidden rather than taken out of the markup, because swapTo() still re-points
    its src at every roll. */
@@ -12379,6 +12796,81 @@ html.lenis body {
   46%  { opacity: 1; transform: translate3d(3px, 0, 0); clip-path: inset(80% 0 5% 0); }
   58%  { opacity: 1; transform: translate3d(-2px, 0, 0); clip-path: inset(15% 0 70% 0); }
   70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+/* Snatch's card breaking into Cobweb's six (index.html, shatter()). The layer and
+   its shards are the script's; this is only what they are made of. */
+#reel .cw-shatter {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+#reel .cw-shard {
+  position: absolute;
+  perspective: 900px;
+}
+
+#reel .cw-flip {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform-style: preserve-3d;
+}
+
+#reel .cw-face {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  backface-visibility: hidden;
+  background-repeat: no-repeat;
+}
+
+#reel .cw-back {
+  transform: rotateY(180deg);
+}
+
+#reel .cw-front-pic {
+  position: absolute;
+  background-repeat: no-repeat;
+}
+
+#reel .cw-back img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The leaving side's copy keeps its frame and words and loses its pictures -
+   those are on the shards. */
+#reel .cw-ghost .hl-gc-banner,
+#reel .cw-ghost .hl-mini-thumb {
+  visibility: hidden;
+}
+
+/* The arriving side waits for the shards to land on it. */
+#reel .reel-panel--cobweb.is-shattering > .swap-drop,
+#reel .reel-panel--cobweb.is-shattering > .hl-cobweb-card {
+  visibility: hidden;
+}
+
+/* The six tiles' words are copy, so they come with the copy: at copy-in, one
+   tile after another, and back out together going up - on transitions, which
+   run both ways. The pictures came with the roll. */
+#reel .reel-panel--cobweb .hl-cobweb-card .hl-mini > :not(.hl-mini-thumb) {
+  opacity: 0;
+  transform: translate3d(0, 0.4rem, 0);
+  transition: opacity 380ms ease, transform 380ms ease !important;
+}
+
+#reel .reel-panel--cobweb.step-copy-in .hl-cobweb-card .hl-mini > :not(.hl-mini-thumb) {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms ease calc(160ms + var(--n-tile, 0) * 60ms),
+    transform 420ms ease calc(160ms + var(--n-tile, 0) * 60ms) !important;
 }
 
 /* The subtitle's characters still in the noise while it decodes (index.html,
