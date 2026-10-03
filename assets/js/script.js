@@ -537,3 +537,88 @@ if (toggleBtn && leftSidebar) {
         sync();
     });
 })();
+
+// Hover that outlives the pointer. Scrolling moves the page under a still
+// pointer, and the browser keeps :hover on whatever it was over until the mouse
+// next moves - so a button stayed lit with the pointer long gone. Every :hover
+// rule in the site's own stylesheets is given one more condition, "not while
+// stale" (html.hover-stale), wrapped in :where() so it adds no specificity and
+// no rule's standing in the cascade moves. The page goes stale on any scroll and
+// fresh again on the next real pointer move, which is also what makes the
+// browser re-check :hover - so whatever is under the pointer then is right.
+(function () {
+    var root = document.documentElement;
+    var GATE = ':where(:root:not(.hover-stale)) ';
+    // Split a selector list at its top-level commas only.
+    function splitList(s) {
+        var out = [], depth = 0, start = 0, q = null;
+        for (var i = 0; i < s.length; i++) {
+            var c = s[i];
+            if (q) { if (c === q) q = null; continue; }
+            if (c === '"' || c === "'") q = c;
+            else if (c === '(' || c === '[') depth++;
+            else if (c === ')' || c === ']') depth--;
+            else if (c === ',' && depth === 0) { out.push(s.slice(start, i)); start = i + 1; }
+        }
+        out.push(s.slice(start));
+        return out;
+    }
+    // While stale, the same rule answers to .js-hover instead - a class this
+    // script puts on what is REALLY under the pointer, and on everything it sits
+    // inside, the way :hover covers a whole chain. One class weighs what :hover
+    // does, so the styles land exactly as a real hover's would.
+    var STALE = ':where(:root.hover-stale) ';
+    function gate(sel) {
+        sel = sel.trim();
+        if (sel.indexOf(':hover') === -1) return sel;
+        // A selector that starts at the root itself cannot have the root above it.
+        if (/^(html|:root)\b/i.test(sel)) return sel;
+        return GATE + sel + ', ' + STALE + sel.replace(/:hover\b/g, '.js-hover');
+    }
+    function walk(rules) {
+        for (var i = 0; i < rules.length; i++) {
+            var r = rules[i];
+            if (r.selectorText && r.selectorText.indexOf(':hover') !== -1) {
+                var next = splitList(r.selectorText).map(gate).join(', ');
+                if (next !== r.selectorText) { try { r.selectorText = next; } catch (e) {} }
+            }
+            if (r.cssRules && r.cssRules.length) walk(r.cssRules);
+        }
+    }
+    function gateAll() {
+        Array.prototype.forEach.call(document.styleSheets, function (sh) {
+            var rules;
+            try { rules = sh.cssRules; } catch (e) { return; }   // another origin's sheet
+            if (rules && !sh.__hoverGated) { sh.__hoverGated = true; walk(rules); }
+        });
+    }
+    gateAll();
+    if (document.readyState !== 'complete') window.addEventListener('load', gateAll);
+
+    // What is under the pointer as the page scrolls, marked .js-hover (with its
+    // ancestors), so a button that scrolls in under a still pointer lights as it
+    // would on a hover, and one that scrolls out goes dark.
+    var px = -1, py = -1, marked = [], queued = false;
+    function unmark() { marked.forEach(function (el) { el.classList.remove('js-hover'); }); marked = []; }
+    function mark() {
+        queued = false;
+        if (!root.classList.contains('hover-stale') || px < 0) return;
+        var el = document.elementFromPoint(px, py), next = [];
+        for (; el && el !== root; el = el.parentElement) next.push(el);
+        marked.forEach(function (m) { if (next.indexOf(m) === -1) m.classList.remove('js-hover'); });
+        next.forEach(function (m) { if (!m.classList.contains('js-hover')) m.classList.add('js-hover'); });
+        marked = next;
+    }
+    window.addEventListener('scroll', function () {
+        if (!root.classList.contains('hover-stale')) root.classList.add('hover-stale');
+        if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, { passive: true });
+    function fresh(e) {
+        px = e.clientX; py = e.clientY;
+        if (!root.classList.contains('hover-stale')) return;
+        root.classList.remove('hover-stale');
+        unmark();
+    }
+    window.addEventListener('pointermove', fresh, { passive: true });
+    window.addEventListener('mousemove', fresh, { passive: true });
+})();

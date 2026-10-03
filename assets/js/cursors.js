@@ -57,6 +57,20 @@
     var el = e.target.closest(HOVER_TARGETS);
     if (el && !el.contains(e.relatedTarget)) cursor.classList.remove('hover');
   });
+  // Scrolling moves the page under a still pointer, and no mouseover/mouseout
+  // fires for it - so the pulse stayed on over whatever the pointer had LEFT.
+  // As the page scrolls, ask what is under the pointer now.
+  var px = -1, py = -1, checkQueued = false;
+  window.addEventListener('mousemove', function (e) { px = e.clientX; py = e.clientY; }, { passive: true });
+  window.addEventListener('scroll', function () {
+    if (checkQueued || px < 0) return;
+    checkQueued = true;
+    requestAnimationFrame(function () {
+      checkQueued = false;
+      var under = document.elementFromPoint(px, py);
+      cursor.classList.toggle('hover', !!(under && under.closest(HOVER_TARGETS)));
+    });
+  }, { passive: true });
   /* Trail. The 22 empty divs inside .cursor have been in the markup from the
      start; the loop meant to drive them reads an undeclared `currenty` and
      throws on its first frame, so not one of them has ever been positioned.
