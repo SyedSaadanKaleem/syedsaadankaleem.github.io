@@ -199,14 +199,11 @@ document.addEventListener("DOMContentLoaded", function() {
                             secondBanner.appendChild(bannerImage);
                         }
                     }
-                } else {
-                    console.error("Second banner with class 'banner2' not found.");
                 }
-            } else {
-                console.error("Container with class 'container' not found in the section with id 'Certification'.");
+                // No .banner2 on any current page (the old two-banner layout is
+                // gone), so there is nothing to rearrange - and nothing to report:
+                // this ran on every page load and every resize, filling the console.
             }
-        } else {
-            console.error("Section with id 'Certification' not found.");
         }
     }
 

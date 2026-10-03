@@ -1246,8 +1246,6 @@
 	<script src="assets/js/jquery.dropotron.min.js"></script>
 	<script src="assets/js/browser.min.js"></script>
 	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/script.js"></script>
@@ -1554,7 +1552,7 @@
 	</script>
 
 	<div id="customCursor"
-		style="position:fixed; top:0; left:0; width:32px; height:32px; pointer-events:none; background: url('cursor.png') no-repeat center center / contain; z-index:10000;">
+		style="position:fixed; top:0; left:0; width:32px; height:32px; pointer-events:none; z-index:10000;">
 	</div>
 
 	<script>
@@ -1898,11 +1896,13 @@
 				clearTimeout(pollT); pollT = setTimeout(poll, 50);
 			}
 			// While locked, swallow the momentum tail so it can't push past the stop.
+			// Captured, and stopped there, so Lenis - which has its own wheel listener -
+			// never sees the tail either: it carried the page on past every stop.
 			window.addEventListener('wheel', function (e) {
 				lastUserT = performance.now();
 				window.__navGlideUntil = 0;   // user wheel takes over: re-arm the hard-stops immediately
-				if (locked) { e.preventDefault(); lastWheelT = performance.now(); }
-			}, { passive: false });
+				if (locked) { e.preventDefault(); e.stopImmediatePropagation(); lastWheelT = performance.now(); }
+			}, { passive: false, capture: true });
 			// Crossing a pin point downward on a genuine user wheel clamps to it —
 			// once per approach (after the stop, prevY sits at/past the point, so the
 			// next gesture scrolls on and reveals the covering section). Nav-link

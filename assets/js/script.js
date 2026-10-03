@@ -116,3 +116,424 @@ if (toggleBtn && leftSidebar) {
         initSpy();
     }
 })();
+
+// Project pages: the overview's eyebrow and heading open centred on the page and
+// slide back to their place on the left as the paragraph under them is revealed
+// (main.css, #gameOverview). The heading is centred a LINE at a time, so it reads
+// as centred text rather than a left-aligned block in the middle. How far each
+// line moves depends on the width and the line, so it is measured here - into
+// --hx on each - and again whenever the layout changes; a part's rect less its
+// slide in flight is its resting place, so a measure taken mid-slide holds.
+//
+// The heading also arrives the way the hero's name does: split into letters
+// here (.vg-line > .vg-word > .vg-ltr, with --i and --k, as index.html writes
+// them by hand), and given the name's classes off the page's own reveal - in as
+// it is revealed (name-in), out as it leaves (name-out). The letter rules are
+// .vg-name's own (main.css).
+(function () {
+    function splitHeading(h) {
+        Array.prototype.forEach.call(h.children, function (line) {
+            line.classList.add('vg-line');
+            var k = 0;
+            (function walk(node) {
+                Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+                    if (n.nodeType === 1) { walk(n); return; }
+                    if (n.nodeType !== 3 || !n.nodeValue) return;
+                    var frag = document.createDocumentFragment();
+                    n.nodeValue.split(/(\s+)/).forEach(function (part) {
+                        if (!part) return;
+                        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+                        var word = document.createElement('span');
+                        word.className = 'vg-word';
+                        Array.prototype.forEach.call(part, function (ch, i) {
+                            var l = document.createElement('span');
+                            l.className = 'vg-ltr';
+                            l.style.setProperty('--i', i);
+                            l.style.setProperty('--k', k++);
+                            l.textContent = ch;
+                            word.appendChild(l);
+                        });
+                        frag.appendChild(word);
+                    });
+                    node.replaceChild(frag, n);
+                });
+            })(line);
+        });
+        h.setAttribute('aria-label', Array.prototype.map.call(h.children, function (l) { return l.textContent.trim(); }).join(' ').replace(/\s+/g, ' '));
+        h.classList.add('vg-name');
+        // The reveal's states, as the name's.
+        function sync() {
+            var inV = h.classList.contains('is-visible'), out = h.classList.contains('is-leaving');
+            if (inV && !h.classList.contains('name-in')) { h.classList.remove('name-out'); h.classList.add('name-in'); }
+            else if (out && !h.classList.contains('name-out')) { h.classList.remove('name-in'); h.classList.add('name-out'); }
+        }
+        sync();
+        new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    function init() {
+        var col = document.querySelector('#gameOverview .intro2');
+        var box = col && col.closest('.container');
+        if (!col || !box) return;
+        var title = col.querySelector(':scope > .intro2-title');
+        if (title && !title.classList.contains('vg-name')) splitHeading(title);
+        var eyebrow = col.querySelector(':scope > .intro2-eyebrow');
+        var words = title ? title.querySelectorAll('.vg-word') : [];
+        function measure() {
+            // In screen coordinates: the middle of the container's content box.
+            var bs = getComputedStyle(box), br = box.getBoundingClientRect();
+            var pl = parseFloat(bs.paddingLeft) || 0, pr = parseFloat(bs.paddingRight) || 0;
+            var mid = br.left + pl + (br.width - pl - pr) / 2;
+            if (eyebrow) {
+                // Its resting left edge: its rect, less any slide in flight.
+                var tx = parseFloat(getComputedStyle(eyebrow).translate) || 0;
+                var w = Array.prototype.reduce.call(eyebrow.children, function (s, c) { return s + c.getBoundingClientRect().width; }, 0) + (parseFloat(getComputedStyle(eyebrow).columnGap) || 0) * (eyebrow.children.length - 1);
+                eyebrow.style.setProperty('--hx', (mid - (eyebrow.getBoundingClientRect().left - tx + w / 2)).toFixed(1) + 'px');
+            }
+            if (!words.length) return;
+            // The heading a ROW at a time - a line that wraps on a phone is two rows,
+            // each centred - with every word in a row moved by that row's amount.
+            // Rows and edges come from the words' LAYOUT boxes (offsetTop/Left/Width),
+            // which neither the slide nor the name's entrance - letters flying in
+            // from the right - can disturb.
+            var op = words[0].offsetParent, or = op.getBoundingClientRect();
+            var base = or.left + op.clientLeft;
+            var rows = {};
+            Array.prototype.forEach.call(words, function (wd) {
+                var r = rows[wd.offsetTop] || (rows[wd.offsetTop] = { a: Infinity, b: -Infinity, ws: [] });
+                r.a = Math.min(r.a, wd.offsetLeft);
+                r.b = Math.max(r.b, wd.offsetLeft + wd.offsetWidth);
+                r.ws.push(wd);
+            });
+            Object.keys(rows).forEach(function (t) {
+                var r = rows[t], dx = mid - (base + (r.a + r.b) / 2);
+                r.ws.forEach(function (wd) { wd.style.setProperty('--hx', dx.toFixed(1) + 'px'); });
+            });
+        }
+        measure();
+        if (window.ResizeObserver) new ResizeObserver(measure).observe(box);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+})();
+
+// Project pages: the Get in Touch section as the home page has it. Not on the
+// home page itself (it carries the reel) - index.html runs these there. The
+// three pieces are index.html's own, kept to the footer: the word splitter
+// that paragraphs arrive by a line at a time, the watcher that plays the hero
+// name's entrance and exit on the heading, and the reveal that brings the
+// form (from the left), the contact boxes (from the right) and the copyright
+// in, 70ms apart, and takes them out again. Their looks are main.css's
+// #footer rules, which these pages already share.
+(function () {
+    if (document.getElementById('reel')) return;
+    var footer = document.getElementById('footer');
+    if (!footer) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // ---- index.html's splitWords / groupLines --------------------------------
+    function splitWords(root) {
+        if (!root || root.querySelector('.lw')) return;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+        var texts = [], node;
+        while ((node = walker.nextNode())) texts.push(node);
+        for (var i = 0; i < texts.length; i++) {
+            var t = texts[i];
+            if (!t.nodeValue.trim()) continue;
+            var frag = document.createDocumentFragment();
+            var parts = t.nodeValue.split(/(\s+)/);
+            for (var j = 0; j < parts.length; j++) {
+                if (!parts[j]) continue;
+                if (/^\s+$/.test(parts[j])) { frag.appendChild(document.createTextNode(parts[j])); continue; }
+                var w = document.createElement('span');
+                w.className = 'lw';
+                w.textContent = parts[j];
+                frag.appendChild(w);
+            }
+            t.parentNode.replaceChild(frag, t);
+        }
+    }
+    function groupLines(root) {
+        if (!root) return;
+        var words = root.querySelectorAll('.lw');
+        var line = -1, prevTop = null;
+        for (var i = 0; i < words.length; i++) {
+            var top = words[i].offsetTop;
+            if (prevTop === null || top > prevTop + 2) { line++; prevTop = top; }
+            words[i].style.setProperty('--n-line', line);
+        }
+        var step = line > 0 ? Math.min(90, 600 / line) : 90;
+        root.style.setProperty('--lw-step', step.toFixed(1) + 'ms');
+    }
+
+    // A heading split the way index.html writes the name's by hand: lines
+    // (.vg-line), words (.vg-word) and letters (.vg-ltr, --i in the word, --k
+    // along the line). A heading that is not already split into line spans is
+    // one line, wrapped in one.
+    function splitName(h) {
+        if (h.classList.contains('vg-name')) return;
+        var lines = Array.prototype.filter.call(h.children, function (c) { return c.tagName === 'SPAN' && !c.classList.contains('vg-accent'); });
+        if (!lines.length || lines.length !== h.children.length) {
+            var one = document.createElement('span');
+            while (h.firstChild) one.appendChild(h.firstChild);
+            h.appendChild(one);
+            lines = [one];
+        }
+        lines.forEach(function (line) {
+            line.classList.add('vg-line');
+            var k = 0;
+            (function walk(node) {
+                Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+                    if (n.nodeType === 1) { walk(n); return; }
+                    if (n.nodeType !== 3 || !n.nodeValue) return;
+                    var frag = document.createDocumentFragment();
+                    n.nodeValue.split(/(\s+)/).forEach(function (part) {
+                        if (!part) return;
+                        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+                        var word = document.createElement('span');
+                        word.className = 'vg-word';
+                        Array.prototype.forEach.call(part, function (ch, i) {
+                            var l = document.createElement('span');
+                            l.className = 'vg-ltr';
+                            l.style.setProperty('--i', i);
+                            l.style.setProperty('--k', k++);
+                            l.textContent = ch;
+                            word.appendChild(l);
+                        });
+                        frag.appendChild(word);
+                    });
+                    node.replaceChild(frag, n);
+                });
+            })(line);
+        });
+        h.setAttribute('aria-label', lines.map(function (l) { return l.textContent.trim(); }).join(' ').replace(/\s+/g, ' '));
+        h.classList.add('vg-name');
+    }
+
+    function start() {
+        // The gallery's heading and the closing call to action's play the name too,
+        // as the footer's does - split here rather than by hand in ten pages.
+        Array.prototype.forEach.call(document.querySelectorAll(
+            '#ScreenshotGallery .craft-head .intro2-title, #ScreenshotGallery .skills-toolkit-header > .intro2-collab-title'), splitName);
+
+        // ---- The headings: the hero name's entrance and exit -------------------
+        Array.prototype.forEach.call(document.querySelectorAll('#footer .vg-name, #ScreenshotGallery .vg-name'), function (h) {
+            if (!window.IntersectionObserver) return;
+            var shown = null, seenIn = false;
+            function apply(next) {
+                shown = next;
+                h.classList.remove('name-in', 'name-out', 'name-noanim');
+                void h.offsetWidth;
+                if (next) {
+                    if (seenIn) h.classList.add('name-replay');
+                    seenIn = true;
+                }
+                h.classList.add(next ? 'name-in' : 'name-out');
+            }
+            new IntersectionObserver(function (entries) {
+                var r = entries[entries.length - 1].intersectionRatio;
+                if (shown === null) {
+                    if (r >= 0.85) apply(true);
+                    else { shown = false; h.classList.add('name-noanim', 'name-out'); }
+                    return;
+                }
+                if (!shown && r >= 0.85) apply(true);
+                else if (shown && r <= 0.7) apply(false);
+            }, { threshold: [0, 0.7, 0.85, 1] }).observe(h);
+        });
+
+        // ---- The pieces: in at 85% seen, out once 30% has gone -----------------
+        var items = Array.prototype.slice.call(footer.querySelectorAll("form .row > [class*='col-'], .feature-list .row > div, #copyright"));
+        var state = items.map(function () { return null; });
+        function seen(el) {
+            var r = el.getBoundingClientRect();
+            var h = Math.min(r.height, window.innerHeight);
+            if (h <= 0) return 0;
+            return Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0)) / h;
+        }
+        function flip(k, on, delay) {
+            var el = items[k];
+            state[k] = on;
+            el.classList.remove('rv-in', 'rv-out', 'rv-noanim');
+            el.style.setProperty('--vd', delay + 'ms');
+            el.classList.add(on ? 'rv-in' : 'rv-out');
+        }
+        function update() {
+            var ins = [], outs = [];
+            for (var k = 0; k < items.length; k++) {
+                var f = seen(items[k]);
+                if (state[k] === null) {
+                    if (f >= 0.85) ins.push(k);
+                    else { state[k] = false; items[k].classList.add('rv-out', 'rv-noanim'); }
+                } else if (!state[k] && f >= 0.85) ins.push(k);
+                else if (state[k] && f <= 0.7) outs.push(k);
+            }
+            ins.forEach(function (k, n) { flip(k, true, n * 70); });
+            outs.forEach(function (k, n) { flip(k, false, (outs.length - 1 - n) * 20); });
+        }
+
+        // ---- The paragraph, a line at a time ------------------------------------
+        // The footer's, and the overview's under its heading - that one keyed to
+        // the page's own reveal of it (main.css, #gameOverview), not the name's.
+        var paras = Array.prototype.slice.call(document.querySelectorAll('#footer .craft-head .intro2-lead, #ScreenshotGallery .craft-head .intro2-lead'))
+            .concat(Array.prototype.slice.call(document.querySelectorAll('#gameOverview .intro2 > .intro2-lead')));
+        paras.forEach(splitWords);
+        function regroup() { paras.forEach(groupLines); }
+        regroup();
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(regroup);
+
+        var queued = false, resized = false;
+        function tick() {
+            queued = false;
+            if (resized) { resized = false; regroup(); }
+            update();
+        }
+        function onScroll() {
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(tick);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', function () { resized = true; onScroll(); });
+        update();
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
+})();
+
+// Project pages: the overview's right column ("Key Features") as it is revealed.
+// The page's own reveal still decides when (the column's fade-late is-visible);
+// what arrives is the home page's: the eyebrow drifts in from the right, the
+// heading decodes out of red noise the way Cobweb's tile blurbs do, and the
+// boxes drift in from the right a column at a time (main.css, --col). Each box's
+// column is read from layout here, again whenever the width changes.
+(function () {
+    if (document.getElementById('reel')) return;
+    var aside = document.querySelector('#gameOverview .intro2-collab');
+    if (!aside) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var title = aside.querySelector('.intro2-collab-title');
+    var boxes = Array.prototype.slice.call(aside.querySelectorAll('.skill-chip, .hl-btn--vertical'));
+
+    function columns() {
+        var lefts = [];
+        boxes.forEach(function (b) {
+            var x = Math.round(b.getBoundingClientRect().left - (parseFloat(getComputedStyle(b).translate) || 0));
+            if (!lefts.some(function (l) { return Math.abs(l - x) < 4; })) lefts.push(x);
+        });
+        lefts.sort(function (a, b) { return a - b; });
+        boxes.forEach(function (b) {
+            var x = b.getBoundingClientRect().left - (parseFloat(getComputedStyle(b).translate) || 0);
+            var c = 0;
+            lefts.forEach(function (l, i) { if (Math.abs(l - x) < 4) c = i; });
+            b.style.setProperty('--col', c);
+        });
+    }
+    columns();
+    if (window.ResizeObserver) new ResizeObserver(columns).observe(aside);
+
+    // ---- index.html's decode (Cobweb's tile blurbs) -------------------------------
+    var NOISE = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*/<>+=';
+    function decode(el, to, wave) {
+        cancelAnimationFrame(el.__decodeRaf);
+        var from = el.getAttribute('data-decode-to') ? el.__decodeShown || '' : el.textContent;
+        el.style.minHeight = '';
+        el.textContent = to; var h1 = el.offsetHeight;
+        el.textContent = from; var h0 = el.offsetHeight;
+        el.style.minHeight = Math.max(h0, h1) + 'px';
+        el.setAttribute('data-decode-to', to);
+        var n = Math.max(from.length, to.length), per = Math.min(18, (wave || 260) / Math.max(n, 1));
+        var t0 = performance.now(), seed = [];
+        var esc = function (ch) { return ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch; };
+        var tick = function (now) {
+            var t = now - t0, html = '', plain = '', done = true;
+            for (var i = 0; i < n; i++) {
+                var breakAt = i * per, settleAt = 180 + i * per;
+                if (t >= settleAt) { var c1 = to[i] || ''; html += esc(c1); plain += c1; continue; }
+                done = false;
+                if (t < breakAt) { var c0 = from[i] || ''; html += esc(c0); plain += c0; continue; }
+                var target = to[i] || from[i] || ' ';
+                if (target === ' ') { html += ' '; plain += ' '; continue; }
+                var slot = Math.floor(t / 40);
+                if (seed[i] === undefined || seed[i].slot !== slot) seed[i] = { slot: slot, ch: NOISE[Math.floor(Math.random() * NOISE.length)] };
+                html += '<span class="is-noise">' + esc(seed[i].ch) + '</span>';
+                plain += seed[i].ch;
+            }
+            el.__decodeShown = plain;
+            if (done) { el.removeAttribute('data-decode-to'); el.style.minHeight = ''; el.textContent = to; return; }
+            el.innerHTML = html;
+            el.__decodeRaf = requestAnimationFrame(tick);
+        };
+        el.__decodeRaf = requestAnimationFrame(tick);
+    }
+
+    // Shared with the stats' labels below.
+    window.__pdecode = decode;
+
+    if (!title || reduce || !window.MutationObserver) return;
+    // Armed only once the column has been fully off screen (neither of the
+    // reveal's classes): the reveal flips a piece between visible and leaving
+    // every time it brushes the screen's top edge, and replaying the decode on
+    // each flip scrambled the heading over and over as a phone scrolled.
+    var word = title.textContent, was = aside.classList.contains('is-visible'), timer = 0, armed = true;
+    function sync() {
+        if (!aside.classList.contains('is-visible') && !aside.classList.contains('is-leaving')) armed = true;
+        var now = aside.classList.contains('is-visible');
+        if (now === was) return;
+        was = now;
+        clearTimeout(timer);
+        if (now && !armed) return;
+        if (now) {
+            armed = false;
+            // Blank at its own height, then decode in once the eyebrow has started.
+            cancelAnimationFrame(title.__decodeRaf);
+            title.removeAttribute('data-decode-to');
+            title.style.minHeight = title.offsetHeight + 'px';
+            title.textContent = '';
+            timer = setTimeout(function () { decode(title, word, 520); }, 120);
+        } else if (!title.getAttribute('data-decode-to') && title.textContent === '') {
+            // Left before its decode began: put its words back for the next time.
+            title.style.minHeight = '';
+            title.textContent = word;
+        }
+    }
+    new MutationObserver(sync).observe(aside, { attributes: true, attributeFilter: ['class'] });
+    if (was) { was = false; sync(); }
+})();
+
+// Project pages: the overview's four stats. Each label ("Endless Board",
+// "On Google Play") decodes out of red noise as its stat is revealed, the way
+// Cobweb's tile blurbs do, a little after the stat starts rising in (main.css).
+(function () {
+    if (document.getElementById('reel')) return;
+    if (!window.__pdecode || !window.MutationObserver) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    Array.prototype.forEach.call(document.querySelectorAll('#gameOverview .intro2-stat'), function (stat, k) {
+        var label = stat.querySelector('.intro2-stat-label');
+        if (!label) return;
+        // Armed only once the stat has been fully off screen - see the column's.
+        var word = label.textContent, was = false, timer = 0, armed = true;
+        function sync() {
+            if (!stat.classList.contains('is-visible') && !stat.classList.contains('is-leaving')) armed = true;
+            var now = stat.classList.contains('is-visible');
+            if (now === was) return;
+            was = now;
+            clearTimeout(timer);
+            if (now && !armed) return;
+            if (now) {
+                armed = false;
+                cancelAnimationFrame(label.__decodeRaf);
+                label.removeAttribute('data-decode-to');
+                label.style.minHeight = label.offsetHeight + 'px';
+                label.textContent = '';
+                timer = setTimeout(function () { window.__pdecode(label, word); }, 200 + k * 80);
+            } else if (!label.getAttribute('data-decode-to') && label.textContent === '') {
+                label.style.minHeight = '';
+                label.textContent = word;
+            }
+        }
+        new MutationObserver(sync).observe(stat, { attributes: true, attributeFilter: ['class'] });
+        sync();
+    });
+})();

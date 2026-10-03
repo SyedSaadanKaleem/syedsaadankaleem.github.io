@@ -2823,7 +2823,7 @@ color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: url('cursor.png'), auto;
+    cursor: auto;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     transition: background 0.3s ease;
 	cursor: none; /* hide system cursor */
@@ -6048,7 +6048,7 @@ margin-top: -2em;}
 			margin: 0;
 			padding: 0;
 			overflow: hidden;
-			background: #000 url("images/banner.jpg") center center / cover no-repeat !important;
+			background: #000 url("../../images/banner.jpg") center center / cover no-repeat !important;
 			font-family: 'Inter', sans-serif;
 		}
 
@@ -8665,19 +8665,19 @@ margin-top: -2em;}
    goes, --vd staggering the ones that turn together (index.html, the .rv-in
    script).
    =========================================================================== */
-:is(#main, #Certification, #footer) .craft-head {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head {
   --hs: 1;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-replay) {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-replay) {
   --hs: 0.65;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-in) .intro2-eyebrow svg {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-in) .intro2-eyebrow svg {
   animation: vgBoltIn calc(380ms * var(--hs)) var(--ease-out) calc(430ms * var(--hs)) backwards !important;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-in) .intro2-eyebrow span {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-in) .intro2-eyebrow span {
   animation: vgHeroIn calc(420ms * var(--hs)) var(--ease-out) calc(470ms * var(--hs)) backwards !important;
 }
 
@@ -8686,28 +8686,28 @@ margin-top: -2em;}
    line it landed on at this width (--n-line), and --lw-step between lines -
    90ms where there is room, closer where a paragraph runs long, so its last
    line is moving by 600ms. They leave whole, as the hero's paragraph does. */
-:is(#main, #Certification, #footer) .lw {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .lw {
   display: inline-block;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-in) .craft-head-copy .intro2-lead .lw {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-in) .craft-head-copy .intro2-lead .lw {
   animation: vgHeroIn calc(460ms * var(--hs)) var(--ease-out) calc((640ms + var(--n-line, 0) * var(--lw-step, 90ms)) * var(--hs)) backwards !important;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-out) .craft-head-copy .intro2-lead {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-out) .craft-head-copy .intro2-lead {
   animation: vgHeroOut 260ms var(--ease-out) 60ms forwards !important;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-out) .intro2-eyebrow span {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-out) .intro2-eyebrow span {
   animation: vgHeroOut 260ms var(--ease-out) 85ms forwards !important;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-out) .intro2-eyebrow svg {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-out) .intro2-eyebrow svg {
   --fx-out: 0.35rem;
   animation: vgHeroOut 260ms var(--ease-out) 85ms forwards !important;
 }
 
-:is(#main, #Certification, #footer) .craft-head:has(.vg-name.name-noanim) * {
+:is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head:has(.vg-name.name-noanim) * {
   animation-duration: 1ms !important;
   animation-delay: 0s !important;
 }
@@ -9125,7 +9125,7 @@ margin-top: -2em;}
 /* The same trade the hero makes: none of it, rather than a gentler version.
    index.html adds none of the classes either, so nothing is left hidden. */
 @media (prefers-reduced-motion: reduce) {
-  :is(#main, #Certification, #footer) .craft-head *,
+  :is(#main, #Certification, #footer, #ScreenshotGallery) .craft-head *,
   :is(#main, #Certification, #footer) .rv-in,
   :is(#main, #Certification, #footer) .rv-out {
     animation: none !important;
@@ -12835,6 +12835,224 @@ html.lenis body {
   46%  { opacity: 1; transform: translate3d(3px, 0, 0); clip-path: inset(80% 0 5% 0); }
   58%  { opacity: 1; transform: translate3d(-2px, 0, 0); clip-path: inset(15% 0 70% 0); }
   70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+/* Project pages: the overview opens on its heading alone, centred - eyebrow and
+   title moved to the middle of the page (--hx, measured by script.js) - and as
+   the paragraph under them is revealed they slide back to their own place on
+   the left, so the copy reads from there. Scrolled back above the paragraph,
+   they centre again. On `translate`, apart from the fade's own `transform`, so
+   the two moves never fight; the fade's transitions are restated alongside. */
+/* The eyebrow moves whole; the heading a row at a time - every word by its
+   row's amount (script.js measures each row) - so centred it reads as centred
+   text, even where a line wraps on a phone, not a left-aligned block. */
+#gameOverview .intro2 > .intro2-eyebrow,
+#gameOverview .intro2 > .intro2-title .vg-word {
+  translate: var(--hx, 0px) 0;
+  transition: opacity 0.8s ease, transform 0.8s ease,
+    translate 900ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#gameOverview .intro2:has(> .intro2-lead.is-visible) > .intro2-eyebrow,
+#gameOverview .intro2:has(> .intro2-lead.is-visible) > .intro2-title .vg-word {
+  translate: 0 0;
+}
+
+/* The eyebrow is a full-width row; moved whole, its empty right side went out
+   past the screen with it - 54px of sideways scroll on a 375 phone. As wide as
+   its icon and words, it sits exactly where it did and moves only them. */
+#gameOverview .intro2 > .intro2-eyebrow {
+  width: fit-content;
+}
+
+/* The heading arrives as the hero's name does (script.js splits it and gives
+   it .vg-name's classes off the page's reveal), so the block itself no longer
+   fades and rises in - its letters carry their own ink. Before the reveal has
+   reached it, the letters wait unseen. */
+#gameOverview .intro2 > .intro2-title.vg-name {
+  opacity: 1;
+  transform: none;
+}
+
+#gameOverview .intro2-title.vg-name:not(.name-in):not(.name-out) .vg-ltr {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #gameOverview .intro2 > .intro2-eyebrow,
+  #gameOverview .intro2 > .intro2-title .vg-word {
+    translate: 0 0;
+    transition: none;
+  }
+
+  #gameOverview .intro2-title.vg-name .vg-ltr {
+    opacity: 1;
+  }
+}
+
+/* The overview's paragraph arrives a line at a time, as the home page's do:
+   split into words by script.js, each told its line (--n-line) and the gap
+   between lines (--lw-step), each line drifting in with vgHeroIn once the
+   page's reveal reaches the paragraph - 200ms in, as the heading starts back
+   to the left. The block no longer fades and rises as one; it is simply there
+   for its lines. It leaves whole, quickly, as the home page's paragraphs do. */
+#gameOverview .intro2 > .intro2-lead:has(.lw) {
+  transform: none;
+  transition: opacity 260ms ease;
+}
+
+#gameOverview .intro2 > .intro2-lead.is-visible:has(.lw) {
+  transition: none;
+}
+
+#gameOverview .intro2 > .intro2-lead .lw {
+  display: inline-block;
+}
+
+#gameOverview .intro2 > .intro2-lead.is-visible .lw {
+  animation: vgHeroIn 460ms cubic-bezier(0.23, 1, 0.32, 1) calc(200ms + var(--n-line, 0) * var(--lw-step, 90ms)) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #gameOverview .intro2 > .intro2-lead.is-visible .lw {
+    animation: none;
+  }
+}
+
+/* The overview's right column ("Key Features") arrives in parts once the page
+   reveals it: the eyebrow drifts in from the right (vgHeroIn), the heading
+   decodes out of red noise (script.js), and the boxes drift in from the right
+   a column at a time (--col, from script.js), 120ms apart, after the eyebrow.
+   The column itself no longer fades and rises as one - its parts carry the
+   entrance - but it still leaves as one, quickly, as the home page's pieces do.
+   The boxes animate only on the way in (fill backwards), so their own hover
+   lift is untouched. */
+#gameOverview .intro2-collab.fade-on-scroll {
+  transform: none;
+  transition: opacity 260ms ease;
+}
+
+#gameOverview .intro2-collab.fade-on-scroll.is-visible {
+  transition: none;
+}
+
+#gameOverview .intro2-collab.is-visible > .intro2-eyebrow svg {
+  animation: vgBoltIn 380ms cubic-bezier(0.23, 1, 0.32, 1) backwards;
+}
+
+#gameOverview .intro2-collab.is-visible > .intro2-eyebrow span {
+  animation: vgHeroIn 420ms cubic-bezier(0.23, 1, 0.32, 1) 40ms backwards;
+}
+
+#gameOverview .intro2-collab.is-visible :is(.skill-chip, .hl-btn--vertical) {
+  animation: vgHeroIn 420ms cubic-bezier(0.23, 1, 0.32, 1) calc(240ms + var(--col, 0) * 120ms) backwards;
+}
+
+#gameOverview .intro2-collab-title .is-noise,
+#gameOverview .intro2-stat-label .is-noise {
+  color: #ee2b2b;
+}
+
+/* The four stats rise in from below. The page's reveal passes a piece through
+   its edge-of-screen state on the way in, and stock parks that state 20px
+   ABOVE - so stats coming up from the bottom of the screen dropped in from the
+   top. Here both hidden states sit below, so they always come up from under. */
+#gameOverview .intro2-stat.fade-on-scroll.is-leaving {
+  transform: translateY(40px);
+}
+
+/* The gallery likewise: the video banner and every screenshot rise in from
+   below, whichever of the reveal's hidden states they are coming out of. */
+#ScreenshotGallery .fade-on-scroll.is-leaving {
+  transform: translateY(40px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #gameOverview .intro2-collab.is-visible > .intro2-eyebrow :is(svg, span),
+  #gameOverview .intro2-collab.is-visible :is(.skill-chip, .hl-btn--vertical) {
+    animation: none;
+  }
+}
+
+/* EVERY SUB-HEADING AS THE FOOTER'S - the small icon-and-words line over a
+   heading ("Get in Touch"): its icon swings in on vgBoltIn, its words drift in
+   from the right on vgHeroIn just after, and both go out on vgHeroOut. The
+   home page's craft-heads already do this off their heading (the rules above,
+   now also the project pages' gallery head). These are the rest. */
+
+/* The overview's "About the Game", off the overview heading's name classes
+   (script.js gives it them from the page's reveal). */
+#gameOverview .intro2:has(> .intro2-title.name-in) > .intro2-eyebrow svg {
+  animation: vgBoltIn 380ms cubic-bezier(0.23, 1, 0.32, 1) 430ms backwards;
+}
+
+#gameOverview .intro2:has(> .intro2-title.name-in) > .intro2-eyebrow span {
+  animation: vgHeroIn 420ms cubic-bezier(0.23, 1, 0.32, 1) 470ms backwards;
+}
+
+#gameOverview .intro2:has(> .intro2-title.name-out) > .intro2-eyebrow :is(svg, span) {
+  animation: vgHeroOut 260ms cubic-bezier(0.23, 1, 0.32, 1) 85ms forwards;
+}
+
+/* The project pages' closing call to action: its heading plays the name
+   (script.js), and its eyebrow and buttons follow it as the footer's eyebrow
+   follows the footer's heading - and leave with it. */
+#ScreenshotGallery .skills-toolkit-header {
+  --hs: 1;
+}
+
+#ScreenshotGallery .skills-toolkit-header:has(> .vg-name.name-replay) {
+  --hs: 0.65;
+}
+
+#ScreenshotGallery .skills-toolkit-header:has(> .vg-name.name-in) > .intro2-eyebrow svg {
+  animation: vgBoltIn calc(380ms * var(--hs)) cubic-bezier(0.23, 1, 0.32, 1) calc(430ms * var(--hs)) backwards;
+}
+
+#ScreenshotGallery .skills-toolkit-header:has(> .vg-name.name-in) > .intro2-eyebrow span {
+  animation: vgHeroIn calc(420ms * var(--hs)) cubic-bezier(0.23, 1, 0.32, 1) calc(470ms * var(--hs)) backwards;
+}
+
+#ScreenshotGallery .skills-toolkit-header:has(> .vg-name.name-in) > :is(.hl-btn-split, .hl-btn) {
+  animation: vgHeroIn calc(420ms * var(--hs)) cubic-bezier(0.23, 1, 0.32, 1) calc(560ms * var(--hs)) backwards;
+}
+
+#ScreenshotGallery .skills-toolkit-header:has(> .vg-name.name-out) > .intro2-eyebrow :is(svg, span) {
+  animation: vgHeroOut 260ms cubic-bezier(0.23, 1, 0.32, 1) 85ms forwards;
+}
+
+#ScreenshotGallery .skills-toolkit-header:has(> .vg-name.name-out) > :is(.hl-btn-split, .hl-btn) {
+  animation: vgHeroOut 260ms cubic-bezier(0.23, 1, 0.32, 1) 60ms forwards;
+}
+
+#ScreenshotGallery .skills-toolkit-header:has(> .vg-name.name-noanim) * {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+}
+
+/* The home page's Toolkit, Certified and Founder eyebrows are reveal pieces of
+   their own (index.html's .rv-in script), arriving before their sub-heading.
+   They arrived whole on vgHeroIn; now the line itself holds still and its icon
+   and words come in as the footer's do, on the piece's own stagger (--vd).
+   Out is unchanged: the line leaves whole. */
+:is(#main, #Certification) .skills-toolkit-header > .intro2-eyebrow.rv-in {
+  animation: none !important;
+}
+
+:is(#main, #Certification) .skills-toolkit-header > .intro2-eyebrow.rv-in svg {
+  animation: vgBoltIn 380ms var(--ease-out) var(--vd, 0ms) backwards !important;
+}
+
+:is(#main, #Certification) .skills-toolkit-header > .intro2-eyebrow.rv-in span {
+  animation: vgHeroIn 420ms var(--ease-out) calc(var(--vd, 0ms) + 40ms) backwards !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #gameOverview .intro2 > .intro2-eyebrow :is(svg, span),
+  #ScreenshotGallery .skills-toolkit-header > *,
+  #ScreenshotGallery .skills-toolkit-header > * :is(svg, span) {
+    animation: none !important;
+  }
 }
 
 /* Kickers and the hero's eyebrow are lists of points - "Recently Live ·

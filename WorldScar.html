@@ -360,7 +360,8 @@
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
 							<span>Get in Touch</span>
 						</div>
-						<h2 class="intro2-title"><span>Let’s turn ideas</span><span>into <span class="vg-accent">reality.</span></span></h2>
+						<!-- Letters, for the name's entrance and exit (.vg-name). The label reads it whole. -->
+						<h2 class="intro2-title vg-name" aria-label="Let’s turn ideas into reality"><span class="vg-line"><span class="vg-word"><span class="vg-ltr" style="--i:0;--k:0">L</span><span class="vg-ltr" style="--i:1;--k:1">e</span><span class="vg-ltr" style="--i:2;--k:2">t</span><span class="vg-ltr" style="--i:3;--k:3">’</span><span class="vg-ltr" style="--i:4;--k:4">s</span></span> <span class="vg-word"><span class="vg-ltr" style="--i:0;--k:5">t</span><span class="vg-ltr" style="--i:1;--k:6">u</span><span class="vg-ltr" style="--i:2;--k:7">r</span><span class="vg-ltr" style="--i:3;--k:8">n</span></span> <span class="vg-word"><span class="vg-ltr" style="--i:0;--k:9">i</span><span class="vg-ltr" style="--i:1;--k:10">d</span><span class="vg-ltr" style="--i:2;--k:11">e</span><span class="vg-ltr" style="--i:3;--k:12">a</span><span class="vg-ltr" style="--i:4;--k:13">s</span></span></span><span class="vg-line"><span class="vg-word"><span class="vg-ltr" style="--i:0;--k:0">i</span><span class="vg-ltr" style="--i:1;--k:1">n</span><span class="vg-ltr" style="--i:2;--k:2">t</span><span class="vg-ltr" style="--i:3;--k:3">o</span></span> <span class="vg-accent"><span class="vg-word"><span class="vg-ltr" style="--i:0;--k:4">r</span><span class="vg-ltr" style="--i:1;--k:5">e</span><span class="vg-ltr" style="--i:2;--k:6">a</span><span class="vg-ltr" style="--i:3;--k:7">l</span><span class="vg-ltr" style="--i:4;--k:8">i</span><span class="vg-ltr" style="--i:5;--k:9">t</span><span class="vg-ltr" style="--i:6;--k:10">y</span></span></span></span></h2>
 					</div>
 					<aside class="craft-head-copy">
 						<p class="intro2-lead">Got a project, a wild idea, or just want to talk games?<br>
@@ -487,12 +488,26 @@
 	<script src="assets/js/jquery.dropotron.min.js"></script>
 	<script src="assets/js/browser.min.js"></script>
 	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/script.js"></script>
 	<script src="assets/js/cursors.js"></script>
+	<script src="assets/js/lenis.min.js"></script>
+	<script>
+		// Lenis, as on the home page: the wheel drives a target and the page eases
+		// toward it instead of stepping a notch at a time. It scrolls the window for
+		// real, so the sections' position: sticky and every measurement still hold.
+		// The page's own jumps (the hard-stops, the nav links) call reset() so Lenis
+		// adopts them rather than easing past. Touch is left to the platform.
+		(function () {
+			if (!window.Lenis) return;
+			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+			window.__lenis = new Lenis({
+				autoRaf: true,
+				syncTouch: false
+			});
+		})();
+	</script>
 	<script src="assets/js/sounds.js"></script>
 	<script src="assets/js/gallery.js"></script>
 
@@ -535,26 +550,16 @@
 				// Auto-tag elements that should fade on scroll
 				// ============================================
 				const fadeSelectors = [
-										'#footer .craft-head',
 	'#gameOverview .intro2-title',
 					'#gameOverview .intro2-lead',
 					'#gameOverview .intro2-stat',
-					'#gameOverview .intro2-collab-title',
-					'#gameOverview .skill-chip',
-					'#gameOverview .actions',
 
 					// Screenshot Gallery section
 					'#ScreenshotGallery .shot',
 					'#ScreenshotGallery .S1',
-						'#ScreenshotGallery .craft-head',
-					'#ScreenshotGallery .skills-toolkit-header',
 				'#ScreenshotGallery .actions',
 					'#ScreenshotGallery .line2',
-					'#ScreenshotGallery .highlight',
-					// Footer
-					'#footer header.style1',
-					'#footer .feature-list',
-					'#footer form'
+					'#ScreenshotGallery .highlight'
 				];
 
 				fadeSelectors.forEach(sel => {
@@ -586,7 +591,9 @@
 						if (rect.bottom < 0 || rect.top > viewportH) {
 							// Fully out of viewport
 							el.classList.remove('is-visible', 'is-leaving');
-						} else if (elCenter < fadeZoneTop || elCenter > bottomLimit) {
+						// Back in only well clear of the edge: a phone's address bar moving, or a
+						// small scroll, otherwise flicked a piece at the line in and out over and over.
+						} else if (elCenter < fadeZoneTop || elCenter > bottomLimit || (el.classList.contains('is-leaving') && (elCenter < fadeZoneTop + viewportH * 0.08 || elCenter > bottomLimit - viewportH * 0.08))) {
 
 							// In edge zones (top or bottom)
 							el.classList.add('is-leaving');
@@ -645,6 +652,9 @@
 			sync();
 			window.addEventListener('resize', sync);
 			window.addEventListener('load', sync);
+			// And whenever a section changes height on its own - its lazy images load long
+			// after 'load' - or it pins at a stale top with its bottom off the screen.
+			if (window.ResizeObserver) { var ro = new ResizeObserver(sync); stops.forEach(function (s) { ro.observe(s); }); }
 			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			if (reduce) return;
 			function topOf(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
@@ -670,15 +680,18 @@
 			function hardStop(sy) {
 				locked = true; goT = lastWheelT = performance.now(); lastY = -1; still = 0;
 				window.scrollTo({ top: Math.round(sy), behavior: 'instant' });
+				if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
 				clearTimeout(pollT); pollT = setTimeout(poll, 50);
 			}
 			var navUntil = 0; // while in the future, hard-stops are suspended for a nav-link glide
 			// While locked, swallow the momentum tail so it can't push past the stop.
+			// Captured, and stopped there, so Lenis - which has its own wheel listener -
+			// never sees the tail either: it would otherwise carry the page on past.
 			window.addEventListener('wheel', function (e) {
 				lastUserT = performance.now();
 				navUntil = 0; // user wheel takes over: re-arm the hard-stops immediately
-				if (locked) { e.preventDefault(); lastWheelT = performance.now(); }
-			}, { passive: false });
+				if (locked) { e.preventDefault(); e.stopImmediatePropagation(); lastWheelT = performance.now(); }
+			}, { passive: false, capture: true });
 			// Crossing a pin point downward on a genuine user wheel clamps to it — once per
 			// approach. Nav-link smooth scrolls fire no wheel events and are never grabbed.
 			window.addEventListener('scroll', function () {
@@ -712,6 +725,7 @@
 				navUntil = performance.now() + 1600;
 				history.replaceState(null, '', a.getAttribute('href'));
 				window.scrollTo({ top: staticTopOf(sec), behavior: 'auto' });
+				if (window.__lenis) window.__lenis.reset();   // Lenis must adopt the jump, not ease past it
 			});
 		})();
 	</script>
