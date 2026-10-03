@@ -8320,15 +8320,23 @@ margin-top: -2em;}
 	margin-top: 42px;
 }
 
-/* === NO MOTION (hero-rework baseline): every transition/animation off; reveals, hero, deck and parallax at rest === */
-*, *::before, *::after {
+/* === NO MOTION (hero-rework baseline): every transition/animation off; reveals, hero, deck and parallax at rest ===
+   The home page only - the one page carrying the reel. The project pages share
+   this stylesheet and keep stock's motion (their fade-on-scroll reveals, as on
+   main), which this baseline had switched off on them too. :where() keeps the
+   selectors at the weight they had: every carve-out on the home page wins over
+   this reset by !important at equal-or-greater specificity, so the reset must
+   not gain any. */
+:where(:root:has(#reel)) *,
+:where(:root:has(#reel)) *::before,
+:where(:root:has(#reel)) *::after {
   transition: none !important;
   animation: none !important;
   scroll-behavior: auto !important;
 }
-.fade-on-scroll,
-.fade-on-scroll.is-visible,
-.fade-on-scroll.is-leaving {
+:where(:root:has(#reel)) .fade-on-scroll,
+:where(:root:has(#reel)) .fade-on-scroll.is-visible,
+:where(:root:has(#reel)) .fade-on-scroll.is-leaving {
   opacity: 1 !important;
   transform: none !important;
 }
@@ -9383,6 +9391,21 @@ margin-top: -2em;}
     max-width: min(100%, calc((100vh - var(--head-b, 0px) - 14.5rem) / 1.25));
     margin-inline: 0;
   }
+}
+
+/* The photo's row comes here on its own, and leaves behind the rule that
+   made it one column on slide two (#reel .reel-panel--collab
+   .intro2-media-row). Stock lays the row out as logos | photo from 401 to
+   720 wide and pins the photo to column 2, so with no logos beside it the
+   photo stood in the right half of the screen with an empty column to its
+   left - every phone in that range, 412 and 430 among them. One column here
+   too, and the photo in it. */
+#reel .reel-panel--award .intro2-media-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#reel .reel-panel--award .intro2-photo-card {
+  grid-column: 1;
 }
 
 @media (max-width: 900px) and (max-height: 700px) and (min-height: 501px) {
@@ -12812,6 +12835,23 @@ html.lenis body {
   46%  { opacity: 1; transform: translate3d(3px, 0, 0); clip-path: inset(80% 0 5% 0); }
   58%  { opacity: 1; transform: translate3d(-2px, 0, 0); clip-path: inset(15% 0 70% 0); }
   70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+/* Kickers and the hero's eyebrow are lists of points - "Recently Live ·
+   Pixel Dreams", "Game Developer · Studio Founder · Storyteller" - and a
+   point never breaks inside itself: when the line runs out, the whole point
+   goes down. Each point carries the dot after it; a point that ends its line
+   (.is-line-end, set by index.html) keeps its dot's room but not its ink, so
+   a wrapped line never ends - or starts - on a dot, and hiding it can never
+   move the wrap. */
+.kline .kpt,
+.kline .vg-role {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.kline .is-line-end > .kdot {
+  visibility: hidden;
 }
 
 /* Snatch's card breaking into Cobweb's six (index.html, shatter()). The layer and
