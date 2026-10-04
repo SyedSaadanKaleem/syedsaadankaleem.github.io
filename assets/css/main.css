@@ -9386,10 +9386,16 @@ margin-top: -2em;}
 
   /* As big as the room under the heading allows: the photo is 843x1054, so its
      width is that height over 1.25, less the gap, the nav bar's 106px and a
-     caption that runs to three lines once the photo is this narrow. */
+     caption held to two lines (tighter tracking below) - the third line it
+     used to take is given to the photo instead. */
   #reel .reel-panel.reel-panel--award .intro2-photo-card {
-    max-width: min(100%, calc((100vh - var(--head-b, 0px) - 14.5rem) / 1.25));
+    max-width: min(100%, calc((100vh - var(--head-b, 0px) - 13.2rem) / 1.25));
     margin-inline: 0;
+  }
+
+  #reel .reel-panel.reel-panel--award .intro2-photo-card figcaption {
+    letter-spacing: 0.1em;
+    text-wrap: balance;
   }
 }
 
