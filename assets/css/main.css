@@ -13366,3 +13366,96 @@ html.lenis body {
 #reel .reel-panel--swap {
   opacity: calc(clamp(0, calc(var(--d) * 1000), 1) * (1 - clamp(0, calc((var(--d) - var(--slots, 1)) * 1000), 1)));
 }
+
+/* ===========================================================================
+   THE WEBSITES BRIDGE - WEBSITES AND WEB APPS, THEN TASTE OF PAKISTAN
+
+   A second bridge ahead of the games one, on the same rules: it is a
+   .reel-panel--bridge too, so the board's rise and landing, the kicker turning
+   over, the copy a line at a time and the card arriving all apply to it as
+   written. Each bridge carries its own --b-tp (index.html, write()), so the
+   values the move runs on are worked out per panel here rather than only once
+   on the section - otherwise the beat fading out would follow the other one's
+   clock. For the games bridge these resolve to exactly what the section's did.
+   =========================================================================== */
+#reel .reel-panel--bridge {
+  --bu: clamp(0, calc(var(--b-tp, 0) / 0.17), 1);
+  --bg: clamp(0, calc((var(--b-tp, 0) - 0.34) / 0.17), 1);
+  --bk-out: clamp(0, calc((var(--b-tp, 0) - 0.53) / 0.04), 1);
+  --bk-in: clamp(0, calc((var(--b-tp, 0) - 0.60) / 0.04), 1);
+}
+
+/* A crossfade out, not the cut the games bridge leaves on: the beat after it
+   is a different slide, not a copy of this one. */
+#reel .reel-panel--web {
+  opacity: calc(var(--in) * (1 - var(--out)));
+}
+
+/* Two lines, like Cobweb's: the h2 holds the board's two rows. */
+#reel .reel-panel--web .hl-slide-title {
+  white-space: pre-line;
+}
+
+/* Its own light, on the same crossover the games bridge uses: the upper glow is
+   the green of Pakistan's flag (#01411C, lifted a little so it reads on
+   near-black), the lower one the grill's warm ember. */
+#reel .reel-panel--web {
+  --slide-glow: color-mix(in srgb,
+    rgba(1, 110, 48, 0.3) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0));
+  --slide-glow-2: color-mix(in srgb,
+    rgba(176, 58, 28, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0));
+}
+
+#reel.at-bridge .reel-panel--web {
+  --slide-glow: color-mix(in srgb,
+    rgba(1, 110, 48, 0.3) calc(var(--bg) * 100%), rgba(238, 43, 43, 0));
+  --slide-glow-2: color-mix(in srgb,
+    rgba(176, 58, 28, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0));
+}
+
+/* WEBSITES and WEB are the accent, the way GAMES and XR are; TASTE OF PAKISTAN
+   is plain white like every title. The other sentences' accents stay off. */
+#reel .reel-panel--title .flap-board.is-i .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-i .flap[data-accent-c],
+#reel .reel-panel--title .flap-board.is-j .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-j .flap[data-accent-c] {
+  --ink: #fff;
+}
+
+#reel .reel-panel--title .flap-board.is-i .flap[data-accent-i] {
+  --ink: #ee2b2b;
+}
+
+/* The websites bridge's own landing: Chess Run's (--bw-x/--bw-y, what the base
+   rule lands on) plus how far its two-line heading stands from Chess Run's
+   one-line one - 0 wherever the layout hangs the column from the top, 33px up
+   at 1024x600 where it centres it (index.html, calibrateBridge). The leg up is
+   the base rule's, untouched. */
+#reel.at-bridge:not(.from-web) .reel-panel--title .intro2-title.flap-board {
+  transform:
+    translate(
+      calc(var(--bu) * var(--bc-x, 0px) + var(--bg) * (var(--bw-x, 0px) + var(--web-dx, 0px) - var(--bc-x, 0px))),
+      calc(var(--b-from-y, 0px) + var(--bu) * (var(--bc-y, 0px) - var(--b-from-y, 0px))
+           + var(--bg) * (var(--bw-y, 0px) + var(--web-dy, 0px) - var(--bc-y, 0px))))
+    scale(calc(1 + (var(--bs-peak, 1.4) - 1) * (var(--bu) - var(--bg))));
+}
+
+/* The games bridge used to open on slide two's heading. It now opens on TASTE
+   OF PAKISTAN, landed - so its leg up starts from that landing instead of from
+   where slide two left the board, and its first frame is the websites bridge's
+   last. Its leg down is the base rule's, onto Chess Run. */
+#reel.at-bridge.from-web .reel-panel--title .intro2-title.flap-board {
+  transform:
+    translate(
+      calc(var(--bw-x, 0px) + var(--web-dx, 0px) + var(--bu) * (var(--bc-x, 0px) - var(--bw-x, 0px) - var(--web-dx, 0px)) + var(--bg) * (var(--bw-x, 0px) - var(--bc-x, 0px))),
+      calc(var(--bw-y, 0px) + var(--web-dy, 0px) + var(--bu) * (var(--bc-y, 0px) - var(--bw-y, 0px) - var(--web-dy, 0px)) + var(--bg) * (var(--bw-y, 0px) - var(--bc-y, 0px))))
+    scale(calc(1 + (var(--bs-peak, 1.4) - 1) * (var(--bu) - var(--bg))));
+}
+
+/* Reduced motion lists the beats as they are and never writes --b-tp, so a
+   bridge's title, card and second kicker stay at their unbuilt 0. Chess Run is
+   shown again by the beat after its bridge; Taste of Pakistan is not shown
+   anywhere else, so its bridge is set finished. */
+#reel.reel-static .reel-panel--web {
+  --b-tp: 1;
+}
