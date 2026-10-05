@@ -2720,11 +2720,13 @@
 			if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 				reel.style.setProperty("--p", "1");   // settled roster, no sequence
 				reel.classList.add("reel-static");
-				// Listed rather than played, a swap beat shows the site it OPENS on, so the
-				// websites' two would read ISPR, Taste of Pakistan and never reach Vertiqo.
-				// Each is shown as its own site instead - the words and pictures the roll
-				// would have swapped in, and its kicker (main.css, .is-swapped).
-				Array.prototype.forEach.call(reel.querySelectorAll(".reel-panel--site"), function (el) {
+				// Listed rather than played, a swap beat shows the slide it OPENS on - the one
+				// above it, again - so the list read Chess Run twice and never reached Cobweb,
+				// and the websites never reached Vertiqo. Each is shown as its own slide
+				// instead: the words and pictures the roll would have swapped in, its layout
+				// class, and its kicker and buttons (main.css, .is-swapped). The bridges are
+				// shown finished (main.css), so ISPR and Chess Run each appear once.
+				Array.prototype.forEach.call(reel.querySelectorAll(".reel-panel--swap"), function (el) {
 					var card = el.querySelector(".swap-card");
 					Array.prototype.forEach.call(el.querySelectorAll(".hl-slide-content [data-to]"), function (t) { t.textContent = t.getAttribute("data-to"); });
 					var btn = el.querySelector("[data-to-href]");
@@ -2732,9 +2734,17 @@
 					if (card) {
 						card.setAttribute("href", btn ? btn.getAttribute("href") : card.getAttribute("href"));
 						card.querySelector(".hl-gc-banner").style.backgroundImage = "url('" + card.getAttribute("data-to-banner") + "')";
+						var logo = card.querySelector(".hl-gc-logo");
+						if (logo && card.hasAttribute("data-to-logo")) logo.setAttribute("src", card.getAttribute("data-to-logo"));
 						card.querySelector(".hl-gc-name").textContent = card.getAttribute("data-to-name");
 						card.querySelector(".hl-gc-sub").textContent = card.getAttribute("data-to-sub");
 					}
+					// A game's h2 only held the board's place, so it has no data-to of its own -
+					// its name is the card's.
+					var title = el.querySelector(".hl-slide-title");
+					if (title && !title.hasAttribute("data-to") && card && card.hasAttribute("data-to-name")) title.textContent = card.getAttribute("data-to-name");
+					var cls = el.getAttribute("data-to-class");
+					if (cls) el.classList.add(cls);
 					el.classList.add("is-swapped");
 				});
 				var placeStatic = function () { placeMarks(true); };

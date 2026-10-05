@@ -13419,11 +13419,10 @@ html.lenis body {
 
 
 /* Reduced motion lists the beats as they are and never writes --b-tp, so a
-   bridge's title, card and second kicker stay at their unbuilt 0. Chess Run is
-   shown again by the beat after its bridge; ISPR is not (its swap beat shows
-   Taste of Pakistan - index.html sets the websites' swaps to their own site),
-   so its bridge is set finished. */
-#reel.reel-static .reel-panel--web {
+   bridge's title, card and second kicker stayed at their unbuilt 0. Both are
+   set finished there: each swap beat after them shows its own slide in that
+   mode (index.html), so the bridge is the only place ISPR and Chess Run appear. */
+#reel.reel-static .reel-panel--bridge {
   --b-tp: 1;
 }
 
@@ -13542,7 +13541,51 @@ html.lenis body {
 }
 
 /* Listed for reduced motion there is no board over these, so their own h2 is
-   the heading (index.html swaps each to its own site in that mode). */
-#reel.reel-static .reel-panel--site .hl-slide-title {
+   the heading (index.html swaps each to its own slide in that mode). */
+#reel.reel-static .reel-panel--swap .hl-slide-title {
   opacity: 1;
+}
+
+/* The websites' pictures are screenshots - long flat runs of one colour - and the
+   games' glitch splits the picture into red and cyan copies: on the games' busy
+   art a shifted band reads as the picture tearing, but on flat colour all it can
+   show is the tint, so the websites tore into solid stripes. Here the first copy
+   is the picture itself, untinted, torn into the same bands and pushed further
+   sideways - the tear shows on every edge (lettering, the grill, the doors, the
+   jets) and vanishes on the flat runs - and the cyan split stays, at a third of
+   its strength. Same timing and the same jitter underneath; the games' cards
+   are untouched. */
+#reel .reel-panel--site .hl-gc-banner.is-glitching::before {
+  background-color: transparent;
+  background-blend-mode: normal;
+  mix-blend-mode: normal;
+  animation-name: gc-glitch-r-site !important;
+}
+
+#reel .reel-panel--site .hl-gc-banner.is-glitching::after {
+  animation-name: gc-glitch-c-site !important;
+}
+
+@keyframes gc-glitch-r-site {
+  0%   { opacity: 0; transform: none; clip-path: inset(0); }
+  5%   { opacity: 1; transform: translate3d(14px, 0, 0); clip-path: inset(10% 0 55% 0); }
+  12%  { opacity: 1; transform: translate3d(-10px, 0, 0); clip-path: inset(62% 0 8% 0); }
+  20%  { opacity: 1; transform: translate3d(24px, 0, 0); clip-path: inset(0 0 30% 0); }
+  28%  { opacity: 1; transform: translate3d(-16px, 0, 0); clip-path: inset(40% 0 20% 0); }
+  36%  { opacity: 1; transform: translate3d(10px, 0, 0); clip-path: inset(75% 0 0 0); }
+  46%  { opacity: 1; transform: translate3d(-6px, 0, 0); clip-path: inset(20% 0 60% 0); }
+  58%  { opacity: 1; transform: translate3d(4px, 0, 0); clip-path: inset(50% 0 35% 0); }
+  70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+@keyframes gc-glitch-c-site {
+  0%   { opacity: 0; transform: none; clip-path: inset(0); }
+  5%   { opacity: 0.35; transform: translate3d(-6px, 0, 0); clip-path: inset(45% 0 30% 0); }
+  12%  { opacity: 0.35; transform: translate3d(5px, 0, 0); clip-path: inset(5% 0 70% 0); }
+  20%  { opacity: 0.35; transform: translate3d(-12px, 0, 0); clip-path: inset(30% 0 0 0); }
+  28%  { opacity: 0.35; transform: translate3d(9px, 0, 0); clip-path: inset(0 0 55% 0); }
+  36%  { opacity: 0.35; transform: translate3d(-5px, 0, 0); clip-path: inset(55% 0 25% 0); }
+  46%  { opacity: 0.35; transform: translate3d(3px, 0, 0); clip-path: inset(80% 0 5% 0); }
+  58%  { opacity: 0.35; transform: translate3d(-2px, 0, 0); clip-path: inset(15% 0 70% 0); }
+  70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
 }
