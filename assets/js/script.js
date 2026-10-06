@@ -213,6 +213,8 @@ if (toggleBtn && leftSidebar) {
         measure();
         if (window.ResizeObserver) new ResizeObserver(measure).observe(box);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+        // fonts.ready can settle before the headings' face is even fetched; re-measure as each lands.
+        if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", measure);
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
     else init();
@@ -382,6 +384,7 @@ if (toggleBtn && leftSidebar) {
         function regroup() { paras.forEach(groupLines); }
         regroup();
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(regroup);
+        if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", regroup);
 
         var queued = false, resized = false;
         function tick() {

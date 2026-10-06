@@ -493,11 +493,23 @@
 		})();
 	</script>
 	<script>
-		var loader = document.getElementById("preloader");
-
-		window.addEventListener("load", function () {
-			loader.style.display = "none";
-		})
+		// Up until the page AND its type have loaded, so the headings never show in
+		// the fallback face and then swap (the same wait as index.html). Capped, so a
+		// font host that does not answer cannot hold the page up for good.
+		(function () {
+			var loader = document.getElementById("preloader");
+			var done = false;
+			function hide() { if (done) return; done = true; if (loader) loader.style.display = "none"; }
+			var loaded = new Promise(function (r) { if (document.readyState === "complete") r(); else window.addEventListener("load", r); });
+			var typed = !document.fonts ? Promise.resolve() : Promise.all([
+				document.fonts.load('1em "Podium Sharp"', "AZaz09"),
+				document.fonts.load('1em "Podium Sharp"', "4"),
+				document.fonts.load('400 1em "Inter"'),
+				document.fonts.load('600 1em "Inter"')
+			]).then(function () { return document.fonts.ready; });
+			Promise.all([loaded, typed]).then(hide, hide);
+			setTimeout(hide, 8000);
+		})();
 
 	</script>
 	<script>

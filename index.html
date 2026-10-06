@@ -1373,15 +1373,34 @@
 		(function () {
 			var loader = document.getElementById("preloader");
 			function hidePreloader() {
+				if (window.__preloaded) return;
+				// Announced, so the hero's entrance starts as the loader leaves (below).
+				window.__preloaded = true;
+				document.dispatchEvent(new Event("preloader:done"));
 				if (loader) {
 					loader.classList.add("done");
 					setTimeout(function () { loader.style.display = "none"; }, 450);
 				}
 				document.body.classList.remove("is-preload");
 			}
-			window.addEventListener("load", hidePreloader);
-			// Fallback so a slow/blocked hero video can never keep the loader up.
-			setTimeout(hidePreloader, 1500);
+			// Up until the page has loaded AND its type has: the headings are in
+			// Podium Sharp off a third-party host, swapped in when it arrives, and
+			// leaving at 1.5s showed the fallback face and then the swap. The faces
+			// are asked for by name - a font is only fetched once something uses it,
+			// so fonts.ready alone can settle before the headings' face has started.
+			var loaded = new Promise(function (r) {
+				if (document.readyState === "complete") r(); else window.addEventListener("load", r);
+			});
+			var typed = !document.fonts ? Promise.resolve() : Promise.all([
+				document.fonts.load('1em "Podium Sharp"', "AZaz09"),
+				document.fonts.load('1em "Podium Sharp"', "4"),
+				document.fonts.load('400 1em "Inter"'),
+				document.fonts.load('600 1em "Inter"'),
+				document.fonts.load('600 1em "Chakra Petch"')
+			]).then(function () { return document.fonts.ready; });
+			Promise.all([loaded, typed]).then(hidePreloader, hidePreloader);
+			// Never held for good by a font host or a video that does not answer.
+			setTimeout(hidePreloader, 8000);
 		})();
 	</script>
 
@@ -1452,13 +1471,10 @@
 			window.addEventListener("scroll", onScroll, { passive: true });
 			window.addEventListener("resize", onScroll);
 
-			// Mirror the preloader's own triggers so the entrance begins exactly as
-			// the loader dismisses, never behind it.
-			if (!document.body.classList.contains("is-preload")) start();
-			else {
-				window.addEventListener("load", start);
-				setTimeout(start, 1500);
-			}
+			// Begins as the loader leaves, never behind it - on its own signal, since
+			// it now waits for the fonts as well as the page.
+			if (window.__preloaded) start();
+			else document.addEventListener("preloader:done", start);
 		})();
 	</script>
 
@@ -2710,12 +2726,16 @@
 			window.__flap.text = flapText;
 			window.__flap.textOf = textOf;
 
-			if (document.fonts && document.fonts.ready) {
-				document.fonts.ready.then(function () {
-					measuredAt = 0;
-					if (board) land(board, board.state);
-				});
+			// Re-measured whenever a face lands, not only at fonts.ready: that can
+			// settle before the headings' face has even been asked for, and the cells
+			// then kept the fallback's widths. A board mid-roll keeps rolling - its next
+			// walk measures fresh.
+			function refont() {
+				measuredAt = 0;
+				if (board && !board.el.classList.contains("is-flapping")) land(board, board.state);
 			}
+			if (document.fonts && document.fonts.ready) document.fonts.ready.then(refont);
+			if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", refont);
 		})();
 	</script>
 
@@ -3886,7 +3906,18 @@
 			}
 			// The heading is set in a webfont, so its size - and with it the whole
 			// measurement - changes when that font lands.
-			if (document.fonts && document.fonts.ready) document.fonts.ready.then(calibrate);
+			// Re-measured by relayout() - the resize path, which takes every beat mark off
+			// first - not by calibrate() alone. calibrateBridge reads the board's resting
+			// place, and the marks of whatever beat is on screen move it: run mid-reel, as
+			// fonts.ready did whenever the headings' face arrived after the page was
+			// scrolled into the reel, every landing came out a line low, over the
+			// paragraph. And again when that face lands later than fonts.ready, which can
+			// settle before it has even been fetched.
+			if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+			if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", function (e) {
+				var faces = e.fontfaces || [];
+				for (var f = 0; f < faces.length; f++) if (/Podium/.test(faces[f].family)) { relayout(); return; }
+			});
 			relayout();
 		})();
 	</script>
