@@ -1972,6 +1972,11 @@ color: rgba(0, 0, 0, 0);
 		line-height: 1em;
 	}
 
+	/* the group above is missing a comma, so email never got this */
+	form input[type="email"] {
+		line-height: 1em;
+	}
+
 	form select {
 		line-height: 1em;
 	}

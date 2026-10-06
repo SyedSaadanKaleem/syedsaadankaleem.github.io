@@ -625,3 +625,29 @@ if (toggleBtn && leftSidebar) {
     window.addEventListener('pointermove', fresh, { passive: true });
     window.addEventListener('mousemove', fresh, { passive: true });
 })();
+
+// Contact form: send to Web3Forms in the background so the visitor stays on the
+// page; the Send button reports the result. Without JS the plain post still works.
+(function () {
+    var form = document.querySelector('form[action*="web3forms"]');
+    if (!form || !window.fetch) return;
+    var btn = form.querySelector('input[type="submit"]'), label = btn.value, timer;
+    function say(text, revert) {
+        btn.value = text;
+        clearTimeout(timer);
+        if (revert) timer = setTimeout(function () { btn.value = label; btn.disabled = false; }, 4000);
+    }
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        btn.disabled = true;
+        say('Sending…');
+        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                if (!res.success) throw 0;
+                form.reset();
+                say('Sent ✓', true);
+            })
+            .catch(function () { say('Failed, try again', true); });
+    });
+})();
