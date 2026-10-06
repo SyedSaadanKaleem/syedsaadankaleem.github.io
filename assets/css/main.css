@@ -13513,24 +13513,27 @@ html.lenis body {
   white-space: pre-line;
 }
 
-/* Vertiqo hands over to the games bridge - a different slide - so it crossfades
-   out on the shared window instead of cutting. It still cuts IN, off Taste of
-   Pakistan finished. */
-#reel .reel-panel--vert {
+/* Ridgeline, the last website, hands over to the games bridge - a different
+   slide - so it crossfades out on the shared window instead of cutting. It
+   still cuts IN, off Vertiqo finished. */
+#reel .reel-panel--ridge {
   opacity: calc(clamp(0, calc(var(--d) * 1000), 1) * (1 - var(--out)));
 }
 
-/* ISPR and VERTIQO are plain white, like every title. */
+/* ISPR, VERTIQO and RIDGELINE are plain white, like every title. */
 #reel .reel-panel--title .flap-board.is-k .flap[data-accent-a],
 #reel .reel-panel--title .flap-board.is-k .flap[data-accent-c],
 #reel .reel-panel--title .flap-board.is-k .flap[data-accent-i],
 #reel .reel-panel--title .flap-board.is-l .flap[data-accent-a],
 #reel .reel-panel--title .flap-board.is-l .flap[data-accent-c],
-#reel .reel-panel--title .flap-board.is-l .flap[data-accent-i] {
+#reel .reel-panel--title .flap-board.is-l .flap[data-accent-i],
+#reel .reel-panel--title .flap-board.is-m .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-m .flap[data-accent-c],
+#reel .reel-panel--title .flap-board.is-m .flap[data-accent-i] {
   --ink: #fff;
 }
 
-/* The games bridge lifts off from Vertiqo's heading, where the swap left the
+/* The games bridge lifts off from Ridgeline's heading, where the swap left the
    board: Chess Run's landing plus that beat's own offset (--pre-dy, index.html). */
 #reel.at-bridge.from-web .reel-panel--title .intro2-title.flap-board {
   transform:
@@ -13588,4 +13591,31 @@ html.lenis body {
   46%  { opacity: 0.35; transform: translate3d(3px, 0, 0); clip-path: inset(80% 0 5% 0); }
   58%  { opacity: 0.35; transform: translate3d(-2px, 0, 0); clip-path: inset(15% 0 70% 0); }
   70%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+/* Ridgeline rests on Vertiqo's steel blue and flickers across to its own dusk:
+   the sky's violet above, the hill's green below. */
+#reel .reel-panel--ridge {
+  --slide-glow: rgba(41, 128, 200, 0.22);
+  --slide-glow-2: rgba(110, 140, 165, 0.16);
+}
+
+@keyframes ridge-glow {
+  0%   { --slide-glow: rgba(41, 128, 200, 0.22); --slide-glow-2: rgba(110, 140, 165, 0.16); }
+  8%   { --slide-glow: rgba(50, 125, 198, 0.09); --slide-glow-2: rgba(106, 139, 156, 0.08); }
+  14%  { --slide-glow: rgba(56, 123, 197, 0.24); --slide-glow-2: rgba(104, 137, 149, 0.18); }
+  22%  { --slide-glow: rgba(65, 120, 195, 0.1); --slide-glow-2: rgba(100, 136, 140, 0.2); }
+  30%  { --slide-glow: rgba(74, 117, 193, 0.26); --slide-glow-2: rgba(96, 135, 131, 0.08); }
+  38%  { --slide-glow: rgba(82, 114, 192, 0.11); --slide-glow-2: rgba(93, 133, 122, 0.21); }
+  47%  { --slide-glow: rgba(92, 111, 190, 0.25); --slide-glow-2: rgba(88, 132, 112, 0.12); }
+  56%  { --slide-glow: rgba(102, 108, 188, 0.09); --slide-glow-2: rgba(84, 130, 102, 0.25); }
+  66%  { --slide-glow: rgba(113, 104, 185, 0.24); --slide-glow-2: rgba(80, 128, 90, 0.12); }
+  76%  { --slide-glow: rgba(124, 101, 183, 0.13); --slide-glow-2: rgba(75, 126, 79, 0.23); }
+  86%  { --slide-glow: rgba(135, 97, 181, 0.23); --slide-glow-2: rgba(70, 125, 68, 0.16); }
+  94%  { --slide-glow: rgba(143, 94, 179, 0.19); --slide-glow-2: rgba(67, 123, 59, 0.24); }
+  100% { --slide-glow: rgba(150, 92, 178, 0.22); --slide-glow-2: rgba(64, 122, 52, 0.24); }
+}
+
+#reel .reel-panel--ridge.step-roll {
+  animation: ridge-glow 1100ms linear both !important;
 }
