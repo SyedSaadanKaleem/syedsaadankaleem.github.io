@@ -27,9 +27,22 @@
 </head>
 
 <body class="homepage is-preload">
-	<div id="preloader">
-		<div class="preloader-title"><span class="accent">Saadan</span> Kaleem</div>
-		<div class="preloader-bar"><span></span></div>
+	<div id="preloader" class="ld" role="status" aria-label="Loading">
+		<div class="ld-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+		<div class="ld-inner" aria-hidden="true">
+			<div class="ld-eyebrow">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
+				</svg>
+				<span>Loading Portfolio</span>
+			</div>
+			<div class="ld-name"><span class="accent">Saadan</span><span>Kaleem</span></div>
+			<div class="ld-meter">
+				<div class="ld-bar"><span></span></div>
+				<span class="ld-pct">000</span>
+			</div>
+		</div>
 	</div>
 	<div id="page-wrapper">
 
@@ -1408,7 +1421,26 @@
 				document.fonts.load('400 1em "Inter"'),
 				document.fonts.load('600 1em "Inter"'),
 				document.fonts.load('600 1em "Chakra Petch"')
-			]).then(function () { return document.fonts.ready; });
+			].map(tick)).then(function () { return document.fonts.ready; });
+			tick(loaded);
+			// The meter counts what is actually being waited on: five faces and the
+			// page's load, one step each. The number eases toward the bar's mark.
+			function tick(p) {
+				p.then(step, step);
+				return p;
+			}
+			var steps = 0, to = 0, shown = 0, pct = loader && loader.querySelector(".ld-pct");
+			function step() {
+				var idle = shown >= to;
+				to = Math.round(++steps / 6 * 100);
+				if (loader) loader.style.setProperty("--ld-p", to / 100);
+				if (pct && idle) run();
+			}
+			function run() {
+				shown = Math.min(to, shown + Math.max(1, (to - shown) * 0.2));
+				pct.textContent = ("00" + Math.round(shown)).slice(-3);
+				if (shown < to) requestAnimationFrame(run);
+			}
 			Promise.all([loaded, typed]).then(hidePreloader, hidePreloader);
 			// Never held for good by a font host or a video that does not answer.
 			setTimeout(hidePreloader, 8000);

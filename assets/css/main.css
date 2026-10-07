@@ -13624,3 +13624,132 @@ html.lenis body {
 #reel .reel-panel--ridge.step-roll {
   animation: ridge-glow 1100ms linear both !important;
 }
+
+/* ===========================================================================
+   LOADER (home page) — the hero's own parts, so the handoff reads as one
+   piece: the crown eyebrow, the stacked red/white name in Podium Sharp, the
+   hero's black-to-red veil, and a meter that counts the five faces and the
+   page load the script actually waits for (--ld-p, 0..1).
+   Scoped to .ld so the project pages' bare #preloader keep the stock block.
+   Motion carries !important: the home page's NO MOTION reset kills it otherwise.
+   =========================================================================== */
+#preloader.ld {
+  --ld-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 9000; /* over the nav (1000), under the cursor (10000) */
+  background:
+    linear-gradient(0deg, rgba(238, 43, 43, 0.20) 0%, rgba(0, 0, 0, 0) 55%),
+    radial-gradient(120% 90% at 85% 100%, #3a0b0b 0%, #120707 55%, #0a0a0a 100%);
+  color: #fff;
+  overflow: hidden;
+  transition: opacity 400ms var(--ld-ease) !important;
+}
+
+#preloader.ld .ld-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: min(30rem, 100% - 4rem);
+  transition: opacity 300ms var(--ld-ease), transform 300ms var(--ld-ease) !important;
+}
+
+#preloader.ld.done .ld-inner {
+  opacity: 0;
+  transform: translate3d(-0.6rem, 0, 0);
+}
+
+/* Corner brackets: the hero's frame, held at the screen's edges. */
+#preloader.ld .ld-frame i {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 0 solid rgba(255, 255, 255, 0.28);
+}
+#preloader.ld .ld-frame i:nth-child(1) { top: 24px; left: 24px; border-top-width: 2px; border-left-width: 2px; }
+#preloader.ld .ld-frame i:nth-child(2) { top: 24px; right: 24px; border-top-width: 2px; border-right-width: 2px; }
+#preloader.ld .ld-frame i:nth-child(3) { bottom: 24px; left: 24px; border-bottom-width: 2px; border-left-width: 2px; border-color: #ee2b2b; }
+#preloader.ld .ld-frame i:nth-child(4) { bottom: 24px; right: 24px; border-bottom-width: 2px; border-right-width: 2px; border-color: #ee2b2b; }
+
+#preloader.ld .ld-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+#preloader.ld .ld-eyebrow svg { width: 18px; height: 18px; }
+#preloader.ld .ld-eyebrow span {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+#preloader.ld .ld-name {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Podium Sharp', 'Chakra Petch', sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 9vw, 4.6rem);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+#preloader.ld .ld-name .accent { color: #ee2b2b; }
+
+#preloader.ld .ld-meter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1.75rem;
+}
+
+#preloader.ld .ld-bar {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+#preloader.ld .ld-bar span {
+  position: absolute;
+  inset: 0;
+  background: #ee2b2b;
+  box-shadow: 0 0 12px rgba(238, 43, 43, 0.7);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--ld-p, 0.04));
+  transition: transform 500ms var(--ld-ease) !important;
+}
+
+#preloader.ld .ld-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.7);
+}
+#preloader.ld .ld-pct::after { content: "%"; color: #ee2b2b; margin-left: 0.15em; }
+
+/* Arrival: the same drift-in the hero's supporting parts use. */
+@keyframes ldIn {
+  from { opacity: 0; transform: translate3d(0.9rem, 0, 0); }
+}
+#preloader.ld .ld-eyebrow { animation: ldIn 600ms var(--ld-ease) 60ms backwards !important; }
+#preloader.ld .ld-name > span { display: block; animation: ldIn 600ms var(--ld-ease) 140ms backwards !important; }
+#preloader.ld .ld-name > span + span { animation-delay: 200ms !important; }
+#preloader.ld .ld-meter { animation: ldIn 600ms var(--ld-ease) 280ms backwards !important; }
+
+@media screen and (max-width: 736px) {
+  #preloader.ld .ld-frame i { width: 16px; height: 16px; }
+  #preloader.ld .ld-frame i:nth-child(1), #preloader.ld .ld-frame i:nth-child(2) { top: 16px; }
+  #preloader.ld .ld-frame i:nth-child(3), #preloader.ld .ld-frame i:nth-child(4) { bottom: 16px; }
+  #preloader.ld .ld-frame i:nth-child(odd) { left: 16px; }
+  #preloader.ld .ld-frame i:nth-child(even) { right: 16px; }
+  #preloader.ld .ld-eyebrow span { font-size: 0.6rem; letter-spacing: 0.2em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #preloader.ld .ld-eyebrow,
+  #preloader.ld .ld-name > span,
+  #preloader.ld .ld-meter { animation: none !important; }
+  #preloader.ld .ld-inner { transform: none !important; }
+}
