@@ -13716,10 +13716,7 @@ html.lenis body {
   background: #ee2b2b;
   box-shadow: 0 0 12px rgba(238, 43, 43, 0.7);
   transform-origin: 0 50%;
-  transform: scaleX(0.02);
-  /* Creeps on the compositor, slowing toward 95%; the script speeds it up
-     when real progress is ahead and runs it out to 100 at the end. */
-  animation: ldCreep 9s cubic-bezier(0.15, 0.6, 0.35, 1) forwards !important;
+  transform: scaleX(0.02); /* driven per frame by the loader script, with the count */
 }
 
 #preloader.ld .ld-pct {
@@ -13730,10 +13727,6 @@ html.lenis body {
   color: rgba(255, 255, 255, 0.7);
 }
 #preloader.ld .ld-pct::after { content: "%"; color: #ee2b2b; margin-left: 0.15em; }
-
-@keyframes ldCreep {
-  to { transform: scaleX(0.95); }
-}
 
 /* Arrival: the same drift-in the hero's supporting parts use. */
 @keyframes ldIn {

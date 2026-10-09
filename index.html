@@ -1423,41 +1423,35 @@
 				document.fonts.load('600 1em "Chakra Petch"')
 			].map(tick)).then(function () { return document.fonts.ready; });
 			tick(loaded);
-			// The bar creeps on the compositor (ldCreep in main.css), so it keeps
-			// moving while the page's own load work blocks this thread. What is
-			// actually waited on - five faces and the page's load - sets a floor:
-			// behind it, the creep runs faster. At the end the bar runs out to 100
-			// and the loader leaves once the count has followed it there.
+			// One value drives both the bar and the number, written in the same
+			// frame, so they always agree. It creeps with time toward 95% (slowing
+			// as it goes), what is actually waited on - five faces and the page's
+			// load - sets a floor it eases up to, and at the end it eases out to
+			// 100; the loader leaves once it gets there.
 			function tick(p) {
 				p.then(step, step);
 				return p;
 			}
-			var real = 0, shown = 0, ran = false;
+			var real = 0, shown = 0, finish = false, t0 = 0, last = 0;
 			var bar = loader && loader.querySelector(".ld-bar span");
 			var pct = loader && loader.querySelector(".ld-pct");
-			var creep = bar && bar.getAnimations && bar.getAnimations()[0];
 			function step() { real += 1 / 6; }
-			function scale() {
-				var m = getComputedStyle(bar).transform.match(/matrix\(([^,]+)/);
-				return m ? +m[1] : 0;
-			}
-			function frame() {
-				var now = scale();
-				if (creep) creep.playbackRate = now < Math.min(real, 0.95) ? 4 : 1;
-				// The count follows the bar but climbs at most 2 a frame, so a
-				// stalled thread catches up by counting, not by jumping.
-				shown = Math.min(now, shown + 0.02);
+			function frame(now) {
+				if (!t0) t0 = last = now;
+				var dt = Math.min(now - last, 100);
+				last = now;
+				var creep = 0.95 * (1 - Math.exp(-(now - t0) / 2600));
+				var target = finish ? 1 : Math.max(creep, Math.min(real, 0.95));
+				if (shown < target) shown = Math.min(target, shown +
+					Math.max((target - shown) * dt / 320, finish ? dt / 1500 : 0));
+				if (bar) bar.style.transform = "scaleX(" + Math.max(shown, 0.02) + ")";
 				pct.textContent = ("00" + Math.floor(shown * 100)).slice(-3);
-				if (ran && shown >= 1) return hidePreloader();
+				if (shown >= 1) return hidePreloader();
 				if (!window.__preloaded) requestAnimationFrame(frame);
 			}
-			if (bar && pct) requestAnimationFrame(frame);
+			if (pct) requestAnimationFrame(frame);
 			function done() {
-				if (bar && bar.animate) bar.animate(
-					[{ transform: "scaleX(" + scale() + ")" }, { transform: "scaleX(1)" }],
-					{ duration: 650, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
-				).onfinish = function () { ran = true; };
-				else ran = true;
+				finish = true;
 				// rAF stops in a background tab; don't let that hold the page.
 				setTimeout(hidePreloader, 1400);
 			}
