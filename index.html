@@ -1423,25 +1423,45 @@
 				document.fonts.load('600 1em "Chakra Petch"')
 			].map(tick)).then(function () { return document.fonts.ready; });
 			tick(loaded);
-			// The meter counts what is actually being waited on: five faces and the
-			// page's load, one step each. The number eases toward the bar's mark.
+			// The bar creeps on the compositor (ldCreep in main.css), so it keeps
+			// moving while the page's own load work blocks this thread. What is
+			// actually waited on - five faces and the page's load - sets a floor:
+			// behind it, the creep runs faster. At the end the bar runs out to 100
+			// and the loader leaves once the count has followed it there.
 			function tick(p) {
 				p.then(step, step);
 				return p;
 			}
-			var steps = 0, to = 0, shown = 0, pct = loader && loader.querySelector(".ld-pct");
-			function step() {
-				var idle = shown >= to;
-				to = Math.round(++steps / 6 * 100);
-				if (loader) loader.style.setProperty("--ld-p", to / 100);
-				if (pct && idle) run();
+			var real = 0, shown = 0, ran = false;
+			var bar = loader && loader.querySelector(".ld-bar span");
+			var pct = loader && loader.querySelector(".ld-pct");
+			var creep = bar && bar.getAnimations && bar.getAnimations()[0];
+			function step() { real += 1 / 6; }
+			function scale() {
+				var m = getComputedStyle(bar).transform.match(/matrix\(([^,]+)/);
+				return m ? +m[1] : 0;
 			}
-			function run() {
-				shown = Math.min(to, shown + Math.max(1, (to - shown) * 0.2));
-				pct.textContent = ("00" + Math.round(shown)).slice(-3);
-				if (shown < to) requestAnimationFrame(run);
+			function frame() {
+				var now = scale();
+				if (creep) creep.playbackRate = now < Math.min(real, 0.95) ? 4 : 1;
+				// The count follows the bar but climbs at most 2 a frame, so a
+				// stalled thread catches up by counting, not by jumping.
+				shown = Math.min(now, shown + 0.02);
+				pct.textContent = ("00" + Math.floor(shown * 100)).slice(-3);
+				if (ran && shown >= 1) return hidePreloader();
+				if (!window.__preloaded) requestAnimationFrame(frame);
 			}
-			Promise.all([loaded, typed]).then(hidePreloader, hidePreloader);
+			if (bar && pct) requestAnimationFrame(frame);
+			function done() {
+				if (bar && bar.animate) bar.animate(
+					[{ transform: "scaleX(" + scale() + ")" }, { transform: "scaleX(1)" }],
+					{ duration: 650, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
+				).onfinish = function () { ran = true; };
+				else ran = true;
+				// rAF stops in a background tab; don't let that hold the page.
+				setTimeout(hidePreloader, 1400);
+			}
+			Promise.all([loaded, typed]).then(done, done);
 			// Never held for good by a font host or a video that does not answer.
 			setTimeout(hidePreloader, 8000);
 		})();
