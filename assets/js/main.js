@@ -65,7 +65,7 @@ function createHomepageNavigation() {
     // Create each nav item
     $.each(navItems, function(index, item) {
         var $li = $('<li>', { class: 'list' });
-        var $a = $('<a>', { href: item.href });
+        var $a = $('<a>', { href: item.href, 'aria-label': item.text });
         var $spanIcon = $('<span>', { class: 'icon' });
         var $spanText = $('<span>', { class: 'text', text: item.text });
         var $icon = $('<i>', { class: item.iconClass });
@@ -115,7 +115,7 @@ function createProjectNavigation() {
 
     $.each(navItems, function(index, item) {
         var $li = $('<li>', { class: 'list' });
-        var $a = $('<a>', { href: item.href });
+        var $a = $('<a>', { href: item.href, 'aria-label': item.text });
         var $spanIcon = $('<span>', { class: 'icon' });
         var $spanText = $('<span>', { class: 'text', text: item.text });
         var $icon = $('<i>', { class: item.iconClass });

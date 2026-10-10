@@ -4,21 +4,25 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html>
+<html lang="en">
 
 <head>
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico?v=2"/>
 	<title>Saadan's Portfolio</title>
 
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
-	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-		rel="stylesheet">
+	<link rel="preconnect" href="https://db.onlinewebfonts.com">
+	<!-- main.css @imports these two; preloaded so they fetch alongside it, not after it -->
+	<link rel="preload" as="style" href="assets/css/fontawesome-all.min.css">
+	<link rel="preload" as="style"
+		href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+	<!-- Icons sit behind the loader, so their sheet need not hold first paint -->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' media="print" onload="this.media='all'">
+	<noscript><link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'></noscript>
 	<!-- Hero fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet"
@@ -51,7 +55,7 @@
 
 			<!-- Background video -->
 			<video class="vg-hero__video" autoplay muted loop playsinline poster="images/banner.jpg"
-				src="images/Hero-BG.mp4"></video>
+				data-src="images/Hero-BG.mp4" preload="none"></video>
 
 			<!-- Legibility overlay (black/red) -->
 			<div class="vg-hero__overlay"></div>
@@ -202,19 +206,19 @@
 									<h3 class="intro2-collab-title" aria-label="A few names that let me play in their sandbox"><span class="rl-word" style="--w:0"><span class="rl-ltr" style="--i:0">A</span></span> <span class="rl-word" style="--w:1"><span class="rl-ltr" style="--i:0">f</span><span class="rl-ltr" style="--i:1">e</span><span class="rl-ltr" style="--i:2">w</span></span> <span class="rl-word" style="--w:2"><span class="rl-ltr" style="--i:0">n</span><span class="rl-ltr" style="--i:1">a</span><span class="rl-ltr" style="--i:2">m</span><span class="rl-ltr" style="--i:3">e</span><span class="rl-ltr" style="--i:4">s</span></span> <span class="rl-word" style="--w:3"><span class="rl-ltr" style="--i:0">t</span><span class="rl-ltr" style="--i:1">h</span><span class="rl-ltr" style="--i:2">a</span><span class="rl-ltr" style="--i:3">t</span></span> <span class="rl-word" style="--w:4"><span class="rl-ltr" style="--i:0">l</span><span class="rl-ltr" style="--i:1">e</span><span class="rl-ltr" style="--i:2">t</span></span> <span class="rl-word" style="--w:5"><span class="rl-ltr" style="--i:0">m</span><span class="rl-ltr" style="--i:1">e</span></span> <span class="rl-word" style="--w:6"><span class="rl-ltr" style="--i:0">p</span><span class="rl-ltr" style="--i:1">l</span><span class="rl-ltr" style="--i:2">a</span><span class="rl-ltr" style="--i:3">y</span></span> <span class="rl-word" style="--w:7"><span class="rl-ltr" style="--i:0">i</span><span class="rl-ltr" style="--i:1">n</span></span> <span class="rl-word" style="--w:8"><span class="rl-ltr" style="--i:0">t</span><span class="rl-ltr" style="--i:1">h</span><span class="rl-ltr" style="--i:2">e</span><span class="rl-ltr" style="--i:3">i</span><span class="rl-ltr" style="--i:4">r</span></span> <span class="rl-word" style="--w:9"><span class="rl-ltr" style="--i:0">s</span><span class="rl-ltr" style="--i:1">a</span><span class="rl-ltr" style="--i:2">n</span><span class="rl-ltr" style="--i:3">d</span><span class="rl-ltr" style="--i:4">b</span><span class="rl-ltr" style="--i:5">o</span><span class="rl-ltr" style="--i:6">x</span></span></h3>
 									<div class="intro2-logos intro2-logos--left">
 										<div class="intro2-logo">
-											<img src="./logos/CanvasDigital.svg" alt="" />
+											<img loading="lazy" src="./logos/CanvasDigital.svg" alt="" />
 											<span class="intro2-logo-name">Canvas Digital</span>
 										</div>
 										<div class="intro2-logo">
-											<img src="./logos/Khareed-o-Mobile.svg" alt="" />
+											<img loading="lazy" src="./logos/Khareed-o-Mobile.svg" alt="" />
 											<span class="intro2-logo-name">Khareed-o-Mobile</span>
 										</div>
 										<div class="intro2-logo">
-											<img src="./logos/LiftOnHai.svg" alt="" />
+											<img loading="lazy" src="./logos/LiftOnHai.svg" alt="" />
 											<span class="intro2-logo-name">LiftOnHai</span>
 										</div>
 										<div class="intro2-logo">
-											<img src="./logos/ShotSpire.svg" alt="" />
+											<img loading="lazy" src="./logos/ShotSpire.svg" alt="" />
 											<span class="intro2-logo-name">ShotSpire</span>
 										</div>
 									</div>
@@ -548,7 +552,7 @@
 						</div>
 						<div class="hl-slide-content">
 							<span class="hl-tag swap-kick swap-kick--from"><i class='bx bxl-steam'></i> <span class="kline"><span class="kpt">Coming Soon<span class="kdot">&nbsp;·</span></span> <span class="kpt">Re-Vision</span></span></span>
-							<span class="hl-tag swap-kick swap-kick--to"><img class="hl-tag-logo" src="logos/cobweb-logo.svg" alt=""> <span class="kline"><span class="kpt">Cobweb Games<span class="kdot">&nbsp;·</span></span> <span class="kpt">Unity Developer</span></span></span>
+							<span class="hl-tag swap-kick swap-kick--to"><img loading="lazy" class="hl-tag-logo" src="logos/cobweb-logo.svg" alt=""> <span class="kline"><span class="kpt">Cobweb Games<span class="kdot">&nbsp;·</span></span> <span class="kpt">Unity Developer</span></span></span>
 							<h2 class="hl-slide-title" aria-hidden="true" data-to="Ten Projects,&#10;Six Launches">Snatch</h2>
 							<p class="hl-slide-sub" data-to="With-in Thirteen Months">A New Era of Pong</p>
 							<p class="hl-slide-desc" data-to="Shipped six titles to Google Play as a Unity Developer at Cobweb Games. Built fast, optimized hard, and learned to deliver under real production pressure.">A fast, competitive reinvention of Pong with a modern twist. Coming to Steam.</p>
@@ -627,42 +631,42 @@
 			<ul class="list">
 				<li class="list-item ">
 					<a href="https://www.upwork.com/freelancers/~01b1cf81af5ffc04e2?mp_source=share" target="_blank"
-						data-label="Upwork">
+						data-label="Upwork" aria-label="Upwork">
 						<i class='bx bxl-upwork'></i>
 						<span class="link-name"></span>
 					</a>
 				</li>
 
 				<li class="list-item">
-					<a href="https://github.com/SyedSaadanKaleem" target="_blank" data-label="GitHub">
+					<a href="https://github.com/SyedSaadanKaleem" target="_blank" data-label="GitHub" aria-label="GitHub">
 						<i class='bx bxl-github'></i>
 						<span class="link-name"></span>
 					</a>
 				</li>
 
 				<li class="list-item">
-					<a href="https://linkedin.com/in/syed-saadan-kaleem" target="_blank" data-label="LinkedIn">
+					<a href="https://linkedin.com/in/syed-saadan-kaleem" target="_blank" data-label="LinkedIn" aria-label="LinkedIn">
 						<i class='bx bxl-linkedin'></i>
 						<span class="link-name"></span>
 					</a>
 				</li>
 
 				<li class="list-item">
-					<a href="https://discordapp.com/users/1006718720577646623" target="_blank" data-label="Discord">
+					<a href="https://discordapp.com/users/1006718720577646623" target="_blank" data-label="Discord" aria-label="Discord">
 						<i class='bx bxl-discord-alt'></i>
 						<span class="link-name"></span>
 					</a>
 				</li>
 
 				<li class="list-item">
-					<a href="https://wa.me/923138557610" target="_blank" rel="noopener" data-label="WhatsApp">
+					<a href="https://wa.me/923138557610" target="_blank" rel="noopener" data-label="WhatsApp" aria-label="WhatsApp">
 						<i class='bx bxl-whatsapp'></i>
 						<span class="link-name"></span>
 					</a>
 				</li>
 
 				<li class="list-item list-item--resume">
-					<a href="resume.html" target="_blank" rel="noopener" data-label="Resume">
+					<a href="resume.html" target="_blank" rel="noopener" data-label="Resume" aria-label="Resume">
 						<i class='bx bxs-user-detail'></i>
 						<span class="link-name"></span>
 					</a>
@@ -716,13 +720,13 @@
 								<div class="row">
 									<div class="col-6 col-12-medium">
 										<section>
-											<h3 class="img2"><img src="images/bi--unity.png" alt=""> Unity Development</h3>
+											<h3 class="img2"><img loading="lazy" src="images/bi--unity.png" alt=""> Unity Development</h3>
 											<p>My home engine. Six years building 2D and 3D games — mechanics, physics, animation, and clean component-based architecture.</p>
 										</section>
 									</div>
 									<div class="col-6 col-12-medium">
 										<section>
-											<h3><img src="images/simple-icons--unrealengine.png" alt=""> Unreal Engine</h3>
+											<h3><img loading="lazy" src="images/simple-icons--unrealengine.png" alt=""> Unreal Engine</h3>
 											<p>My current playground. Building Worldscar with Blueprints — high-fidelity environments, complex gameplay systems, and atmospheric storytelling.</p>
 										</section>
 									</div>
@@ -845,7 +849,7 @@
 <div class="skill-chips">
 
     <div class="skill-chip">
-        <div class="skill-chip-icon"><img src="images/bi--unity.png" alt=""></div>
+        <div class="skill-chip-icon"><img loading="lazy" src="images/bi--unity.png" alt=""></div>
         <div class="skill-chip-text">
             <span class="skill-chip-name">Unity</span>
             <span class="skill-chip-meta">Primary Engine</span>
@@ -853,7 +857,7 @@
     </div>
 
     <div class="skill-chip">
-        <div class="skill-chip-icon"><img src="images/simple-icons--unrealengine.png" alt=""></div>
+        <div class="skill-chip-icon"><img loading="lazy" src="images/simple-icons--unrealengine.png" alt=""></div>
         <div class="skill-chip-text">
             <span class="skill-chip-name">Unreal Engine</span>
             <span class="skill-chip-meta">Currently Learning</span>
@@ -1401,6 +1405,10 @@
 				// Announced, so the hero's entrance starts as the loader leaves (below).
 				window.__preloaded = true;
 				document.dispatchEvent(new Event("preloader:done"));
+				// The hero video is 13MB and held the load event the loader waits on;
+				// fetched once the loader leaves, with its poster showing until then.
+				var vid = document.querySelector(".vg-hero__video[data-src]");
+				if (vid) { vid.src = vid.getAttribute("data-src"); vid.removeAttribute("data-src"); var pl = vid.play(); if (pl) pl.catch(function () {}); }
 				if (loader) {
 					loader.classList.add("done");
 					setTimeout(function () { loader.style.display = "none"; }, 450);
@@ -1751,9 +1759,16 @@
 			var mx = -1e4, my = -1e4;
 			document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
 			document.addEventListener('mouseleave', function () { mx = -1e4; my = -1e4; });
+			// Inline props only written when they change: a glow at rest rewrote the same
+			// values every frame, dirtying style for the next slide's rect read.
+			function put(el, p, v) { if (el.style.getPropertyValue(p) !== v) el.style.setProperty(p, v); }
 			(function tick() {
-				document.querySelectorAll('.hl-slide').forEach(function (el) {
-					var r = el.getBoundingClientRect();
+				// Every rect read before any glow is written, so a frame costs one style
+				// pass rather than one per slide.
+				var slides = document.querySelectorAll('.hl-slide');
+				var rects = Array.prototype.map.call(slides, function (el) { return el.getBoundingClientRect(); });
+				slides.forEach(function (el, si) {
+					var r = rects[si];
 					if (r.bottom < 0 || r.top > innerHeight || !r.width) return;
 					var gs = states.get(el);
 					if (!gs) {
@@ -1821,11 +1836,11 @@
 						// pressure dims it in flickers; calm = full brightness
 						var b = 1 - g.st * (0.15 + 0.45 * Math.random());
 						var p = '--g' + (i + 1);
-						el.style.setProperty(p + 'x', Math.max(0, Math.min(100, g.x + jx)).toFixed(2) + '%');
-						el.style.setProperty(p + 'y', Math.max(0, Math.min(100, g.y + jy)).toFixed(2) + '%');
-						el.style.setProperty(p + 'b', (b * 100).toFixed(1) + '%');
-						el.style.setProperty(p + 'sx', g.sx.toFixed(3));
-						el.style.setProperty(p + 'sy', g.sy.toFixed(3));
+						put(el, p + 'x', Math.max(0, Math.min(100, g.x + jx)).toFixed(2) + '%');
+						put(el, p + 'y', Math.max(0, Math.min(100, g.y + jy)).toFixed(2) + '%');
+						put(el, p + 'b', (b * 100).toFixed(1) + '%');
+						put(el, p + 'sx', g.sx.toFixed(3));
+						put(el, p + 'sy', g.sy.toFixed(3));
 					});
 				});
 				requestAnimationFrame(tick);
@@ -2322,12 +2337,27 @@
 			// inside the board, so it inherits the heading's face, weight and tracking.
 			// 28 reads, not 43 per state, and re-taken only when the size actually moves.
 			var widthOf = {}, measuredAt = 0;
+			// Every glyph on its own shrink-wrapped line of one probe, read after a
+			// single layout. Swapping one probe's text per glyph forced a style and
+			// layout pass for each - ~28 recalcs per measure, seconds on a slow phone.
+			function advances(el, glyphs) {
+				var probe = document.createElement("span");
+				probe.className = "flap-probe";
+				for (var i = 0; i < glyphs.length; i++) {
+					var s = document.createElement("span");
+					s.style.cssText = "display:block;width:max-content";
+					s.textContent = glyphs[i];
+					probe.appendChild(s);
+				}
+				el.appendChild(probe);
+				var out = [];
+				for (var j = 0; j < glyphs.length; j++) out.push(probe.childNodes[j].getBoundingClientRect().width);
+				el.removeChild(probe);
+				return out;
+			}
 			function measureGlyphs(el) {
 				var fs = parseFloat(getComputedStyle(el).fontSize) || 0;
 				if (fs === measuredAt) return;
-				var probe = document.createElement("span");
-				probe.className = "flap-probe";
-				el.appendChild(probe);
 				// The board carries scale(var(--s)) through its opening move, and a client
 				// rect is measured through it - so an advance taken mid-grow came back
 				// 1.544x too big and every cell was set that much too wide. Divide the
@@ -2335,12 +2365,8 @@
 				// at any point of the settle. offsetWidth would also dodge it but it rounds,
 				// and 0.4px a cell is 6px across a row.
 				var k = new DOMMatrixReadOnly(getComputedStyle(el).transform).a || 1;
-				for (var i = 0; i < CHARSET.length; i++) {
-					var g = show(CHARSET[i]);
-					probe.textContent = g;
-					widthOf[g] = probe.getBoundingClientRect().width / k;
-				}
-				probe.parentNode.removeChild(probe);
+				var glyphs = CHARSET.split("").map(show), w = advances(el, glyphs);
+				for (var i = 0; i < glyphs.length; i++) widthOf[glyphs[i]] = w[i] / k;
 				measuredAt = fs;
 			}
 
@@ -2710,10 +2736,9 @@
 
 				el.setAttribute("data-flap-to", to);
 				el.textContent = "";
-				var probe = document.createElement("span");
-				probe.className = "flap-probe";
-				el.appendChild(probe);
-				var adv = function (ch) { probe.textContent = show(ch); return probe.getBoundingClientRect().width; };
+				var used = (src + dst).split("").filter(function (c, i, all) { return all.indexOf(c) === i; });
+				var usedW = advances(el, used.map(show));
+				var adv = function (ch) { return usedW[used.indexOf(ch)]; };
 
 				var cells = [];
 				for (var k = 0; k < n; k++) {
@@ -2734,7 +2759,6 @@
 					cells.push(cell);
 					el.appendChild(cn);
 				}
-				el.removeChild(probe);
 				el.__flapCells = cells;
 				el.getBoundingClientRect();   // the old widths are the transition's start
 				cells.forEach(function (c, j) {
@@ -3474,8 +3498,11 @@
 				if (!root) return;
 				var words = root.querySelectorAll(".lw");
 				var line = -1, prevTop = null;
+				// All tops read before any --n-line is written; each write dirtied style
+				// and the next word's offsetTop paid a full recalc for it.
+				var tops = Array.prototype.map.call(words, function (w) { return w.offsetTop; });
 				for (var i = 0; i < words.length; i++) {
-					var top = words[i].offsetTop;
+					var top = tops[i];
 					// A new line box, not a new word: offsetTop is layout, so it is unaffected
 					// by whatever transform the entrance has the word under at the time.
 					if (prevTop === null || top > prevTop + 2) { line++; prevTop = top; }
@@ -3675,19 +3702,24 @@
 			function calibrateCards() {
 				var cards = reel.querySelectorAll(".reel-panel--bridge > .hl-slide-bg, .reel-panel--swap > .hl-slide-bg:not(.hl-cobweb-card)");
 				reel.style.removeProperty("--card-h");
-				var max = 0;
+				var max = 0, swaps = [];
+				// Both passes read every card after one layout; reading each card between
+				// text swaps forced a recalc per card, twice.
+				Array.prototype.forEach.call(cards, function (card) { max = Math.max(max, card.offsetHeight); });
 				Array.prototype.forEach.call(cards, function (card) {
-					max = Math.max(max, card.offsetHeight);
 					var to = card.getAttribute("data-to-sub"), csub = card.querySelector(".hl-gc-sub");
 					var toName = card.getAttribute("data-to-name"), name = card.querySelector(".hl-gc-name");
 					if (!to || !csub) return;
 					// Mid-roll the name is flap cells; its words are where the roll is going.
 					var was = csub.getAttribute("data-decode-to") || csub.textContent, wasName = name ? (window.__flap && window.__flap.textOf ? window.__flap.textOf(name) : name.textContent) : "";
+					swaps.push({ card: card, csub: csub, was: was, name: name, toName: toName, wasName: wasName });
 					csub.textContent = to;
 					if (name && toName) name.textContent = toName;
-					max = Math.max(max, card.offsetHeight);
-					csub.textContent = was;
-					if (name && toName) name.textContent = wasName;
+				});
+				swaps.forEach(function (s) { max = Math.max(max, s.card.offsetHeight); });
+				swaps.forEach(function (s) {
+					s.csub.textContent = s.was;
+					if (s.name && s.toName) s.name.textContent = s.wasName;
 				});
 				if (max) reel.style.setProperty("--card-h", Math.ceil(max) + "px");
 			}
