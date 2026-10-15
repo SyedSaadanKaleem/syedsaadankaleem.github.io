@@ -8439,3 +8439,7 @@ html:has(#preloader:not(.done)) { overflow: hidden; }
   #preloader.ld .ld-inner { transform: none !important; }
 }
 
+
+/* Edge-to-edge (viewport-fit=cover): pages draw behind Android's gesture bar,
+   so the bottom nav's background runs under it and its icons sit above it. */
+#navigationDivContainer { padding-bottom: env(safe-area-inset-bottom, 0px); }
