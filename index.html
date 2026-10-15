@@ -1500,7 +1500,7 @@
 
 			function apply(next) {
 				shown = next;
-				hero.classList.remove("hero-in", "hero-out");
+				hero.classList.remove("hero-in", "hero-out", "hero-first");
 				void hero.offsetWidth;   // forces the restart; re-adding a class in the same frame is otherwise a no-op
 				if (next) {
 					// Second time onward runs at 65%. You have already watched the full
@@ -1538,6 +1538,8 @@
 			function start() {
 				if (ready) return;
 				ready = true;
+				// The first entrance waits for the sidebars sliding in (main.css).
+				hero.classList.add("hero-first");
 				update();
 			}
 
