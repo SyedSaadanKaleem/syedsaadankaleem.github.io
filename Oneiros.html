@@ -14,6 +14,8 @@
 	<!-- Touch devices get the original site in touch/; the scroll-sequenced one is for mouse and trackpad. -->
 	<script>if(matchMedia('(hover: none) and (pointer: coarse)').matches)location.replace('touch/'+location.pathname.split('/').pop()+location.search+location.hash)</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Tints Safari's tab bar (macOS/iOS 15+) to the loader and hero dark; Chrome on Android uses it for the address bar. -->
+	<meta name="theme-color" content="#0a0a0a" />
 	<link rel="stylesheet" type="text/css" href="assets/css/main.min.css" />
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
