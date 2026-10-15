@@ -11,6 +11,8 @@
 	<title>Chess Run - Saadan's Portfolio</title>
 
 	<meta charset="utf-8" />
+	<!-- Touch devices get the original site in touch/; the scroll-sequenced one is for mouse and trackpad. -->
+	<script>if(matchMedia('(hover: none) and (pointer: coarse)').matches)location.replace('touch/'+location.pathname.split('/').pop()+location.search+location.hash)</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" type="text/css" href="assets/css/main.min.css" />
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>

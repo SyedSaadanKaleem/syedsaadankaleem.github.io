@@ -11,6 +11,8 @@
 	<title>Saadan's Portfolio</title>
 
 	<meta charset="utf-8" />
+	<!-- Touch devices get the original site in touch/; the scroll-sequenced one is for mouse and trackpad. -->
+	<script>if(matchMedia('(hover: none) and (pointer: coarse)').matches)location.replace('touch/'+location.pathname.split('/').pop()+location.search+location.hash)</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="Saadan Kaleem - Unity and Unreal game developer, studio founder and storyteller. Games, XR applications and websites." />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
