@@ -8489,3 +8489,24 @@ html:has(#preloader:not(.done)) { overflow: hidden; }
   :root:has(#preloader.ld) #rightSidebar,
   :root:has(#preloader.ld) #navigationDivContainer { transition: none; }
 }
+
+/* Title slides: the new site's two bridge headings (WEBSITES AND WEB APPS,
+   GAMES AND XR APPLICATIONS), standing still - centred, big, on the plain dark. */
+.hl-slide.hl-slide--title {
+  --slide-glow: rgba(0, 0, 0, 0);
+  --slide-glow-2: rgba(0, 0, 0, 0);
+  justify-content: center;
+}
+.hl-slide--title .hl-slide-content {
+  max-width: none;
+  width: 100%;
+  text-align: center;
+  transform-origin: 50% 50%;
+}
+.hl-slide--title .hl-tag { justify-content: center; }
+.hl-slide--title .hl-slide-title {
+  font-size: clamp(2.4rem, 10vw, 6.5rem);
+  line-height: 0.92;
+}
+.hl-slide--title .hl-slide-title > span { display: block; }
+.hl-slide--title .hl-red { color: #ee2b2b; }
