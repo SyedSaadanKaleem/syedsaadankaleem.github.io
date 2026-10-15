@@ -29,9 +29,22 @@
 </head>
 
 <body class="homepage is-preload">
-	<div id="preloader">
-		<div class="preloader-title"><span class="accent">Saadan</span> Kaleem</div>
-		<div class="preloader-bar"><span></span></div>
+	<div id="preloader" class="ld" role="status" aria-label="Loading">
+		<div class="ld-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+		<div class="ld-inner" aria-hidden="true">
+			<div class="ld-eyebrow">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
+				</svg>
+				<span>Loading Portfolio</span>
+			</div>
+			<div class="ld-name"><span class="accent">Saadan</span><span>Kaleem</span></div>
+			<div class="ld-meter">
+				<div class="ld-bar"><span></span></div>
+				<span class="ld-pct">000</span>
+			</div>
+		</div>
 	</div>
 	<div id="page-wrapper">
 
@@ -1102,17 +1115,62 @@
 
 	<script>
 		(function () {
+			// The new site's loader, minus its Lenis and hero hand-off hooks.
 			var loader = document.getElementById("preloader");
+			var hidden = false;
 			function hidePreloader() {
+				if (hidden) return;
+				hidden = true;
 				if (loader) {
 					loader.classList.add("done");
 					setTimeout(function () { loader.style.display = "none"; }, 450);
 				}
 				document.body.classList.remove("is-preload");
 			}
-			window.addEventListener("load", hidePreloader);
-			// Fallback so a slow/blocked hero video can never keep the loader up.
-			setTimeout(hidePreloader, 1500);
+			// Up until the page has loaded AND the faces the loader and headings use.
+			var loaded = new Promise(function (r) {
+				if (document.readyState === "complete") r(); else window.addEventListener("load", r);
+			});
+			var typed = !document.fonts ? Promise.resolve() : Promise.all([
+				document.fonts.load('1em "Podium Sharp"', "AZaz09"),
+				document.fonts.load('1em "Podium Sharp"', "4"),
+				document.fonts.load('400 1em "Inter"'),
+				document.fonts.load('600 1em "Inter"'),
+				document.fonts.load('600 1em "Chakra Petch"')
+			].map(tick)).then(function () { return document.fonts.ready; });
+			tick(loaded);
+			// One value drives both the bar and the number: it creeps toward 95%,
+			// what is actually waited on sets a floor, and at the end it eases to 100.
+			function tick(p) {
+				p.then(step, step);
+				return p;
+			}
+			var real = 0, shown = 0, finish = false, t0 = 0, last = 0;
+			var bar = loader && loader.querySelector(".ld-bar span");
+			var pct = loader && loader.querySelector(".ld-pct");
+			function step() { real += 1 / 6; }
+			function frame(now) {
+				if (!t0) t0 = last = now;
+				var dt = Math.min(now - last, 100);
+				last = now;
+				var creep = 0.95 * (1 - Math.exp(-(now - t0) / 2600));
+				var target = finish ? 1 : Math.max(creep, Math.min(real, 0.95));
+				if (shown < target) shown = Math.min(target, shown +
+					Math.max((target - shown) * dt / 320, finish ? dt / 1500 : 0));
+				if (bar) bar.style.transform = "scaleX(" + Math.max(shown, 0.02) + ")";
+				pct.textContent = ("00" + Math.floor(shown * 100)).slice(-3);
+				if (shown >= 1) return hidePreloader();
+				if (!hidden) requestAnimationFrame(frame);
+			}
+			if (pct) requestAnimationFrame(frame);
+			function done() {
+				finish = true;
+				// rAF stops in a background tab; don't let that hold the page.
+				setTimeout(hidePreloader, 1400);
+			}
+			Promise.all([loaded, typed]).then(done, done);
+			// Never held for good by a font host or a video that does not answer.
+			setTimeout(hidePreloader, 8000);
 		})();
 	</script>
 
