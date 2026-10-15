@@ -1304,7 +1304,14 @@
 			// Auto-tag elements that should fade on scroll
 			// ============================================
 			const fadeSelectors = [
-				/* #intro is animated with GSAP below */
+				/* the intro slide's blocks (GSAP that once animated them is gone) */
+				'.hl-slide--intro .intro2-eyebrow',
+				'.hl-slide--intro .intro2-title',
+				'.hl-slide--intro .intro2-lead',
+				'.hl-slide--intro .intro2-stats',
+				'.hl-slide--intro .intro2-logos--left',
+				'.hl-slide--intro .intro2-collab-title',
+				'.hl-slide--intro .intro2-media-row',
 				'#main .craft-head',
 				'#main .journey',
 				'#main .skills-toolkit-header',
