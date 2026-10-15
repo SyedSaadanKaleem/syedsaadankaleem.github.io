@@ -8307,3 +8307,6 @@ margin-top: -2em;}
 #rightSidebar .list .list-item--resume {
 	margin-top: 42px;
 }
+
+/* No scrolling behind the loader, until hidePreloader marks it .done. */
+html:has(#preloader:not(.done)) { overflow: hidden; }

@@ -13752,3 +13752,7 @@ html.lenis body {
   #preloader.ld .ld-meter { animation: none !important; }
   #preloader.ld .ld-inner { transform: none !important; }
 }
+
+/* No scrolling behind the loader: locked on html (body overflow never reaches
+   the viewport here) until hidePreloader marks the loader .done. */
+html:has(#preloader:not(.done)) { overflow: hidden; }

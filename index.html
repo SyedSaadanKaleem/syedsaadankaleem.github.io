@@ -1405,8 +1405,11 @@
 	<script>
 		(function () {
 			var loader = document.getElementById("preloader");
+			// Lenis scrolls with scrollTo, which the CSS lock on html does not stop.
+			if (window.__lenis) window.__lenis.stop();
 			function hidePreloader() {
 				if (window.__preloaded) return;
+				if (window.__lenis) window.__lenis.start();
 				// Announced, so the hero's entrance starts as the loader leaves (below).
 				window.__preloaded = true;
 				document.dispatchEvent(new Event("preloader:done"));
