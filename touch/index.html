@@ -1728,6 +1728,11 @@
 			syncStickyTops();
 			window.addEventListener('resize', syncStickyTops);
 			window.addEventListener('load', syncStickyTops);
+			// A slide's height can change without a resize (late font-scaling, webfonts).
+			if (window.ResizeObserver) {
+				var stickyRO = new ResizeObserver(syncStickyTops);
+				slides.forEach(function (s) { stickyRO.observe(s); });
+			}
 			// Scroll-driven entrance/exit: write --enter/--exit onto each slide every
 			// frame. --enter tracks the slide's own rise (viewport bottom -> pinned);
 			// --exit tracks how far the NEXT card (or #main, for the last slide) has
@@ -2034,6 +2039,11 @@
 			sync();
 			window.addEventListener('resize', sync);
 			window.addEventListener('load', sync);
+			// Section height can change without a resize (late font-scaling, journey rows opening).
+			if (window.ResizeObserver) {
+				var stopRO = new ResizeObserver(sync);
+				stops.forEach(function (s) { stopRO.observe(s); });
+			}
 			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			if (reduce) return;
 			// The pin point: the scroll position where the section's bottom meets the
