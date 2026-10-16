@@ -1310,7 +1310,11 @@
 			var mx = -1e4, my = -1e4;
 			document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
 			document.addEventListener('mouseleave', function () { mx = -1e4; my = -1e4; });
-			(function tick() {
+			/* Touch has no pointer to flee: never start the per-frame loop until a real
+			   mouse moves. Running it forever repainted every visible slide each frame,
+			   which starved in-app browsers (Instagram) into lag and half-painted slides. */
+			document.addEventListener('mousemove', function () { tick(); }, { once: true });
+			function tick() {
 				document.querySelectorAll('.hl-slide').forEach(function (el) {
 					var r = el.getBoundingClientRect();
 					if (r.bottom < 0 || r.top > innerHeight || !r.width) return;
@@ -1388,7 +1392,7 @@
 					});
 				});
 				requestAnimationFrame(tick);
-			})();
+			}
 		})();
 	</script>
 
@@ -1734,17 +1738,26 @@
 				var slideFx = function () {
 					fxQueued = false;
 					var vh = window.__vh || 1;   // stable height: a URL-bar toggle must not rescale the fx mid-scroll
+					// Read every top BEFORE any write: interleaving forced a full layout per slide per frame.
+					var tops = [];
+					for (var t = 0; t < slides.length; t++) tops.push(slides[t].getBoundingClientRect().top);
+					var mainTop = fxMain ? fxMain.getBoundingClientRect().top : null;
 					for (var i = 0; i < slides.length; i++) {
 						// Intro slide gets no entrance (it's the section opener); exit still applies.
-						var eIn = i === 0 ? 1 : 1 - Math.min(Math.max(slides[i].getBoundingClientRect().top / vh, 0), 1);
+						var eIn = i === 0 ? 1 : 1 - Math.min(Math.max(tops[i] / vh, 0), 1);
 						// Remap the rise so the entrance plays in its VISIBLE last 60%: the card sits
 						// low in the slide, so anything animated during the first 40% happens below
 						// the fold and reads as "no entrance" even though it ran.
 						eIn = Math.min(Math.max((eIn - 0.4) / 0.6, 0), 1);
-						var cover = slides[i + 1] || fxMain;
-						var eOut = cover ? 1 - Math.min(Math.max(cover.getBoundingClientRect().top / vh, 0), 1) : 0;
-						slides[i].style.setProperty('--enter', (1 - (1 - eIn) * (1 - eIn)).toFixed(4));   // ease-out: the swing settles softly
-						slides[i].style.setProperty('--exit', (eOut * eOut).toFixed(4));                  // ease-in: the push-back starts gently
+						var coverTop = i + 1 < slides.length ? tops[i + 1] : mainTop;
+						var eOut = coverTop !== null ? 1 - Math.min(Math.max(coverTop / vh, 0), 1) : 0;
+						// Only write what changed: off-screen slides sit at 1/0 and must not be restyled every frame.
+						var en = (1 - (1 - eIn) * (1 - eIn)).toFixed(4), ex = (eOut * eOut).toFixed(4);   // ease-out swing / ease-in push-back
+						if (slides[i].__fx !== en + ex) {
+							slides[i].__fx = en + ex;
+							slides[i].style.setProperty('--enter', en);
+							slides[i].style.setProperty('--exit', ex);
+						}
 					}
 				};
 				window.addEventListener('scroll', function () { if (!fxQueued) { fxQueued = true; requestAnimationFrame(slideFx); } }, { passive: true });
