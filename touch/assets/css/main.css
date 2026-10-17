@@ -5379,9 +5379,11 @@ margin-top: -2em;}
 				}
 				/* narrower gutter so headings get more width (number stays
 				   cropped the same: bottom offset scales with its font-size) */
-				.journey-row { padding: 2.2em 1.5em 2.2em 6em; }
-				.journey-num { font-size: 4em; }
-				.journey-detail { margin-left: -4.5em; /* 6em - 1.5em */ }
+				/* gutter sized for the number at 1.3x text scaling (em padding
+				   doesn't scale with it, the glyphs do) */
+				.journey-row { padding: 2.2em 1.5em 2.2em 7.6em; }
+				.journey-num { font-size: 3.4em; }
+				.journey-detail { margin-left: -6.1em; /* 7.6em - 1.5em */ }
 			}
 
 			/* === Worldscar feature label === */
@@ -8045,6 +8047,14 @@ margin-top: -2em;}
 			}
 
 			#footer .contact-socials a:hover::after { transform: none; }
+		}
+
+		/* Phones: four pills in one row are too narrow for their labels once
+		   the browser scales text up (Instagram's in-app browser: ~1.3x), so
+		   wrap them 2x2 */
+		@media screen and (max-width: 480px) {
+			#footer .contact-socials { flex-wrap: wrap; }
+			#footer .contact-socials li { flex: 1 1 calc(50% - 5px); }
 		}
 
 		/* >980px, two columns side by side: stretch the contact column so the
