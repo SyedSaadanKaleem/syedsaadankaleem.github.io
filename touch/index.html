@@ -1763,6 +1763,16 @@
 							slides[i].style.setProperty('--enter', en);
 							slides[i].style.setProperty('--exit', ex);
 						}
+						// Passed slides stay pinned as full-screen layers; by ~8 deep in-app
+						// WebViews run out of tile memory and paint stale strips. Drop a slide
+						// once it is buried two deep (its cover is itself fully covered) — one
+						// opaque slide always sits between it and the screen, so no gap can show.
+						var buryTop = i + 2 < slides.length ? tops[i + 2] : (i + 1 === slides.length - 1 ? mainTop : null);
+						var buried = buryTop !== null && buryTop <= 0;
+						if (slides[i].__buried !== buried) {
+							slides[i].__buried = buried;
+							slides[i].classList.toggle('hl-buried', buried);
+						}
 					}
 				};
 				window.addEventListener('scroll', function () { if (!fxQueued) { fxQueued = true; requestAnimationFrame(slideFx); } }, { passive: true });

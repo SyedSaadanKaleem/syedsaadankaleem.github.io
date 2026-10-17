@@ -6749,6 +6749,11 @@ margin-top: -2em;}
 			visibility: hidden !important;
 		}
 
+		/* Buried two slides deep (set by slideFx): nothing to paint, frees its tiles. */
+		.hl-slide.hl-buried {
+			visibility: hidden;
+		}
+
 		/* === Slide entrance/exit (scroll-driven, NOT the site's .fade-on-scroll) ===
 		   --enter (0→1): the slide rising into view — the game card rises while the
 		   copy drifts in from the left. --exit (0→1): the next card covering this one — its
@@ -7229,6 +7234,49 @@ margin-top: -2em;}
 			display: flex;
 			flex-wrap: wrap;
 			gap: 0.75rem;
+		}
+
+		/* Phones: a game slide must fit one screen above the bottom nav (~100px)
+		   even with the phone's text scaled up 1.3x. Placed after the base rules
+		   above, which otherwise beat the earlier 600px trims at equal specificity. */
+		@media (max-width: 600px) {
+			.hl-slide:has(> .hl-slide-bg) {
+				padding-top: 3rem;
+				padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+				gap: 1rem;
+			}
+
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-content {
+				max-width: none;
+			}
+
+			/* The card's footer repeats the title + sub right above it. */
+			.hl-slide:has(> .hl-slide-bg) .hl-gc-foot {
+				display: none;
+			}
+
+			.hl-slide:has(> .hl-slide-bg) .hl-tag {
+				margin-bottom: 0.8rem;
+				letter-spacing: 0.2em;
+			}
+
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-sub {
+				letter-spacing: 0.12em;
+			}
+
+			.hl-slide:has(> .hl-slide-bg) .hl-slide-desc {
+				margin: 0.75rem 0 1rem;
+				line-height: 1.5;
+			}
+
+			.hl-slide--cobweb .hl-cobweb-inner .hl-slide-title {
+				font-size: 1.6rem;
+			}
+
+			.hl-slide--cobweb .hl-cobweb-card .hl-mini-name {
+				line-height: 1.2;
+				padding: 0.35rem 0.4rem 0.4rem;
+			}
 		}
 
 		.hl-btn {
