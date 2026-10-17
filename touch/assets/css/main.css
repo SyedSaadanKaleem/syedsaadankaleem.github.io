@@ -6775,6 +6775,16 @@ margin-top: -2em;}
 			transform: translateY(calc((1 - var(--enter)) * 3.5rem)) scale(calc(1 - 0.07 * var(--exit)));
 			transform-origin: 50% 100%;
 			opacity: calc(1 - 0.8 * var(--exit));
+			/* No transform transition: the scroll writes a new transform every frame, and
+			   each write restarted the stock 0.3s hover transition (flicker). */
+			transition: border-color 0.3s ease, background 0.3s ease;
+		}
+
+		/* Keep the per-frame card + copy on their own layers so scroll fx only
+		   composite instead of re-rastering the slide. */
+		.hl-slide > .hl-slide-bg,
+		.hl-slide .hl-slide-content {
+			will-change: transform, opacity;
 		}
 
 		/* Last (Cobweb) slide: no swing-in — its card enters the same way cards
