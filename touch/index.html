@@ -4,7 +4,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html>
+<html lang="en">
 
 <head>
 	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico?v=2"/>
@@ -13,13 +13,17 @@
 	<meta charset="utf-8" />
 	<!-- Original site, served to touch devices; mouse and trackpad go back to the new one at the root. -->
 	<script>if(!matchMedia('(hover: none) and (pointer: coarse)').matches)location.replace('../'+location.pathname.split('/').pop()+location.search+location.hash)</script>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 	<!-- Tints Android Chrome's address bar to the loader and hero dark, so it reads as part of the screen. -->
 	<meta name="theme-color" content="#0a0a0a" />
+	<meta name="description" content="Saadan Kaleem - Unity and Unreal game developer, studio founder and storyteller. Games, XR applications and websites." />
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
-	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<!-- Icons only, nothing the loader shows: off the critical path, as on the root site. -->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' media="print" onload="this.media='all'">
+	<noscript><link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'></noscript>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preconnect" href="https://db.onlinewebfonts.com">
 	<link
 		href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
 		rel="stylesheet">
@@ -55,7 +59,7 @@
 
 			<!-- Background video -->
 			<video class="vg-hero__video" autoplay muted loop playsinline poster="../images/banner.jpg"
-				src="../images/Hero-BG.mp4"></video>
+				data-src="../images/Hero-BG.mp4" preload="none"></video>
 
 			<!-- Legibility overlay (black/red) -->
 			<div class="vg-hero__overlay"></div>
@@ -142,28 +146,28 @@
 				</li>
 
 				<li class="list-item">
-					<a href="#introTittle" data-section="introTittle" data-label="Introduction">
+					<a href="#introTittle" data-section="introTittle" data-label="Introduction" aria-label="Introduction">
 						<i class='bx bxs-notepad'></i>
 						<span class="link-name" style="--i:2">Introduction</span>
 					</a>
 				</li>
 
 				<li class="list-item">
-					<a href="#highlightsTittle" data-section="highlightsTittle" data-label="Projects">
+					<a href="#highlightsTittle" data-section="highlightsTittle" data-label="Projects" aria-label="Projects">
 						<i class='bx bxs-dashboard'></i>
 						<span class="link-name" style="--i:3">Projects</span>
 					</a>
 				</li>
 
 				<li class="list-item">
-					<a href="#mainTittle" data-section="mainTittle" data-label="Skills">
+					<a href="#mainTittle" data-section="mainTittle" data-label="Skills" aria-label="Skills">
 						<i class='bx bxs-briefcase'></i>
 						<span class="link-name" style="--i:3">Skills</span>
 					</a>
 				</li>
 
 				<li class="list-item">
-					<a href="#CertificationTittle" data-section="CertificationTittle" data-label="Experience">
+					<a href="#CertificationTittle" data-section="CertificationTittle" data-label="Experience" aria-label="Experience">
 						<i class='bx bxs-food-menu'></i>
 						<span class="link-name" style="--i:3">Experience</span>
 					</a>
@@ -172,7 +176,7 @@
 
 
 				<li class="list-item">
-					<a href="#footerTittle" data-section="footerTittle" data-label="Contact Us">
+					<a href="#footerTittle" data-section="footerTittle" data-label="Contact Us" aria-label="Contact Us">
 						<i class='bx bxs-phone-call'></i>
 						<span class="link-name" style="--i:4">Contact Us</span>
 					</a>
@@ -279,10 +283,10 @@
 									</div>
 								</div>
 								<div class="intro2-logos intro2-logos--left">
-									<div class="intro2-logo"><img src="../logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
-									<div class="intro2-logo"><img src="../logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
-									<div class="intro2-logo"><img src="../logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-									<div class="intro2-logo"><img src="../logos/ShotSpire.svg" alt="ShotSpire" /></div>
+									<div class="intro2-logo"><img loading="lazy" src="../logos/CanvasDigital.svg" alt="Canvas Digital" /></div>
+									<div class="intro2-logo"><img loading="lazy" src="../logos/Khareed-o-Mobile.svg" alt="Khareed-o-Mobile" /></div>
+									<div class="intro2-logo"><img loading="lazy" src="../logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
+									<div class="intro2-logo"><img loading="lazy" src="../logos/ShotSpire.svg" alt="ShotSpire" /></div>
 								</div>
 							</div>
 							<aside class="intro2-collab">
@@ -299,17 +303,17 @@
 								<h3 class="intro2-collab-title">A few names that let me play in their sandbox</h3>
 								<div class="intro2-media-row">
 									<figure class="intro2-photo-card">
-										<img src="../images/CEGA Summit Award.jpeg"
+										<img loading="lazy" src="../images/CEGA Summit Award.jpeg"
 											alt="Receiving the Future Play Investor Summit award for Pixel Dream Studios" />
 										<figcaption>Future Play Investor Summit ’26 · Award · CEGA</figcaption>
 									</figure>
 									<div class="intro2-logos">
-										<div class="intro2-logo"><img src="../logos/CanvasDigital.svg"
+										<div class="intro2-logo"><img loading="lazy" src="../logos/CanvasDigital.svg"
 												alt="Canvas Digital" /></div>
-										<div class="intro2-logo"><img src="../logos/Khareed-o-Mobile.svg"
+										<div class="intro2-logo"><img loading="lazy" src="../logos/Khareed-o-Mobile.svg"
 												alt="Khareed-o-Mobile" /></div>
-										<div class="intro2-logo"><img src="../logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
-										<div class="intro2-logo"><img src="../logos/ShotSpire.svg" alt="ShotSpire" /></div>
+										<div class="intro2-logo"><img loading="lazy" src="../logos/LiftOnHai.svg" alt="LiftOnHai" /></div>
+										<div class="intro2-logo"><img loading="lazy" src="../logos/ShotSpire.svg" alt="ShotSpire" /></div>
 									</div>
 								</div>
 							</aside>
@@ -416,8 +420,8 @@
 						<div class="hl-slide-actions">
 							<a class="hl-btn hl-btn--primary" href="WorldScar.html">Explore <span
 									class="arrow"></span></a>
-							<a class="hl-btn" href="javascript:void(0)"
-								onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1')">Concept</a>
+							<a class="hl-btn" href="https://www.youtube.com/watch?v=ABLYIBXlfrE"
+								onclick="openModal('https://www.youtube.com//embed/ABLYIBXlfrE?controls=1&loop=1&autoplay=1&rel=0&iv_load_policy=3&modestbranding=1'); return false">Concept</a>
 						</div>
 					</div>
 				</div>
@@ -462,39 +466,39 @@
 						<div class="hl-cobweb-grid">
 							<a class="hl-mini" href="CastleInvader.html">
 								<span class="hl-mini-thumb"><img src="../images/CastleInvader/Castle-Invader-Thumnail.jpg"
-										alt="Castle Invader" loading="lazy"></span>
+										alt="" loading="lazy"></span>
 								<span class="hl-mini-name">Castle Invader</span>
 								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
 							</a>
 							<a class="hl-mini" href="PenguinPinnacle.html">
 								<span class="hl-mini-thumb"><img
 										src="../images/Penguin Pinnacle/Penguin-Pinnacle-Thumnail.jpg"
-										alt="Penguin Pinnacle" loading="lazy"></span>
+										alt="" loading="lazy"></span>
 								<span class="hl-mini-name">Penguin Pinnacle</span>
 								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
 							</a>
 							<a class="hl-mini" href="SwiftBeat.html">
 								<span class="hl-mini-thumb"><img src="../images/Swift Beat/Swift-Beat-Thumnail.jpg"
-										alt="Swift Beat" loading="lazy"></span>
+										alt="" loading="lazy"></span>
 								<span class="hl-mini-name">Swift Beat</span>
 								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
 							</a>
 							<a class="hl-mini" href="SlimeyAdventure.html">
 								<span class="hl-mini-thumb"><img
-										src="../images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt="Slimey Adventure"
+										src="../images/Slimy Adventure/Slimy-Adventure-Thumnail.jpg" alt=""
 										loading="lazy"></span>
 								<span class="hl-mini-name">Slimey Adventure</span>
 								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
 							</a>
 							<a class="hl-mini" href="EggiPeggi.html">
 								<span class="hl-mini-thumb"><img src="../images/EggiPeggi/Eggi-Peggi-Thumnail.jpg"
-										alt="Eggi Peggi" loading="lazy"></span>
+										alt="" loading="lazy"></span>
 								<span class="hl-mini-name">Eggi Peggi</span>
 								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
 							</a>
 							<a class="hl-mini" href="MeteorChase.html">
 								<span class="hl-mini-thumb"><img src="../images/Metor Chase/Metor-Chase-Thumnail.jpg"
-										alt="Meteor Chase" loading="lazy"></span>
+										alt="" loading="lazy"></span>
 								<span class="hl-mini-name">Meteor Chase</span>
 								<span class="hl-mini-store"><i class='bx bxl-play-store'></i> Play Store</span>
 							</a>
@@ -1178,12 +1182,9 @@
 	<script src="assets/js/jquery.dropotron.min.js"></script>
 	<script src="assets/js/browser.min.js"></script>
 	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/script.js"></script>
-	<script src="assets/js/cursors.js"></script>
 	<script src="assets/js/sounds.js"></script>
 
 
@@ -1195,16 +1196,20 @@
 			function hidePreloader() {
 				if (hidden) return;
 				hidden = true;
+				// The hero video (1.3MB) was fetched alongside everything the loader waits
+				// for; it starts once the loader leaves, with its poster showing until then.
+				var vid = document.querySelector(".vg-hero__video[data-src]");
+				if (vid) { vid.src = vid.getAttribute("data-src"); vid.removeAttribute("data-src"); var pl = vid.play(); if (pl) pl.catch(function () {}); }
 				if (loader) {
 					loader.classList.add("done");
 					setTimeout(function () { loader.style.display = "none"; }, 450);
 				}
 				document.body.classList.remove("is-preload");
 			}
-			// Up until the page has loaded AND the faces the loader and headings use.
-			var loaded = new Promise(function (r) {
-				if (document.readyState === "complete") r(); else window.addEventListener("load", r);
-			});
+			// Up until the DOM is in (it is: this runs at the end of body) AND the faces
+			// the loader and headings use. Not the load event: that also waits on every
+			// banner image down the page, which held the hero back seconds on a phone.
+			var loaded = Promise.resolve();
 			var typed = !document.fonts ? Promise.resolve() : Promise.all([
 				document.fonts.load('1em "Podium Sharp"', "AZaz09"),
 				document.fonts.load('1em "Podium Sharp"', "4"),
@@ -1278,7 +1283,7 @@
 	</script>
 
 	<div id="customCursor"
-		style="position:fixed; top:0; left:0; width:32px; height:32px; pointer-events:none; background: url('cursor.png') no-repeat center center / contain; z-index:10000;">
+		style="position:fixed; top:0; left:0; width:32px; height:32px; pointer-events:none; z-index:10000;">
 	</div>
 
 	<script>

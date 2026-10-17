@@ -8331,17 +8331,19 @@ margin-top: -2em;}
    main), which this baseline had switched off on them too. :where() keeps the
    selectors at the weight they had: every carve-out on the home page wins over
    this reset by !important at equal-or-greater specificity, so the reset must
-   not gain any. */
-:where(:root:has(#reel)) *,
-:where(:root:has(#reel)) *::before,
-:where(:root:has(#reel)) *::after {
+   not gain any. Keyed off a class on index.html's <html>, not :root:has(#reel):
+   :has() was re-checked for every element on each style pass, the costliest
+   selectors in the sheet (~45% of selector time at page load). */
+:where(.reel-page) *,
+:where(.reel-page) *::before,
+:where(.reel-page) *::after {
   transition: none !important;
   animation: none !important;
   scroll-behavior: auto !important;
 }
-:where(:root:has(#reel)) .fade-on-scroll,
-:where(:root:has(#reel)) .fade-on-scroll.is-visible,
-:where(:root:has(#reel)) .fade-on-scroll.is-leaving {
+:where(.reel-page) .fade-on-scroll,
+:where(.reel-page) .fade-on-scroll.is-visible,
+:where(.reel-page) .fade-on-scroll.is-leaving {
   opacity: 1 !important;
   transform: none !important;
 }

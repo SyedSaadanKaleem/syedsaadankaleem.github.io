@@ -17,12 +17,9 @@
 			small:   [ null,      '736px'  ]
 		});
 
-	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
-		});
+	// is-preload is the preloader's to remove (index.html), once the fonts are in.
+	// Removing it on load as well raced it: the hero started fading in from opacity 0
+	// before its text had painted, so Lighthouse found no LCP element at all.
 
 	// Dropdowns.
 		$('#nav > ul').dropotron({
@@ -65,7 +62,7 @@ function createHomepageNavigation() {
     // Create each nav item
     $.each(navItems, function(index, item) {
         var $li = $('<li>', { class: 'list' });
-        var $a = $('<a>', { href: item.href });
+        var $a = $('<a>', { href: item.href, 'aria-label': item.text });
         var $spanIcon = $('<span>', { class: 'icon' });
         var $spanText = $('<span>', { class: 'text', text: item.text });
         var $icon = $('<i>', { class: item.iconClass });
@@ -115,7 +112,7 @@ function createProjectNavigation() {
 
     $.each(navItems, function(index, item) {
         var $li = $('<li>', { class: 'list' });
-        var $a = $('<a>', { href: item.href });
+        var $a = $('<a>', { href: item.href, 'aria-label': item.text });
         var $spanIcon = $('<span>', { class: 'icon' });
         var $spanText = $('<span>', { class: 'text', text: item.text });
         var $icon = $('<i>', { class: item.iconClass });
@@ -199,8 +196,6 @@ document.addEventListener("DOMContentLoaded", function() {
                             secondBanner.appendChild(bannerImage);
                         }
                     }
-                } else {
-                    console.error("Second banner with class 'banner2' not found.");
                 }
             } else {
                 console.error("Container with class 'container' not found in the section with id 'Certification'.");

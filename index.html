@@ -4,7 +4,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html lang="en">
+<html lang="en" class="reel-page">
 
 <head>
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico?v=2"/>
@@ -1774,7 +1774,13 @@
 			// Inline props only written when they change: a glow at rest rewrote the same
 			// values every frame, dirtying style for the next slide's rect read.
 			function put(el, p, v) { if (el.style.getPropertyValue(p) !== v) el.style.setProperty(p, v); }
+			// No pointer and every glow resting at home: nothing can move, so skip the
+			// rect reads. They forced a layout every frame from page load on (~2.4s of
+			// main thread in Lighthouse, before the mouse had ever moved).
+			var busy = false;
 			(function tick() {
+				if (!busy && mx === -1e4) return requestAnimationFrame(tick);
+				busy = false;
 				// Every rect read before any glow is written, so a frame costs one style
 				// pass rather than one per slide.
 				var slides = document.querySelectorAll('.hl-slide');
@@ -1853,6 +1859,7 @@
 						put(el, p + 'b', (b * 100).toFixed(1) + '%');
 						put(el, p + 'sx', g.sx.toFixed(3));
 						put(el, p + 'sy', g.sy.toFixed(3));
+						if (Math.abs(g.vx) + Math.abs(g.vy) > 1e-3 || Math.abs(g.x - HOME[i][0]) + Math.abs(g.y - HOME[i][1]) > 1e-2 || Math.abs(g.sx - 1) + Math.abs(g.sy - 1) > 1e-3 || g.st > 1e-3) busy = true;
 					});
 				});
 				requestAnimationFrame(tick);

@@ -2811,7 +2811,7 @@ color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: url('cursor.png'), auto;
+    cursor: auto;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     transition: background 0.3s ease;
 	cursor: none; /* hide system cursor */
@@ -6041,7 +6041,7 @@ margin-top: -2em;}
 			margin: 0;
 			padding: 0;
 			overflow: hidden;
-			background: #000 url("images/banner.jpg") center center / cover no-repeat !important;
+			background: #000 !important;
 			font-family: 'Inter', sans-serif;
 		}
 
