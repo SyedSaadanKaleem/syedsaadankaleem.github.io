@@ -4062,6 +4062,32 @@ html{
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* Equal slots, equal pills. The li's min-content (hidden label included) used to
+   push slot widths apart once the browser scales text up (~1.3x in in-app
+   browsers). Slots now share the width exactly; the pill is a fixed-size
+   ::before centred on the slot, so a long label ("Experience") spills past
+   its slot, not past its pill. Side padding keeps the first/last pill on-screen. */
+.navigation { padding: 0 14px; box-sizing: border-box; }
+.navigation ul li { flex: 1 1 0; min-width: 0; width: auto; }
+.navigation ul li a { position: relative; background: none; }
+.navigation ul li a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 84px;
+    margin-left: -42px;
+    border-radius: 10px;
+    background: transparent;
+    transition: background 0.3s;
+    z-index: -1;
+}
+.navigation ul li a.active { background: none; }
+.navigation ul li a.active::before { background: rgba(255, 255, 255, 0.2); }
+.navigation ul li a .icon { z-index: 1; }
+.navigation ul li a .text { font-size: 11px; white-space: nowrap; }
+
 @media (min-width: 1281px) {
     #navigationDivContainer {
         display: none;
