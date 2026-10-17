@@ -2104,6 +2104,33 @@
 		})();
 	</script>
 
+	<!-- Hero stats: drop any stat that would sit under the bottom nav (large phone font scale) -->
+	<script>
+		(function () {
+			var hero = document.getElementById('header');
+			var nav = document.getElementById('navigationDivContainer');
+			var box = hero && hero.querySelector('.vg-hero__stats');
+			if (!box || !nav) return;
+			var stats = box.querySelectorAll('.vg-hero__stat');
+			function fit() {
+				var navTop = nav.offsetTop;   // layout position: the bar slides in on a transform
+				var bottomBar = navTop > window.innerHeight / 2;   // not laid out yet
+				// Measure in the hero's frame, minus the entrance animation's translateY.
+				var t = getComputedStyle(box).transform;
+				var dy = t && t !== 'none' ? new DOMMatrixReadOnly(t).m42 : 0;
+				var top = hero.getBoundingClientRect().top + dy;
+				for (var i = 0; i < stats.length; i++) stats[i].style.display = '';
+				for (var j = 0; j < stats.length; j++) {
+					if (bottomBar && stats[j].getBoundingClientRect().bottom - top > navTop) stats[j].style.display = 'none';
+				}
+			}
+			fit();
+			window.addEventListener('resize', fit);
+			window.addEventListener('load', fit);
+			if (document.fonts) document.fonts.ready.then(fit);
+		})();
+	</script>
+
 	<!-- Cert cards & venture cards act as their inner link -->
 	<script>
 		document.addEventListener('click', function (e) {
