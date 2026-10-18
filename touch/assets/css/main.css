@@ -8017,7 +8017,12 @@ margin-top: -2em;}
 				font-size: 1.2rem;
 				width: 44px;
 				height: 44px;
-				line-height: 44px;
+				/* Flex-center the glyph: a 44px line-height drops it low once
+				   in-app browsers scale text (Instagram renders 1.3x). */
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				line-height: 1;
 				border-radius: 12px;
 				background: rgba(238, 43, 43, 0.12);
 				border: 1px solid rgba(238, 43, 43, 0.35);
@@ -8404,7 +8409,7 @@ margin-top: -2em;}
 }
 
 /* No scrolling behind the loader, until hidePreloader marks it .done. */
-html:has(#preloader:not(.done)) { overflow: hidden; }
+html:has(#preloader.ld:not(.done)) { overflow: hidden; }
 
 /* ===========================================================================
    LOADER (home page) — the hero's own parts, so the handoff reads as one

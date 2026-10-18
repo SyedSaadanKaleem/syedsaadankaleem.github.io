@@ -13757,7 +13757,7 @@ html.lenis body {
 
 /* No scrolling behind the loader: locked on html (body overflow never reaches
    the viewport here) until hidePreloader marks the loader .done. */
-html:has(#preloader:not(.done)) { overflow: hidden; }
+html:has(#preloader.ld:not(.done)) { overflow: hidden; }
 
 /* Loader exit: the corner brackets zoom out past their own corners while the
    loader fades, as if the frame flies by. Scoped to .ld like the rest. */
