@@ -2191,6 +2191,37 @@
 		})();
 	</script>
 
+	<!-- PHP-free notice: a small pill that slides up once the page has loaded and stays dismissed once closed.
+	     Lifted above the bottom nav so it never covers a tab. -->
+	<style>
+		.php-free { position: fixed; left: 50%; bottom: 16px; z-index: 9998; display: flex; align-items: center; gap: 10px; width: max-content; max-width: calc(100vw - 32px); padding: 8px 8px 8px 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(18,18,18,.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #d6d6d6; font: 500 13px/1.3 'Inter', system-ui, sans-serif; opacity: 0; transform: translate(-50%, 12px); pointer-events: none; transition: opacity .35s ease, transform .35s cubic-bezier(0.23, 1, 0.32, 1); }
+		.php-free.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+		.php-free__dot { flex: none; width: 10px; height: 10px; border: 2px solid #1b5e2f; border-radius: 50%; background: #ef4444; }
+		.php-free .php-free__x { all: unset; flex: none; display: grid; place-items: center; width: 28px; height: 28px; border: 0; border-radius: 50%; background: transparent; color: #919499; font-size: 18px; line-height: 1; }
+		@media (prefers-reduced-motion: reduce) { .php-free, .php-free.is-on { transition: opacity .2s; transform: translate(-50%, 0); } }
+	</style>
+	<div class="php-free" role="status">
+		<span class="php-free__dot" aria-hidden="true"></span>
+		<span>PHP-free: this website contains no PHP code.</span>
+		<button class="php-free__x" type="button" aria-label="Dismiss">&times;</button>
+	</div>
+	<script>
+		(function () {
+			var el = document.querySelector(".php-free");
+			try { if (localStorage.getItem("phpFreeDismissed")) { el.remove(); return; } } catch (e) {}
+			function lift() {
+				var nav = document.getElementById("navigationDivContainer");
+				if (nav && nav.offsetHeight) el.style.bottom = (nav.offsetHeight + 12) + "px";
+			}
+			addEventListener("load", function () { lift(); setTimeout(function () { el.classList.add("is-on"); }, 1200); });
+			addEventListener("resize", lift);
+			el.querySelector("button").addEventListener("click", function () {
+				el.classList.remove("is-on");
+				try { localStorage.setItem("phpFreeDismissed", "1"); } catch (e) {}
+			});
+		})();
+	</script>
+
 </body>
 
 </html>
