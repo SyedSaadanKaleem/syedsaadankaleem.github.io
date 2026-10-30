@@ -13796,3 +13796,62 @@ html:has(#preloader.ld:not(.done)) { overflow: hidden; }
   :root:has(#preloader.ld) #rightSidebar,
   :root:has(#preloader.ld) #navigationDivContainer { transition: none !important; }
 }
+
+/* ===========================================================================
+   BEATDROME - the beat before Chess Run
+
+   The games bridge now lands on Beatdrome, and this swap rolls it over to Chess
+   Run, so Worldscar's beat (which opens on Chess Run) is untouched. Beatdrome's
+   glow is its own neon pink and teal; the keyframes are the same gutter at the
+   same stops as scar-glow, running pink and teal to Chess Run's purple and blue.
+   The board's BEATDROME is plain white, like every other title. */
+#reel .reel-panel--bridge:not(.reel-panel--web) {
+  --slide-glow: color-mix(in srgb,
+    rgba(255, 45, 190, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0));
+  --slide-glow-2: color-mix(in srgb,
+    rgba(50, 150, 190, 0.18) calc(var(--bgc) * 100%), rgba(238, 43, 43, 0));
+}
+
+#reel.at-bridge .reel-panel--bridge:not(.reel-panel--web) {
+  --slide-glow: color-mix(in srgb,
+    rgba(255, 45, 190, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0));
+  --slide-glow-2: color-mix(in srgb,
+    rgba(50, 150, 190, 0.18) calc(var(--bg) * 100%), rgba(238, 43, 43, 0));
+}
+
+#reel .reel-panel--bd {
+  --slide-glow: rgba(255, 45, 190, 0.18);
+  --slide-glow-2: rgba(50, 150, 190, 0.18);
+}
+
+@keyframes bd-glow {
+  0%   { --slide-glow: rgba(255, 45, 190, 0.18); --slide-glow-2: rgba(50, 150, 190, 0.18); }
+  8%   { --slide-glow: rgba(246, 46, 195, 0.07); --slide-glow-2: rgba(46, 150, 191, 0.09); }
+  14%  { --slide-glow: rgba(239, 46, 199, 0.2); --slide-glow-2: rgba(43, 150, 191, 0.19); }
+  22%  { --slide-glow: rgba(230, 47, 204, 0.09); --slide-glow-2: rgba(39, 150, 192, 0.21); }
+  30%  { --slide-glow: rgba(221, 47, 210, 0.22); --slide-glow-2: rgba(35, 149, 192, 0.08); }
+  38%  { --slide-glow: rgba(212, 48, 215, 0.1); --slide-glow-2: rgba(31, 149, 193, 0.2); }
+  47%  { --slide-glow: rgba(201, 49, 221, 0.21); --slide-glow-2: rgba(26, 149, 194, 0.11); }
+  56%  { --slide-glow: rgba(191, 49, 226, 0.08); --slide-glow-2: rgba(22, 149, 194, 0.22); }
+  66%  { --slide-glow: rgba(180, 50, 233, 0.2); --slide-glow-2: rgba(17, 149, 195, 0.1); }
+  76%  { --slide-glow: rgba(168, 51, 239, 0.12); --slide-glow-2: rgba(12, 148, 196, 0.19); }
+  86%  { --slide-glow: rgba(157, 52, 246, 0.19); --slide-glow-2: rgba(7, 148, 197, 0.13); }
+  94%  { --slide-glow: rgba(148, 53, 251, 0.16); --slide-glow-2: rgba(3, 148, 198, 0.18); }
+  100% { --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18); }
+}
+
+#reel .reel-panel--bd.step-roll {
+  animation: bd-glow 1100ms linear both !important;
+}
+
+#reel .reel-panel--title .flap-board.is-n .flap[data-accent-a],
+#reel .reel-panel--title .flap-board.is-n .flap[data-accent-c] {
+  --ink: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes bd-glow {
+    from { --slide-glow: rgba(255, 45, 190, 0.18); --slide-glow-2: rgba(50, 150, 190, 0.18); }
+    to   { --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18); }
+  }
+}
