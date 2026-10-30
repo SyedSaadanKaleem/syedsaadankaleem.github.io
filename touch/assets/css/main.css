@@ -2773,6 +2773,10 @@ color: rgba(0, 0, 0, 0);
 	background: url("../../../images/Oneiros/BG.jpg") center center;
 }
 
+#headerBeatdrome{
+	background: url("../../../images/Beatdrome/BG.jpg") center center;
+}
+
 #videoModal {
 	display: none;
 	position: fixed;
@@ -2855,6 +2859,7 @@ color: rgba(0, 0, 0, 0);
 #headerSnatch,
 #headerWordScar,
 #headerOneiros,
+#headerBeatdrome,
 .project #header,
 	#header  {
 		display: -moz-flex;
@@ -2885,6 +2890,7 @@ color: rgba(0, 0, 0, 0);
 #headerSnatch::before,
 #headerWordScar::before,
 #headerOneiros::before,
+#headerBeatdrome::before,
 	#header:before {
 			content: '';
 			position: absolute;
@@ -2905,6 +2911,7 @@ color: rgba(0, 0, 0, 0);
 		#headerSnatch,
 		#headerWordScar,
 		#headerOneiros,
+		#headerBeatdrome,
 		.project #header,
 		.homepage #header {
 			height: 30em;
