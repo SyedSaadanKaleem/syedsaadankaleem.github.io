@@ -13862,3 +13862,53 @@ html:has(#preloader.ld:not(.done)) { overflow: hidden; }
     to   { --slide-glow: rgba(141, 53, 255, 0.18); --slide-glow-2: rgba(0, 148, 198, 0.18); }
   }
 }
+
+/* === Left sidebar open/close animates on the home page ===
+   The NO MOTION reset and the preloader rule (transform only, and it matches
+   for good - #preloader stays in the DOM) both switched the sidebar's
+   transitions off, so it snapped. Same selector as the preloader rule, later,
+   so it wins; the slide-in keeps its 700ms transform. */
+:root:has(#preloader.ld) .leftSidebar {
+  transition: width 500ms var(--ease-drawer), transform 700ms cubic-bezier(0.23, 1, 0.32, 1) 120ms !important;
+}
+.reel-page .leftSidebar .logo-menu .logo {
+  transition: opacity 200ms ease 0s !important;
+}
+.reel-page .leftSidebar.active .logo-menu .logo {
+  transition: opacity 250ms ease 200ms !important;
+}
+.reel-page .leftSidebar .logo-menu .toggle-btn {
+  transition: left 500ms var(--ease-drawer), background-color 200ms ease !important;
+}
+.reel-page .leftSidebar .link-name {
+  transition: opacity 150ms ease 0s !important;
+}
+.reel-page .leftSidebar.active .link-name {
+  transition: opacity 250ms ease calc(0.1s * var(--i) + 150ms) !important;
+}
+.reel-page .leftSidebar .logo-menu .toggle-btn .burger-line::before,
+.reel-page .leftSidebar .logo-menu .toggle-btn .burger-line::after {
+  transition: width 400ms ease, transform 400ms ease !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:has(#preloader.ld) .leftSidebar,
+  .reel-page .leftSidebar *,
+  .reel-page .leftSidebar *::before,
+  .reel-page .leftSidebar *::after { transition: none !important; }
+}
+
+/* === Content slides with the left sidebar ===
+   Everything that clears the sidebar reads --sb-w, which JS flips 80px <->
+   260px with body.sidebar-open, so the content jumped. Registered as a length
+   it can transition on body and every consumer inherits the in-between value,
+   in step with the sidebar's own 500ms width ease. */
+@property --sb-w {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 80px;
+}
+body { transition: --sb-w 500ms var(--ease-drawer); }
+.reel-page body { transition: --sb-w 500ms var(--ease-drawer) !important; }
+@media (prefers-reduced-motion: reduce) {
+  .reel-page body { transition: none !important; }
+}
